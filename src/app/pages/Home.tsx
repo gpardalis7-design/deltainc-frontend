@@ -325,17 +325,20 @@ function ProgramCard({ program }: { program: Program }) {
   const programTags = [program.summary.university, program.summary.category, program.summary.mode].filter(Boolean);
   const durationLabel = program.summary.duration || "—";
   const tuitionLabel = program.summary.tuition ? `€${program.summary.tuition}` : "—";
+  const programTarget = `/courses/${program.slug}`;
 
   return (
-    <Link to="/courses" className="group p-5 rounded-3xl flex flex-col gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-full" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}` }}
+    <Link to={programTarget} className="group p-5 rounded-3xl flex flex-col gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-full" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}` }}
       onClick={() =>
         trackEvent("program_card_click", {
           page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
           page_type: "home",
           content_type: "program",
           program_title: program.title,
+          program_slug: program.slug,
           university: program.summary.university,
           source_section: "home_featured_programs",
+          cta_target: programTarget,
         })
       }
       onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
