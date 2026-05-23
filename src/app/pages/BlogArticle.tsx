@@ -58,6 +58,8 @@ function ArticleSkeleton() {
 }
 
 const proseStyles = `
+  .article-body { max-width: 100%; overflow-x: clip; }
+  .article-body > * { max-width: 100%; }
   .article-body p { font-family: var(--font-body); margin-bottom: 1.4rem; line-height: 1.85; color: ${D.inkSoft}; font-size: 1.0625rem; }
   .article-body p.standfirst { font-family: var(--font-body); font-size: 1.2rem; line-height: 1.7; color: ${D.ink}; margin-bottom: 2rem; font-weight: 500; }
   .article-body h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: ${D.ink}; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.25; }
@@ -72,13 +74,25 @@ const proseStyles = `
   .article-body em { color: ${D.inkSoft}; font-style: italic; }
   .article-body blockquote { font-family: var(--font-body); border-left: 3px solid ${D.accent}; padding: 0.75rem 1.25rem; margin: 2rem 0; background: ${D.accentSoft}; border-radius: 0 0.75rem 0.75rem 0; font-size: 1.0625rem; line-height: 1.7; color: ${D.ink}; font-style: italic; }
   .article-body .callout { font-family: var(--font-body); background: ${D.surface}; border: 1px solid rgba(197,141,42,0.25); border-radius: 0.875rem; padding: 1rem 1.25rem; margin: 1.75rem 0; font-size: 0.9375rem; line-height: 1.6; color: ${D.ink}; }
-  .article-body a { color: ${D.accent}; text-decoration: underline; text-underline-offset: 3px; }
+  .article-body a { color: ${D.accent}; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; word-break: break-word; }
+  .article-body img,
+  .article-body video,
+  .article-body iframe,
+  .article-body canvas,
+  .article-body svg {
+    max-width: 100%;
+    height: auto;
+  }
   .article-body .wp-block-table,
-  .article-body figure:has(table) {
+  .article-body figure:has(table),
+  .article-body pre,
+  .article-body .wp-block-preformatted {
     width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     margin: 1.75rem 0 2rem;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
   }
   .article-body table {
     width: 100%;
@@ -137,9 +151,20 @@ const proseStyles = `
     font-weight: 700;
     color: ${D.ink};
   }
+  .article-body pre,
+  .article-body .wp-block-preformatted {
+    padding: 0.9rem 1rem;
+    border-radius: 1rem;
+    background: ${D.surfaceStrong};
+    border: 1px solid ${D.border};
+    color: ${D.ink};
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05);
+  }
   @media (max-width: 768px) {
     .article-body .wp-block-table,
-    .article-body figure:has(table) {
+    .article-body figure:has(table),
+    .article-body pre,
+    .article-body .wp-block-preformatted {
       margin-left: -0.25rem;
       margin-right: -0.25rem;
       padding-bottom: 0.35rem;
