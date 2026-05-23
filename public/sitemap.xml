@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ── Core pages ──────────────────────────────────────── -->
+  <url>
+    <loc>https://deltainc.gr/</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ── Hub landing pages (primary SEO assets) ──────────── -->
+  <url>
+    <loc>https://deltainc.gr/opsyd</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/asep</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/metaptyxiaka</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/pistopoihseis</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ── Blog index ──────────────────────────────────────── -->
+  <!-- NOTE: /blog?hub=... URLs are noindex; only canonical hub pages above are indexed -->
+  <url>
+    <loc>https://deltainc.gr/blog</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Blog articles ───────────────────────────────────── -->
+  <url>
+    <loc>https://deltainc.gr/blog/neoi-pinakes-ekpaideftikon-2026-opsyd</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/blog/asep-3k-2026-odigos-aitisis</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/blog/metaptyxiaka-2026-deka-dimofili-programmata</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/blog/pistopoiisi-pliroforiakis-ekpaideftikon-2026</loc>
+    <lastmod>2026-04-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/blog/opsyd-ypovoli-dikaiologitikon-odigos</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/blog/asep-2g-ekpaideftikoi-imeromhnies</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ── Programs / courses ──────────────────────────────── -->
+  <!-- NOTE: /courses?filter=... URLs are noindex; only /courses is indexed -->
+  <url>
+    <loc>https://deltainc.gr/courses</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Static pages ────────────────────────────────────── -->
+  <url>
+    <loc>https://deltainc.gr/news</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deltainc.gr/about</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

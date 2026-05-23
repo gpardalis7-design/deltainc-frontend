@@ -1,0 +1,421 @@
+import { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router";
+import { motion, useInView } from "motion/react";
+import { ArrowRight, Search, SlidersHorizontal, X, Tag, Calendar, TrendingUp } from "lucide-react";
+import { getPosts, getTags } from "../lib/deltaApi";
+import { useCategories } from "../lib/categoriesContext";
+import type { BlogPost, DeltaTaxonomyTerm } from "../lib/types";
+import { MockBadge } from "../components/MockBadge";
+import { SeoHead } from "../components/SeoHead";
+import { blogIndexSeo } from "../lib/seo";
+import { D } from "../Root";
+import { Pagination } from "../components/Pagination";
+import { StackedArticleCard } from "../components/articles/StackedArticleCard";
+import { FeaturedOverlayArticleCard } from "../components/articles/FeaturedOverlayArticleCard";
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  );
+}
+
+function Skeleton({ className = "" }: { className?: string }) {
+  return <div className={`rounded-xl animate-pulse ${className}`} style={{ background: "rgba(19,35,58,0.07)" }} />;
+}
+
+function PostCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
+  if (featured) {
+    return (
+      <FeaturedOverlayArticleCard
+        post={post}
+        dateLabel={formatDate(post.publishedAt)}
+        imageHeight="340px"
+        titleClassName="text-white mb-3 max-w-xl"
+        titleStyle={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)", letterSpacing: "-0.025em", lineHeight: 1.25 }}
+        excerptClassName="text-sm mb-4 max-w-lg"
+        excerptStyle={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}
+      />
+    );
+  }
+
+  return (
+    <StackedArticleCard
+      post={post}
+      dateLabel={formatDate(post.publishedAt)}
+      imageHeight="188px"
+      footerMode="read"
+      footerBordered
+      footerCalendar
+      titleClassName="mb-2 flex-1 line-clamp-3"
+      titleStyle={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "-0.015em", color: D.ink, lineHeight: 1.4 }}
+      excerptClassName="text-xs mb-4 line-clamp-2"
+      excerptStyle={{ color: D.inkSoft, lineHeight: 1.6 }}
+    />
+  );
+}
+
+export function Blog() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeHub = searchParams.get("hub") || "";
+  const search = searchParams.get("search") || "";
+  const activeTag = searchParams.get("tag") || "";
+  const activeSort = searchParams.get("sort") || "";
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isMock, setIsMock] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [searchInput, setSearchInput] = useState(search);
+  const [showFilters, setShowFilters] = useState(false);
+  const [tags, setTags] = useState<DeltaTaxonomyTerm[]>([]);
+
+  // Live categories for filter pills
+  const { hubs } = useCategories();
+
+  // Fetch tags on mount
+  useEffect(() => {
+    getTags().then(({ data }) => setTags(data));
+  }, []);
+
+  // Track previous filter values to detect changes and reset page atomically
+  const prevFiltersRef = useRef({ hub: activeHub, search, tag: activeTag, sort: activeSort });
+
+  useEffect(() => {
+    const filtersChanged =
+      prevFiltersRef.current.hub !== activeHub ||
+      prevFiltersRef.current.search !== search ||
+      prevFiltersRef.current.tag !== activeTag ||
+      prevFiltersRef.current.sort !== activeSort;
+
+    // When filters change, always fetch from page 1
+    const fetchPage = filtersChanged ? 1 : page;
+
+    if (filtersChanged) {
+      prevFiltersRef.current = { hub: activeHub, search, tag: activeTag, sort: activeSort };
+      // Sync page state without triggering another effect run
+      if (page !== 1) {
+        updateParams({ page: undefined });
+        return; // state update will re-run this effect with page=1
+      }
+    }
+
+    setLoading(true);
+    getPosts({ 
+      page: fetchPage, 
+      hub: activeHub || undefined, 
+      search: search || undefined,
+      tag: activeTag || undefined,
+      sort: activeSort || undefined,
+    }).then(({ data, meta, isMock: m }) => {
+      setPosts(data);
+      setTotalPages(meta.totalPages);
+      setTotal(meta.total);
+      setIsMock(m);
+      setLoading(false);
+    });
+  }, [page, activeHub, search, activeTag, activeSort]);
+
+  const updateParams = (updates: Record<string, string | number | undefined>) => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === undefined || value === "" || value === null) {
+          params.delete(key);
+        } else {
+          params.set(key, String(value));
+        }
+      });
+      return params;
+    });
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateParams({ search: searchInput.trim() });
+  };
+
+  const activeFiltersCount = [activeHub, activeTag, activeSort].filter(Boolean).length;
+
+  const clearFilters = () => {
+    updateParams({ hub: undefined, tag: undefined, sort: undefined, search: undefined });
+    setSearchInput("");
+  };
+
+  const featuredPost = page === 1 && !activeHub && !search && !activeTag && !activeSort ? posts.find((p) => p.isFeatured) : null;
+  const gridPosts = featuredPost ? posts.filter((p) => p.id !== featuredPost.id) : posts;
+
+  return (
+    <div style={{ background: D.bg }}>
+      <SeoHead seo={blogIndexSeo(!!activeHub)} />
+      {/* Header */}
+      <section className="pt-36 pb-12 px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(197,141,42,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="flex items-center gap-3 mb-5 flex-wrap">
+              <span className="inline-block px-3 py-1 rounded-full text-xs tracking-widest uppercase" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
+                Blog
+              </span>
+              {isMock && <MockBadge />}
+            </div>
+            <h1 className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1, color: D.ink }}>
+              Άρθρα & Οδηγοί
+            </h1>
+            <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "460px" }}>
+              Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Search & Filters Bar */}
+      <section className="px-6 pb-6" style={{ borderBottom: `1px solid ${D.border}` }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
+              <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
+              <input
+                type="text"
+                placeholder="Αναζήτηση άρθρων..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="bg-transparent outline-none text-sm flex-1 placeholder:text-black/30"
+                style={{ color: D.ink }}
+              />
+            </form>
+            <button 
+              type="button" 
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
+              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+            >
+              <SlidersHorizontal size={15} />
+              Φίλτρα {activeFiltersCount > 0 && <span className="ml-0.5 w-5 h-5 rounded-full text-xs text-white flex items-center justify-center" style={{ background: D.accentStrong }}>{activeFiltersCount}</span>}
+            </button>
+          </div>
+
+          {/* Hub Pills */}
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => updateParams({ hub: undefined })}
+              className="px-3.5 py-2 rounded-xl text-xs transition-all duration-200"
+              style={!activeHub ? { background: D.ink, color: "#fff", fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+            >
+              Όλα
+            </button>
+            {hubs.map((hub) => (
+              <Link
+                key={hub.slug}
+                to={`/${hub.slug}`}
+                className="px-3.5 py-2 rounded-xl text-xs transition-all duration-200"
+                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = D.accentSoft; (e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.35)"; (e.currentTarget as HTMLElement).style.color = D.accentStrong; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = D.surfaceStrong; (e.currentTarget as HTMLElement).style.borderColor = D.border; (e.currentTarget as HTMLElement).style.color = D.inkSoft; }}
+              >
+                {hub.name}
+                {hub.count ? <span className="ml-1 opacity-50">({hub.count})</span> : null}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advanced Filters Panel */}
+      {showFilters && (
+        <motion.section
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className="px-6 py-6 overflow-hidden"
+          style={{ background: D.surface, borderBottom: `1px solid ${D.border}` }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-sm" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, color: D.ink }}>Φίλτρα Αναζήτησης</h3>
+              {activeFiltersCount > 0 && (
+                <button onClick={clearFilters} className="flex items-center gap-1 text-xs transition-colors" style={{ color: D.inkSoft }}>
+                  <X size={12} /> Καθαρισμός φίλτρων
+                </button>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Tags Filter */}
+              {tags.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 text-xs mb-3 tracking-widest uppercase" style={{ color: D.inkSoft, letterSpacing: "0.1em" }}>
+                    <Tag size={12} /> Ετικέτες
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button 
+                      onClick={() => updateParams({ tag: undefined })} 
+                      className="px-3 py-1.5 rounded-lg text-xs transition-all"
+                      style={!activeTag ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                    >
+                      Όλες
+                    </button>
+                    {tags.slice(0, 10).map((tag) => (
+                      <button
+                        key={tag.id}
+                        onClick={() => updateParams({ tag: activeTag === String(tag.id) ? undefined : String(tag.id) })}
+                        className="px-3 py-1.5 rounded-lg text-xs transition-all"
+                        style={activeTag === String(tag.id) ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                      >
+                        {tag.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Sort Filter */}
+              <div>
+                <div className="flex items-center gap-2 text-xs mb-3 tracking-widest uppercase" style={{ color: D.inkSoft, letterSpacing: "0.1em" }}>
+                  <TrendingUp size={12} /> Ταξινόμηση
+                </div>
+                <div className="flex flex-col gap-1">
+                  <button 
+                    onClick={() => updateParams({ sort: undefined })} 
+                    className="text-left px-3 py-2 rounded-lg text-sm transition-all"
+                    style={!activeSort ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { color: D.inkSoft }}
+                  >
+                    <Calendar size={12} className="inline mr-2" />
+                    Πιο Πρόσφατα
+                  </button>
+                  <button 
+                    onClick={() => updateParams({ sort: activeSort === "oldest" ? undefined : "oldest" })} 
+                    className="text-left px-3 py-2 rounded-lg text-sm transition-all"
+                    style={activeSort === "oldest" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { color: D.inkSoft }}
+                  >
+                    <Calendar size={12} className="inline mr-2" />
+                    Παλαιότερα Πρώτα
+                  </button>
+                  <button 
+                    onClick={() => updateParams({ sort: activeSort === "title" ? undefined : "title" })} 
+                    className="text-left px-3 py-2 rounded-lg text-sm transition-all"
+                    style={activeSort === "title" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { color: D.inkSoft }}
+                  >
+                    Αλφαβητική Σειρά
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      )}
+
+      {/* Active Filters Pills */}
+      {activeFiltersCount > 0 && (
+        <section className="px-6 py-4" style={{ background: D.surface, borderBottom: `1px solid ${D.border}` }}>
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs" style={{ color: D.inkSoft }}>Ενεργά φίλτρα:</span>
+              {search && (
+                <button
+                  onClick={() => { updateParams({ search: undefined }); setSearchInput(""); }}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  <Search size={10} /> "{search}" <X size={12} />
+                </button>
+              )}
+              {activeHub && (
+                <button
+                  onClick={() => updateParams({ hub: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  {hubs.find(h => h.slug === activeHub)?.name} <X size={12} />
+                </button>
+              )}
+              {activeTag && (
+                <button
+                  onClick={() => updateParams({ tag: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  <Tag size={10} /> {tags.find(t => String(t.id) === activeTag)?.name} <X size={12} />
+                </button>
+              )}
+              {activeSort && (
+                <button
+                  onClick={() => updateParams({ sort: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  {activeSort === "oldest" ? "Παλαιότερα" : activeSort === "title" ? "Αλφαβητικά" : activeSort} <X size={12} />
+                </button>
+              )}
+              <button
+                onClick={clearFilters}
+                className="text-xs ml-auto transition-colors hover:underline"
+                style={{ color: D.accent }}
+              >
+                Καθαρισμός όλων
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Content */}
+      <section className="px-6 py-12 pb-24">
+        <div className="max-w-7xl mx-auto">
+          {loading ? (
+            <div className="space-y-6">
+              <Skeleton className="w-full h-80" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {[1, 2, 3, 4, 5, 6].map((i) => <Skeleton key={i} className="h-72" />)}
+              </div>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-24">
+              <p className="mb-4" style={{ color: D.inkSoft }}>Δεν βρέθηκαν άρθρα με τα επιλεγμένα κριτήρια.</p>
+              {activeFiltersCount > 0 && (
+                <button onClick={clearFilters} className="text-sm transition-colors hover:underline" style={{ color: D.accent }}>
+                  Καθαρισμός φίλτρων
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {featuredPost && (
+                <AnimatedSection>
+                  <PostCard post={featuredPost} featured />
+                </AnimatedSection>
+              )}
+
+              <div id="blog-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {gridPosts.map((post, i) => (
+                  <AnimatedSection key={post.id} delay={i * 0.06}>
+                    <PostCard post={post} />
+                  </AnimatedSection>
+                ))}
+              </div>
+
+              <AnimatedSection>
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  total={total}
+                  itemLabel="άρθρα"
+                  onPageChange={(p) => updateParams({ page: p === 1 ? undefined : p })}
+                  scrollTargetId="blog-grid"
+                />
+              </AnimatedSection>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}

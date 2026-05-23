@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Non-indexable routes — crawlers must see the page to read noindex meta
+# so we do NOT disallow here; noindex is handled in the page's <meta name="robots">
+# Disallow only true private/utility paths if they ever exist:
+# Disallow: /preview/
+# Disallow: /_diagnostics/
+
+Sitemap: https://deltainc.gr/sitemap.xml
