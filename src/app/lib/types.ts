@@ -146,6 +146,7 @@ export interface HomepagePayload {
     backgroundImage: DeltaMedia | null;
   };
   latestPosts: BlogPost[];
+  featuredHubPosts: BlogPost[];
   featuredPrograms: Program[];
   trendingTopics: string[];
   stats: {

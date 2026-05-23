@@ -139,15 +139,22 @@ export { MOCK_HUBS } from "./mockDeltaData";
 export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: boolean }> {
   // Compose homepage from live WP data
   try {
-    const [mockHomepage, postsRes, featuredProgramsRes] = await Promise.all([
+    const hubOrder = ["metaptyxiaka", "asep", "opsyd", "pistopoihseis"] as const;
+    const [mockHomepage, postsRes, featuredProgramsRes, featuredHubPostResults] = await Promise.all([
       loadMockHomepage(),
       getPosts({ page: 1 }),
       getFeaturedPrograms(3),
+      Promise.all(hubOrder.map((hub) => getFeaturedPost(hub))),
     ]);
+
+    const featuredHubPosts = featuredHubPostResults
+      .map((result) => result.data)
+      .filter((post): post is BlogPost => Boolean(post));
 
     const payload: HomepagePayload = {
       hero: mockHomepage.hero,
       latestPosts: postsRes.data.slice(0, 3),
+      featuredHubPosts,
       featuredPrograms: featuredProgramsRes.data,
       trendingTopics: mockHomepage.trendingTopics,
       stats: mockHomepage.stats,
@@ -156,7 +163,7 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
       seo: mockHomepage.seo,
     };
 
-    const anyMock = postsRes.isMock || featuredProgramsRes.isMock;
+    const anyMock = postsRes.isMock || featuredProgramsRes.isMock || featuredHubPostResults.some((result) => result.isMock);
     return { data: payload, isMock: anyMock };
   } catch {
     return { data: await loadMockHomepage(), isMock: true };
@@ -251,6 +258,8 @@ function decodeHtmlEntities(value: string): string {
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
     .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&hellip;/g, "…")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, "\"")
@@ -273,6 +282,8 @@ function normalizeFeaturedPostPayload(payload: unknown): BlogPost | null {
   return {
     ...(post as unknown as BlogPost),
     slug: decodeMaybeEncodedSlug(post.slug),
+    title: decodeHtmlEntities(typeof post.title === "string" ? post.title : ""),
+    excerpt: decodeHtmlEntities(typeof post.excerpt === "string" ? post.excerpt : ""),
     author: authorRaw
       ? {
           ...(authorRaw as unknown as BlogPost["author"]),

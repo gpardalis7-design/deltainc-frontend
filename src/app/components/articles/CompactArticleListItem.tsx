@@ -3,12 +3,15 @@ import type { BlogPost } from "../../lib/types";
 import { D } from "../../Root";
 import { trackEvent, getCurrentPageAnalyticsContext } from "../../lib/analytics";
 import { getArticleCardImage } from "./articleImage";
+import { getArticlePrimaryLabel } from "../../lib/articleLabels";
+import { ArticleLabelChip } from "./ArticleLabelChip";
 
 type CompactArticleListItemProps = {
   post: BlogPost;
   dateLabel: string;
   timeLabel?: string;
   to?: string;
+  showCategoryLabel?: boolean;
 };
 
 export function CompactArticleListItem({
@@ -16,8 +19,10 @@ export function CompactArticleListItem({
   dateLabel,
   timeLabel,
   to = `/blog/${post.slug}`,
+  showCategoryLabel = false,
 }: CompactArticleListItemProps) {
   const image = getArticleCardImage(post.featuredImage, "compact");
+  const primaryLabel = getArticlePrimaryLabel(post);
 
   return (
     <Link
@@ -48,6 +53,11 @@ export function CompactArticleListItem({
         </div>
       )}
       <div className="flex-1 min-w-0">
+        {showCategoryLabel ? (
+          <div className="mb-1.5">
+            <ArticleLabelChip label={primaryLabel} className="text-[11px]" />
+          </div>
+        ) : null}
         <p className="type-ui-label text-xs line-clamp-2 mb-1" style={{ color: D.ink, lineHeight: 1.35 }}>
           {post.title}
         </p>

@@ -14,6 +14,12 @@ export const MOCK_HOMEPAGE: HomepagePayload = {
     backgroundImage: null,
   },
   latestPosts: MOCK_POSTS.slice(0, 3),
+  featuredHubPosts: [
+    MOCK_POSTS[2],
+    MOCK_POSTS[1],
+    MOCK_POSTS[0],
+    MOCK_POSTS[3],
+  ],
   featuredPrograms: MOCK_PROGRAMS.slice(0, 3),
   trendingTopics: ["ΑΣΕΠ 3Κ/2026", "Νέοι Πίνακες ΟΠΣΥΔ", "Μεταπτυχιακά Αθήνα", "Πιστοποιήσεις"],
   stats: {

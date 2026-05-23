@@ -11,6 +11,8 @@ import { MockBadge } from "../components/MockBadge";
 import { PageLoader } from "../components/PageLoader";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
+import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
+import { getArticleCardImage } from "../components/articles/articleImage";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
@@ -292,19 +294,67 @@ function HubCard({ hub }: { hub: DeltaHub }) {
   );
 }
 
-function PostCard({ post }: { post: BlogPost }) {
+function FeaturedHubSelectorCard({
+  post,
+  active,
+  onSelect,
+}: {
+  post: BlogPost;
+  active: boolean;
+  onSelect: () => void;
+}) {
+  const image = getArticleCardImage(post.featuredImage, "compact");
+  const hubSlug = post.hub?.slug as keyof typeof PATH_CONFIG | undefined;
+  const hubConfig = hubSlug ? PATH_CONFIG[hubSlug] : null;
+
   return (
-    <StackedArticleCard
-      post={post}
-      dateLabel={formatDate(post.publishedAt)}
-      imageHeight="168px"
-      footerMode="published"
-      footerBordered={false}
-      titleClassName="type-display-card mb-2 line-clamp-2"
-      titleStyle={{ fontSize: "0.95rem", letterSpacing: "-0.012em", color: D.ink, lineHeight: 1.42 }}
-      excerptClassName="text-xs flex-1 line-clamp-3 mb-4"
-      excerptStyle={{ color: D.inkSoft, lineHeight: 1.65 }}
-    />
+    <button
+      type="button"
+      onClick={onSelect}
+      className="w-full text-left rounded-[24px] p-4 transition-all duration-200"
+      style={{
+        background: active ? D.surfaceStrong : "rgba(255,255,255,0.82)",
+        border: active ? `1px solid rgba(197,141,42,0.36)` : `1px solid ${D.border}`,
+        boxShadow: active ? `0 12px 30px ${D.shadow}` : "none",
+      }}
+    >
+      <div className="flex gap-4 items-start">
+        {image ? (
+          <div className="hidden sm:block w-[108px] h-[84px] rounded-2xl overflow-hidden shrink-0" style={{ background: D.surface }}>
+            <img
+              src={image.src}
+              alt={post.featuredImage?.alt || post.title}
+              loading="lazy"
+              width={image.width}
+              height={image.height}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : null}
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase"
+              style={{ background: active ? D.accentSoft : D.surface, color: active ? D.accentStrong : D.inkSoft, fontWeight: 700 }}
+            >
+              {post.hub?.name || hubConfig?.eyebrow || "Άρθρο"}
+            </span>
+            {active ? (
+              <span className="text-[11px]" style={{ color: D.accentStrong, fontWeight: 700 }}>
+                Τώρα
+              </span>
+            ) : null}
+          </div>
+          <h3 className="type-display-card line-clamp-2" style={{ fontSize: "0.96rem", letterSpacing: "-0.018em", color: D.ink, lineHeight: 1.35 }}>
+            {post.title}
+          </h3>
+          <p className="text-xs mt-2 line-clamp-2" style={{ color: D.inkSoft, lineHeight: 1.6 }}>
+            {post.excerpt}
+          </p>
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -410,6 +460,7 @@ export function Home() {
   const [data, setData] = useState<HomepagePayload | null>(null);
   const [isMock, setIsMock] = useState(false);
   const [isPathChooserOpen, setIsPathChooserOpen] = useState(false);
+  const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
   const { hubs: categoryHubs, isMock: categoriesAreMock } = useCategories();
 
   // Configure navigation for content mode
@@ -423,6 +474,7 @@ export function Home() {
     getHomepage().then(({ data: d, isMock: m }) => {
       setData(d);
       setIsMock(m);
+      setSelectedEditorialHub((current) => current || d.featuredHubPosts[0]?.hub?.slug || "");
       setLoading(false);
     });
   }, []);
@@ -433,7 +485,7 @@ export function Home() {
 
   if (!data) return null;
 
-  const { hero, latestPosts, featuredPrograms, stats, testimonials } = data;
+  const { hero, latestPosts, featuredHubPosts, featuredPrograms, stats, testimonials } = data;
   const primaryPaths = PATH_ORDER.map((slug) => {
     const liveHub = categoryHubs.find((hub) => hub.slug === slug);
     if (liveHub) return liveHub;
@@ -448,6 +500,16 @@ export function Home() {
       count: 0,
     } satisfies DeltaHub;
   });
+  const editorialEntries = PATH_ORDER
+    .map((slug) => ({
+      slug,
+      post: featuredHubPosts.find((candidate) => candidate.hub?.slug === slug) || null,
+    }))
+    .filter((entry): entry is { slug: typeof PATH_ORDER[number]; post: BlogPost } => Boolean(entry.post));
+  const selectedEditorialPost =
+    editorialEntries.find((entry) => entry.slug === selectedEditorialHub)?.post ||
+    editorialEntries[0]?.post ||
+    null;
 
   return (
     <div style={{ background: D.bg }}>
@@ -683,20 +745,71 @@ export function Home() {
             </div>
           </AnimatedSection>
 
-          {latestPosts[0] && (
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] gap-5 md:gap-6 items-stretch">
+          {selectedEditorialPost && (
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(300px,0.92fr)] gap-5 md:gap-6 items-start">
               <AnimatedSection>
-                <ProminentArticleCard
-                  post={latestPosts[0]}
-                  dateLabel={formatDate(latestPosts[0].publishedAt)}
-                  eyebrow="Ξεκινήστε από εδώ"
-                />
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-wrap gap-2">
+                    {editorialEntries.map(({ slug, post }) => (
+                      <button
+                        key={post.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedEditorialHub(slug);
+                          trackEvent("cta_click", {
+                            page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+                            page_type: "home",
+                            content_type: "hub",
+                            cta_label: `featured_hub_${slug}`,
+                            cta_location: "home_editorial_tabs",
+                            hub: slug,
+                          });
+                        }}
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs transition-all duration-200"
+                        style={{
+                          background: selectedEditorialPost.hub?.slug === slug ? D.ink : D.surfaceStrong,
+                          border: `1px solid ${selectedEditorialPost.hub?.slug === slug ? D.ink : D.border}`,
+                          color: selectedEditorialPost.hub?.slug === slug ? "#fff" : D.inkSoft,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {post.hub?.name || PATH_CONFIG[slug].eyebrow}
+                      </button>
+                    ))}
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={selectedEditorialPost.id}
+                      initial={{ opacity: 0, y: 18 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <ProminentArticleCard
+                        post={selectedEditorialPost}
+                        dateLabel={formatDate(selectedEditorialPost.publishedAt)}
+                        eyebrow="Ξεκινήστε από εδώ"
+                        ctaLabel={selectedEditorialPost.hub?.slug === "metaptyxiaka" ? "Διαβάστε τον οδηγό σπουδών" : "Διαβάστε τον οδηγό"}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </AnimatedSection>
 
-              <div className="grid grid-cols-1 gap-4 md:gap-5">
-                {latestPosts.slice(1, 3).map((post, i) => (
+              <div className="grid grid-cols-1 gap-3 md:gap-4">
+                {latestPosts.map((post, i) => (
                   <AnimatedSection key={post.id} delay={i * 0.08}>
-                    <PostCard post={post} />
+                    <div
+                      className="rounded-[22px] p-3 md:p-3.5"
+                      style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}` }}
+                    >
+                      <CompactArticleListItem
+                        post={post}
+                        dateLabel={formatDate(post.publishedAt)}
+                        showCategoryLabel
+                      />
+                    </div>
                   </AnimatedSection>
                 ))}
                 <AnimatedSection delay={0.18}>
