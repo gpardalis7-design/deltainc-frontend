@@ -58,9 +58,20 @@ function ArticleSkeleton() {
 }
 
 const proseStyles = `
-  .article-body { max-width: 100%; overflow-x: clip; }
+  .article-body { max-width: 100%; }
   .article-body > * { max-width: 100%; }
   .article-body p { font-family: var(--font-body); margin-bottom: 1.4rem; line-height: 1.85; color: ${D.inkSoft}; font-size: 1.0625rem; }
+  .article-body > p:first-of-type::first-letter {
+    float: left;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 3.85rem;
+    line-height: 0.82;
+    font-weight: 700;
+    margin-right: 0.42rem;
+    margin-top: 0.1rem;
+    color: ${D.ink};
+    letter-spacing: -0.03em;
+  }
   .article-body p.standfirst { font-family: var(--font-body); font-size: 1.2rem; line-height: 1.7; color: ${D.ink}; margin-bottom: 2rem; font-weight: 500; }
   .article-body h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: ${D.ink}; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.25; }
   .article-body h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; color: ${D.ink}; margin-top: 1.75rem; margin-bottom: 0.6rem; line-height: 1.3; }
@@ -87,12 +98,14 @@ const proseStyles = `
   .article-body figure:has(table),
   .article-body pre,
   .article-body .wp-block-preformatted {
+    display: block;
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
     margin: 1.75rem 0 2rem;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
+    touch-action: pan-x;
   }
   .article-body table {
     width: 100%;
@@ -161,6 +174,11 @@ const proseStyles = `
     box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05);
   }
   @media (max-width: 768px) {
+    .article-body > p:first-of-type::first-letter {
+      font-size: 3.1rem;
+      margin-right: 0.32rem;
+      margin-top: 0.08rem;
+    }
     .article-body .wp-block-table,
     .article-body figure:has(table),
     .article-body pre,
