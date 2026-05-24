@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import type { SeoMeta } from "../lib/seo";
-import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from "../lib/seo";
+import { SITE_NAME, DEFAULT_OG_IMAGE } from "../lib/seo";
 
 interface SeoHeadProps {
   seo: SeoMeta;

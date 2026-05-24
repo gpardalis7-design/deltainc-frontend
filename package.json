@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typecheck:clean": "tsc --noEmit --noUnusedLocals --noUnusedParameters"
   },
   "dependencies": {
     "clsx": "2.1.1",

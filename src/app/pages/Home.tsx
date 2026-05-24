@@ -9,10 +9,8 @@ import { D, sectionSurfaces } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { MockBadge } from "../components/MockBadge";
 import { PageLoader } from "../components/PageLoader";
-import { StackedArticleCard } from "../components/articles/StackedArticleCard";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
 import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
-import { getArticleCardImage } from "../components/articles/articleImage";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
@@ -50,10 +48,6 @@ function HeroKnowledgeMap() {
   const nodeTransition = prefersReducedMotion
     ? { duration: 0 }
     : { duration: 4.8, repeat: Infinity, repeatType: "mirror" as const, ease: "easeInOut" as const };
-
-  const cardTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 10, repeat: Infinity, repeatType: "reverse" as const, ease: "easeInOut" as const };
 
   const nodes = [
     { x: "15%", y: "24%", label: "ΑΣΕΠ" },
@@ -291,70 +285,6 @@ function HubCard({ hub }: { hub: DeltaHub }) {
         </span>
       </div>
     </Link>
-  );
-}
-
-function FeaturedHubSelectorCard({
-  post,
-  active,
-  onSelect,
-}: {
-  post: BlogPost;
-  active: boolean;
-  onSelect: () => void;
-}) {
-  const image = getArticleCardImage(post.featuredImage, "compact");
-  const hubSlug = post.hub?.slug as keyof typeof PATH_CONFIG | undefined;
-  const hubConfig = hubSlug ? PATH_CONFIG[hubSlug] : null;
-
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className="w-full text-left rounded-[24px] p-4 transition-all duration-200"
-      style={{
-        background: active ? D.surfaceStrong : "rgba(255,255,255,0.82)",
-        border: active ? `1px solid rgba(197,141,42,0.36)` : `1px solid ${D.border}`,
-        boxShadow: active ? `0 12px 30px ${D.shadow}` : "none",
-      }}
-    >
-      <div className="flex gap-4 items-start">
-        {image ? (
-          <div className="hidden sm:block w-[108px] h-[84px] rounded-2xl overflow-hidden shrink-0" style={{ background: D.surface }}>
-            <img
-              src={image.src}
-              alt={post.featuredImage?.alt || post.title}
-              loading="lazy"
-              width={image.width}
-              height={image.height}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ) : null}
-
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-3 mb-2">
-            <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase"
-              style={{ background: active ? D.accentSoft : D.surface, color: active ? D.accentStrong : D.inkSoft, fontWeight: 700 }}
-            >
-              {post.hub?.name || hubConfig?.eyebrow || "Άρθρο"}
-            </span>
-            {active ? (
-              <span className="text-[11px]" style={{ color: D.accentStrong, fontWeight: 700 }}>
-                Τώρα
-              </span>
-            ) : null}
-          </div>
-          <h3 className="type-display-card line-clamp-2" style={{ fontSize: "0.96rem", letterSpacing: "-0.018em", color: D.ink, lineHeight: 1.35 }}>
-            {post.title}
-          </h3>
-          <p className="text-xs mt-2 line-clamp-2" style={{ color: D.inkSoft, lineHeight: 1.6 }}>
-            {post.excerpt}
-          </p>
-        </div>
-      </div>
-    </button>
   );
 }
 

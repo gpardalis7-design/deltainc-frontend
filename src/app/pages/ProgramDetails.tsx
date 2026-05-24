@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router";
 import { motion } from "motion/react";
 import {
   ArrowLeft, ChevronRight, GraduationCap, MapPin, Clock, Euro, Calendar,
-  Globe, Building2, BookOpen, X, Mail, User, Phone, ArrowRight, Laptop, Loader2,
+  Globe, Building2, X, Mail, User, Phone, ArrowRight, Laptop, Loader2,
 } from "lucide-react";
 import { getProgram, getPrograms, submitContact } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent, trackLeadFormEvent } from "../lib/analytics";
@@ -289,8 +289,6 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
 // ─── Quick Info Sidebar Card ──────────────────────────────────────────────────
 
 function QuickInfoCard({ program, onRequestInfo }: { program: Program; onRequestInfo: () => void }) {
-  const modeColor = modeColors[program.summary.mode] || D.inkSoft;
-
   return (
     <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
       <h3 className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>
@@ -434,7 +432,6 @@ function RelatedProgramCard({ program }: { program: Program }) {
 
 export function ProgramDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const [program, setProgram] = useState<Program | null>(null);
   const [relatedPrograms, setRelatedPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);

@@ -3,8 +3,8 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import { motion, useInView } from "motion/react";
 import {
   ChevronRight, ArrowRight, Calendar,
-  BookOpen, FileText, CheckCircle2, HelpCircle,
-  Users, TrendingUp, Search, SlidersHorizontal, X,
+  BookOpen, CheckCircle2, HelpCircle,
+  Search, SlidersHorizontal, X,
 } from "lucide-react";
 import { getFeaturedPost, getPosts } from "../lib/deltaApi";
 import { trackContextualEvent, trackCtaClick, trackEvent } from "../lib/analytics";
@@ -16,16 +16,11 @@ import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
 import { GUIDED_HUB_DATA } from "../lib/hubs/guidedHubConfig";
-import { resolveHubVariant, type HubVariant } from "../lib/hubs/hubVariant";
+import { resolveHubVariant } from "../lib/hubs/hubVariant";
 import { getArticleCardImage } from "../components/articles/articleImage";
 
 const HUB_INITIAL_GRID_POSTS = 9;
 const HUB_LOAD_MORE_PER_PAGE = 9;
-const EDITORIAL_FEATURED_TAG = {
-  label: "Επιλεγμένα",
-  slug: "important",
-} as const;
-
 const EDITORIAL_HUB_DEFAULTS = {
   featuredEyebrow: "Προτεινόμενο άρθρο",
   cta: {
@@ -144,7 +139,6 @@ type HubViewProps = {
   displayH1: string;
   displayIntro: string;
   heroSectionRef: React.RefObject<HTMLElement | null>;
-  displayStats: { label: string; value: string }[];
   displayUrgentInfo?: {
     eyebrow?: string;
     title: string;
@@ -163,12 +157,10 @@ type HubViewProps = {
     icon: React.ReactNode;
   }[];
   displayFaq: { q: string; a: string }[];
-  editorialFeaturedTag?: { label: string; slug: string; count: number };
   activeFiltersCount: number;
   activeSort: string;
   activeTag: string;
   clearFilters: () => void;
-  ctaConfig: { text: string; link?: string; formType?: FormType };
   featuredEyebrow: string;
   featured?: BlogPost;
   featuredLoading: boolean;
@@ -181,7 +173,6 @@ type HubViewProps = {
   posts: BlogPost[];
   primaryCTA: HubCTA;
   relatedLiveHubs: Array<{ id: string | number; slug: string; name: string; description?: string; count?: number }>;
-  remainingCount: number;
   rest: BlogPost[];
   search: string;
   searchInput: string;
@@ -201,16 +192,13 @@ function GuidedHubView({
   displayH1,
   displayIntro,
   heroSectionRef,
-  displayStats,
   displayUrgentInfo,
   displayKeyTopics,
   displayFaq,
-  editorialFeaturedTag,
   activeFiltersCount,
   activeSort,
   activeTag,
   clearFilters,
-  ctaConfig,
   featuredEyebrow,
   featured,
   featuredLoading,
@@ -222,7 +210,6 @@ function GuidedHubView({
   posts,
   primaryCTA,
   relatedLiveHubs,
-  remainingCount,
   rest,
   search,
   searchInput,
@@ -500,7 +487,6 @@ function GuidedHubView({
         loading={loading}
         loadingMore={loadingMore}
         posts={posts}
-        remainingCount={remainingCount}
         rest={rest}
         searchQuery={search}
         startHereRef={startHereRef}
@@ -559,7 +545,6 @@ function EditorialHubView({
   posts,
   primaryCTA,
   relatedLiveHubs,
-  remainingCount,
   rest,
   search,
   searchInput,
@@ -743,7 +728,6 @@ function EditorialHubView({
         loading={loading}
         loadingMore={loadingMore}
         posts={posts}
-        remainingCount={remainingCount}
         rest={rest}
         searchQuery={search}
         startHereRef={startHereRef}
@@ -775,7 +759,6 @@ function HubArticlesSection({
   loading,
   loadingMore,
   posts,
-  remainingCount,
   rest,
   searchQuery,
   startHereRef,
@@ -795,7 +778,6 @@ function HubArticlesSection({
   loading: boolean;
   loadingMore: boolean;
   posts: BlogPost[];
-  remainingCount: number;
   rest: BlogPost[];
   searchQuery?: string;
   startHereRef: React.RefObject<HTMLDivElement | null>;
@@ -1043,26 +1025,6 @@ function buildEditorialIntro(name: string, description: string | undefined): str
   return `Βρείτε συγκεντρωμένα τα σημαντικότερα άρθρα, αναλύσεις και πρόσφατες εξελίξεις γύρω από ${name}, με καθαρή editorial ροή και εύκολη περιήγηση στο σχετικό περιεχόμενο.`;
 }
 
-function buildHubBrowseDescription(name: string, description: string | undefined): string {
-  if (hasUsefulDescription(description)) {
-    return description.trim();
-  }
-
-  return `Μεταβείτε στην ενότητα ${name} για πιο στοχευμένα άρθρα, πρακτικούς οδηγούς και οργανωμένη περιήγηση στο σχετικό περιεχόμενο.`;
-}
-
-function buildEditorialFeaturedTag(posts: BlogPost[]): { label: string; slug: string; count: number } {
-  const count = posts.filter((post) =>
-    post.tags.some((tag) => tag.slug === EDITORIAL_FEATURED_TAG.slug)
-  ).length;
-
-  return {
-    label: EDITORIAL_FEATURED_TAG.label,
-    slug: EDITORIAL_FEATURED_TAG.slug,
-    count,
-  };
-}
-
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export function Hub() {
@@ -1079,7 +1041,7 @@ export function Hub() {
   const [featuredLoading, setFeaturedLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [sourceOffset, setSourceOffset] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
+  const [, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -1533,7 +1495,6 @@ export function Hub() {
   const displayName = hub?.name ?? liveHub?.name ?? hubSlug ?? "";
   const displayH1 = hub?.h1 ?? `${displayName}: Άρθρα, Αναλύσεις & Ενημερώσεις`;
   const displayIntro = hub?.intro ?? buildEditorialIntro(displayName, liveHub?.description);
-  const displayStats = hub?.stats ?? [];
   const displayUrgentInfo = hub?.urgentInfo;
   const displayKeyTopics = hub?.keyTopics ?? [];
   const displayFaq = hub?.faq ?? [];
@@ -1555,11 +1516,9 @@ export function Hub() {
   const seo = hubSeo(hubSlug ?? "");
   const featured = shouldUseFeatured && !featuredLoading ? featuredOverride : undefined;
   const rest = shouldUseFeatured ? posts.filter((p) => p.id !== featured?.id) : posts;
-  const editorialFeaturedTag = undefined;
   const isFiltered = Boolean(search || activeSort || activeTag);
   const displayedArticleCount = isFiltered ? posts.length : posts.length + (featured ? 1 : 0);
   const hasMore = displayedArticleCount < total;
-  const remainingCount = Math.max(total - displayedArticleCount, 0);
 
   // Related hubs: other live categories excluding current one
   const relatedLiveHubs = hubs
@@ -1576,16 +1535,13 @@ export function Hub() {
     displayH1,
     displayIntro,
     heroSectionRef,
-    displayStats,
     displayUrgentInfo,
     displayKeyTopics,
     displayFaq,
-    editorialFeaturedTag,
     activeFiltersCount,
     activeSort,
     activeTag,
     clearFilters,
-    ctaConfig,
     featuredEyebrow: hubDisplayConfig.featuredEyebrow,
     featured,
     featuredLoading,
@@ -1598,7 +1554,6 @@ export function Hub() {
     posts,
     primaryCTA,
     relatedLiveHubs,
-    remainingCount,
     rest,
     search,
     searchInput,

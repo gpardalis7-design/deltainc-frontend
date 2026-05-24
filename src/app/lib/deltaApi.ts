@@ -3,7 +3,6 @@ import type {
   Program,
   HomepagePayload,
   DeltaHub,
-  Navigation,
   CollectionResponse,
   FilterOptions,
   PostsParams,
@@ -14,7 +13,6 @@ import { buildUrl, tryFetch, tryFetchWithHeaders, WP_API, WP_BASE_URL } from "./
 import { getPostApi, getPostsApi, getTagsApi } from "./api/posts";
 import {
   loadMockHomepage,
-  loadMockNavigation,
   loadMockPosts,
 } from "./fallbackLoaders";
 import {
@@ -168,11 +166,6 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
   } catch {
     return { data: await loadMockHomepage(), isMock: true };
   }
-}
-
-export async function getNavigation(): Promise<{ data: Navigation; isMock: boolean }> {
-  // Use static navigation for now (can be made dynamic later)
-  return { data: await loadMockNavigation(), isMock: false };
 }
 
 export async function getHubs(): Promise<{ data: DeltaHub[]; isMock: boolean }> {
