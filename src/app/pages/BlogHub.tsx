@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { motion, useInView } from "motion/react";
-import { ArrowRight, BookOpen, Search, TrendingUp, Newspaper, Calendar } from "lucide-react";
+import { ArrowRight, BookOpen, TrendingUp, Newspaper, Calendar } from "lucide-react";
 import { getPosts } from "../lib/deltaApi";
 import type { BlogPost } from "../lib/types";
 import { D } from "../Root";
@@ -80,9 +80,6 @@ export function BlogHub() {
             <div className="flex items-center justify-center gap-3 flex-wrap">
               <Link to="/blog" className="px-6 py-3 rounded-2xl flex items-center gap-2 transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff", fontWeight: 600 }}>
                 Εξερευνήστε Όλα τα Άρθρα <ArrowRight size={16} />
-              </Link>
-              <Link to="/blog?search=" className="px-6 py-3 rounded-2xl flex items-center gap-2 transition-all hover:opacity-90" style={{ background: D.surface, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600 }}>
-                <Search size={16} /> Αναζήτηση
               </Link>
             </div>
           </motion.div>
