@@ -94,29 +94,24 @@ const proseStyles = `
     max-width: 100%;
     height: auto;
   }
+  .article-body .TyagGW_tableContainer,
+  .article-body .TyagGW_tableWrapper,
   .article-body .wp-block-table,
-  .article-body figure:has(table),
-  .article-body pre,
-  .article-body .wp-block-preformatted {
-    display: block;
+  .article-body figure:has(table) {
     width: 100%;
-    max-width: 100%;
     overflow-x: auto;
-    margin: 1.75rem 0 2rem;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
+    margin: 1.35rem 0 2rem;
   }
   .article-body table {
     width: 100%;
     min-width: 36rem;
     border-collapse: separate;
     border-spacing: 0;
-    overflow: hidden;
+    background: ${D.surfaceStrong};
     border: 1px solid ${D.border};
     border-radius: 1rem;
-    background: ${D.surfaceStrong};
-    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05);
+    overflow: hidden;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.05);
   }
   .article-body table caption {
     caption-side: bottom;
@@ -131,29 +126,25 @@ const proseStyles = `
   .article-body table tr:first-child td {
     background: rgba(29, 78, 216, 0.06);
     color: ${D.ink};
-    font-family: var(--font-body);
-    font-size: 0.86rem;
-    font-weight: 750;
-    line-height: 1.45;
-    padding: 0.9rem 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.95rem 1rem;
     text-align: left;
     border-bottom: 1px solid ${D.border};
   }
   .article-body tbody td,
   .article-body tbody th {
-    padding: 0.85rem 1rem;
+    padding: 0.9rem 1rem;
+    vertical-align: top;
     border-bottom: 1px solid ${D.border};
     color: ${D.inkSoft};
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    line-height: 1.55;
+    font-size: 0.98rem;
+    line-height: 1.6;
     text-align: left;
-    vertical-align: top;
-    background: rgba(255,255,255,0.9);
-  }
-  .article-body tbody tr:nth-child(even) td,
-  .article-body tbody tr:nth-child(even) th {
-    background: rgba(248, 250, 255, 0.9);
+    background: rgba(255,255,255,0.88);
   }
   .article-body tbody tr:last-child td,
   .article-body tbody tr:last-child th {
@@ -161,11 +152,22 @@ const proseStyles = `
   }
   .article-body table th:first-child,
   .article-body table td:first-child {
+    width: 28%;
+    min-width: 11rem;
     font-weight: 700;
     color: ${D.ink};
+    background: rgba(248, 250, 255, 0.92);
   }
   .article-body pre,
   .article-body .wp-block-preformatted {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 1.75rem 0 2rem;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
     padding: 0.9rem 1rem;
     border-radius: 1rem;
     background: ${D.surfaceStrong};
@@ -179,26 +181,24 @@ const proseStyles = `
       margin-right: 0.32rem;
       margin-top: 0.08rem;
     }
+    .article-body .TyagGW_tableContainer,
+    .article-body .TyagGW_tableWrapper,
     .article-body .wp-block-table,
     .article-body figure:has(table),
     .article-body pre,
     .article-body .wp-block-preformatted {
-      margin-left: -0.25rem;
-      margin-right: -0.25rem;
-      padding-bottom: 0.35rem;
+      margin-left: 0;
+      margin-right: 0;
     }
     .article-body table {
-      min-width: 34rem;
-      border-radius: 0.85rem;
+      min-width: 32rem;
     }
     .article-body thead th,
     .article-body table tr:first-child th,
     .article-body table tr:first-child td,
     .article-body tbody td,
     .article-body tbody th {
-      padding: 0.75rem 0.8rem;
-      font-size: 0.88rem;
-      line-height: 1.5;
+      padding: 0.8rem 0.85rem;
     }
   }
 `;
