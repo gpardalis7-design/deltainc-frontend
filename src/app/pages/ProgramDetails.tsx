@@ -18,6 +18,16 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
 }
 
+function isPublicUniversityProgram(program: Program | null): boolean {
+  if (!program) return false;
+
+  const uniTypeTerms = program.taxonomies.uniType;
+  if (uniTypeTerms.some((term) => term.slug === "public")) return true;
+
+  const normalizedUniType = program.summary.uniType.trim().toLowerCase();
+  return normalizedUniType === "δημόσιο" || normalizedUniType === "δημόσια πανεπιστήμια";
+}
+
 const modeColors: Record<string, string> = {
   "Υβριδικό": "#7c3aed",
   "Εξ Αποστάσεως": "#0891b2",
@@ -288,7 +298,15 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
 
 // ─── Quick Info Sidebar Card ──────────────────────────────────────────────────
 
-function QuickInfoCard({ program, onRequestInfo }: { program: Program; onRequestInfo: () => void }) {
+function QuickInfoCard({
+  program,
+  onRequestInfo,
+  showInfoRequestButton = true,
+}: {
+  program: Program;
+  onRequestInfo: () => void;
+  showInfoRequestButton?: boolean;
+}) {
   return (
     <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
       <h3 className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>
@@ -367,19 +385,21 @@ function QuickInfoCard({ program, onRequestInfo }: { program: Program; onRequest
         </div>
       )}
 
-      <button
-        onClick={() => {
-          trackCtaClick("Ζήτα Πληροφορίες", "program_sidebar", {
-            program_title: program.title,
-            university: program.summary.university,
-          });
-          onRequestInfo();
-        }}
-        className="w-full py-3.5 rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2"
-        style={{ background: D.ink, color: "#fff", fontWeight: 700 }}
-      >
-        Ζήτα Πληροφορίες <ArrowRight size={15} />
-      </button>
+      {showInfoRequestButton && (
+        <button
+          onClick={() => {
+            trackCtaClick("Ζήτα Πληροφορίες", "program_sidebar", {
+              program_title: program.title,
+              university: program.summary.university,
+            });
+            onRequestInfo();
+          }}
+          className="w-full py-3.5 rounded-xl text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2"
+          style={{ background: D.ink, color: "#fff", fontWeight: 700 }}
+        >
+          Ζήτα Πληροφορίες <ArrowRight size={15} />
+        </button>
+      )}
     </div>
   );
 }
@@ -438,15 +458,16 @@ export function ProgramDetails() {
   const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "curriculum" | "admissions" | "outcomes" | "faq">("overview");
   const [showModal, setShowModal] = useState(false);
+  const hideInfoRequestCta = isPublicUniversityProgram(program);
 
   // Configure sticky bottom CTA
   usePageNavigation({
     mode: "content",
     cta: {
-      text: "Ζήτα Πληροφορίες",
+      text: hideInfoRequestCta ? "" : "Ζήτα Πληροφορίες",
       action: () => setShowModal(true),
     },
-    showStickyBottom: true,
+    showStickyBottom: !hideInfoRequestCta,
   });
 
   // Fetch program
@@ -861,13 +882,21 @@ export function ProgramDetails() {
             className="hidden lg:block w-80 shrink-0 py-12"
             style={{ position: "sticky", top: "5.5rem", maxHeight: "calc(100vh - 7rem)", overflowY: "auto" }}
           >
-            <QuickInfoCard program={program} onRequestInfo={() => setShowModal(true)} />
+            <QuickInfoCard
+              program={program}
+              onRequestInfo={() => setShowModal(true)}
+              showInfoRequestButton={!hideInfoRequestCta}
+            />
           </aside>
         </div>
 
         {/* Mobile Quick Info (below content) */}
         <div className="lg:hidden pb-12">
-          <QuickInfoCard program={program} onRequestInfo={() => setShowModal(true)} />
+          <QuickInfoCard
+            program={program}
+            onRequestInfo={() => setShowModal(true)}
+            showInfoRequestButton={!hideInfoRequestCta}
+          />
         </div>
       </div>
 
