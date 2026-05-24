@@ -9,7 +9,6 @@ import { MockBadge } from "../components/MockBadge";
 import { SeoHead } from "../components/SeoHead";
 import { blogIndexSeo } from "../lib/seo";
 import { D } from "../Root";
-import { Pagination } from "../components/Pagination";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
 import { FeaturedOverlayArticleCard } from "../components/articles/FeaturedOverlayArticleCard";
 
@@ -68,11 +67,12 @@ export function Blog() {
   const search = searchParams.get("search") || "";
   const activeTag = searchParams.get("tag") || "";
   const activeSort = searchParams.get("sort") || "";
-  const page = parseInt(searchParams.get("page") || "1", 10);
   
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [isMock, setIsMock] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [searchInput, setSearchInput] = useState(search);
@@ -97,33 +97,41 @@ export function Blog() {
       prevFiltersRef.current.tag !== activeTag ||
       prevFiltersRef.current.sort !== activeSort;
 
-    // When filters change, always fetch from page 1
-    const fetchPage = filtersChanged ? 1 : page;
-
     if (filtersChanged) {
       prevFiltersRef.current = { hub: activeHub, search, tag: activeTag, sort: activeSort };
-      // Sync page state without triggering another effect run
-      if (page !== 1) {
-        updateParams({ page: undefined });
-        return; // state update will re-run this effect with page=1
+      setPosts([]);
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+        return;
       }
     }
 
-    setLoading(true);
+    const isLoadMore = currentPage > 1;
+    if (isLoadMore) {
+      setLoadingMore(true);
+    } else {
+      setLoading(true);
+    }
+
     getPosts({ 
-      page: fetchPage, 
+      page: currentPage,
       hub: activeHub || undefined, 
       search: search || undefined,
       tag: activeTag || undefined,
       sort: activeSort || undefined,
     }).then(({ data, meta, isMock: m }) => {
-      setPosts(data);
+      setPosts((prev) => (isLoadMore ? [...prev, ...data] : data));
       setTotalPages(meta.totalPages);
       setTotal(meta.total);
       setIsMock(m);
       setLoading(false);
+      setLoadingMore(false);
     });
-  }, [page, activeHub, search, activeTag, activeSort]);
+  }, [currentPage, activeHub, search, activeTag, activeSort]);
+
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
 
   const updateParams = (updates: Record<string, string | number | undefined>) => {
     setSearchParams((prev) => {
@@ -144,6 +152,11 @@ export function Blog() {
     updateParams({ search: searchInput.trim() });
   };
 
+  const handleLoadMore = () => {
+    if (loadingMore || currentPage >= totalPages) return;
+    setCurrentPage((prev) => prev + 1);
+  };
+
   const activeFiltersCount = [activeHub, activeTag, activeSort].filter(Boolean).length;
 
   const clearFilters = () => {
@@ -151,8 +164,10 @@ export function Blog() {
     setSearchInput("");
   };
 
-  const featuredPost = page === 1 && !activeHub && !search && !activeTag && !activeSort ? posts.find((p) => p.isFeatured) : null;
+  const featuredPost = !activeHub && !search && !activeTag && !activeSort ? posts.find((p) => p.isFeatured) : null;
   const gridPosts = featuredPost ? posts.filter((p) => p.id !== featuredPost.id) : posts;
+  const hasMore = currentPage < totalPages;
+  const visibleCount = posts.length;
 
   return (
     <div style={{ background: D.bg }}>
@@ -402,16 +417,41 @@ export function Blog() {
                 ))}
               </div>
 
-              <AnimatedSection>
-                <Pagination
-                  page={page}
-                  totalPages={totalPages}
-                  total={total}
-                  itemLabel="άρθρα"
-                  onPageChange={(p) => updateParams({ page: p === 1 ? undefined : p })}
-                  scrollTargetId="blog-grid"
-                />
-              </AnimatedSection>
+              {hasMore && (
+                <AnimatedSection>
+                  <div className="mt-10 flex flex-col items-center gap-3">
+                    {loadingMore ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+                        {[1, 2, 3].map((i) => (
+                          <Skeleton key={i} className="h-72" />
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-xs md:text-sm text-center mb-1" style={{ color: D.inkSoft }}>
+                          Βλέπετε {visibleCount.toLocaleString("el-GR")} από {total.toLocaleString("el-GR")} άρθρα
+                        </p>
+                        <button
+                          type="button"
+                          onClick={handleLoadMore}
+                          className="group px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.99] flex items-center gap-2"
+                          style={{ background: D.surfaceStrong, color: D.accentStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 10px rgba(15,23,42,0.05)` }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = D.accentSoft;
+                            e.currentTarget.style.borderColor = "rgba(47, 91, 171, 0.28)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = D.surfaceStrong;
+                            e.currentTarget.style.borderColor = D.border;
+                          }}
+                        >
+                          Φόρτωσε περισσότερα άρθρα <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </AnimatedSection>
+              )}
             </div>
           )}
         </div>
