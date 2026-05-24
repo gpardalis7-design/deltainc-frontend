@@ -118,6 +118,7 @@ export interface Program {
   excerpt: string;
   contentHtml: string;
   featuredImage: DeltaMedia | null;
+  universityLogo?: DeltaMedia | null;
   summary: ProgramSummary;
   taxonomies: ProgramTaxonomies;
   sections: {

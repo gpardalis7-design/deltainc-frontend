@@ -333,6 +333,7 @@ function normalizeFeaturedProgramsPayload(payload: unknown): Program[] {
   return items.map((item) => {
     const program = item as Record<string, unknown>;
     const featuredImageRaw = program.featuredImage as Record<string, unknown> | null | undefined;
+    const universityLogoRaw = program.universityLogo as Record<string, unknown> | null | undefined;
     const summaryRaw = (program.summary as Record<string, unknown> | null | undefined) || {};
     const taxonomiesRaw = (program.taxonomies as Record<string, unknown> | null | undefined) || {};
     const sectionsRaw = (program.sections as Record<string, unknown> | null | undefined) || {};
@@ -352,6 +353,16 @@ function normalizeFeaturedProgramsPayload(payload: unknown): Program[] {
             width: Number(featuredImageRaw.width) || 0,
             height: Number(featuredImageRaw.height) || 0,
             mimeType: typeof featuredImageRaw.mimeType === "string" ? featuredImageRaw.mimeType : "",
+          }
+        : null,
+      universityLogo: universityLogoRaw
+        ? {
+            id: Number(universityLogoRaw.id) || 0,
+            url: typeof universityLogoRaw.url === "string" ? universityLogoRaw.url : "",
+            alt: typeof universityLogoRaw.alt === "string" ? universityLogoRaw.alt : "",
+            width: Number(universityLogoRaw.width) || 0,
+            height: Number(universityLogoRaw.height) || 0,
+            mimeType: typeof universityLogoRaw.mimeType === "string" ? universityLogoRaw.mimeType : "",
           }
         : null,
       summary: {
@@ -412,6 +423,7 @@ function normalizeProgramCardPayload(program: Record<string, unknown>): Program 
           mimeType: "",
         }
       : null,
+    universityLogo: null,
     summary: {
       level: typeof summaryRaw.level === "string" ? summaryRaw.level : "",
       category: typeof summaryRaw.category === "string" ? summaryRaw.category : "",

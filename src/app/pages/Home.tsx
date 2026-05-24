@@ -289,20 +289,8 @@ function HubCard({ hub }: { hub: DeltaHub }) {
   );
 }
 
-function extractProgramUniversityLogo(contentHtml: string) {
-  const srcMatch = contentHtml.match(/<img[^>]+src="([^"]+)"/i);
-  if (!srcMatch?.[1]) return null;
-
-  const altMatch = contentHtml.match(/<img[^>]+alt="([^"]*)"/i);
-
-  return {
-    url: srcMatch[1],
-    alt: altMatch?.[1] || "University logo",
-  };
-}
-
 function ProgramCard({ program }: { program: Program }) {
-  const universityLogo = extractProgramUniversityLogo(program.contentHtml);
+  const universityLogo = program.universityLogo;
   const programTags = [program.summary.university, program.summary.category, program.summary.mode].filter(Boolean);
   const durationLabel = program.summary.duration || "—";
   const tuitionLabel = program.summary.tuition ? `€${program.summary.tuition}` : "—";
