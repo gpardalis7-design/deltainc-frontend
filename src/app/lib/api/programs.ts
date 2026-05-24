@@ -9,6 +9,7 @@ import type {
 type ProgramsApiDeps = {
   programsPerPage: number;
   wpApi: string;
+  wpBaseUrl: string;
   buildUrl: (
     base: string,
     path: string,
@@ -23,6 +24,7 @@ type ProgramsApiDeps = {
     program: Record<string, unknown>,
     options: { hubs: DeltaHub[] }
   ) => Program;
+  normalizeProgramCard: (program: Record<string, unknown>) => Program;
   mockHubs: DeltaHub[];
 };
 
@@ -95,6 +97,47 @@ export async function getProgramsApi(
 }> {
   try {
     const programsTimeoutMs = 15000;
+    const lightweightUrl = deps.buildUrl(deps.wpBaseUrl, "/wp-json/delta/v1/program-cards", {
+      page: params.page || 1,
+      per_page: deps.programsPerPage,
+      search: params.q || undefined,
+      program_level: params.level || undefined,
+      program_category: params.category || undefined,
+      program_university: params.university || undefined,
+      program_mode: params.mode || undefined,
+      program_city: params.city || undefined,
+      uni_type: params.uni_type || undefined,
+    });
+
+    const lightweightResult = await deps.tryFetch<Record<string, unknown>>(
+      lightweightUrl,
+      programsTimeoutMs
+    );
+
+    if (lightweightResult && lightweightResult.success === true) {
+      const dataWrapper =
+        typeof lightweightResult.data === "object" && lightweightResult.data !== null
+          ? (lightweightResult.data as Record<string, unknown>)
+          : null;
+      const items = Array.isArray(dataWrapper?.items) ? (dataWrapper?.items as Record<string, unknown>[]) : [];
+      const metaRaw =
+        typeof dataWrapper?.meta === "object" && dataWrapper.meta !== null
+          ? (dataWrapper.meta as Record<string, unknown>)
+          : {};
+
+      return {
+        data: items.map((program) => deps.normalizeProgramCard(program)),
+        meta: {
+          page: Number(metaRaw.page) || params.page || 1,
+          perPage: Number(metaRaw.perPage) || deps.programsPerPage,
+          total: Number(metaRaw.total) || items.length,
+          totalPages: Number(metaRaw.totalPages) || 1,
+        },
+        isMock: false,
+        sourceUnavailable: false,
+      };
+    }
+
     const url = deps.buildUrl(deps.wpApi, "/program", {
       page: params.page || 1,
       per_page: deps.programsPerPage,

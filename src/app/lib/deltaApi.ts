@@ -391,6 +391,63 @@ function normalizeFeaturedProgramsPayload(payload: unknown): Program[] {
   });
 }
 
+function normalizeProgramCardPayload(program: Record<string, unknown>): Program {
+  const featuredImageRaw = program.featuredImage as Record<string, unknown> | null | undefined;
+  const summaryRaw = (program.summary as Record<string, unknown> | null | undefined) || {};
+
+  return {
+    id: Number(program.id) || 0,
+    slug: decodeMaybeEncodedSlug(program.slug),
+    url: typeof program.url === "string" ? program.url : "",
+    title: decodeHtmlEntities(typeof program.title === "string" ? program.title : ""),
+    excerpt: "",
+    contentHtml: "",
+    featuredImage: featuredImageRaw
+      ? {
+          id: 0,
+          url: typeof featuredImageRaw.url === "string" ? featuredImageRaw.url : "",
+          alt: typeof featuredImageRaw.alt === "string" ? featuredImageRaw.alt : "",
+          width: 0,
+          height: 0,
+          mimeType: "",
+        }
+      : null,
+    summary: {
+      level: typeof summaryRaw.level === "string" ? summaryRaw.level : "",
+      category: typeof summaryRaw.category === "string" ? summaryRaw.category : "",
+      university: typeof summaryRaw.university === "string" ? summaryRaw.university : "",
+      mode: typeof summaryRaw.mode === "string" ? summaryRaw.mode : "",
+      city: typeof summaryRaw.city === "string" ? summaryRaw.city : "",
+      uniType: typeof summaryRaw.uniType === "string" ? summaryRaw.uniType : "",
+      tuition: typeof summaryRaw.tuition === "string" ? summaryRaw.tuition : "",
+      duration: typeof summaryRaw.duration === "string" ? summaryRaw.duration : "",
+      language: typeof summaryRaw.language === "string" ? summaryRaw.language : "",
+      deadline: typeof summaryRaw.deadline === "string" ? summaryRaw.deadline : "",
+      format: typeof summaryRaw.format === "string" ? summaryRaw.format : "",
+    },
+    taxonomies: {
+      level: [],
+      category: [],
+      university: [],
+      mode: [],
+      city: [],
+      uniType: [],
+    },
+    sections: {
+      overview: "",
+      curriculum: "",
+      admissions: "",
+      outcomes: "",
+      faq: "",
+    },
+    hub: null,
+    isFeatured: false,
+    publishedAt: "",
+    updatedAt: "",
+    seo: null,
+  };
+}
+
 export async function getFeaturedPrograms(
   limit = 3
 ): Promise<{ data: Program[]; isMock: boolean }> {
@@ -429,10 +486,12 @@ export async function getPrograms(params: ProgramsParams = {}): Promise<{ data: 
   return getProgramsApi(params, {
     programsPerPage: PROGRAMS_PER_PAGE,
     wpApi: WP_API,
+    wpBaseUrl: WP_BASE_URL,
     buildUrl,
     tryFetch,
     tryFetchWithHeaders,
     normalizeWpProgram,
+    normalizeProgramCard: normalizeProgramCardPayload,
     mockHubs: MOCK_HUBS,
   });
 }
@@ -441,10 +500,12 @@ export async function getProgram(slug: string): Promise<{ data: Program | null; 
   return getProgramApi(slug, {
     programsPerPage: PROGRAMS_PER_PAGE,
     wpApi: WP_API,
+    wpBaseUrl: WP_BASE_URL,
     buildUrl,
     tryFetch,
     tryFetchWithHeaders,
     normalizeWpProgram,
+    normalizeProgramCard: normalizeProgramCardPayload,
     mockHubs: MOCK_HUBS,
   });
 }
