@@ -14,6 +14,7 @@ import { CompactArticleListItem } from "../components/articles/CompactArticleLis
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
+import { useNavigation } from "../lib/navigationContext";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
@@ -392,6 +393,8 @@ export function Home() {
   const [isPathChooserOpen, setIsPathChooserOpen] = useState(false);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
   const { hubs: categoryHubs, isMock: categoriesAreMock } = useCategories();
+  const { setShowStickyBottom } = useNavigation();
+  const heroPrimaryCtaRef = useRef<HTMLAnchorElement | null>(null);
 
   // Configure navigation for content mode
   usePageNavigation({
@@ -408,6 +411,60 @@ export function Home() {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (loading || !data) return;
+
+    const syncHomeStickyVisibility = () => {
+      if (typeof window === "undefined") return;
+
+      if (window.innerWidth >= 1024) {
+        setShowStickyBottom(true);
+        return;
+      }
+
+      const ctaRect = heroPrimaryCtaRef.current?.getBoundingClientRect();
+      if (!ctaRect) {
+        setShowStickyBottom(true);
+        return;
+      }
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const isVisible = ctaRect.bottom > 0 && ctaRect.top < viewportHeight;
+      setShowStickyBottom(!isVisible);
+    };
+
+    syncHomeStickyVisibility();
+
+    const observer = typeof IntersectionObserver !== "undefined"
+      ? new IntersectionObserver(
+          ([entry]) => {
+            if (typeof window === "undefined") return;
+            if (window.innerWidth >= 1024) {
+              setShowStickyBottom(true);
+              return;
+            }
+            setShowStickyBottom(!entry.isIntersecting);
+          },
+          { threshold: 0.01 },
+        )
+      : null;
+
+    const observedElement = heroPrimaryCtaRef.current;
+    if (observer && observedElement) {
+      observer.observe(observedElement);
+    }
+
+    window.addEventListener("resize", syncHomeStickyVisibility);
+    window.addEventListener("orientationchange", syncHomeStickyVisibility);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", syncHomeStickyVisibility);
+      window.removeEventListener("orientationchange", syncHomeStickyVisibility);
+      setShowStickyBottom(true);
+    };
+  }, [data, loading, setShowStickyBottom]);
 
   if (loading) {
     return <PageLoader />;
@@ -482,6 +539,7 @@ export function Home() {
 
               <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                 <Link 
+                  ref={heroPrimaryCtaRef}
                   to={hero.primaryCta.url} 
                   onClick={() => trackCtaClick(hero.primaryCta.label, "home_hero_primary", { cta_target: hero.primaryCta.url })}
                   className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95"
