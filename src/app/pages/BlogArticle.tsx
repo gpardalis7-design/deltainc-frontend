@@ -73,8 +73,9 @@ const proseStyles = `
     letter-spacing: -0.03em;
   }
   .article-body p.standfirst { font-family: var(--font-body); font-size: 1.2rem; line-height: 1.7; color: ${D.ink}; margin-bottom: 2rem; font-weight: 500; }
-  .article-body h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: ${D.ink}; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.25; }
-  .article-body h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; color: ${D.ink}; margin-top: 1.75rem; margin-bottom: 0.6rem; line-height: 1.3; }
+  .article-body h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: ${D.accentStrong}; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.25; }
+  .article-body h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; color: ${D.accentStrong}; margin-top: 1.75rem; margin-bottom: 0.6rem; line-height: 1.3; }
+  .article-body h4 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: ${D.accentStrong}; margin-top: 1.4rem; margin-bottom: 0.5rem; line-height: 1.35; }
   .article-body ul, .article-body ol { margin-bottom: 1.4rem; padding-left: 0; list-style: none; }
   .article-body ul li, .article-body ol li { font-family: var(--font-body); position: relative; padding-left: 1.5rem; margin-bottom: 0.55rem; line-height: 1.7; color: ${D.inkSoft}; font-size: 1.0125rem; }
   .article-body ul li::before { content: '·'; position: absolute; left: 0.4rem; color: ${D.accent}; font-size: 1.4rem; line-height: 1.1; }
@@ -698,7 +699,7 @@ export function BlogArticle() {
 
                   <h1
                     className="type-display-hero mb-4"
-                    style={{ fontSize: "clamp(1.8rem, 5.5vw, 2.55rem)", letterSpacing: "-0.035em", lineHeight: 1.08, color: D.ink }}
+                    style={{ fontSize: "clamp(1.8rem, 5.5vw, 2.55rem)", letterSpacing: "-0.035em", lineHeight: 1.08, color: D.accentStrong }}
                   >
                     {post.title}
                   </h1>
@@ -778,7 +779,7 @@ export function BlogArticle() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="type-display-hero mb-6 md:mb-8"
-                style={{ fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)", letterSpacing: "-0.035em", lineHeight: 1.1, color: D.ink, maxWidth: "900px" }}
+                style={{ fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)", letterSpacing: "-0.035em", lineHeight: 1.1, color: D.accentStrong, maxWidth: "900px" }}
               >
                 {post.title}
               </motion.h1>
