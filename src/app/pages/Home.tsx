@@ -720,23 +720,26 @@ export function Home() {
       <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homeEditorial}>
         <div className="max-w-7xl mx-auto">
           <AnimatedSection>
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-7 md:mb-8">
+            <div className="flex flex-col gap-3 mb-7 md:mb-8">
               <div>
                 <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Επιλεγμένη καθοδήγηση</div>
                 <h2 className="type-display-section" style={{ fontSize: "clamp(1.35rem, 3vw, 1.85rem)", color: D.ink }}>
-                  Διαβάστε πρώτα τα πιο χρήσιμα θέματα
+                  Ξεκινήστε από το σωστό θέμα
                 </h2>
+                <p className="max-w-xl text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                  Επιλέξτε μία κατηγορία και δείτε το βασικό άρθρο που αξίζει να διαβάσετε πρώτο.
+                </p>
               </div>
-              <p className="max-w-xl text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                Αντί για γενικό feed, η αρχική προβάλλει επιλεγμένα άρθρα που βοηθούν τον επισκέπτη να συνεχίσει προς τη σωστή υπηρεσία ή το σωστό hub.
-              </p>
             </div>
           </AnimatedSection>
 
           {selectedEditorialPost && (
-            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(300px,0.92fr)] gap-5 md:gap-6 items-start">
+            <div className="flex flex-col gap-5 md:gap-6">
               <AnimatedSection>
                 <div className="flex flex-col gap-4">
+                  <div className="type-eyebrow" style={{ color: D.inkSoft }}>
+                    Επιλέξτε κατηγορία
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {editorialEntries.map(({ slug, post }) => (
                       <button
@@ -755,17 +758,22 @@ export function Home() {
                         }}
                         className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs transition-all duration-200"
                         style={{
-                          background: selectedEditorialPost.hub?.slug === slug ? D.ink : D.surfaceStrong,
-                          border: `1px solid ${selectedEditorialPost.hub?.slug === slug ? D.ink : D.border}`,
-                          color: selectedEditorialPost.hub?.slug === slug ? "#fff" : D.inkSoft,
+                          background: selectedEditorialPost.hub?.slug === slug ? "rgba(37,99,235,0.12)" : "rgba(255,255,255,0.9)",
+                          border: `1px solid ${selectedEditorialPost.hub?.slug === slug ? "rgba(37,99,235,0.32)" : "rgba(148,163,184,0.22)"}`,
+                          color: selectedEditorialPost.hub?.slug === slug ? D.accentStrong : D.inkSoft,
                           fontWeight: 700,
+                          boxShadow: selectedEditorialPost.hub?.slug === slug ? "0 6px 18px rgba(37,99,235,0.12)" : "0 2px 10px rgba(15,23,42,0.04)",
                         }}
                       >
                         {post.hub?.name || PATH_CONFIG[slug].eyebrow}
                       </button>
                     ))}
                   </div>
+                </div>
+              </AnimatedSection>
 
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(300px,0.92fr)] gap-5 md:gap-6 items-start">
+                <AnimatedSection>
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={selectedEditorialPost.id}
@@ -782,50 +790,55 @@ export function Home() {
                       />
                     </motion.div>
                   </AnimatePresence>
-                </div>
-              </AnimatedSection>
+                </AnimatedSection>
 
-              <div className="grid grid-cols-1 gap-3 md:gap-4">
-                {latestPosts.map((post, i) => (
-                  <AnimatedSection key={post.id} delay={i * 0.08}>
-                    <div
-                      className="rounded-[22px] p-3 md:p-3.5"
-                      style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}` }}
-                    >
-                      <CompactArticleListItem
-                        post={post}
-                        dateLabel={formatDate(post.publishedAt)}
-                        showCategoryLabel
-                      />
+                <div className="grid grid-cols-1 gap-3 md:gap-4">
+                  <AnimatedSection>
+                    <div className="type-eyebrow" style={{ color: D.inkSoft }}>
+                      Τελευταία Άρθρα
                     </div>
                   </AnimatedSection>
-                ))}
-                <AnimatedSection delay={0.18}>
-                  <div className="rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between" style={{ background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}` }}>
-                    <div>
-                      <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
-                        Περισσότερο περιεχόμενο
-                      </div>
-                      <h3 className="type-display-card" style={{ fontSize: "1.15rem", letterSpacing: "-0.025em", color: D.ink, lineHeight: 1.25 }}>
-                        Συνεχίστε με όλους τους οδηγούς και τα άρθρα
-                      </h3>
-                      <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                        Μπείτε στη συνολική βιβλιοθήκη περιεχομένου για να βρείτε το επόμενο σχετικό θέμα, ανά hub ή ανά ανάγκη.
-                      </p>
-                    </div>
-                    <div className="pt-5 mt-5" style={{ borderTop: `1px solid ${D.border}` }}>
-                      <Link
-                        to="/blog"
-                        onClick={() => trackCtaClick("Όλα τα άρθρα", "home_editorial_more_articles", { cta_target: "/blog" })}
-                        className="inline-flex items-center gap-2 text-sm"
-                        style={{ color: D.accentStrong, fontWeight: 700 }}
+                  {latestPosts.map((post, i) => (
+                    <AnimatedSection key={post.id} delay={i * 0.08}>
+                      <div
+                        className="rounded-[22px] p-3 md:p-3.5"
+                        style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}` }}
                       >
-                        Όλα τα άρθρα
-                        <ChevronRight size={14} />
-                      </Link>
+                        <CompactArticleListItem
+                          post={post}
+                          dateLabel={formatDate(post.publishedAt)}
+                          showCategoryLabel
+                        />
+                      </div>
+                    </AnimatedSection>
+                  ))}
+                  <AnimatedSection delay={0.18}>
+                    <div className="rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between" style={{ background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}` }}>
+                      <div>
+                        <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
+                          Περισσότερο περιεχόμενο
+                        </div>
+                        <h3 className="type-display-card" style={{ fontSize: "1.15rem", letterSpacing: "-0.025em", color: D.ink, lineHeight: 1.25 }}>
+                          Συνεχίστε με όλους τους οδηγούς και τα άρθρα
+                        </h3>
+                        <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                          Μπείτε στη συνολική βιβλιοθήκη περιεχομένου για να βρείτε το επόμενο σχετικό θέμα, ανά hub ή ανά ανάγκη.
+                        </p>
+                      </div>
+                      <div className="pt-5 mt-5" style={{ borderTop: `1px solid ${D.border}` }}>
+                        <Link
+                          to="/blog"
+                          onClick={() => trackCtaClick("Όλα τα άρθρα", "home_editorial_more_articles", { cta_target: "/blog" })}
+                          className="inline-flex items-center gap-2 text-sm"
+                          style={{ color: D.accentStrong, fontWeight: 700 }}
+                        >
+                          Όλα τα άρθρα
+                          <ChevronRight size={14} />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </AnimatedSection>
+                  </AnimatedSection>
+                </div>
               </div>
             </div>
           )}
