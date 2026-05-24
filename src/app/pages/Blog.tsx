@@ -10,7 +10,8 @@ import { SeoHead } from "../components/SeoHead";
 import { blogIndexSeo } from "../lib/seo";
 import { D } from "../Root";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
-import { FeaturedOverlayArticleCard } from "../components/articles/FeaturedOverlayArticleCard";
+
+const REGULAR_POSTS_BATCH = 6;
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "short", year: "numeric" });
@@ -30,21 +31,7 @@ function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`rounded-xl animate-pulse ${className}`} style={{ background: "rgba(19,35,58,0.07)" }} />;
 }
 
-function PostCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
-  if (featured) {
-    return (
-      <FeaturedOverlayArticleCard
-        post={post}
-        dateLabel={formatDate(post.publishedAt)}
-        imageHeight="340px"
-        titleClassName="text-white mb-3 max-w-xl"
-        titleStyle={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)", letterSpacing: "-0.025em", lineHeight: 1.25 }}
-        excerptClassName="text-sm mb-4 max-w-lg"
-        excerptStyle={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}
-      />
-    );
-  }
-
+function PostCard({ post }: { post: BlogPost }) {
   return (
     <StackedArticleCard
       post={post}
@@ -68,12 +55,13 @@ export function Blog() {
   const activeTag = searchParams.get("tag") || "";
   const activeSort = searchParams.get("sort") || "";
   
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [regularPosts, setRegularPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [isMock, setIsMock] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [requestOffset, setRequestOffset] = useState(0);
+  const [cursorOffset, setCursorOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
   const [total, setTotal] = useState(0);
   const [searchInput, setSearchInput] = useState(search);
   const [showFilters, setShowFilters] = useState(false);
@@ -99,35 +87,54 @@ export function Blog() {
 
     if (filtersChanged) {
       prevFiltersRef.current = { hub: activeHub, search, tag: activeTag, sort: activeSort };
-      setPosts([]);
-      if (currentPage !== 1) {
-        setCurrentPage(1);
+      setRegularPosts([]);
+      setHasMore(false);
+      setTotal(0);
+      setCursorOffset(0);
+      if (requestOffset !== 0) {
+        setRequestOffset(0);
         return;
       }
     }
 
-    const isLoadMore = currentPage > 1;
+    const isLoadMore = requestOffset > 0;
     if (isLoadMore) {
       setLoadingMore(true);
     } else {
       setLoading(true);
     }
 
-    getPosts({ 
-      page: currentPage,
-      hub: activeHub || undefined, 
-      search: search || undefined,
-      tag: activeTag || undefined,
-      sort: activeSort || undefined,
-    }).then(({ data, meta, isMock: m }) => {
-      setPosts((prev) => (isLoadMore ? [...prev, ...data] : data));
-      setTotalPages(meta.totalPages);
+    let cancelled = false;
+
+    const loadBatch = async () => {
+      const { data, meta, isMock: m } = await getPosts({
+        offset: requestOffset,
+        perPage: REGULAR_POSTS_BATCH,
+        hub: activeHub || undefined,
+        search: search || undefined,
+        tag: activeTag || undefined,
+        sort: activeSort || undefined,
+      });
+
+      if (cancelled) return;
+
+      const nextCursor = requestOffset + data.length;
+
+      setRegularPosts((prev) => (isLoadMore ? [...prev, ...data] : data));
+      setCursorOffset(nextCursor);
+      setHasMore(nextCursor < meta.total);
       setTotal(meta.total);
       setIsMock(m);
       setLoading(false);
       setLoadingMore(false);
-    });
-  }, [currentPage, activeHub, search, activeTag, activeSort]);
+    };
+
+    void loadBatch();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [requestOffset, activeHub, search, activeTag, activeSort]);
 
   useEffect(() => {
     setSearchInput(search);
@@ -153,8 +160,8 @@ export function Blog() {
   };
 
   const handleLoadMore = () => {
-    if (loadingMore || currentPage >= totalPages) return;
-    setCurrentPage((prev) => prev + 1);
+    if (loadingMore || !hasMore) return;
+    setRequestOffset(cursorOffset);
   };
 
   const activeFiltersCount = [activeHub, activeTag, activeSort].filter(Boolean).length;
@@ -164,10 +171,7 @@ export function Blog() {
     setSearchInput("");
   };
 
-  const featuredPost = !activeHub && !search && !activeTag && !activeSort ? posts.find((p) => p.isFeatured) : null;
-  const gridPosts = featuredPost ? posts.filter((p) => p.id !== featuredPost.id) : posts;
-  const hasMore = currentPage < totalPages;
-  const visibleCount = posts.length;
+  const visibleCount = regularPosts.length;
 
   return (
     <div style={{ background: D.bg }}>
@@ -386,13 +390,10 @@ export function Blog() {
       <section className="px-6 py-12 pb-24">
         <div className="max-w-7xl mx-auto">
           {loading ? (
-            <div className="space-y-6">
-              <Skeleton className="w-full h-80" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {[1, 2, 3, 4, 5, 6].map((i) => <Skeleton key={i} className="h-72" />)}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[1, 2, 3, 4, 5, 6].map((i) => <Skeleton key={i} className="h-72" />)}
             </div>
-          ) : posts.length === 0 ? (
+          ) : regularPosts.length === 0 ? (
             <div className="text-center py-24">
               <p className="mb-4" style={{ color: D.inkSoft }}>Δεν βρέθηκαν άρθρα με τα επιλεγμένα κριτήρια.</p>
               {activeFiltersCount > 0 && (
@@ -403,14 +404,8 @@ export function Blog() {
             </div>
           ) : (
             <div className="space-y-8">
-              {featuredPost && (
-                <AnimatedSection>
-                  <PostCard post={featuredPost} featured />
-                </AnimatedSection>
-              )}
-
               <div id="blog-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {gridPosts.map((post, i) => (
+                {regularPosts.map((post, i) => (
                   <AnimatedSection key={post.id} delay={i * 0.06}>
                     <PostCard post={post} />
                   </AnimatedSection>
