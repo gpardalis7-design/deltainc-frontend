@@ -143,6 +143,7 @@ type HubViewProps = {
   displayName: string;
   displayH1: string;
   displayIntro: string;
+  heroSectionRef: React.RefObject<HTMLElement | null>;
   displayStats: { label: string; value: string }[];
   displayUrgentInfo?: {
     eyebrow?: string;
@@ -199,6 +200,7 @@ function GuidedHubView({
   displayName,
   displayH1,
   displayIntro,
+  heroSectionRef,
   displayStats,
   displayUrgentInfo,
   displayKeyTopics,
@@ -237,6 +239,7 @@ function GuidedHubView({
   return (
     <div style={{ background: D.bg }}>
       <section
+        ref={heroSectionRef}
         className="pt-24 relative overflow-hidden"
         style={{ background: `linear-gradient(145deg, ${D.ink} 0%, ${D.heroMid} 58%, ${D.heroTo} 100%)` }}
       >
@@ -543,6 +546,7 @@ function EditorialHubView({
   displayName,
   displayH1,
   displayIntro,
+  heroSectionRef,
   activeFiltersCount,
   activeSort,
   activeTag,
@@ -569,6 +573,7 @@ function EditorialHubView({
   return (
     <div style={{ background: D.bg }}>
       <section
+        ref={heroSectionRef}
         className="pt-24 relative overflow-hidden"
         style={{ background: `linear-gradient(145deg, ${D.ink} 0%, ${D.heroMid} 58%, ${D.heroTo} 100%)` }}
       >
@@ -1064,7 +1069,7 @@ export function Hub() {
   const navigate = useNavigate();
   const { hubSlug } = useParams<{ hubSlug: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { openModal } = useNavigation();
+  const { openModal, setShowStickyBottom } = useNavigation();
   const search = searchParams.get("search") || "";
   const activeSort = searchParams.get("sort") || "";
   const activeTag = searchParams.get("tag") || "";
@@ -1082,6 +1087,7 @@ export function Hub() {
   const [showFilters, setShowFilters] = useState(false);
   const startHereRef = useRef<HTMLDivElement | null>(null);
   const topicSectionRef = useRef<HTMLDivElement | null>(null);
+  const heroSectionRef = useRef<HTMLElement | null>(null);
   const pendingTopicScrollRef = useRef(false);
 
   // Live categories from context — contains real WP names, slugs, wpCategoryId
@@ -1134,6 +1140,35 @@ export function Hub() {
   useEffect(() => {
     setSearchInput(search);
   }, [search]);
+
+  useEffect(() => {
+    const syncMobileStickyVisibility = () => {
+      if (typeof window === "undefined") return;
+
+      if (window.innerWidth >= 1024) {
+        setShowStickyBottom(true);
+        return;
+      }
+
+      const heroBottom = heroSectionRef.current?.getBoundingClientRect().bottom;
+      if (typeof heroBottom !== "number") {
+        setShowStickyBottom(true);
+        return;
+      }
+
+      const navbarClearance = 104;
+      setShowStickyBottom(heroBottom <= navbarClearance);
+    };
+
+    syncMobileStickyVisibility();
+    window.addEventListener("scroll", syncMobileStickyVisibility, { passive: true });
+    window.addEventListener("resize", syncMobileStickyVisibility);
+
+    return () => {
+      window.removeEventListener("scroll", syncMobileStickyVisibility);
+      window.removeEventListener("resize", syncMobileStickyVisibility);
+    };
+  }, [hubSlug, setShowStickyBottom]);
 
   // Track filters and reset when they change
   const prevFiltersRef = useRef({ search, sort: activeSort, tag: activeTag });
@@ -1540,6 +1575,7 @@ export function Hub() {
     displayName,
     displayH1,
     displayIntro,
+    heroSectionRef,
     displayStats,
     displayUrgentInfo,
     displayKeyTopics,
