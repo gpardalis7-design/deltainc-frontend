@@ -543,14 +543,10 @@ function EditorialHubView({
   displayName,
   displayH1,
   displayIntro,
-  editorialFeaturedTag,
   activeFiltersCount,
   activeSort,
   activeTag,
   clearFilters,
-  featured,
-  featuredEyebrow,
-  featuredLoading,
   handleLoadMore,
   handleSearch,
   hasMore,
@@ -570,12 +566,6 @@ function EditorialHubView({
   total,
   updateParams,
 }: HubViewProps) {
-  const hasFeatured = Boolean(featured);
-  const secondaryEditorialPosts = rest.slice(0, 2);
-  const editorialGridPosts = secondaryEditorialPosts.length > 0
-    ? rest.filter((post) => !secondaryEditorialPosts.some((secondary) => secondary.id === post.id))
-    : rest;
-
   return (
     <div style={{ background: D.bg }}>
       <section
@@ -614,7 +604,7 @@ function EditorialHubView({
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
-                onClick={() => document.getElementById("hub-articles")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                onClick={() => startHereRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all hover:opacity-90"
                 style={{ background: D.accent, color: D.ink, fontWeight: 700 }}
               >
@@ -738,73 +728,10 @@ function EditorialHubView({
         </div>
       </section>
 
-      {editorialFeaturedTag && (
-        <section className="px-6 py-6" style={sectionSurfaces.hubTopics}>
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
-              <div>
-                <div className="type-eyebrow mb-1" style={{ color: D.inkSoft }}>Περιηγηθείτε σε</div>
-                <h2 className="type-display-card" style={{ color: D.ink, fontSize: "1rem" }}>
-                  Επιλεγμένο περιεχόμενο της κατηγορίας
-                </h2>
-              </div>
-              {activeFiltersCount > 0 && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="text-xs transition-colors"
-                  style={{ color: D.accentStrong, fontWeight: 700 }}
-                >
-                  Καθαρισμός φίλτρων
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <button
-                type="button"
-                onClick={() => updateParams({ tag: activeTag === editorialFeaturedTag.slug ? undefined : editorialFeaturedTag.slug })}
-                className="shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-full text-xs transition-all"
-                style={activeTag === editorialFeaturedTag.slug
-                  ? { background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}55`, fontWeight: 700 }
-                  : { background: D.surfaceStrong, color: D.inkSoft, border: `1px solid ${D.border}` }}
-              >
-                <span>{editorialFeaturedTag.label}</span>
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {secondaryEditorialPosts.length > 0 && (
-        <section className="px-6 py-10" style={sectionSurfaces.hubEditorialSecondary}>
-          <div className="max-w-7xl mx-auto">
-            <Fade>
-              <div className="flex items-center justify-between gap-3 mb-5 flex-wrap">
-                <div>
-                  <div className="type-eyebrow mb-1" style={{ color: D.inkSoft }}>Συνεχίστε με</div>
-                  <h2 className="type-display-card" style={{ color: D.ink, fontSize: "1rem" }}>
-                    Επιλεγμένα άρθρα από την ίδια ενότητα
-                  </h2>
-                </div>
-              </div>
-            </Fade>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {secondaryEditorialPosts.map((post, index) => (
-                <Fade key={post.id} delay={index * 0.06}>
-                  <PostCard post={post} />
-                </Fade>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       <HubArticlesSection
         displayName={displayName}
-        featured={featured}
-        featuredLoading={featuredLoading}
+        featured={undefined}
+        featuredLoading={false}
         handleLoadMore={handleLoadMore}
         hasMore={hasMore}
         isFiltered={activeFiltersCount > 0}
@@ -812,18 +739,17 @@ function EditorialHubView({
         loadingMore={loadingMore}
         posts={posts}
         remainingCount={remainingCount}
-        rest={editorialGridPosts}
+        rest={rest}
         searchQuery={search}
         startHereRef={startHereRef}
         total={total}
-        featuredEyebrow={featuredEyebrow}
         emptyTitle={`Δεν υπάρχουν άρθρα ακόμα στην κατηγορία ${displayName}.`}
         emptyDescription="Η κατηγορία είναι διαθέσιμη αλλά δεν έχει αρκετό δημοσιευμένο περιεχόμενο ακόμη. Μπορείτε να συνεχίσετε στο γενικό blog ή να επικοινωνήσετε με την ομάδα Delta."
         emptyActionLabel="Δείτε όλο το Blog"
         emptyActionHref="/blog"
       />
 
-      {(relatedLiveHubs.length > 0 || !hasFeatured || primaryCTA.href) && (
+      {(relatedLiveHubs.length > 0 || primaryCTA.href) && (
         <HubRelatedSection
           displayName={displayName}
           primaryCTA={primaryCTA}
@@ -887,7 +813,11 @@ function HubArticlesSection({
   return (
     <section className="px-6 py-16" style={sectionSurfaces.hubArticles}>
       <div className="max-w-7xl mx-auto">
-        <div ref={startHereRef} />
+        <div
+          ref={startHereRef}
+          aria-hidden="true"
+          style={{ scrollMarginTop: "8rem" }}
+        />
         {featuredLoading && !loading && !isFiltered && (
           <Fade>
             <div className="mb-10">
@@ -1268,6 +1198,7 @@ export function Hub() {
     const featuredRes = await getFeaturedPost(hubSlug);
     return featuredRes.data;
   };
+  const shouldUseFeatured = hubVariant === "guided";
 
   // Fetch posts whenever the hub slug, currentPage, filters, or resolved WP category ID changes.
   useEffect(() => {
@@ -1280,7 +1211,7 @@ export function Hub() {
       prevFiltersRef.current.tag !== activeTag;
 
     const isFilteredRequest = Boolean(search || activeSort || activeTag);
-    const shouldSyncFeatured = !isFilteredRequest && currentPage === 1;
+    const shouldSyncFeatured = shouldUseFeatured && !isFilteredRequest && currentPage === 1;
 
     if (filtersChanged) {
       prevFiltersRef.current = { search, sort: activeSort, tag: activeTag };
@@ -1384,7 +1315,7 @@ export function Hub() {
       setFeaturedLoading(false);
     }
 
-    if (isLoadMore && featuredOverride) {
+    if (isLoadMore && shouldUseFeatured && featuredOverride) {
       fetchNonFeaturedBatch({
         startOffset: sourceOffset,
         desiredCount: HUB_LOAD_MORE_PER_PAGE,
@@ -1587,17 +1518,9 @@ export function Hub() {
   };
 
   const seo = hubSeo(hubSlug ?? "");
-  const featured = featuredLoading ? undefined : featuredOverride;
-  const rest = posts.filter((p) => p.id !== featured?.id);
-  const editorialFeaturedTag = hubVariant === "editorial"
-    ? (() => {
-        const featuredTag = buildEditorialFeaturedTag(posts);
-        return {
-          ...featuredTag,
-          count: activeTag === EDITORIAL_FEATURED_TAG.slug ? total : featuredTag.count,
-        };
-      })()
-    : undefined;
+  const featured = shouldUseFeatured && !featuredLoading ? featuredOverride : undefined;
+  const rest = shouldUseFeatured ? posts.filter((p) => p.id !== featured?.id) : posts;
+  const editorialFeaturedTag = undefined;
   const isFiltered = Boolean(search || activeSort || activeTag);
   const displayedArticleCount = isFiltered ? posts.length : posts.length + (featured ? 1 : 0);
   const hasMore = displayedArticleCount < total;
