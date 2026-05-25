@@ -179,95 +179,116 @@ export function CookieConsentBanner() {
     closeWith(consent);
   };
 
+  const expandedSheetMaxHeight = "calc(100vh - env(safe-area-inset-top) - 12px)";
+
   return (
     <div className="fixed inset-x-0 bottom-0 z-[90] px-4 pb-4 md:px-6 md:pb-6 pointer-events-none">
       <div className="mx-auto max-w-2xl pointer-events-auto">
         <div
-          className="rounded-[1.75rem] p-4 md:p-5"
+          className="rounded-[1.75rem] p-4 md:p-5 flex flex-col"
           style={{
             background: "rgba(255,255,255,0.96)",
             border: `1px solid ${D.border}`,
             boxShadow: "0 20px 54px rgba(15,23,42,0.16)",
             backdropFilter: "blur(16px)",
+            maxHeight: isExpanded ? expandedSheetMaxHeight : undefined,
+            overflow: isExpanded ? "hidden" : undefined,
           }}
         >
-          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-            <div className="min-w-0">
-              <div
-                className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em]"
-                style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 800 }}
-              >
-                <Cookie size={13} />
-                Cookies & Προτιμήσεις
-              </div>
-              <h2 className="mt-3 text-lg md:text-xl" style={{ color: D.ink, fontWeight: 800, lineHeight: 1.18 }}>
-                Επιλέξτε τις προτιμήσεις cookies
-              </h2>
-              <p className="mt-2 text-sm md:text-[0.94rem]" style={{ color: D.inkSoft, lineHeight: 1.68 }}>
-                Η Delta Inc. χρησιμοποιεί cookies και τοπική αποθήκευση για βασική λειτουργία, αναλυτικά δεδομένα και αποθήκευση επιλογών εμπειρίας χρήστη.
-              </p>
-              <p className="mt-2 text-[0.92rem]" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
-                {statusCopy} Δείτε και την{" "}
-                <Link to="/cookie-policy" className="underline underline-offset-4" style={{ color: D.accentStrong }}>
-                  Πολιτική Cookies
-                </Link>
-                .
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setIsExpanded((current) => !current)}
-              className="inline-flex items-center justify-center gap-2 self-start rounded-2xl px-3.5 py-2.5 text-sm transition-colors md:shrink-0"
-              style={{
-                color: D.ink,
-                background: D.surface,
-                border: `1px solid ${D.border}`,
-                fontWeight: 700,
-              }}
-            >
-              <Settings2 size={15} />
-              {isExpanded ? "Κλείσιμο ρυθμίσεων" : "Ρυθμίσεις cookies"}
-            </button>
-          </div>
-
-          {isExpanded ? (
-            <div className="mt-5 space-y-3">
-              <ConsentToggle
-                label="Απολύτως απαραίτητα"
-                description="Απαιτούνται για βασικές λειτουργίες, όπως η σωστή πλοήγηση και η αποθήκευση κρίσιμων ρυθμίσεων."
-                checked
-                disabled
-              />
-              <ConsentToggle
-                label="Αναλυτικά / στατιστική χρήσης"
-                description="Χρησιμοποιούνται για κατανόηση της χρήσης του ιστότοπου και για εσωτερική βελτίωση της εμπειρίας."
-                checked={draftConsent.analytics}
-                onChange={(analytics) => setDraftConsent((current) => ({ ...current, analytics }))}
-              />
-              <ConsentToggle
-                label="Προτιμήσεις εμπειρίας"
-                description="Χρησιμοποιούνται για την αποθήκευση επιλογών που βελτιώνουν την εμπειρία σας σε επόμενες επισκέψεις."
-                checked={draftConsent.preferences}
-                onChange={(preferences) => setDraftConsent((current) => ({ ...current, preferences }))}
-              />
-
-              <div
-                className="flex items-start gap-3 rounded-2xl p-4"
-                style={{
-                  background: D.accentWash,
-                  border: `1px solid ${D.accentBorderSoft}`,
-                }}
-              >
-                <ShieldCheck size={18} className="mt-0.5 shrink-0" style={{ color: D.accentStrong }} />
-                <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                  Οι επιλογές σας αποθηκεύονται ήδη τοπικά και μπορείτε να τις ανοίγετε ξανά από το footer. Η πλήρης τεχνική εφαρμογή τους σε όλα τα μη απολύτως απαραίτητα εργαλεία ολοκληρώνεται στο επόμενο στάδιο.
+          <div
+            className="min-h-0"
+            style={{
+              overflowY: isExpanded ? "auto" : undefined,
+              paddingRight: isExpanded ? "0.125rem" : undefined,
+              overscrollBehavior: isExpanded ? "contain" : undefined,
+              WebkitOverflowScrolling: isExpanded ? "touch" : undefined,
+            }}
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div className="min-w-0">
+                <div
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em]"
+                  style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 800 }}
+                >
+                  <Cookie size={13} />
+                  Cookies & Προτιμήσεις
+                </div>
+                <h2 className="mt-3 text-lg md:text-xl" style={{ color: D.ink, fontWeight: 800, lineHeight: 1.18 }}>
+                  Επιλέξτε τις προτιμήσεις cookies
+                </h2>
+                <p className="mt-2 text-sm md:text-[0.94rem]" style={{ color: D.inkSoft, lineHeight: 1.68 }}>
+                  Η Delta Inc. χρησιμοποιεί cookies και τοπική αποθήκευση για βασική λειτουργία, αναλυτικά δεδομένα και αποθήκευση επιλογών εμπειρίας χρήστη.
+                </p>
+                <p className="mt-2 text-[0.92rem]" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
+                  {statusCopy} Δείτε και την{" "}
+                  <Link to="/cookie-policy" className="underline underline-offset-4" style={{ color: D.accentStrong }}>
+                    Πολιτική Cookies
+                  </Link>
+                  .
                 </p>
               </div>
-            </div>
-          ) : null}
 
-          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <button
+                type="button"
+                onClick={() => setIsExpanded((current) => !current)}
+                className="inline-flex items-center justify-center gap-2 self-start rounded-2xl px-3.5 py-2.5 text-sm transition-colors md:shrink-0"
+                style={{
+                  color: D.ink,
+                  background: D.surface,
+                  border: `1px solid ${D.border}`,
+                  fontWeight: 700,
+                }}
+              >
+                <Settings2 size={15} />
+                {isExpanded ? "Κλείσιμο ρυθμίσεων" : "Ρυθμίσεις cookies"}
+              </button>
+            </div>
+
+            {isExpanded ? (
+              <div className="mt-5 space-y-3 pb-2">
+                <ConsentToggle
+                  label="Απολύτως απαραίτητα"
+                  description="Απαιτούνται για βασικές λειτουργίες, όπως η σωστή πλοήγηση και η αποθήκευση κρίσιμων ρυθμίσεων."
+                  checked
+                  disabled
+                />
+                <ConsentToggle
+                  label="Αναλυτικά / στατιστική χρήσης"
+                  description="Χρησιμοποιούνται για κατανόηση της χρήσης του ιστότοπου και για εσωτερική βελτίωση της εμπειρίας."
+                  checked={draftConsent.analytics}
+                  onChange={(analytics) => setDraftConsent((current) => ({ ...current, analytics }))}
+                />
+                <ConsentToggle
+                  label="Προτιμήσεις εμπειρίας"
+                  description="Χρησιμοποιούνται για την αποθήκευση επιλογών που βελτιώνουν την εμπειρία σας σε επόμενες επισκέψεις."
+                  checked={draftConsent.preferences}
+                  onChange={(preferences) => setDraftConsent((current) => ({ ...current, preferences }))}
+                />
+
+                <div
+                  className="flex items-start gap-3 rounded-2xl p-4"
+                  style={{
+                    background: D.accentWash,
+                    border: `1px solid ${D.accentBorderSoft}`,
+                  }}
+                >
+                  <ShieldCheck size={18} className="mt-0.5 shrink-0" style={{ color: D.accentStrong }} />
+                  <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                    Οι επιλογές σας αποθηκεύονται ήδη τοπικά και μπορείτε να τις ανοίγετε ξανά από το footer. Η πλήρης τεχνική εφαρμογή τους σε όλα τα μη απολύτως απαραίτητα εργαλεία ολοκληρώνεται στο επόμενο στάδιο.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          <div
+            className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0"
+            style={{
+              paddingTop: isExpanded ? "0.75rem" : undefined,
+              borderTop: isExpanded ? `1px solid ${D.border}` : undefined,
+              background: isExpanded ? "rgba(255,255,255,0.92)" : undefined,
+            }}
+          >
             <div className="flex flex-col gap-2.5 sm:flex-row">
               <button
                 type="button"
