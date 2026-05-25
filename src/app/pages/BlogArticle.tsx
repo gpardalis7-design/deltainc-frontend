@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 import { motion, useScroll, useSpring } from "motion/react";
 import {
-  ArrowLeft, Clock, Calendar, BookOpen, Mail,
-  ChevronRight, ArrowRight, User, Tag, Facebook, Compass,
+  ArrowLeft, Clock, Calendar, Mail,
+  ChevronRight, User, Tag, Facebook,
 } from "lucide-react";
 import { getPost, getPosts } from "../lib/deltaApi";
 import { getArticleContent } from "../lib/mockArticleContent";
@@ -12,9 +12,14 @@ import { SeoHead } from "../components/SeoHead";
 import { articleSeo } from "../lib/seo";
 import { D } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
-import { resolveArticleIntent, type ArticleIntent } from "../lib/articleIntent";
+import { resolveArticleIntent } from "../lib/articleIntent";
 import { getArticlePrimaryLabel } from "../lib/articleLabels";
-import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
+import { isGuideArticle } from "../lib/articleGuide";
+import { ArticleLabelChip } from "../components/articles/ArticleLabelChip";
+import { getOverlayVisibility, OVERLAY_VISIBILITY_CHANGED_EVENT } from "../lib/uiOverlayState";
+import { useNavigation as useSiteNavigation, type FormType } from "../lib/navigationContext";
+
+type ArticleCategory = BlogPost["categories"][number];
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
@@ -22,6 +27,78 @@ function formatDate(iso: string) {
 
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" });
+}
+
+const HUB_MODAL_FORM_TYPES: Record<string, Exclude<FormType, "general">> = {
+  asep: "asep",
+  opsyd: "opsyd",
+  metaptyxiaka: "metaptyxiaka",
+  pistopoihseis: "pistopoihseis",
+};
+
+function normalizeServiceModalText(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLocaleLowerCase("el-GR");
+}
+
+function resolveCategoryServiceFormType(post: BlogPost): FormType | null {
+  for (const category of post.categories) {
+    const decodedSlug = (() => {
+      try {
+        return decodeURIComponent(category.slug || "");
+      } catch {
+        return category.slug || "";
+      }
+    })();
+    const slug = normalizeServiceModalText(decodedSlug);
+    const name = normalizeServiceModalText(category.name || "");
+
+    if (slug.includes("asep") || name.includes("ασεπ")) return "asep";
+    if (slug.includes("opsyd") || name.includes("οπσυδ")) return "opsyd";
+    if (slug.includes("metapty") || name.includes("μεταπτυχ")) return "metaptyxiaka";
+    if (slug.includes("pistopoi") || name.includes("πιστοποι")) return "pistopoihseis";
+  }
+
+  return null;
+}
+
+function resolveServiceModalFormType(post: BlogPost): FormType {
+  const hubFormType = post.hub?.slug ? HUB_MODAL_FORM_TYPES[post.hub.slug] : undefined;
+  if (hubFormType) return hubFormType;
+
+  return resolveCategoryServiceFormType(post) ?? "general";
+}
+
+function isArticleServiceModalBlocked() {
+  return getOverlayVisibility("newsletter") || getOverlayVisibility("cookie-consent");
+}
+
+function isDisplayableArticleCategory(category: ArticleCategory) {
+  const slug = category.slug?.trim().toLowerCase();
+  const name = category.name?.trim();
+  return Boolean(name) && slug !== "uncategorized";
+}
+
+function getUniqueDisplayableCategories(categories: ArticleCategory[]) {
+  return categories.reduce<ArticleCategory[]>((acc, category) => {
+    if (!isDisplayableArticleCategory(category)) return acc;
+    if (acc.some((existing) => existing.id === category.id)) return acc;
+    acc.push(category);
+    return acc;
+  }, []);
+}
+
+function dedupePostsBySlug(posts: Array<BlogPost | null | undefined>) {
+  return posts.reduce<BlogPost[]>((acc, candidate) => {
+    if (!candidate || acc.some((existing) => existing.slug === candidate.slug)) {
+      return acc;
+    }
+    acc.push(candidate);
+    return acc;
+  }, []);
 }
 
 function ProgressBar() {
@@ -301,152 +378,215 @@ function RecentArticlesWidget({ posts }: { posts: BlogPost[] }) {
   if (posts.length === 0) return null;
 
   return (
-    <div
-      className="rounded-[1.6rem] p-4 md:p-5"
-      style={{
-        background: "linear-gradient(180deg, rgba(244,247,252,0.98) 0%, rgba(237,242,249,0.96) 100%)",
-        border: `1px solid ${D.border}`,
-        boxShadow: "0 10px 30px rgba(15,23,42,0.05)",
-      }}
-    >
-      <div className="mb-3 pb-3" style={{ borderBottom: `1px solid ${D.border}` }}>
-        <h3 className="type-eyebrow" style={{ color: D.ink, letterSpacing: "0.12em" }}>
+    <div className="px-1">
+      <div className="mb-4 pb-4" style={{ borderBottom: `1px solid ${D.border}` }}>
+        <h3 className="type-eyebrow" style={{ color: D.ink, letterSpacing: "0.14em" }}>
           Τελευταία άρθρα
         </h3>
       </div>
-      <div className="flex flex-col gap-3">
-        {posts.slice(0, 3).map((post) => (
-          <div
+
+      <div className="flex flex-col">
+        {posts.slice(0, 3).map((post, index) => (
+          <Link
             key={post.id}
+            to={`/blog/${post.slug}`}
+            className="group block py-4 transition-opacity hover:opacity-90"
+            style={{
+              borderTop: index === 0 ? "none" : `1px solid ${D.border}`,
+            }}
           >
-            <CompactArticleListItem
-              post={post}
-              dateLabel={formatDate(post.publishedAt)}
-              timeLabel={formatTime(post.publishedAt)}
-            />
-          </div>
+            <div className="flex items-start gap-3">
+              {post.featuredImage ? (
+                <div className="shrink-0 w-[5.25rem] h-[4rem] rounded-2xl overflow-hidden" style={{ background: D.surface }}>
+                  <img
+                    src={post.featuredImage.url}
+                    alt={post.featuredImage.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+              ) : null}
+
+              <div className="min-w-0 flex-1">
+                <p
+                  className="mb-2"
+                  style={{
+                    color: D.ink,
+                    fontWeight: 750,
+                    fontSize: "1rem",
+                    lineHeight: 1.35,
+                    letterSpacing: "-0.02em",
+                    fontFamily: "'Manrope', sans-serif",
+                  }}
+                >
+                  {post.title}
+                </p>
+                <div className="flex items-center gap-2 text-xs" style={{ color: D.inkSoft }}>
+                  <span>{formatDate(post.publishedAt)}</span>
+                  <span>·</span>
+                  <span>{formatTime(post.publishedAt)}</span>
+                </div>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
 
-type NextStepAction = {
-  key: string;
-  kind: "article" | "hub" | "service" | "archive";
-  title: string;
-  description: string;
-  label: string;
-  to: string;
-  image?: BlogPost["featuredImage"];
-  eyebrow: string;
-  meta?: string;
-  theme?: "light" | "dark";
-};
+function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
+  if (posts.length === 0) return null;
 
-function FeaturedNextStepCard({ action }: { action: NextStepAction }) {
-  const Icon = action.kind === "service" ? Mail : action.kind === "hub" ? Compass : BookOpen;
+  const [leadPost, ...supportingPosts] = posts;
+  const leadLabel = getArticlePrimaryLabel(leadPost);
+  const leadGuide = isGuideArticle(leadPost);
+  const leadImage = leadPost.featuredImage;
 
   return (
-    <Link
-      to={action.to}
-      className="group flex flex-col h-full overflow-hidden rounded-[30px] transition-all duration-200 hover:-translate-y-0.5"
-      style={action.theme === "dark"
-        ? { background: D.ink, color: "#fff", boxShadow: `0 14px 34px ${D.shadow}` }
-        : { background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 14px 34px ${D.shadow}` }}
+    <section
+      className="px-6 py-16 md:py-20"
+      style={{
+        borderTop: `1px solid ${D.border}`,
+        background: `linear-gradient(180deg, rgba(255,255,255,0.94) 0%, ${D.bg} 100%)`,
+      }}
     >
-      {action.image ? (
-        <div className="overflow-hidden" style={{ height: "220px" }}>
-          <img
-            src={action.image.url}
-            alt={action.image.alt}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
-      ) : (
-        <div className="p-6 pb-0">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: action.theme === "dark" ? "rgba(255,255,255,0.08)" : D.accentSoft }}>
-            <Icon size={20} style={{ color: action.theme === "dark" ? D.accent : D.accentStrong }} />
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-10 md:mb-12">
+          <div className="type-eyebrow mb-2" style={{ color: D.inkSoft, letterSpacing: "0.14em" }}>
+            Σχετικό περιεχόμενο
           </div>
-        </div>
-      )}
-
-      <div className="p-6 md:p-7 flex flex-col flex-1 gap-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <span
-            className="type-eyebrow inline-flex items-center gap-1.5 px-3 py-1 rounded-full"
-            style={action.theme === "dark"
-              ? { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.72)" }
-              : { background: D.accentSoft, color: D.accentStrong }}
-          >
-            {action.eyebrow}
-          </span>
-        </div>
-
-        <div>
-          <h3
-            className="type-display-section mb-3"
-            style={{ fontSize: "clamp(1.35rem, 3vw, 1.9rem)", color: action.theme === "dark" ? "#fff" : D.ink, lineHeight: 1.15 }}
-          >
-            {action.title}
-          </h3>
-          <p
-            className="text-sm md:text-[0.95rem]"
-            style={{ color: action.theme === "dark" ? "rgba(255,255,255,0.68)" : D.inkSoft, lineHeight: 1.75 }}
-          >
-            {action.description}
+          <h2 className="type-display-section" style={{ fontSize: "clamp(1.25rem, 2.4vw, 1.65rem)", color: D.ink }}>
+            Συνεχίστε με σχετικά άρθρα
+          </h2>
+          <p className="text-sm max-w-2xl mt-3" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+            Διαβάστε το επόμενο πιο σχετικό άρθρο και συνεχίστε με επιλεγμένες αναγνώσεις πάνω στο ίδιο θέμα.
           </p>
         </div>
 
-        {action.meta && (
-          <div className="text-xs" style={{ color: action.theme === "dark" ? "rgba(255,255,255,0.46)" : D.inkSoft }}>
-            {action.meta}
-          </div>
-        )}
+        <div className={supportingPosts.length > 0 ? "grid grid-cols-1 lg:grid-cols-[minmax(0,1.04fr)_minmax(320px,0.96fr)] gap-10 lg:gap-12 items-start" : ""}>
+          <Link
+            to={`/blog/${leadPost.slug}`}
+            className="group block"
+            style={{ borderBottom: `1px solid ${D.border}` }}
+          >
+            {leadImage ? (
+              <div className="mb-5 overflow-hidden rounded-[1.75rem]" style={{ aspectRatio: "16 / 9", background: D.surface }}>
+                <img
+                  src={leadImage.url}
+                  alt={leadImage.alt}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
+            ) : null}
 
-        <div className="mt-auto inline-flex items-center gap-2 text-sm" style={{ color: action.theme === "dark" ? D.accent : D.accentStrong, fontWeight: 700 }}>
-          {action.label}
-          <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="type-eyebrow" style={{ color: D.inkSoft }}>
+                Κύρια συνέχεια
+              </span>
+              {leadLabel ? <ArticleLabelChip label={leadLabel} className="text-[11px]" /> : null}
+              {leadGuide ? <ArticleLabelChip label="Οδηγός" className="text-[11px]" /> : null}
+            </div>
+
+            <h3
+              className="mb-4"
+              style={{
+                fontFamily: "'Manrope', sans-serif",
+                fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.04em",
+                color: D.ink,
+                fontWeight: 800,
+              }}
+            >
+              {leadPost.title}
+            </h3>
+
+            <p className="text-[0.98rem] mb-6" style={{ color: D.inkSoft, lineHeight: 1.8, maxWidth: "58ch" }}>
+              {leadPost.excerpt}
+            </p>
+
+            <div
+              className="flex items-center justify-between gap-4 pb-5 text-sm"
+              style={{ color: D.inkSoft }}
+            >
+              <span>{formatDate(leadPost.publishedAt)}</span>
+              <span className="inline-flex items-center gap-2" style={{ color: D.accentStrong, fontWeight: 700 }}>
+                Διαβάστε το άρθρο
+                <ChevronRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              </span>
+            </div>
+          </Link>
+
+            {supportingPosts.length > 0 ? (
+            <div className="flex flex-col">
+              <div className="type-eyebrow mb-5" style={{ color: D.inkSoft }}>
+                Περισσότερες αναγνώσεις
+              </div>
+              <div className="flex flex-col">
+                {supportingPosts.slice(0, 4).map((candidate, index) => {
+                  const candidateLabel = getArticlePrimaryLabel(candidate);
+                  const candidateGuide = isGuideArticle(candidate);
+
+                  return (
+                    <Link
+                      key={candidate.id}
+                      to={`/blog/${candidate.slug}`}
+                      className="group block py-5 transition-opacity hover:opacity-92"
+                      style={{
+                        borderTop: index === 0 ? `1px solid ${D.border}` : "none",
+                        borderBottom: `1px solid ${D.border}`,
+                      }}
+                    >
+                      <div className="flex items-start gap-4">
+                        {candidate.featuredImage ? (
+                          <div className="hidden sm:block shrink-0 w-28 h-20 rounded-2xl overflow-hidden" style={{ background: D.surface }}>
+                            <img
+                              src={candidate.featuredImage.url}
+                              alt={candidate.featuredImage.alt}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                            />
+                          </div>
+                        ) : null}
+
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-2 flex flex-wrap items-center gap-1.5">
+                            {candidateLabel ? <ArticleLabelChip label={candidateLabel} className="text-[10px] opacity-85" /> : null}
+                            {candidateGuide ? <ArticleLabelChip label="Οδηγός" className="text-[10px] opacity-85" /> : null}
+                          </div>
+                          <h4
+                            className="mb-2"
+                            style={{
+                              color: D.ink,
+                              fontWeight: 750,
+                              fontSize: "1.05rem",
+                              lineHeight: 1.3,
+                              letterSpacing: "-0.02em",
+                              fontFamily: "'Manrope', sans-serif",
+                            }}
+                          >
+                            {candidate.title}
+                          </h4>
+                          <p className="text-sm mb-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                            {candidate.excerpt}
+                          </p>
+                          <div className="flex items-center justify-between gap-3 text-xs" style={{ color: D.inkSoft }}>
+                            <span>{formatDate(candidate.publishedAt)}</span>
+                            <span className="inline-flex items-center gap-1.5" style={{ color: D.ink, fontWeight: 700 }}>
+                              Διαβάστε
+                              <ChevronRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
-    </Link>
-  );
-}
-
-function SecondaryNextStepCard({ action }: { action: NextStepAction }) {
-  const Icon = action.kind === "service" ? Mail : action.kind === "hub" ? Compass : BookOpen;
-
-  return (
-    <Link
-      to={action.to}
-      className="group rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5"
-      style={action.theme === "dark"
-        ? { background: D.ink, color: "#fff", boxShadow: `0 10px 24px ${D.shadow}` }
-        : { background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}` }}
-    >
-      <div>
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0" style={{ background: action.theme === "dark" ? "rgba(255,255,255,0.08)" : D.accentSoft }}>
-            <Icon size={16} style={{ color: action.theme === "dark" ? D.accent : D.accentStrong }} />
-          </div>
-          <div className="type-eyebrow" style={{ color: action.theme === "dark" ? "rgba(255,255,255,0.45)" : D.inkSoft }}>
-            {action.eyebrow}
-          </div>
-        </div>
-        <h3 className="type-display-card mb-3" style={{ fontSize: "1.08rem", color: action.theme === "dark" ? "#fff" : D.ink, lineHeight: 1.25 }}>
-          {action.title}
-        </h3>
-        <p className="text-sm" style={{ color: action.theme === "dark" ? "rgba(255,255,255,0.62)" : D.inkSoft, lineHeight: 1.7 }}>
-          {action.description}
-        </p>
-      </div>
-      <div className="mt-6 pt-5" style={{ borderTop: action.theme === "dark" ? "1px solid rgba(255,255,255,0.1)" : `1px solid ${D.border}` }}>
-        <div className="inline-flex items-center gap-2 text-sm" style={{ color: action.theme === "dark" ? D.accent : D.accentStrong, fontWeight: 700 }}>
-          {action.label}
-          <ChevronRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-        </div>
-      </div>
-    </Link>
+    </section>
   );
 }
 
@@ -455,9 +595,14 @@ export function BlogArticle() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [guidePosts, setGuidePosts] = useState<BlogPost[]>([]);
+  const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [curatedNextPost, setCuratedNextPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const articleRef = useRef<HTMLDivElement>(null);
+  const [hasMetReadTime, setHasMetReadTime] = useState(false);
+  const [hasMetScrollDepth, setHasMetScrollDepth] = useState(false);
+  const [isBlockingOverlayVisible, setIsBlockingOverlayVisible] = useState(false);
+  const { openModalFor, isModalOpen } = useSiteNavigation();
+  const autoModalOpenedRef = useRef(false);
 
   usePageNavigation({
     mode: "content",
@@ -471,6 +616,7 @@ export function BlogArticle() {
     window.scrollTo(0, 0);
     setRelatedPosts([]);
     setGuidePosts([]);
+    setLatestPosts([]);
     setCuratedNextPost(null);
 
     getPost(slug).then(({ data }) => {
@@ -500,18 +646,81 @@ export function BlogArticle() {
         }
 
         getPosts({}).then(({ data: allPosts }) => {
-          const guides = allPosts.filter((p) =>
-            p.isEvergreenGuide === true ||
-            p.tags.some((t) => {
-              const tagSlug = decodeURIComponent(t.slug || "").trim().toLowerCase();
-              return tagSlug === "οδηγοί" || tagSlug === "guides";
-            })
-          );
+          setLatestPosts(allPosts.filter((p) => p.slug !== slug));
+          const guides = allPosts.filter((p) => isGuideArticle(p));
           setGuidePosts(guides.filter((p) => p.slug !== slug));
         });
       }
     });
   }, [slug]);
+
+  const intent = post ? resolveArticleIntent(post) : "read_more";
+  const serviceModalFormType = post && intent === "service" ? resolveServiceModalFormType(post) : null;
+
+  useEffect(() => {
+    autoModalOpenedRef.current = false;
+    setHasMetReadTime(false);
+    setHasMetScrollDepth(false);
+  }, [slug]);
+
+  useEffect(() => {
+    const syncBlockingOverlayState = () => {
+      setIsBlockingOverlayVisible(isArticleServiceModalBlocked());
+    };
+
+    syncBlockingOverlayState();
+    window.addEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, syncBlockingOverlayState as EventListener);
+    return () => {
+      window.removeEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, syncBlockingOverlayState as EventListener);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!serviceModalFormType) return;
+
+    const timer = window.setTimeout(() => {
+      setHasMetReadTime(true);
+    }, 12_000);
+
+    return () => window.clearTimeout(timer);
+  }, [serviceModalFormType, slug]);
+
+  useEffect(() => {
+    if (!serviceModalFormType || hasMetScrollDepth) return;
+
+    const checkScrollDepth = () => {
+      const doc = document.documentElement;
+      const scrollableHeight = Math.max(doc.scrollHeight - window.innerHeight, 0);
+
+      if (scrollableHeight === 0 || window.scrollY / scrollableHeight >= 0.7) {
+        setHasMetScrollDepth(true);
+      }
+    };
+
+    checkScrollDepth();
+    window.addEventListener("scroll", checkScrollDepth, { passive: true });
+    window.addEventListener("resize", checkScrollDepth);
+
+    return () => {
+      window.removeEventListener("scroll", checkScrollDepth);
+      window.removeEventListener("resize", checkScrollDepth);
+    };
+  }, [serviceModalFormType, hasMetScrollDepth]);
+
+  useEffect(() => {
+    if (!serviceModalFormType || autoModalOpenedRef.current || !hasMetReadTime || !hasMetScrollDepth) return;
+    if (isBlockingOverlayVisible || isModalOpen) return;
+
+    autoModalOpenedRef.current = true;
+    openModalFor(serviceModalFormType);
+  }, [
+    serviceModalFormType,
+    hasMetReadTime,
+    hasMetScrollDepth,
+    isBlockingOverlayVisible,
+    isModalOpen,
+    openModalFor,
+  ]);
 
   if (loading) return <ArticleSkeleton />;
   if (!post) {
@@ -527,13 +736,11 @@ export function BlogArticle() {
     ? post.contentHtml
     : getArticleContent(post.slug, post.excerpt);
   const seo = articleSeo(post);
-  const intent = resolveArticleIntent(post);
   const primaryLabel = getArticlePrimaryLabel(post);
-  const primaryCategory = post.categories.find((category) => {
-    const slug = category.slug?.trim().toLowerCase();
-    const name = category.name?.trim();
-    return Boolean(name) && slug !== "uncategorized";
-  }) ?? null;
+  const validCategories = getUniqueDisplayableCategories(post.categories);
+  const primaryCategory = (post.hub?.wpCategoryId
+    ? validCategories.find((category) => category.id === post.hub?.wpCategoryId)
+    : null) ?? validCategories[0] ?? null;
   const destinationName = post.hub?.name || primaryCategory?.name || "Blog";
   const hubPath = post.hub
     ? `/${post.hub.slug}`
@@ -541,99 +748,108 @@ export function BlogArticle() {
       ? `/${primaryCategory.slug}`
       : "/blog";
   const breadcrumbLabel = destinationName === "Blog" ? null : destinationName;
+  const matchesPrimaryContext = (candidate: BlogPost) => {
+    if (post.hub?.slug) {
+      const sameHub = candidate.hub?.slug === post.hub.slug;
+      const samePrimaryCategory = primaryCategory
+        ? candidate.categories.some((category) => category.id === primaryCategory.id)
+        : false;
+      return sameHub || samePrimaryCategory;
+    }
+
+    if (primaryCategory?.id) {
+      return candidate.categories.some((category) => category.id === primaryCategory.id);
+    }
+
+    return false;
+  };
+
   const filteredRelatedPosts = relatedPosts.filter((candidate) => candidate.slug !== curatedNextPost?.slug);
-  const recentSupportPosts = filteredRelatedPosts.slice(0, 3);
-  const nextGuide = guidePosts.find((p) => p.slug !== post.slug && p.hub?.slug === post.hub?.slug) || guidePosts[0];
-  const leadArticle = curatedNextPost || nextGuide || filteredRelatedPosts[0] || null;
-  const supportingArticle = filteredRelatedPosts.find((candidate) => candidate.slug !== leadArticle?.slug) || null;
-  const hubLabel = destinationName;
+  const sameContextRelatedPosts = filteredRelatedPosts.filter(matchesPrimaryContext);
+  const sameContextGuide = guidePosts.find((candidate) => matchesPrimaryContext(candidate)) || null;
+  const candidatePool = dedupePostsBySlug([
+    curatedNextPost,
+    ...relatedPosts,
+    ...guidePosts,
+    ...latestPosts,
+  ]).filter((candidate) => candidate.slug !== post.slug);
+  const primaryLeadCandidates = dedupePostsBySlug([
+    curatedNextPost && matchesPrimaryContext(curatedNextPost) ? curatedNextPost : null,
+    ...sameContextRelatedPosts,
+    sameContextGuide,
+    ...candidatePool.filter((candidate) => matchesPrimaryContext(candidate)),
+  ]);
+  const leadRelevantPost = primaryLeadCandidates[0] ?? curatedNextPost ?? candidatePool[0] ?? null;
+  const remainingRelevantCandidates = candidatePool.filter((candidate) => candidate.slug !== leadRelevantPost?.slug);
+  const supportingRelevantPosts = (() => {
+    const maxSupportingPosts = 4;
+    const usedSlugs = new Set<string>();
+    const picks: BlogPost[] = [];
 
-  const serviceAction: NextStepAction = {
-    key: "service",
-    kind: "service",
-    title: "Χρειάζεστε βοήθεια για το επόμενο βήμα;",
-    description: "Αν το θέμα σας αφορά άμεσα, η ομάδα Delta μπορεί να σας κατευθύνει πρακτικά χωρίς να ψάχνετε μόνοι σας τι πρέπει να γίνει τώρα.",
-    label: "Ζητήστε καθοδήγηση",
-    to: "/contact#contact-form",
-    eyebrow: "Πρακτική καθοδήγηση",
-    theme: "dark",
-  };
+    const addPost = (candidate: BlogPost | null | undefined) => {
+      if (!candidate || usedSlugs.has(candidate.slug) || candidate.slug === post.slug) return false;
+      usedSlugs.add(candidate.slug);
+      picks.push(candidate);
+      return true;
+    };
 
-  const hubAction: NextStepAction = {
-    key: "hub",
-    kind: "hub",
-    title: destinationName === "Blog"
-      ? "Συνεχίστε στη βιβλιοθήκη άρθρων"
-      : `Συνεχίστε στον κόμβο ${destinationName}`,
-    description: destinationName === "Blog"
-      ? "Μεταβείτε σε όλο το Blog για να συνεχίσετε με το πιο σχετικό περιεχόμενο."
-      : `Δείτε οργανωμένα όλα τα σχετικά άρθρα, τα βασικά θέματα και τα επόμενα βήματα για το ${destinationName}.`,
-    label: destinationName === "Blog" ? "Στο Blog" : `Στον κόμβο ${destinationName}`,
-    to: hubPath,
-    eyebrow: "Δομημένη συνέχεια",
-  };
+    if (validCategories.length === 0) {
+      for (const candidate of dedupePostsBySlug([
+        ...sameContextRelatedPosts.filter((candidate) => candidate.slug !== leadRelevantPost?.slug),
+        sameContextGuide?.slug !== leadRelevantPost?.slug ? sameContextGuide : null,
+        ...remainingRelevantCandidates,
+      ])) {
+        addPost(candidate);
+        if (picks.length >= maxSupportingPosts) break;
+      }
 
-  const archiveAction: NextStepAction = {
-    key: "archive",
-    kind: "archive",
-    title: "Συνεχίστε με περισσότερα σχετικά άρθρα",
-    description: "Περιηγηθείτε στη συνολική βιβλιοθήκη περιεχομένου και βρείτε το επόμενο θέμα που ταιριάζει καλύτερα σε αυτό που διαβάζετε τώρα.",
-    label: "Όλα τα άρθρα",
-    to: "/blog",
-    eyebrow: "Περισσότερο περιεχόμενο",
-  };
+      return picks;
+    }
 
-  const primaryArticleAction = leadArticle ? {
-    key: `article-${leadArticle.id}`,
-    kind: "article" as const,
-    title: leadArticle.title,
-    description: leadArticle.excerpt,
-    label: "Διαβάστε το επόμενο άρθρο",
-    to: `/blog/${leadArticle.slug}`,
-    image: leadArticle.featuredImage,
-    eyebrow: "Συνεχίστε στο ίδιο θέμα",
-    meta: formatDate(leadArticle.publishedAt),
-  } : null;
+    const categoryBuckets = validCategories.map((category) => ({
+      category,
+      posts: remainingRelevantCandidates.filter((candidate) =>
+        candidate.categories.some((candidateCategory) => candidateCategory.id === category.id),
+      ),
+    }));
 
-  const supportingArticleAction = supportingArticle ? {
-    key: `supporting-${supportingArticle.id}`,
-    kind: "article" as const,
-    title: supportingArticle.title,
-    description: supportingArticle.excerpt,
-    label: "Διαβάστε το άρθρο",
-    to: `/blog/${supportingArticle.slug}`,
-    eyebrow: "Επόμενη ανάγνωση",
-  } : null;
+    if (categoryBuckets.length === 1) {
+      for (const candidate of categoryBuckets[0].posts) {
+        addPost(candidate);
+        if (picks.length >= maxSupportingPosts) break;
+      }
+    } else {
+      const targetPerBucket = Math.floor(maxSupportingPosts / categoryBuckets.length);
 
-  const nextStepCopy: Record<ArticleIntent, { title: string; description: string }> = {
-    hub: {
-      title: "Συνεχίστε από τον σωστό κόμβο",
-      description: `Από εδώ και πέρα η πιο χρήσιμη συνέχεια είναι να περάσετε σε ένα πιο οργανωμένο σημείο πλοήγησης γύρω από το ${hubLabel}.`,
-    },
-    read_more: {
-      title: "Συνεχίστε στο ίδιο θέμα",
-      description: "Ολοκληρώσατε το βασικό άρθρο. Το επόμενο βήμα είναι ένα πιο σχετικό follow-up που συνεχίζει τη σκέψη χωρίς να σας βγάζει από τη ροή.",
-    },
-    service: {
-      title: "Το επόμενο βήμα είναι η σωστή καθοδήγηση",
-      description: "Αν αυτό το θέμα σας επηρεάζει πρακτικά τώρα, προτεραιότητα έχει να ξέρετε τι κάνετε στη συνέχεια και πού χρειάζεται υποστήριξη.",
-    },
-  };
+      for (const bucket of categoryBuckets) {
+        let bucketPicks = 0;
 
-  const primaryAction =
-    intent === "service" ? serviceAction :
-    intent === "read_more" ? (primaryArticleAction ?? hubAction) :
-    hubAction;
+        for (const candidate of bucket.posts) {
+          if (bucketPicks >= targetPerBucket) break;
+          if (addPost(candidate)) {
+            bucketPicks += 1;
+          }
+        }
+      }
 
-  const secondaryCandidatesByIntent: Record<ArticleIntent, Array<NextStepAction | null>> = {
-    hub: [supportingArticleAction, archiveAction],
-    read_more: [supportingArticleAction, hubAction],
-    service: [hubAction, primaryArticleAction],
-  };
+      for (const bucket of categoryBuckets) {
+        for (const candidate of bucket.posts) {
+          if (picks.length >= maxSupportingPosts) break;
+          addPost(candidate);
+        }
+      }
+    }
 
-  const secondaryActions = secondaryCandidatesByIntent[intent].filter((candidate): candidate is NextStepAction => {
-    return Boolean(candidate) && candidate.key !== primaryAction.key;
-  }).slice(0, 2);
+    return picks;
+  })();
+  const relevantPosts = leadRelevantPost ? [leadRelevantPost, ...supportingRelevantPosts] : [];
+  const relevantSlugs = new Set(relevantPosts.map((candidate) => candidate.slug));
+  const latestDiscoveryPosts = latestPosts.filter((candidate) => {
+    if (candidate.slug === post.slug) return false;
+    if (relevantSlugs.has(candidate.slug)) return false;
+    if (matchesPrimaryContext(candidate)) return false;
+    return true;
+  }).slice(0, 3);
 
   return (
     <div style={{ background: D.bg, fontFamily: "'Inter', sans-serif" }}>
@@ -822,7 +1038,7 @@ export function BlogArticle() {
 
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex gap-8 lg:gap-12 items-start">
-          <div className="flex-1 min-w-0 py-8 md:py-12" ref={articleRef}>
+          <div className="flex-1 min-w-0 py-8 md:py-12">
             <div className="mb-6 md:mb-8">
               <GooglePreferredSourceButton />
             </div>
@@ -871,92 +1087,20 @@ export function BlogArticle() {
             className="hidden lg:flex flex-col gap-5 w-80 shrink-0 py-12"
             style={{ position: "sticky", top: "5.5rem", maxHeight: "calc(100vh - 7rem)", overflowY: "auto" }}
           >
-            <RecentArticlesWidget posts={recentSupportPosts} />
+            <RecentArticlesWidget posts={latestDiscoveryPosts} />
           </aside>
         </div>
       </div>
 
-      <section className="px-6 py-16" style={{ borderTop: `1px solid ${D.border}`, background: D.surface }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
-            <div>
-              <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
-                Καθοδηγημένο επόμενο βήμα
-              </div>
-              <h2 className="type-display-section" style={{ fontSize: "1.45rem", color: D.ink }}>
-                {nextStepCopy[intent].title}
-              </h2>
-            </div>
-            <Link to={hubPath} className="text-sm flex items-center gap-1" style={{ color: D.accent, fontWeight: 600 }}>
-              Στον κόμβο {hubLabel} <ChevronRight size={14} />
-            </Link>
-          </div>
-          <p className="text-sm max-w-3xl mb-8" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-            {nextStepCopy[intent].description}
-          </p>
+      <RelevantArticlesSection posts={relevantPosts} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] gap-5 md:gap-6 items-stretch">
-            <FeaturedNextStepCard action={primaryAction} />
-
-            <div className="grid grid-cols-1 gap-4 md:gap-5">
-              {secondaryActions.map((action) => (
-                <SecondaryNextStepCard key={action.key} action={action} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {recentSupportPosts.length > 0 && (
+      {latestDiscoveryPosts.length > 0 && (
         <div className="lg:hidden px-6 pb-12">
           <div className="max-w-6xl mx-auto">
-            <RecentArticlesWidget posts={recentSupportPosts} />
+            <RecentArticlesWidget posts={latestDiscoveryPosts} />
           </div>
         </div>
       )}
-
-      <section className="px-6 py-20" style={{ background: D.bg }}>
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65 }}
-            className="rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-start md:items-center gap-8"
-            style={{ background: D.ink }}
-          >
-            <div className="flex-1">
-              <div className="type-eyebrow mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>
-                {intent === "service" ? "Πρακτική υποστήριξη" : "Επόμενο βήμα"}
-              </div>
-              <h2 className="type-display-section mb-3" style={{ fontSize: "clamp(1.4rem, 3vw, 2rem)", color: "#fff", lineHeight: 1.2 }}>
-                {intent === "service" ? "Αν χρειάζεστε βοήθεια, αυτό είναι το σωστό σημείο" : `Συνεχίστε με καθαρή κατεύθυνση στο ${hubLabel}`}
-              </h2>
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: "480px" }}>
-                {intent === "service"
-                  ? "Για άρθρα με πιο άμεση χρηστική αξία, προτεραιότητα έχει να ξέρετε τι πρέπει να κάνετε στη συνέχεια και ποιος μπορεί να σας κατευθύνει σωστά."
-                  : `Συνεχίστε στον πιο σχετικό κόμβο για να δείτε οργανωμένα τα επόμενα άρθρα, τους βασικούς οδηγούς και όλο το σχετικό περιεχόμενο για το ${hubLabel}.`}
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <Link
-                to={intent === "service" ? "/contact#contact-form" : hubPath}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all hover:opacity-90"
-                style={{ background: D.accent, color: D.ink, fontWeight: 700 }}
-              >
-                {intent === "service" ? "Ζητήστε βοήθεια τώρα" : `Συνέχισε στον κόμβο ${hubLabel}`} <ArrowRight size={15} />
-              </Link>
-              <Link
-                to={intent === "service" ? hubPath : "/contact#contact-form"}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all"
-                style={{ background: "rgba(255,255,255,0.08)", color: "#fff", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
-              >
-                {intent === "service" ? `Στον κόμβο ${hubLabel}` : "Ζητήστε βοήθεια"}
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }

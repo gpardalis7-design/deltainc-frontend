@@ -38,12 +38,18 @@ const FORM_CONFIG: Record<FormType, {
     options: ["Πιστοποίηση Αγγλικών", "Πιστοποίηση Υπολογιστών", "Άλλο"],
     placeholder: "Ποια πιστοποίηση σας ενδιαφέρει;",
   },
+  general: {
+    title: "Χρειάζεστε καθοδήγηση;",
+    description: "Συμπληρώστε τα στοιχεία σας και η ομάδα της Delta Inc. θα επικοινωνήσει μαζί σας για να σας κατευθύνει σωστά.",
+    options: ["Θέλω βοήθεια για το επόμενο βήμα", "Θέλω πληροφορίες για υπηρεσίες", "Άλλο"],
+    placeholder: "Πώς μπορούμε να βοηθήσουμε;",
+  },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function ContactFormModal() {
-  const { isModalOpen, closeModal, cta } = useNavigation();
+  const { isModalOpen, closeModal, cta, modalFormType } = useNavigation();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -56,7 +62,7 @@ export function ContactFormModal() {
     interest: "",
   });
 
-  const formType = cta.formType;
+  const formType = modalFormType ?? cta.formType;
 
   const getPayloadConfig = (currentFormType: FormType, interest: string) => {
     switch (currentFormType) {
@@ -87,6 +93,12 @@ export function ContactFormModal() {
           subject: `Μεταπτυχιακά - ${interest}`,
           hub: "metaptyxiaka",
           source_label: "Μεταπτυχιακά popup",
+        };
+      case "general":
+        return {
+          form_type: "general_popup",
+          subject: `Γενική επικοινωνία - ${interest}`,
+          source_label: "General popup",
         };
       default:
         return {

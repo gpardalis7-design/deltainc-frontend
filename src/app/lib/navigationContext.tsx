@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 export type NavigationMode = "content" | "service";
 
-export type FormType = "asep" | "opsyd" | "metaptyxiaka" | "pistopoihseis";
+export type FormType = "asep" | "opsyd" | "metaptyxiaka" | "pistopoihseis" | "general";
 
 export interface NavigationCTA {
   text: string;
@@ -23,7 +23,9 @@ interface NavigationContextValue {
   setCTA: (cta: NavigationCTA) => void;
   setShowStickyBottom: (show: boolean) => void;
   openModal: () => void;
+  openModalFor: (formType: FormType) => void;
   closeModal: () => void;
+  modalFormType: FormType | null;
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -43,9 +45,17 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [cta, setCTA] = useState<NavigationCTA>(DEFAULT_CTA);
   const [showStickyBottom, setShowStickyBottom] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalFormType, setModalFormType] = useState<FormType | null>(null);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModalFor = (formType: FormType) => {
+    setModalFormType(formType);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalFormType(null);
+  };
 
   return (
     <NavigationContext.Provider
@@ -58,7 +68,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         setCTA,
         setShowStickyBottom,
         openModal,
+        openModalFor,
         closeModal,
+        modalFormType,
       }}
     >
       {children}
