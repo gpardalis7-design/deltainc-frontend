@@ -598,6 +598,7 @@ export function BlogArticle() {
   const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [curatedNextPost, setCuratedNextPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isArticleReadyForModal, setIsArticleReadyForModal] = useState(false);
   const [hasMetReadTime, setHasMetReadTime] = useState(false);
   const [hasMetScrollDepth, setHasMetScrollDepth] = useState(false);
   const [isBlockingOverlayVisible, setIsBlockingOverlayVisible] = useState(false);
@@ -612,20 +613,31 @@ export function BlogArticle() {
 
   useEffect(() => {
     if (!slug) return;
+
+    let isCurrent = true;
     setLoading(true);
+    setPost(null);
     window.scrollTo(0, 0);
     setRelatedPosts([]);
     setGuidePosts([]);
     setLatestPosts([]);
     setCuratedNextPost(null);
+    setIsArticleReadyForModal(false);
+    setHasMetReadTime(false);
+    setHasMetScrollDepth(false);
+    autoModalOpenedRef.current = false;
 
     getPost(slug).then(({ data }) => {
+      if (!isCurrent) return;
+
       setPost(data);
       setLoading(false);
+      setIsArticleReadyForModal(Boolean(data));
 
       if (data) {
         if (data.nextArticleSlug && data.nextArticleSlug !== slug) {
           getPost(data.nextArticleSlug).then(({ data: curatedPost }) => {
+            if (!isCurrent) return;
             if (curatedPost && curatedPost.slug !== slug) {
               setCuratedNextPost(curatedPost);
             }
@@ -634,34 +646,39 @@ export function BlogArticle() {
 
         if (data.hub?.slug) {
           getPosts({ hub: data.hub.slug }).then(({ data: rel }) => {
+            if (!isCurrent) return;
             setRelatedPosts(rel.filter((p) => p.slug !== slug));
           });
         } else {
           const primaryCategory = data.categories[0];
           if (primaryCategory?.id) {
             getPosts({ wpCategoryId: primaryCategory.id }).then(({ data: rel }) => {
+              if (!isCurrent) return;
               setRelatedPosts(rel.filter((p) => p.slug !== slug));
             });
           }
         }
 
         getPosts({}).then(({ data: allPosts }) => {
+          if (!isCurrent) return;
           setLatestPosts(allPosts.filter((p) => p.slug !== slug));
           const guides = allPosts.filter((p) => isGuideArticle(p));
           setGuidePosts(guides.filter((p) => p.slug !== slug));
         });
       }
     });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [slug]);
 
   const intent = post ? resolveArticleIntent(post) : "read_more";
   const serviceModalFormType = post && intent === "service" ? resolveServiceModalFormType(post) : null;
-
-  useEffect(() => {
-    autoModalOpenedRef.current = false;
-    setHasMetReadTime(false);
-    setHasMetScrollDepth(false);
-  }, [slug]);
+  const isCurrentArticleResolved = post?.slug === slug;
+  const modalSessionKey = serviceModalFormType && isArticleReadyForModal && isCurrentArticleResolved
+    ? `${slug}:${serviceModalFormType}`
+    : null;
 
   useEffect(() => {
     const syncBlockingOverlayState = () => {
@@ -676,17 +693,17 @@ export function BlogArticle() {
   }, []);
 
   useEffect(() => {
-    if (!serviceModalFormType) return;
+    if (!modalSessionKey) return;
 
     const timer = window.setTimeout(() => {
       setHasMetReadTime(true);
     }, 12_000);
 
     return () => window.clearTimeout(timer);
-  }, [serviceModalFormType, slug]);
+  }, [modalSessionKey]);
 
   useEffect(() => {
-    if (!serviceModalFormType || hasMetScrollDepth) return;
+    if (!modalSessionKey || hasMetScrollDepth) return;
 
     const checkScrollDepth = () => {
       const doc = document.documentElement;
@@ -697,23 +714,21 @@ export function BlogArticle() {
       }
     };
 
-    checkScrollDepth();
     window.addEventListener("scroll", checkScrollDepth, { passive: true });
-    window.addEventListener("resize", checkScrollDepth);
 
     return () => {
       window.removeEventListener("scroll", checkScrollDepth);
-      window.removeEventListener("resize", checkScrollDepth);
     };
-  }, [serviceModalFormType, hasMetScrollDepth]);
+  }, [modalSessionKey, hasMetScrollDepth]);
 
   useEffect(() => {
-    if (!serviceModalFormType || autoModalOpenedRef.current || !hasMetReadTime || !hasMetScrollDepth) return;
+    if (!modalSessionKey || autoModalOpenedRef.current || !hasMetReadTime || !hasMetScrollDepth) return;
     if (isBlockingOverlayVisible || isModalOpen) return;
 
     autoModalOpenedRef.current = true;
     openModalFor(serviceModalFormType);
   }, [
+    modalSessionKey,
     serviceModalFormType,
     hasMetReadTime,
     hasMetScrollDepth,
