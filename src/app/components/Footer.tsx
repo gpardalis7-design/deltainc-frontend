@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ArrowRight, Facebook, Instagram, Mail, Phone } from "lucide-react";
 import { D } from "../Root";
 import { trackContactIntent, trackCtaClick, trackFooterLinkClick } from "../lib/analytics";
+import { openCookieSettings } from "../lib/cookieConsent";
 import { Logo } from "./Logo";
 const CONTACT_PHONE_DISPLAY = "+30 694 051 9003";
 const CONTACT_PHONE_LINK = "tel:+306940519003";
@@ -32,8 +33,9 @@ const FOOTER_COLUMNS = [
     links: [
       { label: "Επικοινωνία", href: "/contact" },
       { label: "Φόρμα καθοδήγησης", href: "/contact#contact-form" },
-      { label: "Όροι Χρήσης", href: "#" },
-      { label: "Πολιτική Απορρήτου", href: "#" },
+      { label: "Όροι Χρήσης", href: "/terms" },
+      { label: "Πολιτική Απορρήτου", href: "/privacy-policy" },
+      { label: "Πολιτική Cookies", href: "/cookie-policy" },
     ],
   },
 ];
@@ -49,6 +51,14 @@ export function Footer() {
       cta_target: "newsletter_popup",
     });
     window.dispatchEvent(new Event("delta:open-newsletter"));
+  };
+
+  const handleOpenCookieSettings = () => {
+    trackFooterLinkClick("Ρυθμίσεις Cookies", "footer_bottom", {
+      link_target: "delta:open-cookie-settings",
+      link_type: "action",
+    });
+    openCookieSettings();
   };
 
   return (
@@ -142,27 +152,21 @@ export function Footer() {
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link.label}>
-                      {link.href === "#" ? (
-                        <span className="text-sm" style={{ color: "rgba(255,255,255,0.28)" }}>
-                          {link.label}
-                        </span>
-                      ) : (
-                        <Link
-                          to={link.href}
-                          className="text-sm transition-colors duration-200"
-                          style={{ color: "rgba(255,255,255,0.5)" }}
-                          onClick={() =>
-                            trackFooterLinkClick(link.label, col.title, {
-                              link_target: link.href,
-                              link_type: "internal",
-                            })
-                          }
-                          onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
-                          onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}
-                        >
-                          {link.label}
-                        </Link>
-                      )}
+                      <Link
+                        to={link.href}
+                        className="text-sm transition-colors duration-200"
+                        style={{ color: "rgba(255,255,255,0.5)" }}
+                        onClick={() =>
+                          trackFooterLinkClick(link.label, col.title, {
+                            link_target: link.href,
+                            link_type: "internal",
+                          })
+                        }
+                        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
+                        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}
+                      >
+                        {link.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -212,6 +216,14 @@ export function Footer() {
             >
               Επικοινωνία
             </Link>
+            <span>·</span>
+            <button
+              type="button"
+              className="transition-colors hover:text-white"
+              onClick={handleOpenCookieSettings}
+            >
+              Ρυθμίσεις Cookies
+            </button>
             <span>·</span>
             <span>Εκπαιδευτική ενημέρωση και καθοδήγηση</span>
           </div>

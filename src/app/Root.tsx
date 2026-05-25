@@ -7,6 +7,7 @@ import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { StickyBottomCta } from "./components/StickyBottomCta";
 import { PageLoader } from "./components/PageLoader";
+import { CookieConsentBanner } from "./components/CookieConsentBanner";
 import { initAnalytics, trackPageView } from "./lib/analytics";
 
 // Delta color palette constants (available globally via style)
@@ -203,6 +204,7 @@ export function Root() {
             </main>
             <Footer />
             <StickyBottomCta />
+            <CookieConsentBanner />
             {shouldLoadDeferredUi ? (
               <Suspense fallback={null}>
                 <DeferredRootUi />

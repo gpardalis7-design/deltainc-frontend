@@ -17,6 +17,9 @@ export const router = createBrowserRouter([
       { path: "courses", lazy: async () => ({ Component: (await import("./pages/Courses")).Courses }) },
       { path: "courses/:slug", lazy: async () => ({ Component: (await import("./pages/ProgramDetails")).ProgramDetails }) },
       { path: "about", lazy: async () => ({ Component: (await import("./pages/About")).About }) },
+      { path: "privacy-policy", lazy: async () => ({ Component: (await import("./pages/PrivacyPolicy")).PrivacyPolicy }) },
+      { path: "cookie-policy", lazy: async () => ({ Component: (await import("./pages/CookiePolicy")).CookiePolicy }) },
+      { path: "terms", lazy: async () => ({ Component: (await import("./pages/Terms")).Terms }) },
       // Dynamic hub pages — any slug not matched above goes here.
       // Hub.tsx reads the WP category list from context to validate the slug.
       { path: ":hubSlug", lazy: async () => ({ Component: (await import("./pages/Hub")).Hub }) },

@@ -4,6 +4,11 @@ import { ArrowRight, Mail, X } from "lucide-react";
 import { D } from "../Root";
 import { useNavigation as useSiteNavigation } from "../lib/navigationContext";
 import { getDeviceType, trackEvent } from "../lib/analytics";
+import {
+  getOverlayVisibility,
+  OVERLAY_VISIBILITY_CHANGED_EVENT,
+  setOverlayVisibility,
+} from "../lib/uiOverlayState";
 
 const NEWSLETTER_SUBSCRIBE_URL = "https://deltainc.gr/wp-admin/admin-ajax.php?action=tnp&na=sa";
 const SESSION_SHOWN_KEY = "newsletter_popup_shown_session";
@@ -13,6 +18,7 @@ const DISMISS_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 const SHOW_DELAY_MS = 14_000;
 const SHOW_SCROLL_RATIO = 0.4;
 const RESERVED_TOP_LEVEL_ROUTES = new Set(["blog", "contact", "courses", "about"]);
+type NewsletterTriggerType = "timer" | "scroll" | "manual";
 
 function isEligiblePath(pathname: string): boolean {
   if (pathname === "/") return true;
@@ -66,6 +72,8 @@ export function NewsletterSlideIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [openedManually, setOpenedManually] = useState(false);
+  const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false);
+  const [pendingTriggerType, setPendingTriggerType] = useState<NewsletterTriggerType | null>(null);
 
   const isEligible = useMemo(() => isEligiblePath(location.pathname), [location.pathname]);
   const mobileBottomOffset = showStickyBottom ? 92 : 16;
@@ -82,7 +90,52 @@ export function NewsletterSlideIn() {
   };
 
   useEffect(() => {
+    setOverlayVisibility("newsletter", isVisible);
+    return () => setOverlayVisibility("newsletter", false);
+  }, [isVisible]);
+
+  useEffect(() => {
+    setIsCookieBannerOpen(getOverlayVisibility("cookie-consent"));
+
+    const handleOverlayChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ name: string; isVisible: boolean }>;
+      if (customEvent.detail?.name !== "cookie-consent") return;
+
+      const nextVisible = Boolean(customEvent.detail.isVisible);
+      setIsCookieBannerOpen(nextVisible);
+
+      if (nextVisible && isVisible) {
+        setIsVisible(false);
+        setOpenedManually(false);
+      }
+
+      if (!nextVisible && pendingTriggerType && !isVisible && !isModalOpen && isEligible) {
+        if (hasShownThisSession() || hasDismissCooldown()) {
+          setPendingTriggerType(null);
+          return;
+        }
+
+        markShownThisSession();
+        setOpenedManually(pendingTriggerType === "manual");
+        setIsVisible(true);
+        setError("");
+        setIsSuccess(false);
+        trackPopupEvent("newsletter_popup_shown", { trigger_type: pendingTriggerType });
+        setPendingTriggerType(null);
+      }
+    };
+
+    window.addEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, handleOverlayChange);
+    return () => window.removeEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, handleOverlayChange);
+  }, [isEligible, isModalOpen, isVisible, pendingTriggerType, location.pathname]);
+
+  useEffect(() => {
     const handleOpenNewsletter = () => {
+      if (getOverlayVisibility("cookie-consent")) {
+        setPendingTriggerType("manual");
+        return;
+      }
+
       markShownThisSession();
       setOpenedManually(true);
       setIsVisible(true);
@@ -101,6 +154,7 @@ export function NewsletterSlideIn() {
   useEffect(() => {
     if (!isEligible || isModalOpen) {
       setIsVisible(false);
+      setPendingTriggerType(null);
       if (isModalOpen) {
         setOpenedManually(false);
       }
@@ -113,10 +167,18 @@ export function NewsletterSlideIn() {
 
     let cancelled = false;
 
-    const showPopup = (triggerType: "timer" | "scroll") => {
+    const showPopup = (triggerType: NewsletterTriggerType) => {
       if (cancelled || hasShownThisSession() || hasDismissCooldown()) return;
+      if (getOverlayVisibility("cookie-consent")) {
+        setPendingTriggerType(triggerType);
+        return;
+      }
+
       markShownThisSession();
+      setOpenedManually(triggerType === "manual");
       setIsVisible(true);
+      setError("");
+      setIsSuccess(false);
       trackPopupEvent("newsletter_popup_shown", { trigger_type: triggerType });
     };
 
@@ -137,7 +199,7 @@ export function NewsletterSlideIn() {
       window.clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isEligible, isModalOpen, location.key]);
+  }, [isEligible, isModalOpen, location.key, isCookieBannerOpen]);
 
   useEffect(() => {
     if (isModalOpen) {

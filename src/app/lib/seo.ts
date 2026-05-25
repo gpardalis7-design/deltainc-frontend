@@ -235,7 +235,7 @@ export function programsSeo(filtered = false): SeoMeta {
 }
 
 export function staticPageSeo(
-  page: "about" | "contact"
+  page: "about" | "contact" | "privacy" | "cookies" | "terms"
 ): SeoMeta {
   const pages = {
     about: {
@@ -247,6 +247,21 @@ export function staticPageSeo(
       title: "Επικοινωνία | Delta Inc",
       description: "Επικοινωνήστε με την ομάδα του Delta για ερωτήσεις σχετικά με ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά και πιστοποιήσεις. Είμαστε εδώ να σας βοηθήσουμε.",
       path: "/contact",
+    },
+    privacy: {
+      title: "Πολιτική Απορρήτου | Delta Inc",
+      description: "Μάθετε πώς η Delta Inc. συλλέγει και επεξεργάζεται προσωπικά δεδομένα μέσω του ιστότοπου, των φορμών επικοινωνίας και των εργαλείων ανάλυσης.",
+      path: "/privacy-policy",
+    },
+    cookies: {
+      title: "Πολιτική Cookies | Delta Inc",
+      description: "Πληροφορίες για τα cookies, το local storage και τα εργαλεία ανάλυσης που χρησιμοποιεί ο ιστότοπος της Delta Inc.",
+      path: "/cookie-policy",
+    },
+    terms: {
+      title: "Όροι Χρήσης | Delta Inc",
+      description: "Οι όροι που διέπουν τη χρήση του ιστότοπου της Delta Inc. και του ενημερωτικού περιεχομένου που παρέχεται μέσω αυτού.",
+      path: "/terms",
     },
   };
   const p = pages[page];
