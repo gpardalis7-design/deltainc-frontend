@@ -4,6 +4,7 @@ import { D } from "../../Root";
 import { trackEvent, getCurrentPageAnalyticsContext } from "../../lib/analytics";
 import { getArticleCardImage } from "./articleImage";
 import { getArticlePrimaryLabel } from "../../lib/articleLabels";
+import { isGuideArticle } from "../../lib/articleGuide";
 import { ArticleLabelChip } from "./ArticleLabelChip";
 
 type CompactArticleListItemProps = {
@@ -23,6 +24,7 @@ export function CompactArticleListItem({
 }: CompactArticleListItemProps) {
   const image = getArticleCardImage(post.featuredImage, "compact");
   const primaryLabel = getArticlePrimaryLabel(post);
+  const showGuideChip = isGuideArticle(post);
 
   return (
     <Link
@@ -54,8 +56,9 @@ export function CompactArticleListItem({
       )}
       <div className="flex-1 min-w-0">
         {showCategoryLabel ? (
-          <div className="mb-1.5">
+          <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
             <ArticleLabelChip label={primaryLabel} className="text-[11px]" />
+            {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="text-[11px]" /> : null}
           </div>
         ) : null}
         <p className="type-ui-label text-xs line-clamp-2 mb-1" style={{ color: D.ink, lineHeight: 1.35 }}>

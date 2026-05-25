@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { BlogPost } from "../../lib/types";
 import { D } from "../../Root";
 import { getArticlePrimaryLabel } from "../../lib/articleLabels";
+import { isGuideArticle } from "../../lib/articleGuide";
 import { trackEvent, getCurrentPageAnalyticsContext } from "../../lib/analytics";
 import { ArticleLabelChip } from "./ArticleLabelChip";
 import { ArticleCardFooter } from "./ArticleCardFooter";
@@ -32,6 +33,7 @@ export function FeaturedOverlayArticleCard({
   showAuthor = true,
 }: FeaturedOverlayArticleCardProps) {
   const primaryLabel = getArticlePrimaryLabel(post);
+  const showGuideChip = isGuideArticle(post);
   const image = getArticleCardImage(post.featuredImage, "featured");
 
   return (
@@ -58,6 +60,7 @@ export function FeaturedOverlayArticleCard({
       <div className="absolute bottom-0 left-0 right-0 p-8">
         <div className="flex items-center gap-2 mb-3">
           <ArticleLabelChip label={primaryLabel} />
+          {showGuideChip ? <ArticleLabelChip label="Οδηγός" /> : null}
           <span className="px-2.5 py-0.5 rounded-full text-xs" style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)" }}>
             {featuredLabel}
           </span>

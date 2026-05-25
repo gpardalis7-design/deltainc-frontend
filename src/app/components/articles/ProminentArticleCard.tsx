@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { BlogPost } from "../../lib/types";
 import { D } from "../../Root";
 import { getArticlePrimaryLabel } from "../../lib/articleLabels";
+import { isGuideArticle } from "../../lib/articleGuide";
 import { trackEvent, getCurrentPageAnalyticsContext } from "../../lib/analytics";
 import { ArticleLabelChip } from "./ArticleLabelChip";
 import { ArticleCardFooter } from "./ArticleCardFooter";
@@ -22,6 +23,7 @@ export function ProminentArticleCard({
   ctaLabel = "Διαβάστε τον οδηγό",
 }: ProminentArticleCardProps) {
   const primaryLabel = getArticlePrimaryLabel(post);
+  const showGuideChip = isGuideArticle(post);
   const image = getArticleCardImage(post.featuredImage, "featured");
 
   return (
@@ -57,6 +59,7 @@ export function ProminentArticleCard({
             {eyebrow}
           </span>
           <ArticleLabelChip label={primaryLabel} className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px]" />
+          {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px]" /> : null}
         </div>
 
         <div>

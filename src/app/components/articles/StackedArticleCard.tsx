@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { BlogPost } from "../../lib/types";
 import { D } from "../../Root";
 import { getArticlePrimaryLabel } from "../../lib/articleLabels";
+import { isGuideArticle } from "../../lib/articleGuide";
 import { trackEvent, getCurrentPageAnalyticsContext } from "../../lib/analytics";
 import { ArticleLabelChip } from "./ArticleLabelChip";
 import { ArticleCardFooter } from "./ArticleCardFooter";
@@ -38,6 +39,7 @@ export function StackedArticleCard({
   excerptStyle,
 }: StackedArticleCardProps) {
   const primaryLabel = getArticlePrimaryLabel(post);
+  const showGuideChip = isGuideArticle(post);
   const image = getArticleCardImage(post.featuredImage, "card");
 
   return (
@@ -63,7 +65,12 @@ export function StackedArticleCard({
         </div>
       )}
       <div className={`${contentClassName} flex flex-col flex-1`}>
-        {showChip ? <ArticleLabelChip label={primaryLabel} className="mb-3 self-start" /> : null}
+        {showChip ? (
+          <div className="mb-3 flex flex-wrap items-center gap-1.5">
+            <ArticleLabelChip label={primaryLabel} className="self-start" />
+            {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="self-start" /> : null}
+          </div>
+        ) : null}
         <h3 className={titleClassName} style={titleStyle}>
           {post.title}
         </h3>
