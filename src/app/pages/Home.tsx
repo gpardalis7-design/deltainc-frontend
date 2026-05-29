@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router";
-import { BookOpen, Users, GraduationCap, Award, ChevronRight, ArrowRight, Star, CheckCircle2, FileText, ShieldCheck, Compass, X } from "lucide-react";
+import { BookOpen, Users, GraduationCap, Award, ChevronRight, ArrowRight, Star, CheckCircle2, FileText, ShieldCheck, Compass } from "lucide-react";
 import { motion, useInView, AnimatePresence } from "motion/react";
 import { getHomepage } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent } from "../lib/analytics";
@@ -162,9 +162,6 @@ const PATH_CONFIG = {
     summary: "Αναζήτηση και καθοδήγηση για προπτυχιακά και μεταπτυχιακά προγράμματα με έμφαση στην Κύπρο.",
     action: "Δείτε τα προγράμματα",
     quickCue: "Σπουδές στην Κύπρο και επόμενο ακαδημαϊκό βήμα",
-    audience: "Για φοιτητές και επαγγελματίες που σχεδιάζουν το επόμενο βήμα τους",
-    problem: "Βρείτε τη σωστή κατεύθυνση για σπουδές, σύγκριση επιλογών και καθοδήγηση πριν την αίτηση.",
-    destinationLabel: "Προγράμματα, σύγκριση επιλογών και καθοδήγηση",
     isFeatured: true,
     route: "/metaptyxiaka",
   },
@@ -174,9 +171,6 @@ const PATH_CONFIG = {
     summary: "Οδηγοί και ενημέρωση για ΑΣΕΠ, προκηρύξεις και διαδικασίες υποβολής αίτησης.",
     action: "Μπείτε στο hub ΑΣΕΠ",
     quickCue: "Προκηρύξεις, αιτήσεις και βασικοί οδηγοί",
-    audience: "Για υποψηφίους που θέλουν σωστή αίτηση χωρίς λάθη",
-    problem: "Παρακολουθήστε τις βασικές πληροφορίες για προκηρύξεις και μειώστε τα λάθη στη διαδικασία αίτησης.",
-    destinationLabel: "Οδηγοί αιτήσεων, προκηρύξεις και επόμενα βήματα",
     route: "/asep",
   },
   opsyd: {
@@ -185,9 +179,6 @@ const PATH_CONFIG = {
     summary: "Ενημέρωση για ΟΠΣΥΔ, πίνακες, μόρια, δικαιολογητικά και υπηρεσιακές κινήσεις.",
     action: "Δείτε ενημέρωση ΟΠΣΥΔ",
     quickCue: "Μόρια, πίνακες και κινήσεις εκπαιδευτικών",
-    audience: "Για εκπαιδευτικούς που χρειάζονται έγκυρη καθοδήγηση",
-    problem: "Οργανώστε την πληροφόρησή σας γύρω από μόρια, δικαιολογητικά και κρίσιμες υπηρεσιακές κινήσεις.",
-    destinationLabel: "Μόρια, πίνακες, δικαιολογητικά και ενημέρωση",
     route: "/opsyd",
   },
   pistopoihseis: {
@@ -196,9 +187,6 @@ const PATH_CONFIG = {
     summary: "Πιστοποιήσεις, επιμορφώσεις και διαδρομές ενίσχυσης προσόντων και μορίων.",
     action: "Δείτε διαδρομές πιστοποιήσεων",
     quickCue: "Επιμόρφωση και ενίσχυση προσόντων",
-    audience: "Για επαγγελματίες που ενισχύουν τον φάκελό τους",
-    problem: "Δείτε επιλογές που στηρίζουν επαγγελματική εξέλιξη, επιμόρφωση και ενίσχυση προσόντων.",
-    destinationLabel: "Πιστοποιήσεις, επιμορφώσεις και διαδρομές μοριοδότησης",
     route: "/pistopoihseis",
   },
 } as const satisfies Record<string, {
@@ -207,9 +195,6 @@ const PATH_CONFIG = {
   summary: string;
   action: string;
   quickCue: string;
-  audience: string;
-  problem: string;
-  destinationLabel: string;
   route: string;
   isFeatured?: boolean;
 }>;
@@ -222,72 +207,6 @@ const TRUST_PLACEHOLDERS = [
 ] as const;
 
 const PATH_ORDER = ["metaptyxiaka", "asep", "opsyd", "pistopoihseis"] as const;
-
-const PATH_CHOOSER_OPTIONS = PATH_ORDER.map((slug) => ({
-  slug,
-  title: slug === "metaptyxiaka" ? "Μεταπτυχιακά" : slug === "asep" ? "ΑΣΕΠ" : slug === "opsyd" ? "ΟΠΣΥΔ" : "Πιστοποιήσεις",
-  route: PATH_CONFIG[slug].route,
-  icon: PATH_CONFIG[slug].icon,
-  cue: PATH_CONFIG[slug].quickCue,
-}));
-
-function HubCard({ hub }: { hub: DeltaHub }) {
-  const config = PATH_CONFIG[hub.slug as keyof typeof PATH_CONFIG];
-  const Icon = config?.icon || BookOpen;
-  const target = config?.route || (hub.slug === "metaptyxiaka" ? "/metaptyxiaka" : `/${hub.slug}`);
-  const isFeatured = Boolean(config && "isFeatured" in config && config.isFeatured);
-
-  return (
-    <Link
-      to={target}
-      className={`group flex flex-col gap-4 rounded-[28px] transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] ${isFeatured ? "p-5 md:p-7 md:col-span-2 min-h-[276px]" : "p-5 min-h-[248px]"}`}
-      style={isFeatured
-        ? { background: `linear-gradient(145deg, ${D.surfaceStrong} 0%, ${D.surface} 100%)`, border: `1px solid ${D.accent}26`, boxShadow: `0 14px 34px ${D.shadow}` }
-        : { background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}
-      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
-      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.14em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
-            {config?.eyebrow || "Κόμβος"}
-          </span>
-          {isFeatured && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px]" style={{ background: D.ink, color: "#fff", fontWeight: 700 }}>
-              Προτεραιότητα
-            </span>
-          )}
-        </div>
-        <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
-          <Icon size={20} style={{ color: D.accentStrong }} />
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        <div className="type-display-card flex items-center gap-1.5" style={{ color: D.ink, fontSize: isFeatured ? "1.2rem" : "0.98rem" }}>
-          <span className="line-clamp-2">{hub.name}</span>
-          <ChevronRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" style={{ color: D.accent }} />
-        </div>
-        <p className={`${isFeatured ? "text-sm" : "text-xs"} line-clamp-3`} style={{ color: D.inkSoft, lineHeight: 1.65 }}>
-          {config?.audience || hub.description}
-        </p>
-        <p className={`${isFeatured ? "text-sm" : "text-xs"} line-clamp-3`} style={{ color: D.ink, lineHeight: 1.55, fontWeight: 500 }}>
-          {config?.problem || config?.summary || hub.description}
-        </p>
-      </div>
-
-      <div className="mt-auto pt-3 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3" style={{ borderTop: `1px solid ${D.border}` }}>
-        <span className="text-xs leading-5" style={{ color: D.inkSoft }}>
-          {config?.destinationLabel || (hub.count ? `${hub.count} άρθρα και οδηγοί` : "Ξεκινήστε από αυτό το hub")}
-        </span>
-        <span className="inline-flex items-center gap-1.5 text-sm max-w-full sm:max-w-[48%]" style={{ color: D.accentStrong, fontWeight: 700, lineHeight: 1.35 }}>
-          <span>{config?.action || "Δείτε περισσότερα"}</span>
-          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" />
-        </span>
-      </div>
-    </Link>
-  );
-}
 
 function ProgramCard({ program }: { program: Program }) {
   const universityLogo = program.universityLogo;
@@ -378,7 +297,6 @@ export function Home() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<HomepagePayload | null>(null);
   const [isMock, setIsMock] = useState(false);
-  const [isPathChooserOpen, setIsPathChooserOpen] = useState(false);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
   const { hubs: categoryHubs, isMock: categoriesAreMock } = useCategories();
   const { setShowStickyBottom } = useNavigation();
@@ -545,14 +463,6 @@ export function Home() {
                 </Link>
               </div>
 
-              <div className="flex flex-wrap gap-2 mt-4 md:mt-5">
-                {["Μεταπτυχιακά", "ΑΣΕΠ", "ΟΠΣΥΔ", "Πιστοποιήσεις"].map((label) => (
-                  <span key={label} className="inline-flex items-center px-3 py-1.5 rounded-full text-xs" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, fontWeight: 600 }}>
-                    {label}
-                  </span>
-                ))}
-              </div>
-
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 md:mt-10">
                 {[
                   { label: "Φοιτητές", value: stats.students, icon: Users },
@@ -617,52 +527,10 @@ export function Home() {
                   );
                 })}
               </div>
-              <div className="mt-5 pt-5" style={{ borderTop: `1px solid ${D.border}` }}>
-                <button
-                  onClick={() => {
-                    trackCtaClick("Δεν είστε σίγουροι ποια διαδρομή ταιριάζει;", "home_path_chooser_open", {
-                      cta_target: "path_chooser_modal",
-                    });
-                    setIsPathChooserOpen(true);
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl transition-all duration-200 hover:opacity-90"
-                  style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
-                >
-                  Δεν είστε σίγουροι ποια διαδρομή ταιριάζει; <ArrowRight size={15} />
-                </button>
-              </div>
             </div>
           </motion.div>
         </div>
       </section>
-
-      {/* Primary Paths */}
-      {primaryPaths.length > 0 && (
-        <section className="py-10 md:py-14 px-5 md:px-6 relative" style={sectionSurfaces.homePaths}>
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection>
-              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-7 md:mb-8">
-                <div>
-                  <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Βασικές διαδρομές</div>
-                  <h2 className="type-display-section" style={{ fontSize: "clamp(1.35rem, 3vw, 1.8rem)", color: D.ink }}>
-                    Κατανοήστε καλύτερα ποιο hub σας εξυπηρετεί
-                  </h2>
-                </div>
-                <p className="max-w-xl text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                  Εδώ οι διαδρομές εξηγούνται πιο αναλυτικά. Αν θέλετε λίγη περισσότερη σιγουριά πριν μπείτε σε ένα hub, χρησιμοποιήστε αυτή την ενότητα σαν σημείο σύγκρισης.
-                </p>
-              </div>
-            </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-              {primaryPaths.map((hub, i) => (
-                <AnimatedSection key={hub.id} delay={i * 0.06}>
-                  <HubCard hub={hub} />
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Trust Strip */}
       <section className="py-9 md:py-11 px-5 md:px-6" style={sectionSurfaces.homeTrust}>
@@ -972,121 +840,6 @@ export function Home() {
         </div>
       </section>
 
-      <AnimatePresence>
-        {isPathChooserOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsPathChooserOpen(false)}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-            />
-
-            <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 pointer-events-none">
-              <motion.div
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: "100%", opacity: 0 }}
-                transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="w-full max-w-2xl pointer-events-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div
-                  className="rounded-t-3xl sm:rounded-3xl p-5 md:p-7"
-                  style={{ background: D.bg, boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}
-                >
-                  <div className="flex items-start justify-between gap-4 mb-5">
-                    <div>
-                      <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
-                        Καθοδήγηση εκκίνησης
-                      </div>
-                      <h2 className="type-display-section" style={{ fontSize: "clamp(1.3rem, 3vw, 1.8rem)", color: D.ink, lineHeight: 1.15 }}>
-                        Επιλέξτε τη διαδρομή που σας ταιριάζει καλύτερα
-                      </h2>
-                      <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
-                        Ξεκινήστε από το πιο σχετικό hub ή μεταβείτε στην επικοινωνία αν θέλετε πιο προσωπική καθοδήγηση.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setIsPathChooserOpen(false)}
-                      className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-105"
-                      style={{ background: D.surface, color: D.inkSoft, border: `1px solid ${D.border}` }}
-                      aria-label="Κλείσιμο"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {PATH_CHOOSER_OPTIONS.map((option) => {
-                      const Icon = option.icon;
-                      return (
-                        <Link
-                          key={option.slug}
-                          to={option.route}
-                          onClick={() => {
-                            trackCtaClick(option.title, "home_path_chooser_option", { cta_target: option.route });
-                            setIsPathChooserOpen(false);
-                          }}
-                          className="group rounded-2xl p-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995]"
-                          style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 6px 18px ${D.shadow}` }}
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-start gap-3 min-w-0">
-                              <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
-                                <Icon size={18} style={{ color: D.accentStrong }} />
-                              </div>
-                              <div className="min-w-0">
-                                <div className="type-ui-label text-sm" style={{ color: D.ink }}>
-                                  {option.title}
-                                </div>
-                                <div className="text-xs mt-1 line-clamp-2" style={{ color: D.inkSoft, lineHeight: 1.5 }}>
-                                  {option.cue}
-                                </div>
-                              </div>
-                            </div>
-                            <ChevronRight size={15} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: D.accent }} />
-                          </div>
-                        </Link>
-                      );
-                    })}
-
-                    <Link
-                      to="/contact#contact-form"
-                      onClick={() => {
-                        trackCtaClick("Χρειάζομαι βοήθεια να αποφασίσω", "home_path_chooser_contact", {
-                          cta_target: "/contact#contact-form",
-                        });
-                        setIsPathChooserOpen(false);
-                      }}
-                      className="group rounded-2xl p-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] sm:col-span-2"
-                      style={{ background: D.surface, border: `1px solid ${D.borderStrong}` }}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-3 min-w-0">
-                          <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
-                            <Compass size={18} style={{ color: D.accentStrong }} />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-sm" style={{ fontWeight: 700, color: D.ink }}>
-                              Χρειάζομαι βοήθεια να αποφασίσω
-                            </div>
-                            <div className="text-xs mt-1" style={{ color: D.inkSoft, lineHeight: 1.5 }}>
-                              Μεταβείτε στην επικοινωνία για πιο προσωπική καθοδήγηση και υποστήριξη.
-                            </div>
-                          </div>
-                        </div>
-                        <ArrowRight size={15} className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: D.accentStrong }} />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

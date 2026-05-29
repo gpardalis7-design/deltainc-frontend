@@ -183,14 +183,14 @@ export function CookieConsentBanner() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-[90] px-4 pb-4 md:px-6 md:pb-6 pointer-events-none">
-      <div className="mx-auto max-w-2xl pointer-events-auto">
+      <div className="mx-auto max-w-2xl pointer-events-auto md:mx-0 md:mr-auto md:max-w-[27rem]">
         <div
-          className="rounded-[1.75rem] p-4 md:p-5 flex flex-col"
+          className="rounded-[1.5rem] p-4 md:p-[1.05rem] flex flex-col"
           style={{
-            background: "rgba(255,255,255,0.96)",
+            background: "rgba(255,255,255,0.92)",
             border: `1px solid ${D.border}`,
-            boxShadow: "0 20px 54px rgba(15,23,42,0.16)",
-            backdropFilter: "blur(16px)",
+            boxShadow: "0 14px 34px rgba(15,23,42,0.10)",
+            backdropFilter: "blur(18px)",
             maxHeight: isExpanded ? expandedSheetMaxHeight : undefined,
             overflow: isExpanded ? "hidden" : undefined,
           }}
@@ -204,22 +204,22 @@ export function CookieConsentBanner() {
               WebkitOverflowScrolling: isExpanded ? "touch" : undefined,
             }}
           >
-            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div className="flex flex-col gap-3">
               <div className="min-w-0">
                 <div
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em]"
-                  style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 800 }}
+                  className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] uppercase tracking-[0.16em]"
+                  style={{ background: "rgba(29,78,216,0.08)", color: D.accentStrong, fontWeight: 800 }}
                 >
-                  <Cookie size={13} />
-                  Cookies & Προτιμήσεις
+                  <Cookie size={12} />
+                  Cookies
                 </div>
-                <h2 className="mt-3 text-lg md:text-xl" style={{ color: D.ink, fontWeight: 800, lineHeight: 1.18 }}>
-                  Επιλέξτε τις προτιμήσεις cookies
+                <h2 className="mt-3 text-[1.05rem] md:text-[1.1rem]" style={{ color: D.ink, fontWeight: 800, lineHeight: 1.2 }}>
+                  Επιλογές cookies
                 </h2>
-                <p className="mt-2 text-sm md:text-[0.94rem]" style={{ color: D.inkSoft, lineHeight: 1.68 }}>
-                  Η Delta Inc. χρησιμοποιεί cookies και τοπική αποθήκευση για βασική λειτουργία, αναλυτικά δεδομένα και αποθήκευση επιλογών εμπειρίας χρήστη.
+                <p className="mt-2 text-[0.9rem]" style={{ color: D.inkSoft, lineHeight: 1.62 }}>
+                  Η Delta Inc. χρησιμοποιεί cookies και τοπική αποθήκευση για βασική λειτουργία, αναλυτικά δεδομένα και αποθήκευση επιλογών εμπειρίας.
                 </p>
-                <p className="mt-2 text-[0.92rem]" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
+                <p className="mt-1.5 text-[0.88rem]" style={{ color: D.inkSoft, lineHeight: 1.58 }}>
                   {statusCopy} Δείτε και την{" "}
                   <Link to="/cookie-policy" className="underline underline-offset-4" style={{ color: D.accentStrong }}>
                     Πολιτική Cookies
@@ -231,13 +231,13 @@ export function CookieConsentBanner() {
               <button
                 type="button"
                 onClick={() => setIsExpanded((current) => !current)}
-                className="inline-flex items-center justify-center gap-2 self-start rounded-2xl px-3.5 py-2.5 text-sm transition-colors md:shrink-0"
+                className="inline-flex items-center justify-center gap-2 self-start rounded-full px-3 py-2 text-[0.84rem] transition-colors"
                 style={{
                   color: D.ink,
-                  background: D.surface,
-                  border: `1px solid ${D.border}`,
-                  fontWeight: 700,
-                }}
+                  background: "rgba(248,250,252,0.92)",
+                    border: `1px solid ${D.border}`,
+                    fontWeight: 700,
+                  }}
               >
                 <Settings2 size={15} />
                 {isExpanded ? "Κλείσιμο ρυθμίσεων" : "Ρυθμίσεις cookies"}
@@ -245,7 +245,7 @@ export function CookieConsentBanner() {
             </div>
 
             {isExpanded ? (
-              <div className="mt-5 space-y-3 pb-2">
+              <div className="mt-4 space-y-3 pb-2">
                 <ConsentToggle
                   label="Απολύτως απαραίτητα"
                   description="Απαιτούνται για βασικές λειτουργίες, όπως η σωστή πλοήγηση και η αποθήκευση κρίσιμων ρυθμίσεων."
@@ -268,12 +268,12 @@ export function CookieConsentBanner() {
                 <div
                   className="flex items-start gap-3 rounded-2xl p-4"
                   style={{
-                    background: D.accentWash,
+                    background: "rgba(29,78,216,0.06)",
                     border: `1px solid ${D.accentBorderSoft}`,
                   }}
                 >
                   <ShieldCheck size={18} className="mt-0.5 shrink-0" style={{ color: D.accentStrong }} />
-                  <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                  <p className="text-[0.88rem]" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
                     Οι επιλογές σας αποθηκεύονται ήδη τοπικά και μπορείτε να τις ανοίγετε ξανά από το footer. Η πλήρης τεχνική εφαρμογή τους σε όλα τα μη απολύτως απαραίτητα εργαλεία ολοκληρώνεται στο επόμενο στάδιο.
                   </p>
                 </div>
@@ -282,18 +282,18 @@ export function CookieConsentBanner() {
           </div>
 
           <div
-            className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between shrink-0"
+            className="mt-4 flex flex-col gap-2.5 md:flex-row md:items-center md:justify-between shrink-0"
             style={{
-              paddingTop: isExpanded ? "0.75rem" : undefined,
+              paddingTop: isExpanded ? "0.7rem" : undefined,
               borderTop: isExpanded ? `1px solid ${D.border}` : undefined,
-              background: isExpanded ? "rgba(255,255,255,0.92)" : undefined,
+              background: isExpanded ? "rgba(255,255,255,0.88)" : undefined,
             }}
           >
-            <div className="flex flex-col gap-2.5 sm:flex-row">
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <button
                 type="button"
                 onClick={handleAcceptAll}
-                className="inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm transition-opacity hover:opacity-95"
+                className="inline-flex items-center justify-center rounded-full px-4 py-2.5 text-[0.88rem] transition-opacity hover:opacity-95"
                 style={{
                   background: D.ink,
                   color: "#fff",
@@ -305,9 +305,9 @@ export function CookieConsentBanner() {
               <button
                 type="button"
                 onClick={handleRejectNonEssential}
-                className="inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm transition-colors"
+                className="inline-flex items-center justify-center rounded-full px-4 py-2.5 text-[0.88rem] transition-colors"
                 style={{
-                  background: D.surface,
+                  background: "rgba(248,250,252,0.92)",
                   color: D.ink,
                   border: `1px solid ${D.border}`,
                   fontWeight: 700,
@@ -321,10 +321,10 @@ export function CookieConsentBanner() {
               <button
                 type="button"
                 onClick={handleSaveSelection}
-                className="inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm transition-colors"
+                className="inline-flex items-center justify-center rounded-full px-4 py-2.5 text-[0.88rem] transition-colors"
                 style={{
                   color: D.accentStrong,
-                  background: D.accentWash,
+                  background: "rgba(29,78,216,0.08)",
                   border: `1px solid ${D.accentBorderSoft}`,
                   fontWeight: 800,
                 }}
