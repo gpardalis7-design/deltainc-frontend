@@ -6,6 +6,7 @@ import { NavigationProvider } from "./lib/navigationContext";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { StickyBottomCta } from "./components/StickyBottomCta";
+import { BackToTopButton } from "./components/BackToTopButton";
 import { PageLoader } from "./components/PageLoader";
 import { CookieConsentBanner } from "./components/CookieConsentBanner";
 import { initAnalytics, trackPageView } from "./lib/analytics";
@@ -204,6 +205,7 @@ export function Root() {
             </main>
             <Footer />
             <StickyBottomCta />
+            <BackToTopButton />
             <CookieConsentBanner />
             {shouldLoadDeferredUi ? (
               <Suspense fallback={null}>
