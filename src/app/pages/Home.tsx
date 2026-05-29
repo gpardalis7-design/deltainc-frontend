@@ -443,8 +443,8 @@ export function Home() {
   const heroTitleHighlight = "Προγράμματα Σπουδών";
   const heroTitleHasHighlight = hero.title.includes(heroTitleHighlight);
   const heroTitleHighlightWords = heroTitleHighlight.split(" ");
-  const heroTitleTrailing = heroTitleHasHighlight
-    ? hero.title.replace(heroTitleHighlight, "").trimStart()
+  const heroTitleTrailingClean = heroTitleHasHighlight
+    ? hero.title.replace(heroTitleHighlight, "").replace(/^,\s*/, "")
     : "";
 
   return (
@@ -471,47 +471,35 @@ export function Home() {
                 lineHeight: 0.95,
                 textWrap: "balance",
               }}>
-                <span className="block">
-                  {heroTitleHasHighlight ? (
+                {heroTitleHasHighlight ? (
+                  <>
                     <span
-                      className="inline-flex flex-col items-start gap-1.5 mr-[0.18em] pr-[0.04em]"
+                      className="inline"
                       style={{
                         color: D.accentStrong,
                         textShadow: "0 10px 30px rgba(37,99,235,0.14)",
                       }}
                     >
                       {heroTitleHighlightWords.map((word, index) => (
-                        <span
-                          key={word}
-                          className={`relative inline-block leading-[0.9] ${index === 0 ? "pl-[0.1em]" : ""}`}
-                        >
-                          {index === 0 ? (
+                        <span key={word}>
+                          {index > 0 ? " " : null}
+                          <span className="relative inline-block leading-[0.9] align-baseline">
+                            {word}
                             <span
-                              className="absolute pointer-events-none"
+                              className="absolute left-[0.08em] right-[0.08em] -bottom-1 h-1.5 rounded-full"
                               style={{
-                                left: "-0.04em",
-                                top: "0.04em",
-                                transform: "rotate(-28deg)",
-                                color: D.accentStrong,
+                                background: "linear-gradient(90deg, rgba(37,99,235,0.24) 0%, rgba(37,99,235,0.08) 100%)",
                               }}
-                            >
-                              <GraduationCap className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.15} />
-                            </span>
-                          ) : null}
-                          {word}
-                          <span
-                            className="absolute left-[0.08em] right-[0.08em] -bottom-1 h-1.5 rounded-full"
-                            style={{
-                              background: "linear-gradient(90deg, rgba(37,99,235,0.24) 0%, rgba(37,99,235,0.08) 100%)",
-                            }}
-                          />
+                            />
+                          </span>
                         </span>
                       ))}
                     </span>
-                  ) : null}
-                  {heroTitleHasHighlight ? " " : ""}
-                  <span>{heroTitleHasHighlight ? heroTitleTrailing : hero.title}</span>
-                </span>
+                    <span>{`, ${heroTitleTrailingClean}`}</span>
+                  </>
+                ) : (
+                  hero.title
+                )}
               </h1>
 
               <p className="type-body-lg mb-6 md:mb-8 max-w-xl" style={{ color: D.inkSoft, fontSize: "clamp(1rem, 2vw, 1.125rem)" }}>
