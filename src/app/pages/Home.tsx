@@ -1,13 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router";
-import { BookOpen, Users, GraduationCap, Award, ChevronRight, ArrowRight, Star, CheckCircle2, FileText, ShieldCheck, Compass } from "lucide-react";
+import { BookOpen, Users, GraduationCap, Award, ChevronRight, ArrowRight, Star, CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import { motion, useInView, AnimatePresence } from "motion/react";
 import { getHomepage } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent } from "../lib/analytics";
 import type { HomepagePayload, DeltaHub, BlogPost, Program } from "../lib/types";
 import { D, sectionSurfaces } from "../Root";
 import { SeoHead } from "../components/SeoHead";
-import { MockBadge } from "../components/MockBadge";
 import { PageLoader } from "../components/PageLoader";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
 import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
@@ -296,11 +295,14 @@ function ProgramCard({ program }: { program: Program }) {
 export function Home() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<HomepagePayload | null>(null);
-  const [isMock, setIsMock] = useState(false);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
-  const { hubs: categoryHubs, isMock: categoriesAreMock } = useCategories();
+  const testimonialScrollRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollTestimonialsPrev, setCanScrollTestimonialsPrev] = useState(false);
+  const [canScrollTestimonialsNext, setCanScrollTestimonialsNext] = useState(false);
+  const { hubs: categoryHubs } = useCategories();
   const { setShowStickyBottom } = useNavigation();
   const heroPrimaryCtaRef = useRef<HTMLAnchorElement | null>(null);
+  const displayedTestimonialCount = data?.testimonials.slice(0, 6).length ?? 0;
 
   // Configure navigation for content mode
   usePageNavigation({
@@ -310,9 +312,8 @@ export function Home() {
   });
 
   useEffect(() => {
-    getHomepage().then(({ data: d, isMock: m }) => {
+    getHomepage().then(({ data: d }) => {
       setData(d);
-      setIsMock(m);
       setSelectedEditorialHub((current) => current || d.featuredHubPosts[0]?.hub?.slug || "");
       setLoading(false);
     });
@@ -372,6 +373,41 @@ export function Home() {
     };
   }, [data, loading, setShowStickyBottom]);
 
+  const syncTestimonialCarouselState = () => {
+    const container = testimonialScrollRef.current;
+    if (!container) return;
+
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    setCanScrollTestimonialsPrev(container.scrollLeft > 8);
+    setCanScrollTestimonialsNext(maxScrollLeft - container.scrollLeft > 8);
+  };
+
+  const scrollTestimonials = (direction: "prev" | "next") => {
+    const container = testimonialScrollRef.current;
+    if (!container) return;
+
+    container.scrollBy({
+      left: direction === "next" ? container.clientWidth * 0.92 : -container.clientWidth * 0.92,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const container = testimonialScrollRef.current;
+    if (!container || displayedTestimonialCount === 0) return;
+
+    const handleScroll = () => syncTestimonialCarouselState();
+
+    syncTestimonialCarouselState();
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [displayedTestimonialCount]);
+
   if (loading) {
     return <PageLoader />;
   }
@@ -379,6 +415,7 @@ export function Home() {
   if (!data) return null;
 
   const { hero, latestPosts, featuredHubPosts, featuredPrograms, stats, testimonials } = data;
+  const displayedTestimonials = testimonials.slice(0, 6);
   const primaryPaths = PATH_ORDER.map((slug) => {
     const liveHub = categoryHubs.find((hub) => hub.slug === slug);
     if (liveHub) return liveHub;
@@ -403,12 +440,18 @@ export function Home() {
     editorialEntries.find((entry) => entry.slug === selectedEditorialHub)?.post ||
     editorialEntries[0]?.post ||
     null;
+  const heroTitleHighlight = "Προγράμματα Σπουδών";
+  const heroTitleHasHighlight = hero.title.includes(heroTitleHighlight);
+  const heroTitleHighlightWords = heroTitleHighlight.split(" ");
+  const heroTitleTrailing = heroTitleHasHighlight
+    ? hero.title.replace(heroTitleHighlight, "").trimStart()
+    : "";
 
   return (
     <div style={{ background: D.bg }}>
       <SeoHead seo={homeSeo()} />
       {/* Hero */}
-      <section className="pt-[5.5rem] md:pt-32 pb-10 md:pb-14 px-5 md:px-6 relative overflow-hidden">
+      <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6 relative overflow-hidden">
         <HeroKnowledgeMap />
         {/* Decorative background */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -421,22 +464,54 @@ export function Home() {
         <div className="max-w-7xl mx-auto relative">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)] gap-8 md:gap-10 items-start">
             <div>
-              <div className="flex items-center gap-2.5 mb-5 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.3)`, color: D.accentStrong, fontWeight: 600 }}>
-                  ✦ {hero.eyebrow}
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, fontWeight: 600 }}>
-                  <Compass size={12} /> Καθοδηγημένο ξεκίνημα
-                </span>
-                {(isMock || categoriesAreMock) && <MockBadge />}
-              </div>
-
               <h1 className="type-display-hero mb-4 md:mb-6" style={{
                 fontSize: "clamp(2.15rem, 6vw, 4.5rem)",
                 color: D.ink,
                 maxWidth: "760px",
+                lineHeight: 0.95,
+                textWrap: "balance",
               }}>
-                {hero.title}
+                <span className="block">
+                  {heroTitleHasHighlight ? (
+                    <span
+                      className="inline-flex flex-col items-start gap-1.5 mr-[0.18em] pr-[0.04em]"
+                      style={{
+                        color: D.accentStrong,
+                        textShadow: "0 10px 30px rgba(37,99,235,0.14)",
+                      }}
+                    >
+                      {heroTitleHighlightWords.map((word, index) => (
+                        <span
+                          key={word}
+                          className={`relative inline-block leading-[0.9] ${index === 0 ? "pl-[0.1em]" : ""}`}
+                        >
+                          {index === 0 ? (
+                            <span
+                              className="absolute pointer-events-none"
+                              style={{
+                                left: "-0.04em",
+                                top: "0.04em",
+                                transform: "rotate(-28deg)",
+                                color: D.accentStrong,
+                              }}
+                            >
+                              <GraduationCap className="h-5 w-5 md:h-6 md:w-6" strokeWidth={2.15} />
+                            </span>
+                          ) : null}
+                          {word}
+                          <span
+                            className="absolute left-[0.08em] right-[0.08em] -bottom-1 h-1.5 rounded-full"
+                            style={{
+                              background: "linear-gradient(90deg, rgba(37,99,235,0.24) 0%, rgba(37,99,235,0.08) 100%)",
+                            }}
+                          />
+                        </span>
+                      ))}
+                    </span>
+                  ) : null}
+                  {heroTitleHasHighlight ? " " : ""}
+                  <span>{heroTitleHasHighlight ? heroTitleTrailing : hero.title}</span>
+                </span>
               </h1>
 
               <p className="type-body-lg mb-6 md:mb-8 max-w-xl" style={{ color: D.inkSoft, fontSize: "clamp(1rem, 2vw, 1.125rem)" }}>
@@ -702,53 +777,100 @@ export function Home() {
       </section>
 
       {/* Testimonials Section - P0 Fix (Social Proof) */}
-      {testimonials.length > 0 && (
+      {displayedTestimonials.length > 0 && (
         <>
         <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homeTrustBand}>
           <div className="max-w-7xl mx-auto">
             <AnimatedSection>
-              <div className="max-w-3xl mx-auto text-center mb-8 md:mb-10">
-                <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Σήματα εμπιστοσύνης</div>
-                <h2 className="type-display-section" style={{ fontSize: "clamp(1.45rem, 3vw, 2rem)", color: D.ink }}>
-                  Εμπειρίες που ενισχύουν την αξιοπιστία του brand
-                </h2>
-                <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                  Η ενότητα παραμένει υποστηρικτική και όχι κραυγαλέα, ώστε να λειτουργεί σαν ήρεμη επιβεβαίωση εμπιστοσύνης μέσα στη συνολική διαδρομή της αρχικής.
-                </p>
+              <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between mb-8 md:mb-10">
+                <div className="max-w-3xl">
+                  <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Σήματα εμπιστοσύνης</div>
+                  <h2 className="type-display-section" style={{ fontSize: "clamp(1.45rem, 3vw, 2rem)", color: D.ink }}>
+                    Εμπειρίες που ενισχύουν την αξιοπιστία του brand
+                  </h2>
+                  <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+                    Περιηγηθείτε στις πιο πρόσφατες αξιολογήσεις σε ένα ήρεμο, editor-led carousel που κρατά την κοινωνική απόδειξη παρούσα χωρίς να βαραίνει την αρχική.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 self-start md:self-auto">
+                  <span className="text-xs uppercase tracking-[0.12em]" style={{ color: D.inkSoft }}>
+                    {displayedTestimonials.length} reviews
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => scrollTestimonials("prev")}
+                    disabled={!canScrollTestimonialsPrev}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-opacity disabled:cursor-not-allowed"
+                    style={{
+                      background: D.surfaceStrong,
+                      border: `1px solid ${D.border}`,
+                      color: D.ink,
+                      opacity: canScrollTestimonialsPrev ? 1 : 0.45,
+                    }}
+                    aria-label="Προηγούμενες αξιολογήσεις"
+                  >
+                    <ChevronRight size={18} className="rotate-180" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollTestimonials("next")}
+                    disabled={!canScrollTestimonialsNext}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-opacity disabled:cursor-not-allowed"
+                    style={{
+                      background: D.ink,
+                      color: "#fff",
+                      border: `1px solid ${D.ink}`,
+                      opacity: canScrollTestimonialsNext ? 1 : 0.45,
+                    }}
+                    aria-label="Επόμενες αξιολογήσεις"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
               </div>
             </AnimatedSection>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-              {testimonials.map((t, i) => (
-                <AnimatedSection key={t.id} delay={i * 0.08}>
-                  <div className="flex flex-col gap-4 p-5 md:p-6 rounded-3xl h-full" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
-                        Επιβεβαίωση
-                      </span>
-                      <div className="flex gap-0.5">
-                      {Array.from({ length: t.rating }).map((_, i) => (
-                        <Star key={i} size={14} fill={D.accent} style={{ color: D.accent }} />
-                      ))}
-                      </div>
-                    </div>
-                    <p className="flex-1 text-sm leading-relaxed" style={{ color: D.ink, lineHeight: 1.8 }}>
-                      "{t.content}"
-                    </p>
-                    <div className="flex items-center gap-3 pt-3" style={{ borderTop: `1px solid ${D.border}` }}>
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: D.accentSoft }}>
-                        <span className="type-ui-label" style={{ color: D.accentStrong, fontSize: "0.85rem" }}>
-                          {t.name.charAt(0)}
+            <AnimatedSection>
+              <div
+                ref={testimonialScrollRef}
+                className="flex gap-5 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-2"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                {displayedTestimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="snap-start shrink-0 basis-[88%] sm:basis-[calc(50%-0.625rem)] lg:basis-[calc((100%-3rem)/3)]"
+                  >
+                    <div className="flex flex-col gap-4 p-5 md:p-6 rounded-3xl h-full min-h-[290px]" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
+                          Επιβεβαίωση
                         </span>
+                        <div className="flex gap-0.5">
+                          {Array.from({ length: t.rating }).map((_, index) => (
+                            <Star key={index} size={14} fill={D.accent} style={{ color: D.accent }} />
+                          ))}
+                        </div>
                       </div>
-                      <div>
-                        <div className="text-sm" style={{ fontWeight: 600, color: D.ink }}>{t.name}</div>
-                        <div className="text-xs" style={{ color: D.inkSoft }}>{t.role}</div>
+                      <p className="flex-1 text-sm leading-relaxed" style={{ color: D.ink, lineHeight: 1.8 }}>
+                        "{t.content}"
+                      </p>
+                      <div className="flex items-center gap-3 pt-3" style={{ borderTop: `1px solid ${D.border}` }}>
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: D.accentSoft }}>
+                          <span className="type-ui-label" style={{ color: D.accentStrong, fontSize: "0.85rem" }}>
+                            {t.name.charAt(0)}
+                          </span>
+                        </div>
+                        <div>
+                          <div className="text-sm" style={{ fontWeight: 600, color: D.ink }}>{t.name}</div>
+                          <div className="text-xs" style={{ color: D.inkSoft }}>{t.role}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </AnimatedSection>
-              ))}
-            </div>
+                ))}
+              </div>
+            </AnimatedSection>
           </div>
         </section>
         </>

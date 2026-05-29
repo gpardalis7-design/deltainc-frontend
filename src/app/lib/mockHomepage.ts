@@ -7,7 +7,7 @@ const WP_BASE_URL = import.meta.env.VITE_WP_BASE_URL || "https://deltainc.gr";
 export const MOCK_HOMEPAGE: HomepagePayload = {
   hero: {
     eyebrow: "Η #1 Πηγή για Εκπαιδευτικές Ειδήσεις",
-    title: "Ειδήσεις, Προγράμματα & Οδηγοί για Εκπαιδευτικούς",
+    title: "Προγράμματα Σπουδών, Προκηρύξεις & Οδηγοί",
     description: "Το Delta είναι η πιο αξιόπιστη πλατφόρμα για εκπαιδευτικές ειδήσεις, μεταπτυχιακά προγράμματα και οδηγούς ΑΣΕΠ, ΟΠΣΥΔ στην Ελλάδα.",
     primaryCta: { label: "Εξερεύνηση Προγραμμάτων", url: "/courses" },
     secondaryCta: { label: "Τελευταίες Ειδήσεις", url: "/blog" },

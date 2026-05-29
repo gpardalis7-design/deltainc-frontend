@@ -172,7 +172,6 @@ type HubViewProps = {
   loadingMore: boolean;
   posts: BlogPost[];
   primaryCTA: HubCTA;
-  relatedLiveHubs: Array<{ id: string | number; slug: string; name: string; description?: string; count?: number }>;
   rest: BlogPost[];
   search: string;
   searchInput: string;
@@ -209,7 +208,6 @@ function GuidedHubView({
   loadingMore,
   posts,
   primaryCTA,
-  relatedLiveHubs,
   rest,
   search,
   searchInput,
@@ -519,11 +517,6 @@ function GuidedHubView({
         </section>
       )}
 
-      <HubRelatedSection
-        displayName={displayName}
-        primaryCTA={primaryCTA}
-        relatedLiveHubs={relatedLiveHubs}
-      />
     </div>
   );
 }
@@ -544,7 +537,6 @@ function EditorialHubView({
   loadingMore,
   posts,
   primaryCTA,
-  relatedLiveHubs,
   rest,
   search,
   searchInput,
@@ -738,13 +730,6 @@ function EditorialHubView({
         emptyActionHref="/blog"
       />
 
-      {(relatedLiveHubs.length > 0 || primaryCTA.href) && (
-        <HubRelatedSection
-          displayName={displayName}
-          primaryCTA={primaryCTA}
-          relatedLiveHubs={relatedLiveHubs}
-        />
-      )}
     </div>
   );
 }
@@ -920,94 +905,6 @@ function HubArticlesSection({
             </div>
           )
         )}
-      </div>
-    </section>
-  );
-}
-
-function HubRelatedSection({
-  displayName,
-  primaryCTA,
-  relatedLiveHubs,
-}: {
-  displayName: string;
-  primaryCTA: HubCTA;
-  relatedLiveHubs: Array<{ id: string | number; slug: string; name: string; description?: string; count?: number }>;
-}) {
-  return (
-    <section className="px-6 py-16" style={sectionSurfaces.hubRelated}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="md:col-span-2">
-            <Fade>
-              <div className="mb-6">
-                <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Άλλες ενότητες</div>
-                <h2 className="type-display-section" style={{ fontSize: "1.15rem", color: D.ink }}>
-                  Δείτε και τις υπόλοιπες κατηγορίες
-                </h2>
-              </div>
-            </Fade>
-            <div className="rounded-2xl overflow-hidden" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
-              {relatedLiveHubs.map((rh) => (
-                <Fade key={rh.slug}>
-                  <Link
-                    to={`/${rh.slug}`}
-                    className="group flex items-center justify-between gap-4 px-5 py-4 transition-colors"
-                    style={{ borderBottom: `1px solid ${D.border}` }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(47, 91, 171, 0.04)")}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
-                  >
-                    <div className="min-w-0">
-                      <div className="type-display-card text-sm" style={{ color: D.ink }}>{rh.name}</div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-xs" style={{ color: D.inkSoft }}>
-                        {rh.count ? `${rh.count} άρθρα` : "Δείτε άρθρα"}
-                      </span>
-                      <ChevronRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: D.accentStrong }} />
-                    </div>
-                  </Link>
-                </Fade>
-              ))}
-              <Fade>
-                <Link
-                  to="/blog"
-                  className="group flex items-center justify-between gap-4 px-5 py-4 transition-colors"
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(47, 91, 171, 0.04)")}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
-                >
-                  <div className="type-display-card text-sm" style={{ color: D.ink }}>Όλο το Blog</div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-xs" style={{ color: D.inkSoft }}>Όλες οι κατηγορίες</span>
-                    <ChevronRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: D.accentStrong }} />
-                  </div>
-                </Link>
-              </Fade>
-            </div>
-          </div>
-
-          <Fade delay={0.1}>
-            <div className="rounded-2xl p-6 flex flex-col justify-between h-full" style={{ background: D.ink, minHeight: "220px" }}>
-              <div>
-                <div className="type-eyebrow mb-3" style={{ color: "rgba(255,255,255,0.3)" }}>Χρειάζεστε Βοήθεια;</div>
-                <h3 className="type-display-section mb-2" style={{ fontSize: "1rem", color: "#fff", lineHeight: 1.3 }}>
-                  Ερωτήσεις για {displayName};
-                </h3>
-                <p className="text-xs mb-5" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.65 }}>
-                  Η ομάδα Delta σας δείχνει τι να κάνετε τώρα, χωρίς γενικές απαντήσεις και χωρίς κόστος.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={primaryCTA.onClick}
-                className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs transition-all hover:opacity-90"
-                style={{ background: D.accent, color: D.ink, fontWeight: 700 }}
-              >
-                {primaryCTA.label} <ArrowRight size={12} />
-              </button>
-            </div>
-          </Fade>
-        </div>
       </div>
     </section>
   );
@@ -1520,16 +1417,6 @@ export function Hub() {
   const displayedArticleCount = isFiltered ? posts.length : posts.length + (featured ? 1 : 0);
   const hasMore = displayedArticleCount < total;
 
-  // Related hubs: other live categories excluding current one
-  const relatedLiveHubs = hubs
-    .filter((h) => h.slug !== hubSlug)
-    .map((h) => ({
-      id: h.id,
-      slug: h.slug,
-      name: h.name,
-      description: h.description,
-      count: h.count,
-    }));
   const viewProps: HubViewProps = {
     displayName,
     displayH1,
@@ -1553,7 +1440,6 @@ export function Hub() {
     loadingMore,
     posts,
     primaryCTA,
-    relatedLiveHubs,
     rest,
     search,
     searchInput,

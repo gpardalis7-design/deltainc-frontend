@@ -175,27 +175,6 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { value: "ΑΣΕΠ", label: "Προκηρύξεις και πρακτική καθοδήγηση" },
-            { value: "ΟΠΣΥΔ", label: "Ενημέρωση για εκπαιδευτικούς" },
-            { value: "Προγράμματα", label: "Μεταπτυχιακά και πιστοποιήσεις" },
-          ].map((item) => (
-            <div
-              key={item.value}
-              className="rounded-2xl p-4"
-              style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.07)" }}
-            >
-              <div className="type-display-card text-sm mb-1" style={{ color: "#fff" }}>
-                {item.value}
-              </div>
-              <div className="text-xs" style={{ color: "rgba(255,255,255,0.36)", lineHeight: 1.5 }}>
-                {item.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
         <div
           className="mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
