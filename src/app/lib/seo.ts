@@ -235,7 +235,7 @@ export function programsSeo(filtered = false): SeoMeta {
 }
 
 export function staticPageSeo(
-  page: "about" | "contact" | "privacy" | "cookies" | "terms"
+  page: "about" | "contact" | "privacy" | "cookies" | "terms" | "assignments"
 ): SeoMeta {
   const pages = {
     about: {
@@ -262,6 +262,11 @@ export function staticPageSeo(
       title: "Όροι Χρήσης | Delta Inc",
       description: "Οι όροι που διέπουν τη χρήση του ιστότοπου της Delta Inc. και του ενημερωτικού περιεχομένου που παρέχεται μέσω αυτού.",
       path: "/terms",
+    },
+    assignments: {
+      title: "Κοστολόγηση Εργασίας | Delta Inc",
+      description: "Συμπληρώστε τη φόρμα κοστολόγησης εργασίας με στοιχεία θέματος, ειδικότητας, γλώσσας συγγραφής και προθεσμίας παράδοσης.",
+      path: "/assignments",
     },
   };
   const p = pages[page];

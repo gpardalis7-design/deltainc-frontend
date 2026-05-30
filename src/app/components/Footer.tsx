@@ -22,6 +22,7 @@ const FOOTER_COLUMNS = [
     title: "Περιεχόμενο",
     links: [
       { label: "Blog", href: "/blog-hub" },
+      { label: "Κοστολόγηση Εργασίας", href: "/assignments" },
       { label: "Νέα/Επικαιρότητα", href: "/nea-epikairothta" },
       { label: "Εκπαίδευση", href: "/ekpaideysi" },
       { label: "Επιδόματα", href: "/επιδόματα" },

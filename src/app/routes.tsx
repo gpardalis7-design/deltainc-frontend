@@ -14,6 +14,7 @@ export const router = createBrowserRouter([
       { path: "blog/:slug", lazy: async () => ({ Component: (await import("./pages/BlogArticle")).BlogArticle }) },
       { path: "blog-hub", lazy: async () => ({ Component: (await import("./pages/BlogHub")).BlogHub }) },
       { path: "contact", lazy: async () => ({ Component: (await import("./pages/Contact")).Contact }) },
+      { path: "assignments", lazy: async () => ({ Component: (await import("./pages/Assignments")).Assignments }) },
       { path: "courses", lazy: async () => ({ Component: (await import("./pages/Courses")).Courses }) },
       { path: "courses/:slug", lazy: async () => ({ Component: (await import("./pages/ProgramDetails")).ProgramDetails }) },
       { path: "about", lazy: async () => ({ Component: (await import("./pages/About")).About }) },
