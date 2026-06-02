@@ -30,7 +30,7 @@ export function ProminentArticleCard({
     <Link
       to={`/blog/${post.slug}`}
       className="group flex flex-col overflow-hidden rounded-[30px] transition-all duration-200 hover:-translate-y-0.5"
-      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 14px 34px ${D.shadow}` }}
+      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 14px 34px ${D.shadow}`, borderRadius: D.radiusShell }}
       onClick={() =>
         trackEvent("featured_article_click", {
           ...getCurrentPageAnalyticsContext(),

@@ -24,12 +24,22 @@ export const D = {
   accentWash: "rgba(29,78,216,0.06)",
   accentWashStrong: "rgba(29,78,216,0.035)",
   accentBorderSoft: "rgba(29,78,216,0.08)",
+  warmAccent: "#B9985A",
+  warmAccentStrong: "#B9985A",
+  warmAccentSoft: "rgba(185,152,90,0.12)",
+  warmAccentWash: "rgba(185,152,90,0.05)",
+  warmAccentBorderSoft: "rgba(185,152,90,0.22)",
   heroMid: "#172554",
   heroTo: "#1E3A8A",
   border: "rgba(15,23,42,0.08)",
   borderStrong: "rgba(15,23,42,0.16)",
   headerGlass: "rgba(255,255,255,0.82)",
   shadow: "rgba(15,23,42,0.08)",
+  radiusShell: "1.5rem",
+  radiusCard: "1.25rem",
+  radiusInner: "1rem",
+  radiusControl: "0.875rem",
+  radiusPill: "999px",
 };
 
 // Shared section surfaces keep large-page palette changes centralized.

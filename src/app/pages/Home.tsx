@@ -29,131 +29,6 @@ function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; d
   );
 }
 
-function HeroKnowledgeMap() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setPrefersReducedMotion(media.matches);
-
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  const pathTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 14, repeat: Infinity, repeatType: "reverse" as const, ease: "easeInOut" as const };
-
-  const nodeTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 4.8, repeat: Infinity, repeatType: "mirror" as const, ease: "easeInOut" as const };
-
-  const nodes = [
-    { x: "15%", y: "24%", label: "ΑΣΕΠ" },
-    { x: "37%", y: "58%", label: "ΟΠΣΥΔ" },
-    { x: "70%", y: "32%", label: "Μεταπτυχιακά" },
-    { x: "81%", y: "62%", label: "Πιστοποιήσεις" },
-  ];
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <div
-        className="absolute inset-y-0 left-0 w-[58%] hidden md:block"
-        style={{
-          background: "linear-gradient(90deg, rgba(219,234,254,0.28) 0%, rgba(255,255,255,0.08) 72%, rgba(255,255,255,0) 100%)",
-        }}
-      />
-      <div
-        className="absolute inset-x-0 top-[22%] h-px"
-        style={{ background: "linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.08) 20%, rgba(197,141,42,0.12) 52%, transparent 100%)" }}
-      />
-      <motion.div
-        className="absolute left-[7%] top-[12%] h-52 w-52 rounded-full blur-3xl"
-        style={{ background: "rgba(37,99,235,0.12)" }}
-        animate={prefersReducedMotion ? undefined : { x: [0, 14, -10, 0], y: [0, -12, 10, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute right-[6%] top-[20%] h-64 w-64 rounded-full blur-3xl"
-        style={{ background: "rgba(197,141,42,0.1)" }}
-        animate={prefersReducedMotion ? undefined : { x: [0, -18, 12, 0], y: [0, 14, -8, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <motion.svg
-        className="absolute inset-0 h-full w-full"
-        viewBox="0 0 1440 780"
-        preserveAspectRatio="none"
-        initial={{ opacity: 0.7 }}
-        animate={prefersReducedMotion ? undefined : { opacity: [0.62, 0.82, 0.7] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <defs>
-          <linearGradient id="routeStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(37,99,235,0.34)" />
-            <stop offset="50%" stopColor="rgba(197,141,42,0.32)" />
-            <stop offset="100%" stopColor="rgba(37,99,235,0.22)" />
-          </linearGradient>
-          <linearGradient id="routeStrokeSoft" x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="rgba(19,35,58,0.12)" />
-            <stop offset="100%" stopColor="rgba(37,99,235,0.18)" />
-          </linearGradient>
-        </defs>
-
-        <motion.path
-          d="M -40 168 C 190 64, 332 108, 492 246 S 786 474, 1042 336 S 1298 190, 1500 272"
-          fill="none"
-          stroke="url(#routeStroke)"
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeDasharray="10 14"
-          animate={prefersReducedMotion ? undefined : { pathLength: [0.82, 1, 0.88], x: [0, 8, -6, 0], y: [0, -6, 5, 0] }}
-          transition={pathTransition}
-        />
-        <motion.path
-          d="M 120 566 C 302 432, 462 468, 632 542 S 912 650, 1130 542 S 1336 392, 1490 462"
-          fill="none"
-          stroke="url(#routeStrokeSoft)"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-          strokeDasharray="4 12"
-          animate={prefersReducedMotion ? undefined : { pathLength: [0.75, 0.94, 0.82], x: [0, -10, 7, 0], y: [0, 5, -4, 0] }}
-          transition={{ duration: 18, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-        />
-      </motion.svg>
-
-      {nodes.map((node, index) => (
-        <motion.div
-          key={node.label}
-          className={`absolute ${index > 1 ? "hidden md:flex" : "flex"} items-center gap-2 rounded-full px-3 py-1.5 backdrop-blur-sm`}
-          style={{
-            left: node.x,
-            top: node.y,
-            background: "rgba(255,255,255,0.76)",
-            border: "1px solid rgba(37,99,235,0.18)",
-            color: D.inkSoft,
-            boxShadow: "0 12px 34px rgba(15,23,42,0.08)",
-          }}
-          animate={prefersReducedMotion ? undefined : { y: [0, -8, 0], scale: [1, 1.03, 1] }}
-          transition={{ ...nodeTransition, delay: index * 0.45 }}
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <motion.span
-              className="absolute inline-flex h-full w-full rounded-full"
-              style={{ background: "rgba(37,99,235,0.26)" }}
-              animate={prefersReducedMotion ? undefined : { scale: [1, 1.9, 1], opacity: [0.55, 0, 0.55] }}
-              transition={{ duration: 3.4, repeat: Infinity, delay: index * 0.4, ease: "easeOut" }}
-            />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full" style={{ background: D.accentStrong }} />
-          </span>
-          <span className="text-[11px] font-semibold tracking-[0.08em] uppercase">{node.label}</span>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
 const PATH_CONFIG = {
   metaptyxiaka: {
     icon: GraduationCap,
@@ -215,7 +90,7 @@ function ProgramCard({ program }: { program: Program }) {
   const programTarget = `/courses/${program.slug}`;
 
   return (
-    <Link to={programTarget} className="group p-5 rounded-3xl flex flex-col gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-full" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}` }}
+    <Link to={programTarget} className="group p-5 rounded-3xl flex flex-col gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-full" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}`, borderRadius: D.radiusCard }}
       onClick={() =>
         trackEvent("program_card_click", {
           page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
@@ -228,7 +103,7 @@ function ProgramCard({ program }: { program: Program }) {
           cta_target: programTarget,
         })
       }
-      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.warmAccentBorderSoft)}
       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
     >
       <div className="flex items-center justify-between gap-3">
@@ -265,7 +140,7 @@ function ProgramCard({ program }: { program: Program }) {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 rounded-2xl p-3" style={{ background: D.surface }}>
+      <div className="grid grid-cols-2 gap-3 rounded-2xl p-3" style={{ background: D.surface, borderRadius: D.radiusInner }}>
         <div>
           <div className="text-[11px] uppercase tracking-[0.12em]" style={{ color: D.inkSoft }}>
             Διάρκεια
@@ -451,16 +326,7 @@ export function Home() {
     <div style={{ background: D.bg }}>
       <SeoHead seo={homeSeo()} />
       {/* Hero */}
-      <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6 relative overflow-hidden">
-        <HeroKnowledgeMap />
-        {/* Decorative background */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: `linear-gradient(180deg, rgba(255,255,255,0.98) 0%, ${D.bg} 72%, rgba(37,99,235,0.035) 100%)`,
-        }} />
-        <div className="absolute left-1/2 top-20 hidden h-[360px] w-[760px] -translate-x-1/2 rounded-full blur-3xl md:block pointer-events-none" style={{ background: "rgba(37,99,235,0.07)" }} />
-        <div className="absolute right-[-120px] top-28 hidden h-[420px] w-[420px] rounded-full blur-3xl md:block pointer-events-none" style={{ background: "rgba(15,23,42,0.045)" }} />
-        <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" style={{ background: `linear-gradient(180deg, transparent 0%, ${D.bg} 100%)` }} />
-
+      <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6">
         <div className="max-w-7xl mx-auto relative">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)] gap-8 md:gap-10 items-start">
             <div>
@@ -512,7 +378,7 @@ export function Home() {
                   to={hero.primaryCta.url} 
                   onClick={() => trackCtaClick(hero.primaryCta.label, "home_hero_primary", { cta_target: hero.primaryCta.url })}
                   className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95"
-                  style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px" }}
+                  style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px", borderRadius: D.radiusControl }}
                 >
                   {hero.primaryCta.label} <ArrowRight size={18} />
                 </Link>
@@ -520,7 +386,7 @@ export function Home() {
                   to={hero.secondaryCta.url}
                   onClick={() => trackCtaClick(hero.secondaryCta.label, "home_hero_secondary", { cta_target: hero.secondaryCta.url })}
                   className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-4 rounded-2xl transition-all duration-200 hover:opacity-90"
-                  style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600, minHeight: "56px" }}
+                  style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600, minHeight: "56px", borderRadius: D.radiusControl }}
                 >
                   {hero.secondaryCta.label} <ChevronRight size={16} />
                 </Link>
@@ -539,7 +405,7 @@ export function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.35 + i * 0.08 }}
                     className="flex flex-col gap-2 p-4 rounded-2xl min-h-[118px]"
-                    style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}
+                    style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}
                   >
                     <stat.icon size={18} style={{ color: D.accent }} />
                     <div className="type-stat" style={{ fontSize: "clamp(1.2rem, 2.4vw, 1.7rem)", color: D.ink }}>
@@ -553,42 +419,66 @@ export function Home() {
               </div>
             </div>
 
-            <div className="rounded-[32px] p-5 md:p-7 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.88)", border: `1px solid ${D.border}`, boxShadow: `0 18px 48px rgba(15,23,42,0.09)`, backdropFilter: "blur(16px)" }}>
-              <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${D.accentStrong}, rgba(37,99,235,0.15))` }} />
-              <div className="flex items-center gap-2 mb-4">
-                <ShieldCheck size={16} style={{ color: D.accentStrong }} />
-                <div className="text-xs tracking-[0.12em] uppercase" style={{ color: D.inkSoft }}>Ξεκινήστε από εδώ</div>
+            <div className="rounded-[32px] p-5 md:p-7 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.9)", border: `1px solid ${D.border}`, boxShadow: `0 18px 48px rgba(15,23,42,0.09)`, backdropFilter: "blur(16px)", borderRadius: D.radiusShell }}>
+              <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${D.warmAccentStrong}, ${D.accentStrong}, rgba(37,99,235,0.12))` }} />
+              <div className="flex items-center gap-2 mb-5">
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full"
+                  style={{ background: D.warmAccentSoft, border: `1px solid ${D.warmAccentBorderSoft}` }}
+                >
+                  <ShieldCheck size={14} style={{ color: D.warmAccentStrong }} />
+                  <div className="text-[11px] tracking-[0.14em] uppercase" style={{ color: D.warmAccentStrong, fontWeight: 700 }}>
+                    Επιλεγμένη διαδρομή
+                  </div>
+                </div>
               </div>
-              <h2 className="type-display-section mb-3" style={{ fontSize: "1.3rem", color: D.ink, lineHeight: 1.2 }}>
+              <h2 className="type-display-section mb-2.5" style={{ fontSize: "1.34rem", color: D.ink, lineHeight: 1.16, letterSpacing: "-0.03em" }}>
                 Επιλέξτε γρήγορα το θέμα που σας αφορά
               </h2>
-              <p className="text-sm mb-5" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                Αυτό το block λειτουργεί σαν γρήγορος οδηγός κατεύθυνσης. Αν ήδη ξέρετε περίπου τι ψάχνετε, διαλέξτε τη σωστή διαδρομή και συνεχίστε άμεσα.
+              <p className="text-sm mb-6" style={{ color: D.inkSoft, lineHeight: 1.72, maxWidth: "34rem" }}>
+                Διαλέξτε τη βασική διαδρομή που ταιριάζει στην ανάγκη σας και συνεχίστε χωρίς περιττή αναζήτηση.
               </p>
-              <div className="space-y-3">
-                {primaryPaths.slice(0, 4).map((hub) => {
+              <div className="space-y-2.5">
+                {primaryPaths.slice(0, 4).map((hub, index) => {
                   const config = PATH_CONFIG[hub.slug as keyof typeof PATH_CONFIG];
                   const Icon = config?.icon || BookOpen;
                   return (
                     <Link
                       key={hub.id}
                       to={config?.route || `/${hub.slug}`}
-                      className="group flex items-center justify-between gap-3 rounded-2xl px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-[72px]"
-                      style={{ background: D.surface, border: `1px solid ${D.border}` }}
+                      className="group flex items-center justify-between gap-3 rounded-[1.35rem] px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.995] min-h-[78px]"
+                      style={{
+                        background: index === 0 ? "linear-gradient(180deg, rgba(248,250,255,0.98) 0%, rgba(255,255,255,0.98) 100%)" : "rgba(255,255,255,0.72)",
+                        border: `1px solid ${index === 0 ? "rgba(37,99,235,0.18)" : D.border}`,
+                        boxShadow: index === 0 ? "0 10px 26px rgba(37,99,235,0.08)" : "0 4px 16px rgba(15,23,42,0.04)",
+                        borderRadius: D.radiusCard,
+                      }}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
+                        <div
+                          className="w-11 h-11 rounded-[1.1rem] flex items-center justify-center shrink-0"
+                          style={{ background: index === 0 ? "rgba(37,99,235,0.1)" : D.accentSoft, border: `1px solid ${index === 0 ? "rgba(37,99,235,0.12)" : "transparent"}`, borderRadius: D.radiusControl }}
+                        >
                           <Icon size={18} style={{ color: D.accentStrong }} />
                         </div>
                         <div className="min-w-0">
-                          <div className="text-sm" style={{ fontWeight: 700, color: D.ink }}>{hub.name}</div>
-                          <div className="text-xs line-clamp-2" style={{ color: D.inkSoft, lineHeight: 1.45 }}>{config?.quickCue || config?.action || hub.description}</div>
+                          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                            <div className="text-sm" style={{ fontWeight: 750, color: D.ink, letterSpacing: "-0.01em" }}>{hub.name}</div>
+                          </div>
+                          <div className="text-xs line-clamp-2" style={{ color: D.inkSoft, lineHeight: 1.55 }}>
+                            {config?.quickCue || config?.action || hub.description}
+                          </div>
                         </div>
                       </div>
-                      <ChevronRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" style={{ color: D.accent }} />
+                      <ChevronRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" style={{ color: index === 0 ? D.accentStrong : D.inkSoft, opacity: index === 0 ? 1 : 0.72 }} />
                     </Link>
                   );
                 })}
+              </div>
+              <div className="mt-5 pt-4" style={{ borderTop: `1px solid ${D.warmAccentBorderSoft}` }}>
+                <p className="text-xs" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
+                  Αν δεν είστε ακόμη βέβαιοι, ξεκινήστε από τη διαδρομή που μοιάζει πιο κοντά στην ανάγκη σας και συνεχίστε από εκεί.
+                </p>
               </div>
             </div>
           </motion.div>
@@ -599,23 +489,64 @@ export function Home() {
       <section className="py-9 md:py-11 px-5 md:px-6" style={sectionSurfaces.homeTrust}>
         <div className="max-w-7xl mx-auto">
           <AnimatedSection>
-            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6 md:mb-7">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.85fr)] gap-6 md:gap-8 items-center mb-7 md:mb-8">
               <div>
-                <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Trust placeholders</div>
-                <h2 className="type-display-section" style={{ fontSize: "clamp(1.2rem, 2.6vw, 1.6rem)", color: D.ink }}>
-                  Εδώ θα μπουν τα βασικά στοιχεία εμπιστοσύνης του brand
+                <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>Το οικοσύστημα Delta</div>
+                <h2 className="type-display-section" style={{ fontSize: "clamp(1.25rem, 2.8vw, 1.8rem)", color: D.ink }}>
+                  Σπουδές, καθοδήγηση, ενημέρωση και πρακτικά εργαλεία σε ένα ενιαίο πλαίσιο υποστήριξης
                 </h2>
+                <p className="max-w-2xl text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.8 }}>
+                  Η Delta συνδέει διαφορετικές ανάγκες που συχνά εμφανίζονται μαζί: ακαδημαϊκές επιλογές, προκηρύξεις, επαγγελματική εξέλιξη,
+                  πιστοποιήσεις και ψηφιακά εργαλεία που κάνουν τις αποφάσεις πιο γρήγορες και πιο καθαρές.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                  {[
+                    "Πιο καθαρές διαδρομές για σπουδές και εργασία",
+                    "Πρακτική καθοδήγηση με Delta σοβαρότητα",
+                    "Νέα εργαλεία που επεκτείνουν την εμπειρία πέρα από το περιεχόμενο",
+                  ].map((item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl px-4 py-3"
+                      style={{ background: "rgba(255,255,255,0.74)", border: `1px solid ${D.border}`, boxShadow: `0 6px 18px ${D.shadow}`, borderRadius: D.radiusCard }}
+                    >
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 size={15} style={{ color: D.warmAccentStrong, marginTop: 2, flexShrink: 0 }} />
+                        <p className="text-sm" style={{ color: D.ink, fontWeight: 600, lineHeight: 1.6 }}>
+                          {item}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="max-w-xl text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                Η ενότητα είναι έτοιμη να δεχθεί πραγματικά νούμερα κοινότητας, εμπειρίας και καθοδήγησης μόλις τα οριστικοποιήσετε.
-              </p>
+
+              <div
+                className="rounded-[2rem] p-4 md:p-5"
+                style={{
+                  background: "rgba(255,255,255,0.82)",
+                  border: `1px solid ${D.warmAccentBorderSoft}`,
+                  boxShadow: `0 12px 32px rgba(185,152,90,0.08)`,
+                  backdropFilter: "blur(8px)",
+                  borderRadius: D.radiusShell,
+                }}
+              >
+                <div className="rounded-[1.5rem] overflow-hidden" style={{ background: `linear-gradient(180deg, rgba(255,255,255,0.98) 0%, ${D.warmAccentWash} 100%)`, border: `1px solid ${D.warmAccentBorderSoft}`, borderRadius: D.radiusCard }}>
+                  <img
+                    src="/delta-hero.png"
+                    alt="Οπτική αποτύπωση του οικοσυστήματος υπηρεσιών και εργαλείων της Delta"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
             </div>
           </AnimatedSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TRUST_PLACEHOLDERS.map((item, i) => (
               <AnimatedSection key={item.label} delay={i * 0.06}>
-                <div className="rounded-[24px] p-5 h-full" style={{ background: "rgba(255,255,255,0.78)", border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}`, backdropFilter: "blur(8px)" }}>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full mb-4 text-[11px]" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
+                <div className="rounded-[24px] p-5 h-full" style={{ background: "rgba(255,255,255,0.78)", border: `1px solid ${D.border}`, boxShadow: `0 6px 20px ${D.shadow}`, backdropFilter: "blur(8px)", borderRadius: D.radiusCard }}>
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full mb-4 text-[11px]" style={{ background: D.warmAccentSoft, color: D.warmAccentStrong, fontWeight: 700 }}>
                     <CheckCircle2 size={12} />
                     Placeholder
                   </div>
@@ -641,7 +572,7 @@ export function Home() {
           <AnimatedSection>
             <div className="flex flex-col gap-3 mb-7 md:mb-8">
               <div>
-                <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Επιλεγμένη καθοδήγηση</div>
+                <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>Επιλεγμένη καθοδήγηση</div>
                 <h2 className="type-display-section" style={{ fontSize: "clamp(1.35rem, 3vw, 1.85rem)", color: D.ink }}>
                   Ξεκινήστε από το σωστό θέμα
                 </h2>
@@ -656,7 +587,7 @@ export function Home() {
             <div className="flex flex-col gap-5 md:gap-6">
               <AnimatedSection>
                 <div className="flex flex-col gap-4">
-                  <div className="type-eyebrow" style={{ color: D.inkSoft }}>
+                  <div className="type-eyebrow" style={{ color: D.warmAccentStrong }}>
                     Επιλέξτε κατηγορία
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -713,7 +644,7 @@ export function Home() {
 
                 <div className="grid grid-cols-1 gap-3 md:gap-4">
                   <AnimatedSection>
-                    <div className="type-eyebrow" style={{ color: D.inkSoft }}>
+                    <div className="type-eyebrow" style={{ color: D.warmAccentStrong }}>
                       Τελευταία Άρθρα
                     </div>
                   </AnimatedSection>
@@ -721,7 +652,7 @@ export function Home() {
                     <AnimatedSection key={post.id} delay={i * 0.08}>
                       <div
                         className="rounded-[22px] p-3 md:p-3.5"
-                        style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}` }}
+                        style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}`, borderRadius: D.radiusInner }}
                       >
                         <CompactArticleListItem
                           post={post}
@@ -732,9 +663,9 @@ export function Home() {
                     </AnimatedSection>
                   ))}
                   <AnimatedSection delay={0.18}>
-                    <div className="rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between" style={{ background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}` }}>
+                    <div className="rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between" style={{ background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}`, borderRadius: D.radiusShell }}>
                       <div>
-                        <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
+                        <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>
                           Περισσότερο περιεχόμενο
                         </div>
                         <h3 className="type-display-card" style={{ fontSize: "1.15rem", letterSpacing: "-0.025em", color: D.ink, lineHeight: 1.25 }}>
@@ -829,7 +760,7 @@ export function Home() {
                     key={t.id}
                     className="snap-start shrink-0 basis-[88%] sm:basis-[calc(50%-0.625rem)] lg:basis-[calc((100%-3rem)/3)]"
                   >
-                    <div className="flex flex-col gap-4 p-5 md:p-6 rounded-3xl h-full min-h-[290px]" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
+                    <div className="flex flex-col gap-4 p-5 md:p-6 rounded-3xl h-full min-h-[290px]" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusCard }}>
                       <div className="flex items-center justify-between gap-3">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
                           Επιβεβαίωση
@@ -892,7 +823,7 @@ export function Home() {
             </div>
 
             <AnimatedSection delay={0.22}>
-              <div className="mt-7 md:mt-8 rounded-3xl p-5 md:p-7 flex flex-col md:flex-row md:items-center md:justify-between gap-5" style={{ background: D.surface, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
+              <div className="mt-7 md:mt-8 rounded-3xl p-5 md:p-7 flex flex-col md:flex-row md:items-center md:justify-between gap-5" style={{ background: D.surface, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusShell }}>
                 <div className="max-w-2xl">
                   <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
                     Αναζήτηση με καθοδήγηση
@@ -924,7 +855,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection>
             <div className="rounded-3xl p-6 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
-              style={{ background: `linear-gradient(135deg, ${D.ink} 0%, ${D.heroMid} 100%)`, boxShadow: `0 16px 44px ${D.shadow}` }}
+              style={{ background: `linear-gradient(135deg, ${D.ink} 0%, ${D.heroMid} 100%)`, boxShadow: `0 16px 44px ${D.shadow}`, borderRadius: D.radiusShell }}
             >
               <div className="max-w-lg">
                 <div className="type-eyebrow mb-3" style={{ color: "rgba(255,255,255,0.55)" }}>
@@ -941,7 +872,7 @@ export function Home() {
                 to="/contact"
                 onClick={() => trackCtaClick("Ζητήστε καθοδήγηση", "home_final_cta", { cta_target: "/contact" })}
                 className="w-full md:w-auto shrink-0 flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-sm transition-all duration-200 hover:opacity-90 active:scale-95"
-                style={{ background: D.accent, color: D.ink, fontWeight: 700, boxShadow: `0 4px 20px rgba(197,141,42,0.4)`, minHeight: "56px" }}
+                style={{ background: D.accent, color: D.ink, fontWeight: 700, boxShadow: `0 4px 20px rgba(197,141,42,0.4)`, minHeight: "56px", borderRadius: D.radiusControl }}
               >
                 Ζητήστε καθοδήγηση <ArrowRight size={18} />
               </Link>

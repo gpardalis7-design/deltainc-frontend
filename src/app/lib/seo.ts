@@ -235,7 +235,7 @@ export function programsSeo(filtered = false): SeoMeta {
 }
 
 export function staticPageSeo(
-  page: "about" | "contact" | "privacy" | "cookies" | "terms" | "assignments"
+  page: "about" | "contact" | "privacy" | "cookies" | "terms" | "assignments" | "deltaApps" | "moriaCalculator"
 ): SeoMeta {
   const pages = {
     about: {
@@ -267,6 +267,16 @@ export function staticPageSeo(
       title: "Κοστολόγηση Εργασίας | Delta Inc",
       description: "Συμπληρώστε τη φόρμα κοστολόγησης εργασίας με στοιχεία θέματος, ειδικότητας, γλώσσας συγγραφής και προθεσμίας παράδοσης.",
       path: "/assignments",
+    },
+    deltaApps: {
+      title: "Delta Apps | Ψηφιακά Εργαλεία Delta",
+      description: "Το Delta Apps είναι η νέα ενότητα ψηφιακών εργαλείων της Delta για σπουδές, εργασία και καθημερινές αποφάσεις, με πρώτο σταθμό το Μόρια Calculator.",
+      path: "/delta-apps",
+    },
+    moriaCalculator: {
+      title: "Μόρια Calculator | Delta Apps",
+      description: "Υπολογίστε μόρια αναπληρωτών με καθαρό breakdown για ακαδημαϊκά προσόντα, γλώσσες, προϋπηρεσία και κοινωνικά κριτήρια μέσα από το Delta Apps.",
+      path: "/delta-apps/moria-calculator",
     },
   };
   const p = pages[page];

@@ -239,7 +239,7 @@ export function ContactFormModal() {
             >
               <div
                 className="rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 relative"
-                style={{ background: D.bg, boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}
+                style={{ background: D.bg, boxShadow: "0 20px 60px rgba(0,0,0,0.3)", borderRadius: D.radiusShell }}
               >
                 {/* Close button */}
                 {!submitted && (
@@ -328,6 +328,7 @@ export function ContactFormModal() {
                             background: D.surface,
                             border: `1px solid ${D.border}`,
                             color: D.ink,
+                            borderRadius: D.radiusControl,
                           }}
                           placeholder="π.χ. Γιάννης Παπαδόπουλος"
                         />
@@ -357,6 +358,7 @@ export function ContactFormModal() {
                             background: D.surface,
                             border: `1px solid ${D.border}`,
                             color: D.ink,
+                            borderRadius: D.radiusControl,
                           }}
                           placeholder="email@example.com"
                         />
@@ -386,6 +388,7 @@ export function ContactFormModal() {
                             background: D.surface,
                             border: `1px solid ${D.border}`,
                             color: D.ink,
+                            borderRadius: D.radiusControl,
                           }}
                           placeholder="69XXXXXXXX"
                         />
@@ -414,6 +417,7 @@ export function ContactFormModal() {
                             background: D.surface,
                             border: `1px solid ${D.border}`,
                             color: formData.interest ? D.ink : D.inkSoft,
+                            borderRadius: D.radiusControl,
                           }}
                         >
                           <option value="" disabled>
@@ -444,6 +448,7 @@ export function ContactFormModal() {
                           fontWeight: 700,
                           boxShadow: `0 4px 20px ${D.shadow}`,
                           marginTop: "1.5rem",
+                          borderRadius: D.radiusControl,
                         }}
                       >
                         {submitting ? <><Loader2 size={16} className="animate-spin" /> Αποστολή...</> : <>Αποστολή <Send size={16} /></>}

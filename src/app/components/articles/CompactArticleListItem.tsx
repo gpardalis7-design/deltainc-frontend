@@ -30,7 +30,7 @@ export function CompactArticleListItem({
     <Link
       to={to}
       className="group w-full text-left flex gap-3 p-2.5 rounded-xl transition-all duration-200"
-      style={{ border: "1px solid transparent", background: "rgba(255,255,255,0.48)" }}
+      style={{ border: "1px solid transparent", background: "rgba(255,255,255,0.48)", borderRadius: D.radiusInner }}
       onClick={() =>
         trackEvent("related_article_click", {
           ...getCurrentPageAnalyticsContext(),
@@ -50,7 +50,7 @@ export function CompactArticleListItem({
       }}
     >
       {post.featuredImage && image && (
-        <div className="shrink-0 w-16 h-16 rounded-lg overflow-hidden">
+        <div className="shrink-0 w-16 h-16 rounded-lg overflow-hidden" style={{ borderRadius: D.radiusControl }}>
           <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover" />
         </div>
       )}

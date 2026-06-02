@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { label: "ΑΣΕΠ", url: "/asep" },
   { label: "ΟΠΣΥΔ", url: "/opsyd" },
   { label: "Μεταπτυχιακά", url: "/metaptyxiaka" },
+  { label: "Delta Apps", url: "/delta-apps", isNew: true },
   { label: "Blog", url: "/blog-hub" },
   { label: "Επικοινωνία", url: "/contact" },
 ];
@@ -87,6 +88,7 @@ export function Navbar() {
             backdropFilter: "blur(20px)",
             border: scrolled ? `1px solid ${D.border}` : "1px solid rgba(148,163,184,0.22)",
             boxShadow: scrolled ? `0 4px 24px ${D.shadow}` : "0 1px 0 rgba(15,23,42,0.05), 0 10px 28px rgba(15,23,42,0.06)",
+            borderRadius: D.radiusShell,
           }}
         >
           {/* Logo */}
@@ -108,6 +110,7 @@ export function Navbar() {
                     background: active ? (scrolled ? D.accentSoft : "rgba(29,78,216,0.08)") : "transparent",
                     fontWeight: active ? 600 : 400,
                     border: active ? (scrolled ? `1px solid rgba(197,141,42,0.25)` : "1px solid rgba(29,78,216,0.14)") : "1px solid transparent",
+                    borderRadius: D.radiusControl,
                   }}
                   onMouseEnter={(e) => {
                     if (!active) (e.currentTarget as HTMLElement).style.color = D.ink;
@@ -121,7 +124,21 @@ export function Navbar() {
                     })
                   }
                 >
-                  {item.label}
+                  <span className="inline-flex items-center gap-2">
+                    {item.label}
+                    {item.isNew ? (
+                      <span
+                        className="px-2 py-0.5 rounded-full text-[10px] tracking-[0.08em] uppercase"
+                        style={{
+                          background: active ? "rgba(15,23,42,0.08)" : D.accentSoft,
+                          color: active ? D.ink : D.accentStrong,
+                          fontWeight: 700,
+                        }}
+                      >
+                        Νέο
+                      </span>
+                    ) : null}
+                  </span>
                 </Link>
               );
             })}
@@ -147,6 +164,7 @@ export function Navbar() {
                         color: "#fff",
                         fontWeight: 600,
                         boxShadow: `0 2px 12px ${D.shadow}`,
+                        borderRadius: D.radiusControl,
                       }}
                     >
                       {cta.text}
@@ -162,6 +180,7 @@ export function Navbar() {
                         color: "#fff",
                         fontWeight: 600,
                         boxShadow: `0 2px 12px ${D.shadow}`,
+                        borderRadius: D.radiusControl,
                       }}
                     >
                       {cta.text}
@@ -173,7 +192,7 @@ export function Navbar() {
             </AnimatePresence>
             <button
               className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl transition-colors"
-              style={{ background: D.accentSoft, color: D.ink, border: `1px solid rgba(197,141,42,0.2)` }}
+              style={{ background: D.accentSoft, color: D.ink, border: `1px solid rgba(197,141,42,0.2)`, borderRadius: D.radiusControl }}
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X size={17} /> : <Menu size={17} />}
@@ -195,6 +214,7 @@ export function Navbar() {
               background: D.surfaceStrong,
               border: `1px solid ${D.border}`,
               boxShadow: `0 8px 32px ${D.shadow}`,
+              borderRadius: D.radiusCard,
             }}
           >
             {NAV_ITEMS.map((item) => {
@@ -208,6 +228,7 @@ export function Navbar() {
                     color: active ? D.ink : D.inkSoft,
                     background: active ? D.accentSoft : "transparent",
                     fontWeight: active ? 600 : 400,
+                    borderRadius: D.radiusControl,
                   }}
                   onClick={() =>
                     trackNavClick(item.label, "navbar_mobile", {
@@ -215,7 +236,17 @@ export function Navbar() {
                     })
                   }
                 >
-                  {item.label}
+                  <span className="inline-flex items-center gap-2">
+                    {item.label}
+                    {item.isNew ? (
+                      <span
+                        className="px-2 py-0.5 rounded-full text-[10px] tracking-[0.08em] uppercase"
+                        style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
+                      >
+                        Νέο
+                      </span>
+                    ) : null}
+                  </span>
                 </Link>
               );
             })}
@@ -225,7 +256,7 @@ export function Navbar() {
                   type="button"
                   onClick={handleCtaClick}
                   className="mt-1 px-4 py-3 rounded-xl text-sm text-white text-center flex items-center justify-center gap-1.5"
-                  style={{ background: D.ink, fontWeight: 600 }}
+                  style={{ background: D.ink, fontWeight: 600, borderRadius: D.radiusControl }}
                 >
                   {cta.text}
                   <ArrowRight size={14} />

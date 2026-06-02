@@ -26,7 +26,7 @@ const inputStyle = {
   background: D.surfaceStrong,
   border: `1px solid ${D.border}`,
   color: D.ink,
-  borderRadius: "0.75rem",
+  borderRadius: D.radiusControl,
   padding: "0.75rem 1rem",
   fontSize: "0.875rem",
   outline: "none",
@@ -146,7 +146,7 @@ export function Contact() {
         <div className="max-w-5xl mx-auto relative">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: D.accentSoft }}>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: D.accentSoft, borderRadius: D.radiusControl }}>
                 <MessageSquare size={24} style={{ color: D.accent }} />
               </div>
               <span className="type-eyebrow inline-block px-3 py-1 rounded-full" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
@@ -181,8 +181,8 @@ export function Contact() {
                   { icon: Mail, text: "Έμπειρη συντακτική ομάδα", desc: "Εξειδικευμένοι editors και ερευνητές" },
                   { icon: Send, text: "Καθημερινές ανακοινώσεις", desc: "Από επίσημους φορείς (ΑΣΕΠ, ΥΠΑΙΘΑ, κλπ)" },
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-4 p-4 rounded-2xl" style={{ background: D.surface, border: `1px solid ${D.border}` }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
+                  <div key={idx} className="flex items-start gap-4 p-4 rounded-2xl" style={{ background: D.surface, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft, borderRadius: D.radiusControl }}>
                       <item.icon size={18} style={{ color: D.accent }} />
                     </div>
                     <div>
@@ -195,10 +195,10 @@ export function Contact() {
 
               <div
                 className="mt-8 rounded-2xl p-5"
-                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}` }}
+                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}`, borderRadius: D.radiusCard }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft }}>
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: D.accentSoft, borderRadius: D.radiusControl }}>
                     <Phone size={18} style={{ color: D.accent }} />
                   </div>
                   <div className="min-w-0">
@@ -216,7 +216,7 @@ export function Contact() {
                         })
                       }
                       className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
-                      style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
+                      style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700, borderRadius: D.radiusControl }}
                     >
                       <Phone size={14} />
                       {CONTACT_PHONE_DISPLAY}
@@ -232,7 +232,7 @@ export function Contact() {
                 id="contact-form"
                 ref={formRef}
                 className="rounded-3xl p-8"
-                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 4px 24px ${D.shadow}`, scrollMarginTop: "5.5rem" }}
+                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 4px 24px ${D.shadow}`, scrollMarginTop: "5.5rem", borderRadius: D.radiusShell }}
               >
                 {success ? (
                   <div className="flex flex-col items-center justify-center text-center py-8 gap-4">
@@ -245,7 +245,7 @@ export function Contact() {
                     <p className="text-sm" style={{ color: D.inkSoft }}>
                       Λάβαμε το αίτημα σας και θα επικοινωνήσουμε μαζί σας σύντομα.
                     </p>
-                    <button onClick={() => setSuccess(false)} className="text-sm mt-2 px-4 py-2 rounded-xl" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 600 }}>
+                    <button onClick={() => setSuccess(false)} className="text-sm mt-2 px-4 py-2 rounded-xl" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 600, borderRadius: D.radiusControl }}>
                       Νέο μήνυμα
                     </button>
                   </div>
@@ -295,7 +295,7 @@ export function Contact() {
                     {error && <p className="text-sm" style={{ color: "#dc2626" }}>{error}</p>}
 
                     <button type="submit" disabled={submitting} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm transition-all disabled:opacity-60 hover:opacity-90"
-                      style={{ background: D.ink, color: "#fff", fontWeight: 600 }}
+                      style={{ background: D.ink, color: "#fff", fontWeight: 600, borderRadius: D.radiusControl }}
                     >
                       {submitting ? <><Loader2 size={15} className="animate-spin" /> Αποστολή...</> : "Αποστολή Μηνύματος"}
                     </button>
@@ -330,6 +330,7 @@ export function Contact() {
                 fontWeight: 700,
                 boxShadow: `0 4px 20px ${D.shadow}`,
                 minHeight: "48px",
+                borderRadius: D.radiusControl,
               }}
             >
               Στείλτε Μήνυμα <ArrowRight size={16} />

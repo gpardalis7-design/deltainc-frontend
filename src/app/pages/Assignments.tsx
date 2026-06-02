@@ -68,7 +68,7 @@ const inputStyle = {
   background: D.surfaceStrong,
   border: `1px solid ${D.border}`,
   color: D.ink,
-  borderRadius: "1rem",
+  borderRadius: D.radiusControl,
   padding: "0.9rem 1rem",
   fontSize: "0.95rem",
   outline: "none",
@@ -286,7 +286,7 @@ export function Assignments() {
       <section className="px-6 pb-16">
         <div className="max-w-6xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1.1fr)_360px] gap-8 items-start">
           <AnimatedSection>
-            <div className="rounded-[2rem] p-6 md:p-8" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 10px 28px ${D.shadow}` }}>
+            <div className="rounded-[2rem] p-6 md:p-8" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 10px 28px ${D.shadow}`, borderRadius: D.radiusShell }}>
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8">
                 <div>
                   <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Φόρμα Κοστολόγησης</div>
@@ -341,7 +341,7 @@ export function Assignments() {
                   <Field label="Αρχείο" icon={<UploadCloud size={16} style={{ color: D.accentStrong }} />}>
                     <label
                       className="flex items-center justify-between gap-4 rounded-2xl px-4 py-3.5 cursor-pointer"
-                      style={{ ...inputStyle, display: "flex" }}
+                      style={{ ...inputStyle, display: "flex", borderRadius: D.radiusCard }}
                     >
                       <span style={{ color: selectedFiles.length > 0 ? D.ink : D.inkSoft }}>
                         {selectedFiles.length > 0
@@ -365,7 +365,7 @@ export function Assignments() {
                           <div
                             key={`${file.name}-${file.size}-${file.lastModified}`}
                             className="flex items-center justify-between gap-3 rounded-xl px-3 py-2"
-                            style={{ background: D.surface, border: `1px solid ${D.border}` }}
+                            style={{ background: D.surface, border: `1px solid ${D.border}`, borderRadius: D.radiusInner }}
                           >
                             <span className="text-sm truncate" style={{ color: D.ink, maxWidth: "78%" }}>
                               {file.name}
@@ -393,7 +393,7 @@ export function Assignments() {
                   />
                 </Field>
 
-                <label className="flex items-start gap-3 rounded-2xl p-4" style={{ background: D.surface, border: `1px solid ${D.border}` }}>
+                <label className="flex items-start gap-3 rounded-2xl p-4" style={{ background: D.surface, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}>
                   <input
                     type="checkbox"
                     checked={privacyConsent}
@@ -418,6 +418,7 @@ export function Assignments() {
                         border: `1px solid ${submitState.type === "success" ? "rgba(22,163,74,0.18)" : "rgba(220,38,38,0.18)"}`,
                         color: submitState.type === "success" ? "#166534" : "#b91c1c",
                         lineHeight: 1.6,
+                        borderRadius: D.radiusCard,
                       }}
                     >
                       {submitState.message}
@@ -427,7 +428,7 @@ export function Assignments() {
                     type="submit"
                     disabled={isSubmitting}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white transition-all w-full md:w-auto disabled:cursor-not-allowed"
-                    style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px", opacity: isSubmitting ? 0.72 : 1 }}
+                    style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px", opacity: isSubmitting ? 0.72 : 1, borderRadius: D.radiusControl }}
                   >
                     {isSubmitting ? "Αποστολή..." : "Υποβολή"}
                   </button>
@@ -440,7 +441,7 @@ export function Assignments() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.08}>
-            <aside className="rounded-[2rem] p-6 sticky top-28" style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}`, boxShadow: `0 10px 28px ${D.shadow}`, backdropFilter: "blur(12px)" }}>
+            <aside className="rounded-[2rem] p-6 sticky top-28" style={{ background: "rgba(255,255,255,0.82)", border: `1px solid ${D.border}`, boxShadow: `0 10px 28px ${D.shadow}`, backdropFilter: "blur(12px)", borderRadius: D.radiusShell }}>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4" style={{ background: D.accentSoft, color: D.accentStrong }}>
                 <Languages size={15} />
                 <span className="text-xs font-semibold tracking-[0.08em] uppercase">Πριν υποβάλετε</span>
@@ -483,8 +484,8 @@ export function Assignments() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
             {COLLABORATION_STEPS.map((step, index) => (
               <AnimatedSection key={step.title} delay={index * 0.05}>
-                <div className="h-full rounded-[1.75rem] p-5 md:p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
-                  <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-4" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 800 }}>
+                <div className="h-full rounded-[1.75rem] p-5 md:p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusCard }}>
+                  <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-4" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 800, borderRadius: D.radiusControl }}>
                     {index + 1}
                   </div>
                   <h3 className="type-display-card mb-3" style={{ color: D.ink, fontSize: "1rem", lineHeight: 1.4 }}>
@@ -499,7 +500,7 @@ export function Assignments() {
           </div>
 
           <AnimatedSection delay={0.18}>
-            <div className="mt-8 rounded-[1.75rem] p-6 md:p-7" style={{ background: D.ink, color: "#fff" }}>
+            <div className="mt-8 rounded-[1.75rem] p-6 md:p-7" style={{ background: D.ink, color: "#fff", borderRadius: D.radiusShell }}>
               <div className="type-eyebrow mb-3" style={{ color: "rgba(255,255,255,0.38)" }}>Σημαντικό</div>
               <p className="text-sm md:text-base" style={{ color: "rgba(255,255,255,0.76)", lineHeight: 1.8, maxWidth: "980px" }}>
                 Η υποστήριξη παρέχεται για καθοδήγηση και μελέτη. Η χρήση του υλικού ως τελική ακαδημαϊκή υποβολή αποτελεί προσωπική ευθύνη του φοιτητή.

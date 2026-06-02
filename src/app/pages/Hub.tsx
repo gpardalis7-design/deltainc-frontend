@@ -54,7 +54,7 @@ function PostCard({ post }: { post: BlogPost }) {
     <Link
       to={`/blog/${post.slug}`}
       className="group flex flex-col rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5"
-      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}` }}
+      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}`, borderRadius: D.radiusCard }}
       onClick={() =>
         trackEvent("article_card_click", {
           page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
@@ -93,7 +93,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
     <Link
       to={`/blog/${post.slug}`}
       className="group rounded-3xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:-translate-y-0.5"
-      style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}` }}
+      style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
       onClick={() =>
         trackEvent("featured_article_click", {
           page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
@@ -269,7 +269,7 @@ function GuidedHubView({
                     primaryCTA.onClick();
                   }}
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all hover:opacity-90"
-                  style={{ background: D.accent, color: "#fff", fontWeight: 700 }}
+                  style={{ background: D.accent, color: "#fff", fontWeight: 700, borderRadius: D.radiusControl }}
                 >
                   {primaryCTA.label} <ArrowRight size={15} />
                 </button>
@@ -284,7 +284,7 @@ function GuidedHubView({
                     scrollToTopicSection();
                   }}
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all"
-                  style={{ background: "rgba(255,255,255,0.08)", color: "#fff", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
+                  style={{ background: "rgba(255,255,255,0.08)", color: "#fff", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)", borderRadius: D.radiusControl }}
                 >
                   Δείτε τα επόμενα βήματα <ChevronRight size={15} />
                 </button>
@@ -299,6 +299,7 @@ function GuidedHubView({
                   border: "1px solid rgba(255,255,255,0.13)",
                   boxShadow: "0 16px 40px rgba(2,6,23,0.16)",
                   backdropFilter: "blur(14px)",
+                  borderRadius: D.radiusCard,
                 }}
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -333,7 +334,7 @@ function GuidedHubView({
       <section className="px-6 py-6" style={sectionSurfaces.hubControls}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
+            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusControl }}>
               <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
               <input
                 type="text"
@@ -348,7 +349,7 @@ function GuidedHubView({
               type="button"
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
-              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600, borderRadius: D.radiusControl } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, borderRadius: D.radiusControl }}
             >
               <SlidersHorizontal size={15} />
               {activeFiltersCount > 0 && <span className="w-5 h-5 rounded-full text-xs text-white flex items-center justify-center" style={{ background: D.accentStrong }}>{activeFiltersCount}</span>}
@@ -454,11 +455,11 @@ function GuidedHubView({
                     type="button"
                     onClick={() => applyTopicFilter(t.label, t.target)}
                     className="group p-5 rounded-2xl h-full w-full text-left transition-all duration-200 hover:-translate-y-0.5"
-                    style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}` }}
+                    style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}`, borderRadius: D.radiusCard }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = `${D.accent}55`)}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
                   >
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-4" style={{ background: D.accentSoft, color: D.accentStrong }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-4" style={{ background: D.accentSoft, color: D.accentStrong, borderRadius: D.radiusControl }}>
                       {t.icon}
                     </div>
                     <div className="type-display-card text-sm mb-1" style={{ color: D.ink }}>{t.label}</div>
@@ -503,7 +504,7 @@ function GuidedHubView({
             <div className="space-y-3">
               {displayFaq.map((f, i) => (
                 <Fade key={i} delay={i * 0.05}>
-                  <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
+                  <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}>
                     <div className="flex items-start gap-3 mb-3">
                       <HelpCircle size={16} style={{ color: D.accent, flexShrink: 0, marginTop: 2 }} />
                       <p className="type-display-card text-sm" style={{ color: D.ink, lineHeight: 1.45 }}>{f.q}</p>
@@ -796,7 +797,7 @@ function HubArticlesSection({
               <div className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>{featuredEyebrow}</div>
               <div
                 className="rounded-3xl overflow-hidden"
-                style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}` }}
+                style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
               >
                 <div className="animate-pulse grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
                   <div style={{ height: "clamp(200px,28vw,280px)", background: "rgba(19,35,58,0.08)" }} />
@@ -840,7 +841,7 @@ function HubArticlesSection({
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="rounded-2xl animate-pulse" style={{ height: "280px", background: "rgba(19,35,58,0.07)" }} />
+              <div key={i} className="rounded-2xl animate-pulse" style={{ height: "280px", background: "rgba(19,35,58,0.07)", borderRadius: D.radiusCard }} />
             ))}
           </div>
         ) : visiblePosts.length > 0 ? (
@@ -858,7 +859,7 @@ function HubArticlesSection({
                 {loadingMore ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
                     {[...Array(3)].map((_, i) => (
-                      <div key={i} className="rounded-2xl animate-pulse" style={{ height: "280px", background: "rgba(19,35,58,0.07)" }} />
+                      <div key={i} className="rounded-2xl animate-pulse" style={{ height: "280px", background: "rgba(19,35,58,0.07)", borderRadius: D.radiusCard }} />
                     ))}
                   </div>
                 ) : (
@@ -870,7 +871,7 @@ function HubArticlesSection({
                       onClick={handleLoadMore}
                       disabled={loadingMore}
                       className="group px-5 py-3 rounded-xl text-sm font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.99] flex items-center gap-2"
-                      style={{ background: D.surfaceStrong, color: D.accentStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 10px rgba(15,23,42,0.05)` }}
+                      style={{ background: D.surfaceStrong, color: D.accentStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 10px rgba(15,23,42,0.05)`, borderRadius: D.radiusControl }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = D.accentSoft;
                         e.currentTarget.style.borderColor = "rgba(47, 91, 171, 0.28)";
@@ -898,7 +899,7 @@ function HubArticlesSection({
               <Link
                 to={emptyActionHref}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all hover:opacity-90"
-                style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
+                style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700, borderRadius: D.radiusControl }}
               >
                 {emptyActionLabel} <ArrowRight size={13} />
               </Link>

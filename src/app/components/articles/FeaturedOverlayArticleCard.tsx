@@ -40,7 +40,7 @@ export function FeaturedOverlayArticleCard({
     <Link
       to={`/blog/${post.slug}`}
       className="rounded-3xl overflow-hidden group cursor-pointer transition-all duration-300 hover:-translate-y-1 relative block"
-      style={{ border: `1px solid ${D.border}`, boxShadow: `0 4px 20px ${D.shadow}` }}
+      style={{ border: `1px solid ${D.border}`, boxShadow: `0 4px 20px ${D.shadow}`, borderRadius: D.radiusShell }}
       onClick={() =>
         trackEvent("featured_article_click", {
           ...getCurrentPageAnalyticsContext(),

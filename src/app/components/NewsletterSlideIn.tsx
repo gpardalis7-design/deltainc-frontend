@@ -281,6 +281,7 @@ export function NewsletterSlideIn() {
             background: "linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.98) 100%)",
             borderColor: "rgba(37,99,235,0.16)",
             color: D.ink,
+            borderRadius: D.radiusShell,
           }}
         >
           <div className="flex items-start justify-between gap-4 mb-4">
@@ -328,6 +329,7 @@ export function NewsletterSlideIn() {
                   border: `1px solid ${error ? "rgba(220,38,38,0.3)" : D.border}`,
                   color: D.ink,
                   boxShadow: error ? "0 0 0 3px rgba(220,38,38,0.08)" : "none",
+                  borderRadius: D.radiusCard,
                 }}
                 autoComplete="email"
                 disabled={isSubmitting || isSuccess}
@@ -350,7 +352,7 @@ export function NewsletterSlideIn() {
               <button
                 type="submit"
                 className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm transition-opacity hover:opacity-90"
-                style={{ background: D.accent, color: "#fff", fontWeight: 700 }}
+                style={{ background: D.accent, color: "#fff", fontWeight: 700, borderRadius: D.radiusControl }}
                 disabled={isSubmitting || isSuccess}
               >
                 {isSubmitting ? "Εγγραφή..." : isSuccess ? "Ολοκληρώθηκε" : <>Συνέχεια για εγγραφή <ArrowRight size={14} /></>}
@@ -360,7 +362,7 @@ export function NewsletterSlideIn() {
                 type="button"
                 onClick={() => dismiss("later")}
                 className="inline-flex items-center justify-center px-4 py-3 rounded-2xl text-sm transition-colors"
-                style={{ background: "rgba(15,23,42,0.04)", color: D.inkSoft, fontWeight: 600 }}
+                style={{ background: "rgba(15,23,42,0.04)", color: D.inkSoft, fontWeight: 600, borderRadius: D.radiusControl }}
                 disabled={isSubmitting}
               >
                 Ίσως αργότερα

@@ -46,7 +46,7 @@ export function StackedArticleCard({
     <Link
       to={`/blog/${post.slug}`}
       className="rounded-2xl overflow-hidden group cursor-pointer flex flex-col h-full transition-all duration-200 hover:-translate-y-0.5"
-      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}` }}
+      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}`, borderRadius: D.radiusCard }}
       onClick={() =>
         trackEvent("article_card_click", {
           ...getCurrentPageAnalyticsContext(),

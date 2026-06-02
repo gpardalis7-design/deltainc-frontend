@@ -38,6 +38,7 @@ function ConsentToggle({
       style={{
         background: D.surface,
         border: `1px solid ${D.border}`,
+        borderRadius: D.radiusCard,
       }}
     >
       <div className="min-w-0">
@@ -191,6 +192,7 @@ export function CookieConsentBanner() {
             border: `1px solid ${D.border}`,
             boxShadow: "0 14px 34px rgba(15,23,42,0.10)",
             backdropFilter: "blur(18px)",
+            borderRadius: D.radiusShell,
             maxHeight: isExpanded ? expandedSheetMaxHeight : undefined,
             overflow: isExpanded ? "hidden" : undefined,
           }}
@@ -270,6 +272,7 @@ export function CookieConsentBanner() {
                   style={{
                     background: "rgba(29,78,216,0.06)",
                     border: `1px solid ${D.accentBorderSoft}`,
+                    borderRadius: D.radiusCard,
                   }}
                 >
                   <ShieldCheck size={18} className="mt-0.5 shrink-0" style={{ color: D.accentStrong }} />

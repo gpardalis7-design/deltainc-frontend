@@ -22,6 +22,7 @@ const FOOTER_COLUMNS = [
     title: "Περιεχόμενο",
     links: [
       { label: "Blog", href: "/blog-hub" },
+      { label: "Delta Apps", href: "/delta-apps" },
       { label: "Κοστολόγηση Εργασίας", href: "/assignments" },
       { label: "Νέα/Επικαιρότητα", href: "/nea-epikairothta" },
       { label: "Εκπαίδευση", href: "/ekpaideysi" },
@@ -94,7 +95,7 @@ export function Footer() {
                     })
                   }
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs transition-all hover:opacity-90"
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.72)" }}
+                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.72)", borderRadius: D.radiusControl }}
                 >
                   {social.icon}
                   {social.label}
@@ -102,8 +103,8 @@ export function Footer() {
               ))}
             </div>
 
-            <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div className="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em]" style={{ color: D.accent, fontWeight: 700 }}>
+            <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: D.radiusCard }}>
+              <div className="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em]" style={{ color: D.warmAccentStrong, fontWeight: 700 }}>
                 <Mail size={13} />
                 Newsletter
               </div>
@@ -114,14 +115,14 @@ export function Footer() {
                 type="button"
                 onClick={openNewsletter}
                 className="inline-flex items-center gap-2 text-sm transition-colors"
-                style={{ color: D.accent, fontWeight: 700 }}
+                style={{ color: D.warmAccentStrong, fontWeight: 700 }}
               >
                 Εγγραφή στο newsletter <ArrowRight size={13} />
               </button>
             </div>
 
-            <div className="mt-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div className="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em]" style={{ color: D.accent, fontWeight: 700 }}>
+            <div className="mt-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: D.radiusCard }}>
+              <div className="flex items-center gap-2 mb-2 text-xs uppercase tracking-[0.14em]" style={{ color: D.warmAccentStrong, fontWeight: 700 }}>
                 <Phone size={13} />
                 Καλέστε μας
               </div>
@@ -136,7 +137,7 @@ export function Footer() {
                   })
                 }
                 className="inline-flex items-center gap-2 text-sm transition-colors"
-                style={{ color: D.accent, fontWeight: 700 }}
+                style={{ color: D.warmAccentStrong, fontWeight: 700 }}
               >
                 <Phone size={13} />
                 {CONTACT_PHONE_DISPLAY}
@@ -147,7 +148,7 @@ export function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
-                <h4 className="mb-4 text-xs tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em" }}>
+                <h4 className="mb-4 text-xs tracking-widest uppercase" style={{ color: "rgba(185,152,90,0.68)", letterSpacing: "0.12em" }}>
                   {col.title}
                 </h4>
                 <ul className="space-y-2.5">

@@ -43,7 +43,7 @@ function ProgramCard({ program }: { program: Program }) {
     <Link
       to={`/courses/${program.slug}`}
       className="rounded-2xl overflow-hidden flex flex-col h-full transition-all duration-200 hover:-translate-y-0.5 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}` }}
+      style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 12px ${D.shadow}`, borderRadius: D.radiusCard }}
       onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
       onFocus={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.45)")}
@@ -450,13 +450,14 @@ export function Courses() {
           <select
             value={activeVal}
             onChange={(e) => setVal(e.target.value)}
-            className="w-full appearance-none rounded-2xl px-3.5 py-3 pr-9 text-sm outline-none transition-colors"
-            style={{
-              background: activeVal ? D.accentSoft : D.surfaceStrong,
-              border: `1px solid ${activeVal ? "rgba(37,99,235,0.28)" : D.border}`,
-              color: activeVal ? D.accentStrong : D.ink,
-              fontWeight: activeVal ? 700 : 500,
-            }}
+          className="w-full appearance-none rounded-2xl px-3.5 py-3 pr-9 text-sm outline-none transition-colors"
+          style={{
+            background: activeVal ? D.accentSoft : D.surfaceStrong,
+            border: `1px solid ${activeVal ? "rgba(37,99,235,0.28)" : D.border}`,
+            color: activeVal ? D.accentStrong : D.ink,
+            fontWeight: activeVal ? 700 : 500,
+            borderRadius: D.radiusControl,
+          }}
           >
             <option value="">Όλα</option>
             {opts.map((opt) => (
@@ -474,7 +475,7 @@ export function Courses() {
   const advancedFilterKeys: FilterKey[] = ["uniType", "university"];
 
   const desktopFilters = filters ? (
-    <div className="mt-4 rounded-[28px] p-4 md:p-5" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}` }}>
+    <div className="mt-4 rounded-[28px] p-4 md:p-5" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusShell }}>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {primaryFilterKeys.map((key) => (
           <div key={key}>
@@ -560,12 +561,12 @@ export function Courses() {
             });
             updateParams({ q: nextSearch });
           }} className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl w-full sm:flex-1" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 8px ${D.shadow}` }}>
+            <div className="flex items-center gap-3 px-4 py-3 rounded-2xl w-full sm:flex-1" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 8px ${D.shadow}`, borderRadius: D.radiusCard }}>
               <Search size={16} style={{ color: "rgba(19,35,58,0.35)" }} />
               <input type="text" placeholder='Αναζήτηση π.χ. "εκπαίδευση" ή "ΑΠΘ"...' value={qInput} onChange={(e) => setQInput(e.target.value)} className="bg-transparent outline-none flex-1 text-sm placeholder:text-black/30" style={{ color: D.ink }} />
             </div>
             <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:w-auto">
-              <button type="submit" className="w-full px-5 py-3 rounded-2xl text-sm transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff", fontWeight: 600, minHeight: "48px" }}>
+              <button type="submit" className="w-full px-5 py-3 rounded-2xl text-sm transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff", fontWeight: 600, minHeight: "48px", borderRadius: D.radiusControl }}>
                 Αναζήτηση
               </button>
               <button
@@ -573,7 +574,7 @@ export function Courses() {
                 onClick={openFiltersPanel}
                 aria-expanded={showFilters}
                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm transition-all md:hidden"
-                style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid ${D.accent}55`, color: D.accentStrong, fontWeight: 600, minHeight: "48px" } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, minHeight: "48px" }}
+                style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid ${D.accent}55`, color: D.accentStrong, fontWeight: 600, minHeight: "48px", borderRadius: D.radiusControl } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, minHeight: "48px", borderRadius: D.radiusControl }}
               >
                 <SlidersHorizontal size={15} />
                 <span>Φίλτρα</span>
@@ -623,10 +624,10 @@ export function Courses() {
             </div>
             <DrawerFooter className="border-t px-6 py-4" style={{ borderColor: D.border, background: D.surfaceStrong, boxShadow: `0 -8px 24px ${D.shadow}` }}>
               <div className="grid grid-cols-2 gap-3">
-                <button type="button" onClick={clearDraftFilters} className="px-4 py-3 rounded-2xl text-sm font-semibold transition-all" style={{ background: D.surface, border: `1px solid ${D.border}`, color: D.inkSoft }}>
+                <button type="button" onClick={clearDraftFilters} className="px-4 py-3 rounded-2xl text-sm font-semibold transition-all" style={{ background: D.surface, border: `1px solid ${D.border}`, color: D.inkSoft, borderRadius: D.radiusControl }}>
                   Καθαρισμός
                 </button>
-                <button type="button" onClick={applyDraftFilters} className="px-4 py-3 rounded-2xl text-sm font-semibold transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff" }}>
+                <button type="button" onClick={applyDraftFilters} className="px-4 py-3 rounded-2xl text-sm font-semibold transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff", borderRadius: D.radiusControl }}>
                   Εφαρμογή
                 </button>
               </div>
