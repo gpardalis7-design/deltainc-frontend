@@ -948,7 +948,7 @@ export function Hub() {
   const startHereRef = useRef<HTMLDivElement | null>(null);
   const topicSectionRef = useRef<HTMLDivElement | null>(null);
   const heroSectionRef = useRef<HTMLElement | null>(null);
-  const pendingTopicScrollRef = useRef(false);
+  const pendingResultsScrollRef = useRef(false);
 
   // Live categories from context — contains real WP names, slugs, wpCategoryId
   const { hubs, loading: catsLoading } = useCategories();
@@ -1293,6 +1293,15 @@ export function Hub() {
       active_tag: activeTag || undefined,
       total_articles: total,
     });
+
+    if (search === nextSearch) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(scrollToStartHere);
+      });
+      return;
+    }
+
+    pendingResultsScrollRef.current = true;
     updateParams({ search: nextSearch });
   };
 
@@ -1310,14 +1319,14 @@ export function Hub() {
   const scrollToStartHere = () => {
     const element = startHereRef.current;
     if (!element) {
-      pendingTopicScrollRef.current = false;
+      pendingResultsScrollRef.current = false;
       return;
     }
 
     const headerOffset = 104;
     const top = element.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
-    pendingTopicScrollRef.current = false;
+    pendingResultsScrollRef.current = false;
   };
 
   const scrollToTopicSection = () => {
@@ -1351,7 +1360,7 @@ export function Hub() {
       return;
     }
 
-    pendingTopicScrollRef.current = true;
+    pendingResultsScrollRef.current = true;
     updateParams({
       search: nextSearch || undefined,
       sort: nextSort || undefined,
@@ -1361,7 +1370,7 @@ export function Hub() {
   };
 
   useEffect(() => {
-    if (!pendingTopicScrollRef.current || loading) return;
+    if (!pendingResultsScrollRef.current || loading) return;
 
     // Wait for the updated article layout to paint before scrolling.
     requestAnimationFrame(() => {
