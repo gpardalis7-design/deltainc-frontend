@@ -2,6 +2,7 @@
 // Adapts the Delta SEO spec for a React/Vite/React-Router SPA.
 // All server-rendering caveats are noted; the patterns are identical to what
 // generateMetadata would produce in Next.js App Router.
+import { shouldIndexHubSlug, shouldIndexStaticPage, type StaticSeoPage } from "./sitePolicy";
 
 export const SITE_URL = "https://deltainc.gr";
 export const SITE_NAME = "Delta";
@@ -67,7 +68,7 @@ export function homeSeo(): SeoMeta {
   };
 }
 
-export function hubSeo(slug: string): SeoMeta {
+export function hubSeo(slug: string, filtered = false): SeoMeta {
   const hubs: Record<string, { title: string; description: string }> = {
     opsyd: {
       title: "ΟΠΣΥΔ: Οδηγοί, Πίνακες & Ενημερώσεις 2026 | Delta",
@@ -92,11 +93,12 @@ export function hubSeo(slug: string): SeoMeta {
   };
   const meta = hubs[slug] || { title: `${slug} | Delta`, description: "" };
   const path = `/${slug}`;
+  const shouldIndex = !filtered && shouldIndexHubSlug(slug);
   return {
     title: meta.title,
     description: meta.description,
     canonical: canonical(path),
-    robots: "index,follow",
+    robots: shouldIndex ? "index,follow" : "noindex,follow",
     og: { type: "website", image: DEFAULT_OG_IMAGE },
     jsonLd: [
       {
@@ -139,6 +141,17 @@ export function blogIndexSeo(filtered = false): SeoMeta {
         ],
       },
     },
+  };
+}
+
+export function blogHubSeo(): SeoMeta {
+  return {
+    title: "Blog Hub | Delta",
+    description:
+      "Επιλεγμένες διαδρομές περιήγησης και editorial επισημάνσεις από το Delta Blog.",
+    canonical: canonical("/blog-hub"),
+    robots: "noindex,follow",
+    og: { type: "website", image: DEFAULT_OG_IMAGE },
   };
 }
 
@@ -234,9 +247,7 @@ export function programsSeo(filtered = false): SeoMeta {
   };
 }
 
-export function staticPageSeo(
-  page: "about" | "contact" | "privacy" | "cookies" | "terms" | "assignments" | "deltaApps" | "moriaCalculator"
-): SeoMeta {
+export function staticPageSeo(page: Exclude<StaticSeoPage, "blogHub">): SeoMeta {
   const pages = {
     about: {
       title: "Σχετικά με το Delta | Επικοινωνία & Ομάδα",
@@ -284,7 +295,7 @@ export function staticPageSeo(
     title: p.title,
     description: p.description,
     canonical: canonical(p.path),
-    robots: "index,follow",
+    robots: shouldIndexStaticPage(page) ? "index,follow" : "noindex,follow",
     og: { type: "website", image: DEFAULT_OG_IMAGE },
   };
 }

@@ -11,6 +11,7 @@ type WpFetchHeadersResult = { data: unknown; headers: Headers } | null;
 type PostsApiDeps = {
   postsPerPage: number;
   wpApi: string;
+  enableMockFallbacks: boolean;
   mockHubs: DeltaHub[];
   hubSlugs: readonly string[];
   wpIdToHubSlug: Record<number, string>;
@@ -109,7 +110,7 @@ async function fetchWpV2Posts(params: PostsParams, deps: PostsApiDeps): Promise<
 export async function getPostsApi(
   params: PostsParams = {},
   deps: PostsApiDeps
-): Promise<{ data: BlogPost[]; meta: CollectionResponse<BlogPost>["meta"]; isMock: boolean }> {
+): Promise<{ data: BlogPost[]; meta: CollectionResponse<BlogPost>["meta"]; isMock: boolean; sourceUnavailable: boolean }> {
   const perPage = params.perPage || deps.postsPerPage;
   const wpResult = await fetchWpV2Posts(params, deps);
 
@@ -123,6 +124,21 @@ export async function getPostsApi(
         totalPages: wpResult.totalPages,
       },
       isMock: false,
+      sourceUnavailable: false,
+    };
+  }
+
+  if (!deps.enableMockFallbacks) {
+    return {
+      data: [],
+      meta: {
+        page: params.page || 1,
+        perPage,
+        total: 0,
+        totalPages: 1,
+      },
+      isMock: false,
+      sourceUnavailable: true,
     };
   }
 
@@ -161,13 +177,14 @@ export async function getPostsApi(
       totalPages: Math.ceil(filtered.length / perPage),
     },
     isMock: true,
+    sourceUnavailable: false,
   };
 }
 
 export async function getPostApi(
   slug: string,
   deps: PostsApiDeps
-): Promise<{ data: BlogPost | null; isMock: boolean }> {
+): Promise<{ data: BlogPost | null; isMock: boolean; sourceUnavailable: boolean }> {
   const wpUrl = deps.buildUrl(deps.wpApi, "/posts", { slug, _embed: 1 });
   const wpRes = await deps.tryFetch<Record<string, unknown>[]>(wpUrl);
 
@@ -179,11 +196,16 @@ export async function getPostApi(
         wpIdToHubSlug: deps.wpIdToHubSlug,
       }),
       isMock: false,
+      sourceUnavailable: false,
     };
   }
 
+  if (!deps.enableMockFallbacks) {
+    return { data: null, isMock: false, sourceUnavailable: true };
+  }
+
   const mock = (await deps.loadMockPosts()).find((post) => post.slug === slug) || null;
-  return { data: mock, isMock: true };
+  return { data: mock, isMock: true, sourceUnavailable: false };
 }
 
 export async function getTagsApi(

@@ -1,0 +1,47 @@
+{
+  "indexableStaticRoutes": [
+    "/",
+    "/blog",
+    "/courses",
+    "/contact",
+    "/assignments",
+    "/delta-apps",
+    "/delta-apps/moria-calculator",
+    "/about"
+  ],
+  "noindexStaticRoutes": [
+    "/blog-hub",
+    "/privacy-policy",
+    "/cookie-policy",
+    "/terms"
+  ],
+  "promotedServiceHubSlugs": [
+    "asep",
+    "opsyd",
+    "metaptyxiaka",
+    "pistopoihseis"
+  ],
+  "editorialHubSlugs": [
+    "ekpaideysi",
+    "nea-epikairothta",
+    "επιδόματα"
+  ],
+  "serviceCategoryRedirects": {
+    "prokirykseis-asep-sox": "/asep",
+    "opsyd-proslipsis-anaplirwtwn": "/opsyd",
+    "metaptychiaka": "/metaptyxiaka",
+    "πιστοποιήσεις": "/pistopoihseis"
+  },
+  "editorialCategoryRedirects": {
+    "nea-epikairothta": "/nea-epikairothta",
+    "ekpaideysi": "/ekpaideysi",
+    "επιδόματα": "/επιδόματα"
+  },
+  "legacyStaticRedirects": {
+    "/news": "/blog",
+    "/επικοινωνια": "/contact",
+    "/kostologisi-ergasias": "/assignments",
+    "/μεταπτυχιακά-search-engine": "/courses",
+    "/cookie-policy-eu": "/cookie-policy"
+  }
+}

@@ -597,11 +597,13 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
 export function BlogArticle() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [postIsMock, setPostIsMock] = useState(false);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [guidePosts, setGuidePosts] = useState<BlogPost[]>([]);
   const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [curatedNextPost, setCuratedNextPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [isArticleReadyForModal, setIsArticleReadyForModal] = useState(false);
   const [hasMetReadTime, setHasMetReadTime] = useState(false);
   const [hasMetScrollDepth, setHasMetScrollDepth] = useState(false);
@@ -621,6 +623,8 @@ export function BlogArticle() {
     let isCurrent = true;
     setLoading(true);
     setPost(null);
+    setPostIsMock(false);
+    setSourceUnavailable(false);
     window.scrollTo(0, 0);
     setRelatedPosts([]);
     setGuidePosts([]);
@@ -631,10 +635,12 @@ export function BlogArticle() {
     setHasMetScrollDepth(false);
     autoModalOpenedRef.current = false;
 
-    getPost(slug).then(({ data }) => {
+    getPost(slug).then(({ data, isMock, sourceUnavailable: unavailable }) => {
       if (!isCurrent) return;
 
       setPost(data);
+      setPostIsMock(isMock);
+      setSourceUnavailable(unavailable);
       setLoading(false);
       setIsArticleReadyForModal(Boolean(data));
 
@@ -744,7 +750,7 @@ export function BlogArticle() {
   const articleBodyRef = useRef<HTMLDivElement | null>(null);
   const richContent = post?.contentHtml?.trim()
     ? post.contentHtml
-    : post
+    : post && postIsMock
       ? getArticleContent(post.slug, post.excerpt)
       : "";
   useScrollableRichTables(articleBodyRef, [post?.id, richContent]);
@@ -753,7 +759,9 @@ export function BlogArticle() {
   if (!post) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: D.bg }}>
-        <p style={{ color: D.inkSoft }}>Το άρθρο δεν βρέθηκε.</p>
+        <p style={{ color: D.inkSoft }}>
+          {sourceUnavailable ? "Δεν ήταν δυνατή η φόρτωση του άρθρου." : "Το άρθρο δεν βρέθηκε."}
+        </p>
         <Link to="/blog" className="text-sm" style={{ color: D.accent }}>← Επιστροφή στο Blog</Link>
       </div>
     );
@@ -1067,7 +1075,16 @@ export function BlogArticle() {
               <GooglePreferredSourceButton />
             </div>
 
-            <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
+            {richContent ? (
+              <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
+            ) : (
+              <div
+                className="rounded-2xl px-5 py-4 text-sm"
+                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, lineHeight: 1.75 }}
+              >
+                Το πλήρες περιεχόμενο του άρθρου δεν ήταν διαθέσιμο τη στιγμή της φόρτωσης. Δοκιμάστε ξανά σε λίγο.
+              </div>
+            )}
 
             {post.tags.length > 0 && (
               <div className="flex items-center gap-2 flex-wrap mb-8 pt-6" style={{ borderTop: `1px solid ${D.border}` }}>

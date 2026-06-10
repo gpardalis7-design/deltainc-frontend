@@ -1,6 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import { Root } from "./Root";
 import { RouteErrorScreen } from "./components/RouteErrorScreen";
+import {
+  LegacyCategoryRedirectPage,
+  LegacyExactRedirectPage,
+  LegacyProgramRedirectPage,
+} from "./pages/LegacyRedirects";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +18,16 @@ export const router = createBrowserRouter([
       { path: "blog", lazy: async () => ({ Component: (await import("./pages/Blog")).Blog }) },
       { path: "blog/:slug", lazy: async () => ({ Component: (await import("./pages/BlogArticle")).BlogArticle }) },
       { path: "blog-hub", lazy: async () => ({ Component: (await import("./pages/BlogHub")).BlogHub }) },
+      { path: "news", Component: LegacyExactRedirectPage },
+      { path: "επικοινωνια", Component: LegacyExactRedirectPage },
+      { path: "kostologisi-ergasias", Component: LegacyExactRedirectPage },
+      { path: "μεταπτυχιακά-search-engine", Component: LegacyExactRedirectPage },
+      { path: "cookie-policy-eu", Component: LegacyExactRedirectPage },
+      { path: "category/:legacyCategorySlug", Component: LegacyCategoryRedirectPage },
+      { path: "program/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
+      { path: "grad-undergrad/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
+      { path: "μεταπτυχιακά-search-engine/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
+      { path: "υπηρεσιες/μεταπτυχιακά-search-engine/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
       { path: "delta-apps/moria-calculator", lazy: async () => ({ Component: (await import("./pages/MoriaCalculator")).MoriaCalculator }) },
       { path: "delta-apps", lazy: async () => ({ Component: (await import("./pages/DeltaApps")).DeltaApps }) },
       { path: "contact", lazy: async () => ({ Component: (await import("./pages/Contact")).Contact }) },

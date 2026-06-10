@@ -6,7 +6,7 @@ import { getPosts } from "../lib/deltaApi";
 import type { BlogPost } from "../lib/types";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
-import { blogIndexSeo } from "../lib/seo";
+import { blogHubSeo } from "../lib/seo";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
 
@@ -54,7 +54,7 @@ export function BlogHub() {
 
   return (
     <div style={{ background: D.bg }}>
-      <SeoHead seo={blogIndexSeo(false)} />
+      <SeoHead seo={blogHubSeo()} />
 
       {/* Hero */}
       <section className="pt-36 pb-24 px-6 relative overflow-hidden">

@@ -527,7 +527,7 @@ export function Courses() {
 
   return (
     <div style={{ background: D.bg }}>
-      <SeoHead seo={programsSeo(!!activeFiltersCount)} />
+      <SeoHead seo={programsSeo(Boolean(activeFiltersCount || q))} />
       {/* Header */}
       <section className="pt-36 pb-12 px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">

@@ -59,6 +59,7 @@ export function Blog() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [isMock, setIsMock] = useState(false);
+  const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [requestOffset, setRequestOffset] = useState(0);
   const [cursorOffset, setCursorOffset] = useState(0);
   const [hasMore, setHasMore] = useState(false);
@@ -107,7 +108,7 @@ export function Blog() {
     let cancelled = false;
 
     const loadBatch = async () => {
-      const { data, meta, isMock: m } = await getPosts({
+      const { data, meta, isMock: m, sourceUnavailable: unavailable } = await getPosts({
         offset: requestOffset,
         perPage: REGULAR_POSTS_BATCH,
         hub: activeHub || undefined,
@@ -125,6 +126,7 @@ export function Blog() {
       setHasMore(nextCursor < meta.total);
       setTotal(meta.total);
       setIsMock(m);
+      setSourceUnavailable(unavailable);
       setLoading(false);
       setLoadingMore(false);
     };
@@ -175,7 +177,7 @@ export function Blog() {
 
   return (
     <div style={{ background: D.bg }}>
-      <SeoHead seo={blogIndexSeo(!!activeHub)} />
+      <SeoHead seo={blogIndexSeo(Boolean(activeHub || search || activeTag || activeSort))} />
       {/* Header */}
       <section className="pt-36 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(197,141,42,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
@@ -392,6 +394,13 @@ export function Blog() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {[1, 2, 3, 4, 5, 6].map((i) => <Skeleton key={i} className="h-72" />)}
+            </div>
+          ) : sourceUnavailable ? (
+            <div className="text-center py-24">
+              <p className="mb-4" style={{ color: D.inkSoft }}>Δεν ήταν δυνατή η φόρτωση των άρθρων αυτή τη στιγμή.</p>
+              <p className="text-sm" style={{ color: D.inkSoft }}>
+                Δοκιμάστε ξανά σε λίγο ή ανανεώστε τη σελίδα.
+              </p>
             </div>
           ) : regularPosts.length === 0 ? (
             <div className="text-center py-24">

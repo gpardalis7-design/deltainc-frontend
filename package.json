@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "node scripts/generate-site-artifacts.mjs && vite build",
     "dev": "vite",
+    "generate:site-artifacts": "node scripts/generate-site-artifacts.mjs",
     "typecheck": "tsc --noEmit",
     "typecheck:clean": "tsc --noEmit --noUnusedLocals --noUnusedParameters"
   },

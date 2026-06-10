@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router";
 import { motion, useInView } from "motion/react";
 import {
   ChevronRight, ArrowRight, Calendar,
@@ -7,6 +7,7 @@ import {
   Search, SlidersHorizontal, X,
 } from "lucide-react";
 import { getFeaturedPost, getPosts } from "../lib/deltaApi";
+import { findLegacyArticleRedirect } from "../lib/legacyRedirectManifest";
 import { trackContextualEvent, trackCtaClick, trackEvent } from "../lib/analytics";
 import { useCategories } from "../lib/categoriesContext";
 import type { BlogPost } from "../lib/types";
@@ -178,6 +179,7 @@ type HubViewProps = {
   setSearchInput: (value: string) => void;
   setShowFilters: (value: boolean) => void;
   showFilters: boolean;
+  sourceUnavailable: boolean;
   startHereRef: React.RefObject<HTMLDivElement | null>;
   topicSectionRef: React.RefObject<HTMLDivElement | null>;
   total: number;
@@ -747,6 +749,7 @@ function HubArticlesSection({
   posts,
   rest,
   searchQuery,
+  sourceUnavailable = false,
   startHereRef,
   total,
   featuredEyebrow = "Ξεκινήστε από εδώ",
@@ -766,6 +769,7 @@ function HubArticlesSection({
   posts: BlogPost[];
   rest: BlogPost[];
   searchQuery?: string;
+  sourceUnavailable?: boolean;
   startHereRef: React.RefObject<HTMLDivElement | null>;
   total: number;
   featuredEyebrow?: string;
@@ -888,6 +892,23 @@ function HubArticlesSection({
               </div>
             )}
           </>
+        ) : sourceUnavailable ? (
+          <div className="flex flex-col items-center py-16 gap-3" style={{ color: D.inkSoft }}>
+            <BookOpen size={32} style={{ opacity: 0.35 }} />
+            <p className="type-display-card text-sm" style={{ color: D.ink }}>
+              Δεν ήταν δυνατή η φόρτωση των άρθρων αυτή τη στιγμή.
+            </p>
+            <p className="text-sm text-center max-w-md" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
+              Δοκιμάστε ξανά σε λίγο ή ανανεώστε τη σελίδα για να δείτε τα πιο πρόσφατα αποτελέσματα.
+            </p>
+            <Link
+              to={emptyActionHref}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all hover:opacity-90"
+              style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700, borderRadius: D.radiusControl }}
+            >
+              {emptyActionLabel} <ArrowRight size={13} />
+            </Link>
+          </div>
         ) : (
           (!featured || isFiltered) && (
             <div className="flex flex-col items-center py-16 gap-3" style={{ color: D.inkSoft }}>
@@ -943,6 +964,7 @@ export function Hub() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [postsSourceUnavailable, setPostsSourceUnavailable] = useState(false);
   const [searchInput, setSearchInput] = useState(search);
   const [showFilters, setShowFilters] = useState(false);
   const startHereRef = useRef<HTMLDivElement | null>(null);
@@ -951,12 +973,13 @@ export function Hub() {
   const pendingResultsScrollRef = useRef(false);
 
   // Live categories from context — contains real WP names, slugs, wpCategoryId
-  const { hubs, loading: catsLoading } = useCategories();
+  const { hubs, loading: catsLoading, sourceUnavailable: categoriesSourceUnavailable } = useCategories();
 
   const hub = hubSlug ? GUIDED_HUB_DATA[hubSlug] : null;
   const hubVariant = resolveHubVariant(hubSlug);
   // Find the live WP category — gives us the real wpCategoryId
   const liveHub = hubs.find((h) => h.slug === hubSlug);
+  const legacyArticleRedirectTarget = hubSlug ? findLegacyArticleRedirect(`/${hubSlug}`) : null;
 
   const hubDisplayConfig = hub
     ? {
@@ -990,6 +1013,7 @@ export function Hub() {
       setFeaturedLoading(false);
       setCurrentPage(1);
       setSourceOffset(0);
+      setPostsSourceUnavailable(false);
     }
   }, [hubSlug, setSearchParams]);
 
@@ -1058,6 +1082,15 @@ export function Hub() {
       sort: sortValue || undefined,
     });
 
+    if (primaryResult.sourceUnavailable) {
+      return {
+        data: [],
+        nextOffset: startOffset,
+        meta: primaryResult.meta,
+        sourceUnavailable: true,
+      };
+    }
+
     const filteredPrimary = featuredId
       ? primaryResult.data.filter((post) => post.id !== featuredId)
       : primaryResult.data;
@@ -1077,6 +1110,15 @@ export function Hub() {
         sort: sortValue || undefined,
       });
 
+      if (topUpResult.sourceUnavailable) {
+        return {
+          data: filteredPrimary.slice(0, desiredCount),
+          nextOffset,
+          meta: primaryResult.meta,
+          sourceUnavailable: true,
+        };
+      }
+
       const filteredTopUp = topUpResult.data.filter((post) => post.id !== featuredId);
       data = [...filteredPrimary, ...filteredTopUp];
       nextOffset += topUpResult.data.length;
@@ -1086,6 +1128,7 @@ export function Hub() {
       data: data.slice(0, desiredCount),
       nextOffset,
       meta: primaryResult.meta,
+      sourceUnavailable: false,
     };
   };
 
@@ -1115,6 +1158,7 @@ export function Hub() {
       setCurrentPage(1);
       setSourceOffset(0);
       setLoading(true);
+      setPostsSourceUnavailable(false);
 
       if (shouldSyncFeatured) {
         setFeaturedLoading(true);
@@ -1133,6 +1177,7 @@ export function Hub() {
           setSourceOffset(gridResult.nextOffset);
           setTotalPages(gridResult.meta.totalPages);
           setTotal(gridResult.meta.total);
+          setPostsSourceUnavailable(gridResult.sourceUnavailable);
           setFeaturedOverride(featuredResult);
           setFeaturedLoading(false);
           setLoading(false);
@@ -1140,6 +1185,7 @@ export function Hub() {
           if (cancelled) return;
           setFeaturedOverride(null);
           setPosts([]);
+          setPostsSourceUnavailable(true);
           setFeaturedLoading(false);
           setLoading(false);
         });
@@ -1154,12 +1200,18 @@ export function Hub() {
           search: search || undefined,
           tag: activeTag || undefined,
           sort: activeSort || undefined,
-        }).then(({ data, meta }) => {
+        }).then(({ data, meta, sourceUnavailable }) => {
           if (cancelled) return;
           setPosts(data);
           setSourceOffset(data.length);
           setTotalPages(meta.totalPages);
           setTotal(meta.total);
+          setPostsSourceUnavailable(sourceUnavailable);
+          setLoading(false);
+        }).catch(() => {
+          if (cancelled) return;
+          setPosts([]);
+          setPostsSourceUnavailable(true);
           setLoading(false);
         });
       }
@@ -1193,12 +1245,14 @@ export function Hub() {
         setSourceOffset(gridResult.nextOffset);
         setTotalPages(gridResult.meta.totalPages);
         setTotal(gridResult.meta.total);
+        setPostsSourceUnavailable(gridResult.sourceUnavailable);
         setFeaturedOverride(featuredResult);
         setFeaturedLoading(false);
         setLoading(false);
       }).catch(() => {
         if (cancelled) return;
         setFeaturedOverride(null);
+        setPostsSourceUnavailable(true);
         setFeaturedLoading(false);
         setLoading(false);
       });
@@ -1218,16 +1272,18 @@ export function Hub() {
         searchValue: search,
         tagValue: activeTag,
         sortValue: activeSort,
-      }).then(({ data, meta, nextOffset }) => {
+      }).then(({ data, meta, nextOffset, sourceUnavailable }) => {
         if (cancelled) return;
         setPosts((prev) => [...prev, ...data]);
         setSourceOffset(nextOffset);
         setTotalPages(meta.totalPages);
         setTotal(meta.total);
+        setPostsSourceUnavailable(sourceUnavailable);
         setLoading(false);
         setLoadingMore(false);
       }).catch(() => {
         if (cancelled) return;
+        setPostsSourceUnavailable(true);
         setLoading(false);
         setLoadingMore(false);
       });
@@ -1241,7 +1297,7 @@ export function Hub() {
         search: search || undefined,
         tag: activeTag || undefined,
         sort: activeSort || undefined,
-      }).then(({ data, meta }) => {
+      }).then(({ data, meta, sourceUnavailable }) => {
         if (cancelled) return;
         if (isLoadMore) {
           // Append new posts
@@ -1253,10 +1309,12 @@ export function Hub() {
         }
         setTotalPages(meta.totalPages);
         setTotal(meta.total);
+        setPostsSourceUnavailable(sourceUnavailable);
         setLoading(false);
         setLoadingMore(false);
       }).catch(() => {
         if (cancelled) return;
+        setPostsSourceUnavailable(true);
         setLoading(false);
         setLoadingMore(false);
       });
@@ -1378,12 +1436,18 @@ export function Hub() {
     });
   }, [loading, posts.length]);
 
+  if (!catsLoading && !hub && !liveHub && legacyArticleRedirectTarget) {
+    return <Navigate to={legacyArticleRedirectTarget} replace />;
+  }
+
   // Show "not found" only when:
   // - Not a hardcoded hub AND not a known live WP category AND context has finished loading
   if (!hub && !liveHub && !catsLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: D.bg }}>
-        <p style={{ color: D.inkSoft }}>Η κατηγορία δεν βρέθηκε.</p>
+        <p style={{ color: D.inkSoft }}>
+          {categoriesSourceUnavailable ? "Δεν ήταν δυνατή η φόρτωση της κατηγορίας." : "Η κατηγορία δεν βρέθηκε."}
+        </p>
         <Link to="/" style={{ color: D.accent }}>← Αρχική</Link>
       </div>
     );
@@ -1420,7 +1484,7 @@ export function Hub() {
     href: ctaConfig.link,
   };
 
-  const seo = hubSeo(hubSlug ?? "");
+  const seo = hubSeo(hubSlug ?? "", Boolean(search || activeSort || activeTag));
   const featured = shouldUseFeatured && !featuredLoading ? featuredOverride : undefined;
   const rest = shouldUseFeatured ? posts.filter((p) => p.id !== featured?.id) : posts;
   const isFiltered = Boolean(search || activeSort || activeTag);
@@ -1456,6 +1520,7 @@ export function Hub() {
     setSearchInput,
     setShowFilters,
     showFilters,
+    sourceUnavailable: postsSourceUnavailable,
     startHereRef,
     topicSectionRef,
     total,

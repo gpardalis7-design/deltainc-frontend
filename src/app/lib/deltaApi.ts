@@ -9,7 +9,7 @@ import type {
   ProgramsParams,
   DeltaTaxonomyTerm,
 } from "./types";
-import { buildUrl, tryFetch, tryFetchWithHeaders, WP_API, WP_BASE_URL } from "./api/core";
+import { buildUrl, ENABLE_MOCK_FALLBACKS, tryFetch, tryFetchWithHeaders, WP_API, WP_BASE_URL } from "./api/core";
 import { getPostApi, getPostsApi, getTagsApi } from "./api/posts";
 import {
   loadMockHomepage,
@@ -178,7 +178,7 @@ export async function getHubs(): Promise<{ data: DeltaHub[]; isMock: boolean }> 
  * WP_CAT_CACHE, so subsequent getPosts() hub-filter calls need zero extra
  * HTTP requests to resolve category IDs.
  */
-export async function getCategories(): Promise<{ data: DeltaHub[]; isMock: boolean }> {
+export async function getCategories(): Promise<{ data: DeltaHub[]; isMock: boolean; sourceUnavailable: boolean }> {
   // Always fetch the full wp/v2/categories list — this is the only source that
   // contains ALL categories (including ones like "epidomata" that aren't in our
   // hardcoded HUB_WP_IDS).
@@ -191,22 +191,28 @@ export async function getCategories(): Promise<{ data: DeltaHub[]; isMock: boole
     const hubs = wpRes
       .filter((c) => (c.slug as string) !== "uncategorized")
       .map(normalizeWpCategory);
-    if (hubs.length > 0) return { data: hubs, isMock: false };
+    if (hubs.length > 0) return { data: hubs, isMock: false, sourceUnavailable: false };
   }
 
-  // WP fetch failed — seed mock slugs so lazy resolvers don't retry
+  // WP fetch failed — seed known slugs so lazy resolvers don't keep retrying.
   MOCK_HUBS.forEach((h) => {
     if (!(h.slug in WP_CAT_CACHE)) WP_CAT_CACHE[h.slug] = null;
   });
-  return { data: MOCK_HUBS, isMock: true };
+
+  if (ENABLE_MOCK_FALLBACKS) {
+    return { data: MOCK_HUBS, isMock: true, sourceUnavailable: false };
+  }
+
+  return { data: [], isMock: false, sourceUnavailable: true };
 }
 
 export async function getPosts(
   params: PostsParams = {}
-): Promise<{ data: BlogPost[]; meta: CollectionResponse<BlogPost>["meta"]; isMock: boolean }> {
+): Promise<{ data: BlogPost[]; meta: CollectionResponse<BlogPost>["meta"]; isMock: boolean; sourceUnavailable: boolean }> {
   return getPostsApi(params, {
     postsPerPage: POSTS_PER_PAGE,
     wpApi: WP_API,
+    enableMockFallbacks: ENABLE_MOCK_FALLBACKS,
     mockHubs: MOCK_HUBS,
     hubSlugs: HUB_SLUGS,
     wpIdToHubSlug: WP_ID_TO_HUB_SLUG,
@@ -220,10 +226,11 @@ export async function getPosts(
   });
 }
 
-export async function getPost(slug: string): Promise<{ data: BlogPost | null; isMock: boolean }> {
+export async function getPost(slug: string): Promise<{ data: BlogPost | null; isMock: boolean; sourceUnavailable: boolean }> {
   return getPostApi(slug, {
     postsPerPage: POSTS_PER_PAGE,
     wpApi: WP_API,
+    enableMockFallbacks: ENABLE_MOCK_FALLBACKS,
     mockHubs: MOCK_HUBS,
     hubSlugs: HUB_SLUGS,
     wpIdToHubSlug: WP_ID_TO_HUB_SLUG,
