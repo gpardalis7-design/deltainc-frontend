@@ -460,7 +460,10 @@ export function ProgramDetails() {
   const [activeTab, setActiveTab] = useState<"overview" | "curriculum" | "admissions" | "outcomes" | "faq">("overview");
   const [showModal, setShowModal] = useState(false);
   const programProseRef = useRef<HTMLDivElement | null>(null);
+  const mobileQuickInfoRef = useRef<HTMLDivElement | null>(null);
+  const [isMobileQuickInfoVisible, setIsMobileQuickInfoVisible] = useState(false);
   const hideInfoRequestCta = isPublicUniversityProgram(program);
+  const showMobileStickyInfoCta = !hideInfoRequestCta && !isMobileQuickInfoVisible;
 
   // Configure sticky bottom CTA
   usePageNavigation({
@@ -469,7 +472,7 @@ export function ProgramDetails() {
       text: hideInfoRequestCta ? "" : "Ζήτα Πληροφορίες",
       action: () => setShowModal(true),
     },
-    showStickyBottom: !hideInfoRequestCta,
+    showStickyBottom: showMobileStickyInfoCta,
   });
 
   // Fetch program
@@ -495,6 +498,49 @@ export function ProgramDetails() {
       }
     });
   }, [slug]);
+
+  useEffect(() => {
+    if (hideInfoRequestCta) {
+      setIsMobileQuickInfoVisible(false);
+      return;
+    }
+
+    if (typeof window === "undefined") return;
+
+    const target = mobileQuickInfoRef.current;
+    if (!target) return;
+
+    const mobileMediaQuery = window.matchMedia("(max-width: 1023px)");
+    if (!mobileMediaQuery.matches) {
+      setIsMobileQuickInfoVisible(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsMobileQuickInfoVisible(entry.isIntersecting && entry.intersectionRatio >= 0.2);
+      },
+      {
+        threshold: [0, 0.2, 0.4, 0.6],
+        rootMargin: "-8% 0px -16% 0px",
+      },
+    );
+
+    observer.observe(target);
+
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) {
+        setIsMobileQuickInfoVisible(false);
+      }
+    };
+
+    mobileMediaQuery.addEventListener?.("change", handleViewportChange);
+
+    return () => {
+      observer.disconnect();
+      mobileMediaQuery.removeEventListener?.("change", handleViewportChange);
+    };
+  }, [hideInfoRequestCta, program?.id]);
 
   const activeContent = program
     ? (program.sections[activeTab] || program.excerpt)
@@ -903,7 +949,7 @@ export function ProgramDetails() {
         </div>
 
         {/* Mobile Quick Info (below content) */}
-        <div className="lg:hidden pb-12">
+        <div ref={mobileQuickInfoRef} className="lg:hidden pb-12">
           <QuickInfoCard
             program={program}
             onRequestInfo={() => setShowModal(true)}
