@@ -11,6 +11,7 @@ import type { Program } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
 import { D } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
+import { useScrollableRichTables } from "../lib/richContentTables";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -458,6 +459,7 @@ export function ProgramDetails() {
   const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "curriculum" | "admissions" | "outcomes" | "faq">("overview");
   const [showModal, setShowModal] = useState(false);
+  const programProseRef = useRef<HTMLDivElement | null>(null);
   const hideInfoRequestCta = isPublicUniversityProgram(program);
 
   // Configure sticky bottom CTA
@@ -493,6 +495,11 @@ export function ProgramDetails() {
       }
     });
   }, [slug]);
+
+  const activeContent = program
+    ? (program.sections[activeTab] || program.excerpt)
+    : "";
+  useScrollableRichTables(programProseRef, [program?.id, activeTab, activeContent]);
 
   if (loading) return <ProgramSkeleton />;
   if (!program) {
@@ -545,7 +552,7 @@ export function ProgramDetails() {
     Boolean(tab.content?.trim()),
   );
 
-  const activeContent = visibleTabs.find((t) => t.key === activeTab)?.content || program.excerpt;
+  const activeContentFromTabs = visibleTabs.find((t) => t.key === activeTab)?.content || program.excerpt;
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
 
   const seo = {
@@ -628,10 +635,14 @@ export function ProgramDetails() {
       margin: 2rem 0;
     }
     .program-prose .TyagGW_tableContainer,
-    .program-prose .TyagGW_tableWrapper {
+    .program-prose .TyagGW_tableWrapper,
+    .program-prose .rich-table-scroll,
+    .program-prose .wp-block-table,
+    .program-prose figure:has(table) {
       width: 100%;
       overflow-x: auto;
       margin: 1.35rem 0 2rem;
+      -webkit-overflow-scrolling: touch;
     }
     .program-prose table {
       width: 100%;
@@ -851,11 +862,12 @@ export function ProgramDetails() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
               className="program-prose"
+              ref={programProseRef}
             >
-              {activeContent ? (
+              {activeContentFromTabs ? (
                 <div
                   className="text-sm"
-                  dangerouslySetInnerHTML={{ __html: activeContent }}
+                  dangerouslySetInnerHTML={{ __html: activeContentFromTabs }}
                 />
               ) : (
                 <p className="text-sm" style={{ color: D.inkSoft, fontStyle: "italic" }}>

@@ -18,6 +18,7 @@ import { isGuideArticle } from "../lib/articleGuide";
 import { ArticleLabelChip } from "../components/articles/ArticleLabelChip";
 import { getOverlayVisibility, OVERLAY_VISIBILITY_CHANGED_EVENT } from "../lib/uiOverlayState";
 import { useNavigation as useSiteNavigation, type FormType } from "../lib/navigationContext";
+import { useScrollableRichTables } from "../lib/richContentTables";
 
 type ArticleCategory = BlogPost["categories"][number];
 
@@ -174,11 +175,13 @@ const proseStyles = `
   }
   .article-body .TyagGW_tableContainer,
   .article-body .TyagGW_tableWrapper,
+  .article-body .rich-table-scroll,
   .article-body .wp-block-table,
   .article-body figure:has(table) {
     width: 100%;
     overflow-x: auto;
     margin: 1.35rem 0 2rem;
+    -webkit-overflow-scrolling: touch;
   }
   .article-body table {
     width: 100%;
@@ -261,6 +264,7 @@ const proseStyles = `
     }
     .article-body .TyagGW_tableContainer,
     .article-body .TyagGW_tableWrapper,
+    .article-body .rich-table-scroll,
     .article-body .wp-block-table,
     .article-body figure:has(table),
     .article-body pre,
@@ -737,6 +741,14 @@ export function BlogArticle() {
     openModalFor,
   ]);
 
+  const articleBodyRef = useRef<HTMLDivElement | null>(null);
+  const richContent = post?.contentHtml?.trim()
+    ? post.contentHtml
+    : post
+      ? getArticleContent(post.slug, post.excerpt)
+      : "";
+  useScrollableRichTables(articleBodyRef, [post?.id, richContent]);
+
   if (loading) return <ArticleSkeleton />;
   if (!post) {
     return (
@@ -747,9 +759,6 @@ export function BlogArticle() {
     );
   }
 
-  const richContent = post.contentHtml?.trim()
-    ? post.contentHtml
-    : getArticleContent(post.slug, post.excerpt);
   const seo = articleSeo(post);
   const primaryLabel = getArticlePrimaryLabel(post);
   const validCategories = getUniqueDisplayableCategories(post.categories);
@@ -1058,7 +1067,7 @@ export function BlogArticle() {
               <GooglePreferredSourceButton />
             </div>
 
-            <div className="article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
+            <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
 
             {post.tags.length > 0 && (
               <div className="flex items-center gap-2 flex-wrap mb-8 pt-6" style={{ borderTop: `1px solid ${D.border}` }}>
