@@ -8,6 +8,7 @@ const rootDir = resolve(__dirname, "..");
 const policyPath = resolve(rootDir, "src/app/lib/sitePolicy.json");
 const sitemapPath = resolve(rootDir, "public/sitemap.xml");
 const redirectManifestPath = resolve(rootDir, "src/app/lib/generated/legacyRedirectManifest.json");
+const vercelConfigPath = resolve(rootDir, "vercel.json");
 
 const siteUrl = "https://deltainc.gr";
 const wpBaseUrl = process.env.VITE_WP_BASE_URL || siteUrl;
@@ -53,6 +54,26 @@ function escapeXml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
+}
+
+function withTrailingSlash(pathname) {
+  const normalized = normalizePath(pathname);
+  return normalized === "/" ? "/" : `${normalized}/`;
+}
+
+function createPathVariants(pathname, { includeTrailingSlash = true } = {}) {
+  const normalized = normalizePath(pathname);
+  const decoded = normalizePath(decodeMaybe(normalized));
+  const encoded = normalizePath(encodeURI(decoded));
+  const variants = new Set([normalized, decoded, encoded]);
+
+  if (includeTrailingSlash && normalized !== "/") {
+    for (const value of [...variants]) {
+      variants.add(withTrailingSlash(value));
+    }
+  }
+
+  return [...variants];
 }
 
 function buildUrlSet(entries) {
@@ -172,6 +193,65 @@ function createRedirectManifest(posts, programs) {
   };
 }
 
+function appendRedirectRules(redirects, seenSources, from, to) {
+  const destination = normalizePath(to);
+
+  for (const source of createPathVariants(from)) {
+    if (source === destination || seenSources.has(source)) continue;
+    seenSources.add(source);
+    redirects.push({
+      source,
+      destination,
+      permanent: true,
+    });
+  }
+}
+
+function buildVercelConfig(redirectManifest) {
+  const redirects = [];
+  const seenSources = new Set();
+
+  for (const entry of redirectManifest.exactRedirects) {
+    appendRedirectRules(redirects, seenSources, entry.from, entry.to);
+  }
+
+  for (const entry of redirectManifest.articleRedirects) {
+    appendRedirectRules(redirects, seenSources, entry.from, entry.to);
+  }
+
+  for (const entry of redirectManifest.programRedirects) {
+    appendRedirectRules(redirects, seenSources, entry.from, entry.to);
+  }
+
+  for (const [slug, destination] of Object.entries(policy.serviceCategoryRedirects)) {
+    appendRedirectRules(redirects, seenSources, `/category/${slug}`, destination);
+  }
+
+  for (const [slug, destination] of Object.entries(policy.editorialCategoryRedirects)) {
+    appendRedirectRules(redirects, seenSources, `/category/${slug}`, destination);
+  }
+
+  for (const source of createPathVariants("/category/:slug")) {
+    if (seenSources.has(source)) continue;
+    seenSources.add(source);
+    redirects.push({
+      source,
+      destination: "/blog",
+      permanent: true,
+    });
+  }
+
+  return {
+    redirects,
+    rewrites: [
+      {
+        source: "/((?!assets/|.*\\..*).*)",
+        destination: "/index.html",
+      },
+    ],
+  };
+}
+
 function ensureDir(pathname) {
   mkdirSync(dirname(pathname), { recursive: true });
 }
@@ -181,11 +261,19 @@ function writeArtifacts(posts, programs) {
   const contentEntries = createContentEntries(posts, programs);
   const sitemapEntries = [...staticEntries, ...contentEntries];
   const redirectManifest = createRedirectManifest(posts, programs);
+  const vercelConfig = buildVercelConfig(redirectManifest);
 
   ensureDir(sitemapPath);
   ensureDir(redirectManifestPath);
   writeFileSync(sitemapPath, buildUrlSet(sitemapEntries), "utf8");
   writeFileSync(redirectManifestPath, `${JSON.stringify(redirectManifest, null, 2)}\n`, "utf8");
+  writeFileSync(vercelConfigPath, `${JSON.stringify(vercelConfig, null, 2)}\n`, "utf8");
+}
+
+function rewriteVercelConfigFromExistingManifest() {
+  const manifest = JSON.parse(readFileSync(redirectManifestPath, "utf8"));
+  const vercelConfig = buildVercelConfig(manifest);
+  writeFileSync(vercelConfigPath, `${JSON.stringify(vercelConfig, null, 2)}\n`, "utf8");
 }
 
 function main() {
@@ -193,9 +281,21 @@ function main() {
     const posts = fetchPaginatedCollection("posts");
     const programs = fetchPaginatedCollection("program");
     writeArtifacts(posts, programs);
-    console.log(`Generated sitemap and redirect manifest from ${posts.length} posts and ${programs.length} programs.`);
+    console.log(`Generated sitemap, redirect manifest, and vercel config from ${posts.length} posts and ${programs.length} programs.`);
   } catch (error) {
-    console.warn("Site artifact generation skipped; keeping checked-in artifacts.", error instanceof Error ? error.message : error);
+    try {
+      rewriteVercelConfigFromExistingManifest();
+      console.warn(
+        "Site artifact generation skipped; refreshed vercel config from checked-in redirect manifest.",
+        error instanceof Error ? error.message : error,
+      );
+      return;
+    } catch (fallbackError) {
+      console.warn(
+        "Site artifact generation skipped; keeping checked-in artifacts.",
+        fallbackError instanceof Error ? fallbackError.message : fallbackError,
+      );
+    }
   }
 }
 
