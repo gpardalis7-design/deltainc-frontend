@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { Link } from "react-router";
 import { ChevronRight, Cookie } from "lucide-react";
 import { D } from "../Root";
@@ -59,7 +58,7 @@ export function CookiePolicy() {
           style={{ background: `linear-gradient(180deg, rgba(255,255,255,0.98) 0%, ${D.bg} 74%, rgba(37,99,235,0.03) 100%)` }}
         />
         <div className="max-w-5xl mx-auto relative">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
+          <div>
             <div className="flex items-center gap-2 text-xs mb-5" style={{ color: D.inkSoft }}>
               <Link to="/" className="hover:opacity-80 transition-opacity" style={{ color: D.inkSoft }}>Αρχική</Link>
               <ChevronRight size={12} />
@@ -75,7 +74,7 @@ export function CookiePolicy() {
             <p className="text-base md:text-lg max-w-3xl" style={{ color: D.inkSoft, lineHeight: 1.8 }}>
               Η παρούσα σελίδα εξηγεί τι είδους cookies ή τεχνολογίες αποθήκευσης χρησιμοποιεί ο ιστότοπος της Delta Inc. και για ποιους σκοπούς.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

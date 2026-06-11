@@ -1,6 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { motion, useInView } from "motion/react";
 import { ArrowLeft, ArrowRight, Award, Briefcase, Calculator, CheckCircle2, CircleAlert, Cpu, GraduationCap, Languages, Sigma } from "lucide-react";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
@@ -245,18 +244,9 @@ const defaultPeTeTakTikoForm: PeTeTakTikoFormState = {
 };
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 export function MoriaCalculator() {

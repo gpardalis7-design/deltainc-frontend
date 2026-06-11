@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { ArrowRight, Search, SlidersHorizontal, X, Tag, Calendar, TrendingUp } from "lucide-react";
 import { getPosts, getTags } from "../lib/deltaApi";
 import { useCategories } from "../lib/categoriesContext";
@@ -18,13 +18,9 @@ function formatDate(iso: string) {
 }
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 function Skeleton({ className = "" }: { className?: string }) {
@@ -182,7 +178,7 @@ export function Blog() {
       <section className="pt-36 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(197,141,42,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+          <div>
             <div className="flex items-center gap-3 mb-5 flex-wrap">
               <span className="inline-block px-3 py-1 rounded-full text-xs tracking-widest uppercase" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
                 Blog
@@ -195,7 +191,7 @@ export function Blog() {
             <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "460px" }}>
               Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

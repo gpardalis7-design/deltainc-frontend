@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router";
 import { BookOpen, Users, GraduationCap, Award, ChevronRight, ArrowRight, Star, CheckCircle2, FileText, ShieldCheck } from "lucide-react";
-import { motion, useInView, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { getHomepage } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent } from "../lib/analytics";
 import type { HomepagePayload, DeltaHub, BlogPost, Program } from "../lib/types";
@@ -20,13 +20,9 @@ function formatDate(iso: string) {
 }
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 const PATH_CONFIG = {
@@ -328,7 +324,7 @@ export function Home() {
       {/* Hero */}
       <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6">
         <div className="max-w-7xl mx-auto relative">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)] gap-8 md:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)] gap-8 md:gap-10 items-start">
             <div>
               <h1 className="type-display-hero mb-4 md:mb-6" style={{
                 fontSize: "clamp(2.15rem, 6vw, 4.5rem)",
@@ -398,12 +394,9 @@ export function Home() {
                   { label: "Προγράμματα", value: stats.programs, icon: BookOpen },
                   { label: "Πανεπιστήμια", value: stats.universities, icon: GraduationCap },
                   { label: "Επιτυχία", value: stats.successRate, icon: Award },
-                ].map((stat, i) => (
-                  <motion.div
+                ].map((stat) => (
+                  <div
                     key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.35 + i * 0.08 }}
                     className="flex flex-col gap-2 p-4 rounded-2xl min-h-[118px]"
                     style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}
                   >
@@ -414,7 +407,7 @@ export function Home() {
                     <div className="text-[11px]" style={{ color: D.inkSoft, fontWeight: 600 }}>
                       {stat.label}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -481,7 +474,7 @@ export function Home() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

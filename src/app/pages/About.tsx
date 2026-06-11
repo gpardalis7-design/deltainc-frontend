@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { motion, useInView } from "motion/react";
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import { submitContact, MOCK_HUBS } from "../lib/deltaApi";
 import { trackLeadFormEvent } from "../lib/analytics";
@@ -11,13 +10,9 @@ import { staticPageSeo } from "../lib/seo";
 const interests = ["Μεταπτυχιακά", "ΑΣΕΠ", "ΟΠΣΥΔ", "Πιστοποιήσεις", "Άλλο"];
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 const inputStyle = {
@@ -125,7 +120,7 @@ export function About() {
         <div className="absolute left-1/2 top-20 hidden h-[360px] w-[760px] -translate-x-1/2 rounded-full blur-3xl md:block pointer-events-none" style={{ background: "rgba(37,99,235,0.07)" }} />
         <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" style={{ background: `linear-gradient(180deg, transparent 0%, ${D.bg} 100%)` }} />
         <div className="max-w-5xl mx-auto relative">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+          <div>
             <span className="inline-block px-3 py-1 rounded-full text-xs mb-6 tracking-widest uppercase" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
               Σχετικά
             </span>
@@ -135,7 +130,7 @@ export function About() {
             <p className="text-lg max-w-2xl" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
               Το Delta Inc είναι η κορυφαία πλατφόρμα εκπαιδευτικής ενημέρωσης στην Ελλάδα. Παρέχουμε έγκυρους οδηγούς για ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά και πιστοποιήσεις.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

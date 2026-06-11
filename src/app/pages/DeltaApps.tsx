@@ -1,7 +1,5 @@
 import { Link } from "react-router";
-import { motion, useInView } from "motion/react";
 import { ArrowRight, Calculator, Clock3, Layers3, ShieldCheck, Sparkles } from "lucide-react";
-import { useRef } from "react";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
@@ -53,18 +51,9 @@ const DELTA_APPS_PRINCIPLES = [
 ] as const;
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 export function DeltaApps() {

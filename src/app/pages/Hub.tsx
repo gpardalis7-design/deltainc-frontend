@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import {
   ChevronRight, ArrowRight, Calendar,
   BookOpen, CheckCircle2, HelpCircle,
@@ -38,13 +38,9 @@ function formatDate(iso: string) {
 }
 
 function Fade({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 // ─── Post card ────────────────────────────────────────────────────────────────

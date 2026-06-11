@@ -1,6 +1,5 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { motion, useInView } from "motion/react";
 import { ArrowRight, BookOpen, TrendingUp, Newspaper, Calendar } from "lucide-react";
 import { getPosts } from "../lib/deltaApi";
 import type { BlogPost } from "../lib/types";
@@ -15,13 +14,9 @@ function formatDate(iso: string) {
 }
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 export function BlogHub() {
@@ -65,7 +60,7 @@ export function BlogHub() {
         <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none" style={{ background: `linear-gradient(180deg, transparent 0%, ${D.bg} 100%)` }} />
         
         <div className="max-w-7xl mx-auto relative">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="text-center">
+          <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: D.accentSoft }}>
                 <BookOpen size={28} style={{ color: D.accent }} />
@@ -82,7 +77,7 @@ export function BlogHub() {
                 Εξερευνήστε Όλα τα Άρθρα <ArrowRight size={16} />
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
-import { motion, useInView } from "motion/react";
 import { CalendarDays, CheckCircle2, FileText, Languages, PenSquare, UploadCloud } from "lucide-react";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
@@ -77,18 +76,9 @@ const inputStyle = {
 } as const;
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  const _delay = delay;
+  void _delay;
+  return <>{children}</>;
 }
 
 export function Assignments() {
