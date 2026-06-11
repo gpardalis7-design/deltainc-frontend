@@ -63,11 +63,10 @@ function withTrailingSlash(pathname) {
 
 function createPathVariants(pathname, { includeTrailingSlash = true } = {}) {
   const normalized = normalizePath(pathname);
-  const decoded = normalizePath(decodeMaybe(normalized));
-  const encoded = normalizePath(encodeURI(decoded));
-  const variants = new Set([normalized, decoded, encoded]);
+  const encoded = normalizePath(encodeURI(decodeMaybe(normalized)));
+  const variants = new Set([encoded]);
 
-  if (includeTrailingSlash && normalized !== "/") {
+  if (includeTrailingSlash && encoded !== "/") {
     for (const value of [...variants]) {
       variants.add(withTrailingSlash(value));
     }
