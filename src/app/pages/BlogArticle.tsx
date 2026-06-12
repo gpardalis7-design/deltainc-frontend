@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 import { motion, useScroll, useSpring } from "motion/react";
 import {
@@ -19,6 +19,7 @@ import { ArticleLabelChip } from "../components/articles/ArticleLabelChip";
 import { getOverlayVisibility, OVERLAY_VISIBILITY_CHANGED_EVENT } from "../lib/uiOverlayState";
 import { useNavigation as useSiteNavigation, type FormType } from "../lib/navigationContext";
 import { useScrollableRichTables } from "../lib/richContentTables";
+import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 
 type ArticleCategory = BlogPost["categories"][number];
 
@@ -753,7 +754,8 @@ export function BlogArticle() {
     : post && postIsMock
       ? getArticleContent(post.slug, post.excerpt)
       : "";
-  useScrollableRichTables(articleBodyRef, [post?.id, richContent]);
+  const sanitizedRichContent = useMemo(() => sanitizeRichHtml(richContent), [richContent]);
+  useScrollableRichTables(articleBodyRef, [post?.id, sanitizedRichContent]);
 
   if (loading) return <ArticleSkeleton />;
   if (!post) {
@@ -1076,7 +1078,7 @@ export function BlogArticle() {
             </div>
 
             {richContent ? (
-              <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: richContent }} />
+              <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: sanitizedRichContent }} />
             ) : (
               <div
                 className="rounded-2xl px-5 py-4 text-sm"

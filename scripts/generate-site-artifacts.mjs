@@ -209,6 +209,11 @@ function appendRedirectRules(redirects, seenSources, from, to) {
 function buildVercelConfig(redirectManifest) {
   const redirects = [];
   const seenSources = new Set();
+  const securityHeaders = [
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "X-Frame-Options", value: "DENY" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  ];
 
   for (const entry of redirectManifest.exactRedirects) {
     appendRedirectRules(redirects, seenSources, entry.from, entry.to);
@@ -241,6 +246,12 @@ function buildVercelConfig(redirectManifest) {
   }
 
   return {
+    headers: [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ],
     redirects,
     rewrites: [
       {

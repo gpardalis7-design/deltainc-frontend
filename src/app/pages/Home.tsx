@@ -527,8 +527,13 @@ export function Home() {
               >
                 <div className="rounded-[1.5rem] overflow-hidden" style={{ background: `linear-gradient(180deg, rgba(255,255,255,0.98) 0%, ${D.warmAccentWash} 100%)`, border: `1px solid ${D.warmAccentBorderSoft}`, borderRadius: D.radiusCard }}>
                   <img
-                    src="/delta-hero.png"
+                    src="/delta-hero.webp"
                     alt="Οπτική αποτύπωση του οικοσυστήματος υπηρεσιών και εργαλείων της Delta"
+                    width={1448}
+                    height={1086}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-auto object-contain"
                   />
                 </div>

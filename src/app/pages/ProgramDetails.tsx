@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router";
 import { motion } from "motion/react";
 import {
@@ -12,6 +12,7 @@ import { SeoHead } from "../components/SeoHead";
 import { D } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useScrollableRichTables } from "../lib/richContentTables";
+import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -545,7 +546,8 @@ export function ProgramDetails() {
   const activeContent = program
     ? (program.sections[activeTab] || program.excerpt)
     : "";
-  useScrollableRichTables(programProseRef, [program?.id, activeTab, activeContent]);
+  const sanitizedProgramContent = useMemo(() => sanitizeRichHtml(activeContent), [activeContent]);
+  useScrollableRichTables(programProseRef, [program?.id, activeTab, sanitizedProgramContent]);
 
   if (loading) return <ProgramSkeleton />;
   if (!program) {
@@ -598,7 +600,6 @@ export function ProgramDetails() {
     Boolean(tab.content?.trim()),
   );
 
-  const activeContentFromTabs = visibleTabs.find((t) => t.key === activeTab)?.content || program.excerpt;
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
 
   const seo = {
@@ -910,10 +911,10 @@ export function ProgramDetails() {
               className="program-prose"
               ref={programProseRef}
             >
-              {activeContentFromTabs ? (
+              {activeContent ? (
                 <div
                   className="text-sm"
-                  dangerouslySetInnerHTML={{ __html: activeContentFromTabs }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedProgramContent }}
                 />
               ) : (
                 <p className="text-sm" style={{ color: D.inkSoft, fontStyle: "italic" }}>

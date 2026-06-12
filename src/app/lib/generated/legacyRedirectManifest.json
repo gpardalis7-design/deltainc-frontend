@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-11T18:58:45.931Z",
+  "generatedAt": "2026-06-12T14:57:37.171Z",
   "exactRedirects": [
     {
       "from": "/news",
@@ -28,6 +28,21 @@
     }
   ],
   "articleRedirects": [
+    {
+      "from": "/aitiseis-eppaik-pesyp-2026",
+      "to": "/blog/aitiseis-eppaik-pesyp-2026",
+      "type": "article"
+    },
+    {
+      "from": "/asep-2gb-2026-elas-theseis",
+      "to": "/blog/asep-2gb-2026-elas-theseis",
+      "type": "article"
+    },
+    {
+      "from": "/asep-paidikoi-stathmoi-9000-proslipseis",
+      "to": "/blog/asep-paidikoi-stathmoi-9000-proslipseis",
+      "type": "article"
+    },
     {
       "from": "/eidiki-agogi-metaptychiako",
       "to": "/blog/eidiki-agogi-metaptychiako",
@@ -2677,6 +2692,9 @@
     }
   ],
   "postSlugs": [
+    "aitiseis-eppaik-pesyp-2026",
+    "asep-2gb-2026-elas-theseis",
+    "asep-paidikoi-stathmoi-9000-proslipseis",
     "eidiki-agogi-metaptychiako",
     "ypotrofies-2026-equal-society",
     "apinidotes-sto-ekpa",

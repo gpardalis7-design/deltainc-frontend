@@ -38,6 +38,19 @@ export default defineConfig({
     // triggers "Detected multiple renderers" and "Invalid hook call".
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (id.includes("react-router")) return "vendor-router";
+          if (id.includes("motion")) return "vendor-motion";
+          if (id.includes("react-helmet-async")) return "vendor-seo";
+          if (id.includes("lucide-react")) return "vendor-icons";
+        },
+      },
+    },
+  },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ["**/*.svg", "**/*.csv"],

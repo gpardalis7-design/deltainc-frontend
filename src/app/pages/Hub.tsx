@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, Navigate, useLocation, useNavigate, useParams, useSearchParams } from "react-router";
 import { motion } from "motion/react";
 import {
   ChevronRight, ArrowRight, Calendar,
@@ -12,7 +12,7 @@ import { trackContextualEvent, trackCtaClick, trackEvent } from "../lib/analytic
 import { useCategories } from "../lib/categoriesContext";
 import type { BlogPost } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
-import { hubSeo } from "../lib/seo";
+import { hubSeo, notFoundSeo } from "../lib/seo";
 import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
@@ -944,6 +944,7 @@ function buildEditorialIntro(name: string, description: string | undefined): str
 
 export function Hub() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { hubSlug } = useParams<{ hubSlug: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const { openModal, setShowStickyBottom } = useNavigation();
@@ -1439,12 +1440,74 @@ export function Hub() {
   // Show "not found" only when:
   // - Not a hardcoded hub AND not a known live WP category AND context has finished loading
   if (!hub && !liveHub && !catsLoading) {
+    const notFoundStateSeo = notFoundSeo(location.pathname);
+
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: D.bg }}>
-        <p style={{ color: D.inkSoft }}>
-          {categoriesSourceUnavailable ? "Δεν ήταν δυνατή η φόρτωση της κατηγορίας." : "Η κατηγορία δεν βρέθηκε."}
-        </p>
-        <Link to="/" style={{ color: D.accent }}>← Αρχική</Link>
+      <div className="min-h-screen px-5 md:px-6 flex items-center justify-center" style={{ background: D.bg }}>
+        <SeoHead seo={notFoundStateSeo} />
+        <div
+          className="w-full max-w-2xl rounded-[1.75rem] p-8 md:p-10 text-center"
+          style={{
+            background: D.surfaceStrong,
+            border: `1px solid ${D.border}`,
+            boxShadow: `0 18px 48px ${D.shadow}`,
+            borderRadius: D.radiusShell,
+          }}
+        >
+          <div
+            className="inline-flex items-center justify-center rounded-[1.25rem] px-4 py-2 text-xs md:text-sm mb-5"
+            style={{
+              background: D.accentSoft,
+              color: D.accentStrong,
+              fontWeight: 800,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+            }}
+          >
+            Delta
+          </div>
+          <h1
+            className="type-display-section mb-4"
+            style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)", color: D.ink }}
+          >
+            {categoriesSourceUnavailable ? "Η ενότητα δεν είναι διαθέσιμη προσωρινά" : "Η σελίδα δεν βρέθηκε"}
+          </h1>
+          <p
+            className="text-base md:text-lg mb-7"
+            style={{ color: D.inkSoft, lineHeight: 1.75, maxWidth: "40rem", marginInline: "auto" }}
+          >
+            {categoriesSourceUnavailable
+              ? "Δεν ήταν δυνατή η φόρτωση της συγκεκριμένης ενότητας αυτή τη στιγμή. Δοκιμάστε ξανά σε λίγο ή συνεχίστε από μια βασική διαδρομή του Delta."
+              : "Η διεύθυνση που ανοίξατε δεν αντιστοιχεί σε ενεργή ενότητα. Μπορείτε να επιστρέψετε στην αρχική ή να συνεχίσετε σε μία από τις βασικές ενότητες του site."}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center rounded-[0.95rem] px-5 py-3 text-sm md:text-base"
+              style={{
+                background: D.ink,
+                color: "#ffffff",
+                fontWeight: 700,
+                minWidth: "12rem",
+              }}
+            >
+              Επιστροφή στην αρχική
+            </Link>
+            <Link
+              to="/blog"
+              className="inline-flex items-center justify-center rounded-[0.95rem] px-5 py-3 text-sm md:text-base"
+              style={{
+                background: D.surface,
+                color: D.ink,
+                border: `1px solid ${D.border}`,
+                fontWeight: 700,
+                minWidth: "12rem",
+              }}
+            >
+              Μετάβαση στο Blog
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

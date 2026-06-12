@@ -299,3 +299,14 @@ export function staticPageSeo(page: Exclude<StaticSeoPage, "blogHub">): SeoMeta 
     og: { type: "website", image: DEFAULT_OG_IMAGE },
   };
 }
+
+export function notFoundSeo(path = "/"): SeoMeta {
+  return {
+    title: "Η σελίδα δεν βρέθηκε",
+    description:
+      "Η σελίδα που αναζητάτε δεν είναι διαθέσιμη. Επιστρέψτε στην αρχική ή συνεχίστε σε μία από τις βασικές ενότητες του Delta.",
+    canonical: canonical(path),
+    robots: "noindex,follow",
+    og: { type: "website", image: DEFAULT_OG_IMAGE },
+  };
+}

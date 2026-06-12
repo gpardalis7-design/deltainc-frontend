@@ -1,4 +1,23 @@
 {
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
   "redirects": [
     {
       "source": "/news",
@@ -48,6 +67,36 @@
     {
       "source": "/cookie-policy-eu/",
       "destination": "/cookie-policy",
+      "permanent": true
+    },
+    {
+      "source": "/aitiseis-eppaik-pesyp-2026",
+      "destination": "/blog/aitiseis-eppaik-pesyp-2026",
+      "permanent": true
+    },
+    {
+      "source": "/aitiseis-eppaik-pesyp-2026/",
+      "destination": "/blog/aitiseis-eppaik-pesyp-2026",
+      "permanent": true
+    },
+    {
+      "source": "/asep-2gb-2026-elas-theseis",
+      "destination": "/blog/asep-2gb-2026-elas-theseis",
+      "permanent": true
+    },
+    {
+      "source": "/asep-2gb-2026-elas-theseis/",
+      "destination": "/blog/asep-2gb-2026-elas-theseis",
+      "permanent": true
+    },
+    {
+      "source": "/asep-paidikoi-stathmoi-9000-proslipseis",
+      "destination": "/blog/asep-paidikoi-stathmoi-9000-proslipseis",
+      "permanent": true
+    },
+    {
+      "source": "/asep-paidikoi-stathmoi-9000-proslipseis/",
+      "destination": "/blog/asep-paidikoi-stathmoi-9000-proslipseis",
       "permanent": true
     },
     {
