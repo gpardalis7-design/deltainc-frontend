@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { ArrowLeft, ArrowRight, Award, Briefcase, Calculator, CheckCircle2, CircleAlert, Cpu, GraduationCap, Languages, Sigma } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award, Briefcase, Calculator, CircleAlert, Cpu, GraduationCap, Languages, Sigma } from "lucide-react";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import {
@@ -26,25 +26,21 @@ const modeCards = [
   {
     id: "anaplirotes" as const,
     title: "Μόρια Αναπληρωτών",
-    summary: "Ο πρώτος ενεργός υπολογισμός με ακαδημαϊκά προσόντα, γλώσσες, προϋπηρεσία και κοινωνικά κριτήρια.",
     status: "live" as const,
   },
   {
     id: "asep-de" as const,
     title: "ΔΕ Τακτικό Προσωπικό",
-    summary: "Ξεχωριστή λογική με βαθμό τίτλου, δεύτερο τίτλο, εμπειρία και έως 3 μοριοδοτούμενες ξένες γλώσσες.",
     status: "live" as const,
   },
   {
     id: "ye-taktiko" as const,
     title: "ΥΕ Τακτικό Προσωπικό",
-    summary: "Λογική με οικογενειακά κριτήρια, ανεργία, εμπειρία και ηλικιακό bonus έως 30 ετών.",
     status: "live" as const,
   },
   {
     id: "pe-te-taktiko" as const,
     title: "ΠΕ - ΤΕ Τακτικό Προσωπικό",
-    summary: "Βαθμός τίτλου, δεύτερος τίτλος, διδακτορικό, μεταπτυχιακά, integrated master, εμπειρία και έως 3 ξένες γλώσσες με προτεραιότητα στα υψηλότερα επίπεδα.",
     status: "live" as const,
   },
 ] as const;
@@ -356,7 +352,7 @@ export function MoriaCalculator() {
               </p>
               <div className="mt-8">
                 <a
-                  href="#moria-tool"
+                  href="#moria-mode-selector"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-white transition-all hover:opacity-95"
                   style={{ background: D.ink, fontWeight: 700, boxShadow: `0 6px 20px ${D.shadow}`, borderRadius: D.radiusControl }}
                 >
@@ -384,7 +380,7 @@ export function MoriaCalculator() {
 
           <AnimatedSection delay={0.04}>
             <div className="flex flex-col gap-4">
-              <div className="type-eyebrow" style={{ color: D.inkSoft }}>
+              <div id="moria-mode-selector" className="type-eyebrow scroll-mt-28" style={{ color: D.inkSoft }}>
                 Επιλέξτε mode
               </div>
               <div className="flex flex-wrap gap-2">
@@ -413,38 +409,6 @@ export function MoriaCalculator() {
                     </button>
                   );
                 })}
-              </div>
-
-              <div
-                className="rounded-[1.75rem] p-5 md:p-6"
-                style={{
-                  background: D.surfaceStrong,
-                  border: `1px solid ${D.border}`,
-                  boxShadow: `0 10px 24px ${D.shadow}`,
-                  borderRadius: D.radiusCard,
-                }}
-              >
-                <div className="flex flex-wrap items-center gap-3 mb-3">
-                  <span
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-[0.1em] uppercase"
-                    style={{
-                      background: activeModeCard.status === "live" ? "rgba(22,163,74,0.10)" : "rgba(15,23,42,0.06)",
-                      color: activeModeCard.status === "live" ? "#166534" : D.inkSoft,
-                      fontWeight: 700,
-                    }}
-                  >
-                    {activeModeCard.status === "live" ? "Διαθέσιμο τώρα" : "Σύντομα"}
-                  </span>
-                  <span className="text-[11px] uppercase tracking-[0.12em]" style={{ color: D.inkSoft, fontWeight: 700 }}>
-                    {activeModeIndexLabel}
-                  </span>
-                </div>
-                <h3 className="type-display-card mb-3" style={{ color: D.ink, fontSize: "1.1rem" }}>
-                  {activeModeCard.title}
-                </h3>
-                <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-                  {activeModeCard.summary}
-                </p>
               </div>
             </div>
           </AnimatedSection>
@@ -1010,68 +974,6 @@ export function MoriaCalculator() {
         </div>
       </section>
 
-      <section id="moria-disclaimer" className="px-6 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <AnimatedSection>
-            <div className="rounded-[2rem] p-6 md:p-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start" style={{ ...sectionShellStyle, borderRadius: D.radiusShell }}>
-              <div>
-                <div className="type-eyebrow mb-3" style={{ color: D.inkSoft }}>Τι να περιμένετε</div>
-                <h2 className="type-display-section mb-4" style={{ color: D.ink, fontSize: "clamp(1.4rem, 3vw, 2rem)" }}>
-                  Ένα πρακτικό estimate με καθαρό breakdown, όχι επίσημη διοικητική βεβαίωση
-                </h2>
-                <p className="text-base max-w-3xl" style={{ color: D.inkSoft, lineHeight: 1.8 }}>
-                  Το εργαλείο είναι σχεδιασμένο για να σας δίνει γρήγορη και εύχρηστη εικόνα. Στόχος του είναι η πρακτική διευκόλυνση και η μείωση της ασάφειας, όχι να υποκαταστήσει την τελική επιβεβαίωση από επίσημες πηγές ή ειδικές περιπτώσεις μοριοδότησης.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                {(
-                  activeMode === "anaplirotes"
-                    ? [
-                        "Απαιτείται επιλογή κλάδου / ειδικότητας πριν εμφανιστεί έγκυρο τελικό σύνολο.",
-                        "Ο βαθμός βασικού τίτλου πρέπει να είναι από 5 έως 10.",
-                        "Όλα τα πεδία προϋπηρεσίας συμπληρώνονται μόνο σε ακέραιους μήνες.",
-                        "Το τελικό αποτέλεσμα παραμένει ενδεικτικό και δεν υποκαθιστά τις επίσημες πηγές.",
-                      ]
-                    : activeMode === "asep-de"
-                      ? [
-                          "Ο βαθμός βασικού τίτλου μοριοδοτείται μόνο όταν βρίσκεται από 4 έως 10.",
-                          "Η εμπειρία υπολογίζεται με ανώτατο όριο 84 μηνών.",
-                          "Στις ξένες γλώσσες υπολογίζονται έως 3 γλώσσες συνολικά, με προτεραιότητα στις υψηλότερες βαθμίδες.",
-                          "Το τελικό αποτέλεσμα παραμένει ενδεικτικό και δεν υποκαθιστά τις επίσημες πηγές.",
-                        ]
-                      : activeMode === "ye-taktiko"
-                        ? [
-                            "Στα ανήλικα τέκνα μετρώνται έως 6 τέκνα συνολικά.",
-                            "Στην ανεργία κρατείται μόνο η κατηγορία που δίνει τα περισσότερα μόρια.",
-                            "Η εμπειρία υπολογίζεται με ανώτατο όριο 84 μηνών.",
-                            "Το τελικό αποτέλεσμα παραμένει ενδεικτικό και δεν υποκαθιστά τις επίσημες πηγές.",
-                          ]
-                        : [
-                            "Ο βαθμός βασικού τίτλου μετρά μόνο όταν βρίσκεται από 5 έως 10 και υποστηρίζει και input με κόμμα.",
-                            "Το shared extra-title bonus εφαρμόζεται με προτεραιότητα: διδακτορικό, μετά μεταπτυχιακό, μετά integrated master.",
-                            "Η εμπειρία υπολογίζεται με ανώτατο όριο 84 μηνών και οι ξένες γλώσσες με ανώτατο όριο 3 συνολικά.",
-                            "Το τελικό αποτέλεσμα παραμένει ενδεικτικό και δεν υποκαθιστά τις επίσημες πηγές.",
-                          ]
-                ).map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <CheckCircle2 size={16} style={{ color: D.accentStrong, flexShrink: 0, marginTop: 2 }} />
-                    <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.65 }}>{item}</p>
-                  </div>
-                ))}
-                <div className="rounded-2xl px-4 py-4 mt-2" style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.18)", borderRadius: D.radiusCard }}>
-                  <div className="flex items-start gap-3">
-                    <CircleAlert size={18} style={{ color: "#b45309", flexShrink: 0, marginTop: 2 }} />
-                    <p className="text-sm" style={{ color: "#92400e", lineHeight: 1.7 }}>
-                      Πριν χρησιμοποιήσετε το αποτέλεσμα σε πραγματική αίτηση, επιβεβαιώστε τη λογική με τα επίσημα κριτήρια της αντίστοιχης διαδικασίας.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
     </div>
   );
 }
