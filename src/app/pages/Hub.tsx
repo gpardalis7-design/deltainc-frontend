@@ -16,7 +16,7 @@ import { hubSeo, notFoundSeo } from "../lib/seo";
 import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
-import { GUIDED_HUB_DATA } from "../lib/hubs/guidedHubConfig";
+import { GUIDED_HUB_DATA, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
 import { resolveHubVariant } from "../lib/hubs/hubVariant";
 import { getArticleCardImage } from "../components/articles/articleImage";
 
@@ -148,12 +148,17 @@ type HubViewProps = {
     desc: string;
     actionLabel: string;
     target: {
+      link?: string;
+      panelId?: string;
       search?: string;
       sort?: string;
     };
     icon: React.ReactNode;
   }[];
+  displayInfoPanels: Record<string, GuidedHubInfoPanel>;
   displayFaq: { q: string; a: string }[];
+  activeInfoPanel?: GuidedHubInfoPanel;
+  closeInfoPanel: () => void;
   activeFiltersCount: number;
   activeSort: string;
   activeTag: string;
@@ -176,11 +181,12 @@ type HubViewProps = {
   setShowFilters: (value: boolean) => void;
   showFilters: boolean;
   sourceUnavailable: boolean;
+  infoPanelRef: React.RefObject<HTMLDivElement | null>;
   startHereRef: React.RefObject<HTMLDivElement | null>;
   topicSectionRef: React.RefObject<HTMLDivElement | null>;
   total: number;
   updateParams: (updates: Record<string, string | number | undefined>) => void;
-  applyTopicFilter: (label: string, target: { search?: string; sort?: string }) => void;
+  applyTopicFilter: (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string }) => void;
   scrollToTopicSection: () => void;
 };
 
@@ -191,7 +197,10 @@ function GuidedHubView({
   heroSectionRef,
   displayUrgentInfo,
   displayKeyTopics,
+  displayInfoPanels,
   displayFaq,
+  activeInfoPanel,
+  closeInfoPanel,
   activeFiltersCount,
   activeSort,
   activeTag,
@@ -212,6 +221,7 @@ function GuidedHubView({
   setSearchInput,
   setShowFilters,
   showFilters,
+  infoPanelRef,
   startHereRef,
   topicSectionRef,
   total,
@@ -470,6 +480,93 @@ function GuidedHubView({
                 </Fade>
               ))}
             </div>
+            {activeInfoPanel && displayInfoPanels[activeInfoPanel.id] ? (
+              <div
+                ref={infoPanelRef}
+                className="mt-6 rounded-2xl p-6 sm:p-7"
+                style={{
+                  background: D.surfaceStrong,
+                  border: `1px solid ${D.border}`,
+                  boxShadow: `0 2px 12px ${D.shadow}`,
+                  borderRadius: D.radiusCard,
+                }}
+              >
+                <div className="flex items-start justify-between gap-4 mb-5">
+                  <div>
+                    <div className="type-eyebrow mb-2" style={{ color: D.accentStrong }}>
+                      Οδηγός Υποβολής
+                    </div>
+                    <h3 className="type-display-section" style={{ fontSize: "1.2rem", color: D.ink }}>
+                      {activeInfoPanel.title}
+                    </h3>
+                    <p className="text-sm mt-3 max-w-3xl" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+                      {activeInfoPanel.intro}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={closeInfoPanel}
+                    className="shrink-0 rounded-xl p-2 transition-colors"
+                    style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.border}` }}
+                    aria-label="Κλείσιμο οδηγιών"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {activeInfoPanel.items.map((item, index) => (
+                    <div
+                      key={`${activeInfoPanel.id}-${index}`}
+                      className="rounded-2xl p-4 sm:p-5"
+                      style={{ background: D.surface, border: `1px solid ${D.border}`, borderRadius: D.radiusInner }}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div
+                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                          style={{ background: D.accentSoft, color: D.accentStrong }}
+                        >
+                          <CheckCircle2 size={14} />
+                        </div>
+                        <div>
+                          <p className="type-display-card text-sm mb-1.5" style={{ color: D.ink, lineHeight: 1.5 }}>
+                            {item.title}
+                          </p>
+                          <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+                            {item.body}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {activeInfoPanel.specialAttention ? (
+                  <div
+                    className="mt-6 rounded-2xl p-5 sm:p-6"
+                    style={{
+                      background: "rgba(29,78,216,0.04)",
+                      border: "1px solid rgba(29,78,216,0.12)",
+                      borderRadius: D.radiusInner,
+                    }}
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <HelpCircle size={16} style={{ color: D.accentStrong, flexShrink: 0, marginTop: 2 }} />
+                      <h4 className="type-display-card text-sm" style={{ color: D.ink }}>
+                        {activeInfoPanel.specialAttention.title}
+                      </h4>
+                    </div>
+                    <div className="space-y-3">
+                      {activeInfoPanel.specialAttention.points.map((point, index) => (
+                        <p key={`${activeInfoPanel.id}-note-${index}`} className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+                          {point}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </section>
       )}
@@ -964,10 +1061,13 @@ export function Hub() {
   const [postsSourceUnavailable, setPostsSourceUnavailable] = useState(false);
   const [searchInput, setSearchInput] = useState(search);
   const [showFilters, setShowFilters] = useState(false);
+  const [activeInfoPanelId, setActiveInfoPanelId] = useState<string | null>(null);
   const startHereRef = useRef<HTMLDivElement | null>(null);
   const topicSectionRef = useRef<HTMLDivElement | null>(null);
+  const infoPanelRef = useRef<HTMLDivElement | null>(null);
   const heroSectionRef = useRef<HTMLElement | null>(null);
   const pendingResultsScrollRef = useRef(false);
+  const pendingInfoPanelScrollRef = useRef(false);
 
   // Live categories from context — contains real WP names, slugs, wpCategoryId
   const { hubs, loading: catsLoading, sourceUnavailable: categoriesSourceUnavailable } = useCategories();
@@ -1011,6 +1111,8 @@ export function Hub() {
       setCurrentPage(1);
       setSourceOffset(0);
       setPostsSourceUnavailable(false);
+      setActiveInfoPanelId(null);
+      pendingInfoPanelScrollRef.current = false;
     }
   }, [hubSlug, setSearchParams]);
 
@@ -1396,7 +1498,57 @@ export function Hub() {
     window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
   };
 
-  const applyTopicFilter = (label: string, target: { search?: string; sort?: string }) => {
+  const scrollToInfoPanel = () => {
+    const element = infoPanelRef.current;
+    if (!element) {
+      pendingInfoPanelScrollRef.current = false;
+      return;
+    }
+
+    const header = document.querySelector("header");
+    const headerHeight = header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
+    const breathingRoom = 24;
+    const top = element.getBoundingClientRect().top + window.scrollY - headerHeight - breathingRoom;
+
+    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+    pendingInfoPanelScrollRef.current = false;
+  };
+
+  const applyTopicFilter = (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string }) => {
+    if (target.panelId) {
+      trackContextualEvent("hub_topic_filter_click", {
+        hub: hubSlug,
+        topic_label: label,
+        topic_panel_id: target.panelId,
+        total_articles: total,
+      });
+
+      setShowFilters(false);
+      if (activeInfoPanelId === target.panelId) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(scrollToInfoPanel);
+        });
+        return;
+      }
+
+      pendingInfoPanelScrollRef.current = true;
+      setActiveInfoPanelId(target.panelId);
+      return;
+    }
+
+    if (target.link) {
+      trackContextualEvent("hub_topic_filter_click", {
+        hub: hubSlug,
+        topic_label: label,
+        topic_link: target.link,
+        total_articles: total,
+      });
+
+      setActiveInfoPanelId(null);
+      navigate(target.link);
+      return;
+    }
+
     const nextSearch = target.search || "";
     const nextSort = target.sort || "";
 
@@ -1408,6 +1560,7 @@ export function Hub() {
       total_articles: total,
     });
 
+    setActiveInfoPanelId(null);
     if (search === nextSearch && activeSort === nextSort) {
       requestAnimationFrame(() => {
         requestAnimationFrame(scrollToStartHere);
@@ -1432,6 +1585,14 @@ export function Hub() {
       requestAnimationFrame(scrollToStartHere);
     });
   }, [loading, posts.length]);
+
+  useEffect(() => {
+    if (!pendingInfoPanelScrollRef.current || !activeInfoPanelId) return;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToInfoPanel);
+    });
+  }, [activeInfoPanelId]);
 
   if (!catsLoading && !hub && !liveHub && legacyArticleRedirectTarget) {
     return <Navigate to={legacyArticleRedirectTarget} replace />;
@@ -1527,6 +1688,8 @@ export function Hub() {
   const displayIntro = hub?.intro ?? buildEditorialIntro(displayName, liveHub?.description);
   const displayUrgentInfo = hub?.urgentInfo;
   const displayKeyTopics = hub?.keyTopics ?? [];
+  const displayInfoPanels = hub?.infoPanels ?? {};
+  const activeInfoPanel = activeInfoPanelId ? displayInfoPanels[activeInfoPanelId] : undefined;
   const displayFaq = hub?.faq ?? [];
   const primaryCTA = {
     label: displayUrgentInfo?.ctaLabel || ctaConfig.text,
@@ -1557,7 +1720,10 @@ export function Hub() {
     heroSectionRef,
     displayUrgentInfo,
     displayKeyTopics,
+    displayInfoPanels,
     displayFaq,
+    activeInfoPanel,
+    closeInfoPanel: () => setActiveInfoPanelId(null),
     activeFiltersCount,
     activeSort,
     activeTag,
@@ -1580,6 +1746,7 @@ export function Hub() {
     setShowFilters,
     showFilters,
     sourceUnavailable: postsSourceUnavailable,
+    infoPanelRef,
     startHereRef,
     topicSectionRef,
     total,
