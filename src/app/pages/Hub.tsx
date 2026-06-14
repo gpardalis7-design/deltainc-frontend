@@ -492,7 +492,7 @@ function GuidedHubView({
                 }}
               >
                 <div className="flex items-start justify-between gap-4 mb-5">
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <div className="type-eyebrow mb-2" style={{ color: D.accentStrong }}>
                       Οδηγός Υποβολής
                     </div>
@@ -506,7 +506,7 @@ function GuidedHubView({
                   <button
                     type="button"
                     onClick={closeInfoPanel}
-                    className="shrink-0 rounded-xl p-2 transition-colors"
+                    className="sticky top-3 shrink-0 self-start rounded-xl p-2 transition-colors"
                     style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.border}` }}
                     aria-label="Κλείσιμο οδηγιών"
                   >
