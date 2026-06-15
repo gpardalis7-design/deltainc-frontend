@@ -20,6 +20,7 @@ import { getOverlayVisibility, OVERLAY_VISIBILITY_CHANGED_EVENT } from "../lib/u
 import { useNavigation as useSiteNavigation, type FormType } from "../lib/navigationContext";
 import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
+import { trackCtaClick } from "../lib/analytics";
 
 type ArticleCategory = BlogPost["categories"][number];
 
@@ -435,6 +436,65 @@ function RecentArticlesWidget({ posts }: { posts: BlogPost[] }) {
           </Link>
         ))}
       </div>
+    </div>
+  );
+}
+
+function ArticleNewsletterWidget() {
+  const openNewsletter = () => {
+    trackCtaClick("Εγγραφή", "article_sidebar_newsletter", {
+      cta_target: "newsletter_popup",
+    });
+    window.dispatchEvent(new Event("delta:open-newsletter"));
+  };
+
+  return (
+    <div
+      className="rounded-[1.25rem] p-5"
+      style={{
+        background: "#fff",
+        border: `1px solid ${D.border}`,
+        boxShadow: "0 14px 30px rgba(15,23,42,0.05)",
+      }}
+    >
+      <div className="mb-3">
+        <h3
+          style={{
+            color: D.ink,
+            fontWeight: 800,
+            fontSize: "1.2rem",
+            lineHeight: 1.15,
+            letterSpacing: "-0.03em",
+            fontFamily: "'Manrope', sans-serif",
+          }}
+        >
+          Newsletter
+        </h3>
+      </div>
+
+      <p
+        className="mb-4 text-sm"
+        style={{
+          color: D.inkSoft,
+          lineHeight: 1.65,
+        }}
+      >
+        Νέα & tips σχετικά με τις σπουδές και την καριέρα σου!
+      </p>
+
+      <button
+        type="button"
+        onClick={openNewsletter}
+        className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm transition-all hover:opacity-95"
+        style={{
+          background: D.accent,
+          color: "#fff",
+          fontWeight: 800,
+          boxShadow: "0 10px 22px rgba(29,78,216,0.18)",
+        }}
+      >
+        Εγγραφή
+      </button>
     </div>
   );
 }
@@ -1130,6 +1190,7 @@ export function BlogArticle() {
             className="hidden lg:flex flex-col gap-5 w-80 shrink-0 py-12"
             style={{ position: "sticky", top: "5.5rem", maxHeight: "calc(100vh - 7rem)", overflowY: "auto" }}
           >
+            <ArticleNewsletterWidget />
             <RecentArticlesWidget posts={latestDiscoveryPosts} />
           </aside>
         </div>
