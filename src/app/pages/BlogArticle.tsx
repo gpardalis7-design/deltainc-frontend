@@ -1196,6 +1196,12 @@ export function BlogArticle() {
         </div>
       </div>
 
+      <div className="lg:hidden px-6 pb-8">
+        <div className="max-w-6xl mx-auto">
+          <ArticleNewsletterWidget />
+        </div>
+      </div>
+
       <RelevantArticlesSection posts={relevantPosts} />
 
       {latestDiscoveryPosts.length > 0 && (
