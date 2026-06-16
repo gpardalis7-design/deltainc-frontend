@@ -65,33 +65,6 @@ const PATH_CONFIG = {
 
 const PATH_ORDER = ["metaptyxiaka", "asep", "opsyd", "pistopoihseis"] as const;
 
-const HOME_STATS = [
-  {
-    label: "Μέλη Κοινότητας",
-    value: "20.000+",
-    description: "Εκπαιδευτικοί, φοιτητές και υποψήφιοι που μας ακολουθούν καθημερινά",
-    icon: Users,
-  },
-  {
-    label: "Οδηγοί & Προγράμματα",
-    value: "500+",
-    description: "Μεταπτυχιακά, πιστοποιήσεις και εκπαιδευτικές διαδρομές",
-    icon: BookOpen,
-  },
-  {
-    label: "Πανεπιστημιακές Επιλογές",
-    value: "50+",
-    description: "Προγράμματα από Ελλάδα, Κύπρο και εξωτερικό",
-    icon: GraduationCap,
-  },
-  {
-    label: "Άρθρα & Οδηγοί",
-    value: "10.000+",
-    description: "Πρακτική ενημέρωση και καθοδήγηση σε βασικά ακαδημαϊκά και επαγγελματικά θέματα",
-    icon: Award,
-  },
-] as const;
-
 const HOME_TESTIMONIALS = [
   {
     id: 1,
@@ -431,26 +404,6 @@ export function Home() {
             <HomeHeroEcosystemVisual />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-8 md:mt-10">
-            {HOME_STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col gap-2 p-4 rounded-2xl min-h-[158px]"
-                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}
-              >
-                <stat.icon size={18} style={{ color: D.accent }} />
-                <div className="type-stat" style={{ fontSize: "clamp(1.2rem, 2.4vw, 1.7rem)", color: D.ink }}>
-                  {stat.value}
-                </div>
-                <div className="text-sm" style={{ color: D.ink, fontWeight: 700 }}>
-                  {stat.label}
-                </div>
-                <div className="text-[12px]" style={{ color: D.inkSoft, lineHeight: 1.55 }}>
-                  {stat.description}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -640,29 +593,16 @@ export function Home() {
                     </AnimatedSection>
                   ))}
                   <AnimatedSection delay={0.18}>
-                    <div className="rounded-3xl p-5 md:p-6 h-full flex flex-col justify-between" style={{ background: `linear-gradient(180deg, ${D.surface} 0%, rgba(255,255,255,0.96) 100%)`, border: `1px solid ${D.border}`, borderRadius: D.radiusShell }}>
-                      <div>
-                        <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>
-                          Περισσότερο περιεχόμενο
-                        </div>
-                        <h3 className="type-display-card" style={{ fontSize: "1.15rem", letterSpacing: "-0.025em", color: D.ink, lineHeight: 1.25 }}>
-                          Συνεχίστε με όλους τους οδηγούς και τα άρθρα
-                        </h3>
-                        <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                          Μπείτε στη συνολική βιβλιοθήκη περιεχομένου για να βρείτε το επόμενο σχετικό θέμα, ανά hub ή ανά ανάγκη.
-                        </p>
-                      </div>
-                      <div className="pt-5 mt-5" style={{ borderTop: `1px solid ${D.border}` }}>
-                        <Link
-                          to="/blog"
-                          onClick={() => trackCtaClick("Όλα τα άρθρα", "home_editorial_more_articles", { cta_target: "/blog" })}
-                          className="inline-flex items-center gap-2 text-sm"
-                          style={{ color: D.accentStrong, fontWeight: 700 }}
-                        >
-                          Όλα τα άρθρα
-                          <ChevronRight size={14} />
-                        </Link>
-                      </div>
+                    <div className="pt-1">
+                      <Link
+                        to="/blog"
+                        onClick={() => trackCtaClick("Όλα τα άρθρα", "home_editorial_more_articles", { cta_target: "/blog" })}
+                        className="inline-flex items-center gap-2 text-sm"
+                        style={{ color: D.accentStrong, fontWeight: 700 }}
+                      >
+                        Όλα τα άρθρα
+                        <ChevronRight size={14} />
+                      </Link>
                     </div>
                   </AnimatedSection>
                 </div>
