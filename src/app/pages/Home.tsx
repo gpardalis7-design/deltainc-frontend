@@ -10,6 +10,7 @@ import { SeoHead } from "../components/SeoHead";
 import { PageLoader } from "../components/PageLoader";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
 import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
+import { HomeHeroEcosystemVisual } from "../components/HomeHeroEcosystemVisual";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
@@ -215,6 +216,7 @@ export function Home() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<HomepagePayload | null>(null);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
+  const [selectedProgramLevel, setSelectedProgramLevel] = useState<"undergraduate" | "postgraduate">("postgraduate");
   const testimonialScrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollTestimonialsPrev, setCanScrollTestimonialsPrev] = useState(false);
   const [canScrollTestimonialsNext, setCanScrollTestimonialsNext] = useState(false);
@@ -232,6 +234,7 @@ export function Home() {
     getHomepage().then(({ data: d }) => {
       setData(d);
       setSelectedEditorialHub((current) => current || d.featuredHubPosts[0]?.hub?.slug || "");
+      setSelectedProgramLevel(d.featuredPrograms.postgraduate.length > 0 ? "postgraduate" : "undergraduate");
       setLoading(false);
     });
   }, []);
@@ -359,49 +362,74 @@ export function Home() {
     editorialEntries[0]?.post ||
     null;
 
+  const programTabs = [
+    { id: "undergraduate" as const, label: "Προπτυχιακά", slug: "proptixiaka-programmata" },
+    { id: "postgraduate" as const, label: "Μεταπτυχιακά", slug: "metaptyxiaka-pogrammata" },
+  ];
+
+  const availableProgramTabs = programTabs.filter((tab) => featuredPrograms[tab.id].length > 0);
+  const resolvedProgramLevel = availableProgramTabs.some((tab) => tab.id === selectedProgramLevel)
+    ? selectedProgramLevel
+    : (availableProgramTabs[0]?.id ?? "postgraduate");
+  const visibleFeaturedPrograms = featuredPrograms[resolvedProgramLevel];
+  const programSectionHeading = resolvedProgramLevel === "undergraduate"
+    ? "Δημοφιλή Προπτυχιακά Προγράμματα"
+    : "Δημοφιλή Μεταπτυχιακά Προγράμματα";
+  const programSectionCtaLabel = resolvedProgramLevel === "undergraduate"
+    ? "Δείτε όλα τα προπτυχιακά"
+    : "Δείτε όλα τα μεταπτυχιακά";
+  const programSectionCtaTarget = resolvedProgramLevel === "undergraduate"
+    ? "/courses?level=proptixiaka-programmata"
+    : "/courses?level=metaptyxiaka-pogrammata";
+
   return (
     <div style={{ background: D.bg }}>
       <SeoHead seo={homeSeo()} />
 
       <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6">
         <div className="max-w-7xl mx-auto relative">
-          <div className="max-w-3xl">
-            <h1
-              className="type-display-hero mb-4 md:mb-6"
-              style={{
-                fontSize: "clamp(2.15rem, 6vw, 4.5rem)",
-                color: D.ink,
-                maxWidth: "760px",
-                lineHeight: 0.95,
-                textWrap: "balance",
-              }}
-            >
-              Σπουδές, Προκηρύξεις &amp; Οδηγοί
-            </h1>
-
-            <p className="type-body-lg mb-6 md:mb-8 max-w-2xl" style={{ color: D.inkSoft, fontSize: "clamp(1rem, 2vw, 1.125rem)" }}>
-              Μεταπτυχιακά, ΑΣΕΠ, ΟΠΣΥΔ και πιστοποιήσεις με αξιόπιστη ενημέρωση και πρακτική καθοδήγηση.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-              <Link
-                ref={heroPrimaryCtaRef}
-                to="/courses"
-                onClick={() => trackCtaClick("Βρείτε Πρόγραμμα Σπουδών", "home_hero_primary", { cta_target: "/courses" })}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95"
-                style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px", borderRadius: D.radiusControl }}
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] lg:items-center">
+            <div className="max-w-3xl">
+              <h1
+                className="type-display-hero mb-4 md:mb-6"
+                style={{
+                  fontSize: "clamp(2.15rem, 6vw, 4.5rem)",
+                  color: D.ink,
+                  maxWidth: "760px",
+                  lineHeight: 0.95,
+                  textWrap: "balance",
+                }}
               >
-                Βρείτε Πρόγραμμα Σπουδών <ArrowRight size={18} />
-              </Link>
-              <Link
-                to={hero.secondaryCta.url}
-                onClick={() => trackCtaClick("Νέα & Προκηρύξεις", "home_hero_secondary", { cta_target: hero.secondaryCta.url })}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-4 rounded-2xl transition-all duration-200 hover:opacity-90"
-                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600, minHeight: "56px", borderRadius: D.radiusControl }}
-              >
-                Νέα &amp; Προκηρύξεις <ChevronRight size={16} />
-              </Link>
+                Σπουδές, Προκηρύξεις &amp; Οδηγοί
+              </h1>
+
+              <p className="type-body-lg mb-6 md:mb-8 max-w-2xl" style={{ color: D.inkSoft, fontSize: "clamp(1rem, 2vw, 1.125rem)" }}>
+                Μεταπτυχιακά, ΑΣΕΠ, ΟΠΣΥΔ και πιστοποιήσεις με αξιόπιστη ενημέρωση και πρακτική καθοδήγηση.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                <Link
+                  ref={heroPrimaryCtaRef}
+                  to="/courses"
+                  onClick={() => trackCtaClick("Βρείτε Πρόγραμμα Σπουδών", "home_hero_primary", { cta_target: "/courses" })}
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-95"
+                  style={{ background: D.ink, fontWeight: 700, fontSize: "1rem", boxShadow: `0 4px 20px ${D.shadow}`, minHeight: "56px", borderRadius: D.radiusControl }}
+                >
+                  Βρείτε Πρόγραμμα Σπουδών <ArrowRight size={18} />
+                </Link>
+                <Link
+                  to={hero.secondaryCta.url}
+                  onClick={() => trackCtaClick("Νέα & Προκηρύξεις", "home_hero_secondary", { cta_target: hero.secondaryCta.url })}
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-4 rounded-2xl transition-all duration-200 hover:opacity-90"
+                  style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600, minHeight: "56px", borderRadius: D.radiusControl }}
+                >
+                  Νέα &amp; Προκηρύξεις <ChevronRight size={16} />
+                </Link>
+              </div>
+
             </div>
+
+            <HomeHeroEcosystemVisual />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-8 md:mt-10">
@@ -645,7 +673,7 @@ export function Home() {
         </div>
       </section>
 
-      {featuredPrograms.length > 0 ? (
+      {visibleFeaturedPrograms.length > 0 ? (
         <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homePrograms}>
           <div className="max-w-7xl mx-auto">
             <AnimatedSection>
@@ -655,7 +683,7 @@ export function Home() {
                     Σπουδές με προτεραιότητα
                   </div>
                   <h2 className="type-display-section" style={{ fontSize: "clamp(1.35rem, 3vw, 1.8rem)", color: D.ink }}>
-                    Δημοφιλή Μεταπτυχιακά Προγράμματα
+                    {programSectionHeading}
                   </h2>
                 </div>
                 <p className="max-w-xl text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
@@ -664,8 +692,39 @@ export function Home() {
               </div>
             </AnimatedSection>
 
+            {availableProgramTabs.length > 1 ? (
+              <AnimatedSection>
+                <div className="flex justify-center mb-6 md:mb-7">
+                  <div
+                    className="inline-flex items-center gap-1 p-1 rounded-full"
+                    style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusPill }}
+                  >
+                    {availableProgramTabs.map((tab) => {
+                      const isActive = resolvedProgramLevel === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          onClick={() => setSelectedProgramLevel(tab.id)}
+                          className="px-5 py-2.5 rounded-full text-sm transition-colors duration-200"
+                          style={{
+                            background: isActive ? D.accent : "transparent",
+                            color: isActive ? "#fff" : D.inkSoft,
+                            fontWeight: 700,
+                            borderRadius: D.radiusPill,
+                          }}
+                        >
+                          {tab.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </AnimatedSection>
+            ) : null}
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-              {featuredPrograms.map((program, index) => (
+              {visibleFeaturedPrograms.map((program, index) => (
                 <AnimatedSection key={program.id} delay={index * 0.07}>
                   <ProgramCard program={program} />
                 </AnimatedSection>
@@ -675,12 +734,15 @@ export function Home() {
             <AnimatedSection delay={0.22}>
               <div className="mt-7 md:mt-8 flex justify-center">
                 <Link
-                  to="/courses"
-                  onClick={() => trackCtaClick("Δείτε όλα τα μεταπτυχιακά", "home_programs_more", { cta_target: "/courses" })}
+                  to={programSectionCtaTarget}
+                  onClick={() => trackCtaClick(programSectionCtaLabel, "home_programs_more", {
+                    cta_target: programSectionCtaTarget,
+                    featured_program_level: resolvedProgramLevel,
+                  })}
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl text-sm transition-all duration-200 hover:opacity-90"
                   style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 700, borderRadius: D.radiusControl }}
                 >
-                  Δείτε όλα τα μεταπτυχιακά
+                  {programSectionCtaLabel}
                   <ChevronRight size={15} />
                 </Link>
               </div>

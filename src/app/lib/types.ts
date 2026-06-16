@@ -148,7 +148,10 @@ export interface HomepagePayload {
   };
   latestPosts: BlogPost[];
   featuredHubPosts: BlogPost[];
-  featuredPrograms: Program[];
+  featuredPrograms: {
+    postgraduate: Program[];
+    undergraduate: Program[];
+  };
   trendingTopics: string[];
   stats: {
     students: string;

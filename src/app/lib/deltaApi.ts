@@ -138,10 +138,11 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
   // Compose homepage from live WP data
   try {
     const hubOrder = ["metaptyxiaka", "asep", "opsyd", "pistopoihseis"] as const;
-    const [mockHomepage, postsRes, featuredProgramsRes, featuredHubPostResults] = await Promise.all([
+    const [mockHomepage, postsRes, featuredPostgraduateProgramsRes, featuredUndergraduateProgramsRes, featuredHubPostResults] = await Promise.all([
       loadMockHomepage(),
       getPosts({ page: 1 }),
-      getFeaturedPrograms(3),
+      getFeaturedPrograms(3, "metaptyxiaka-pogrammata"),
+      getFeaturedPrograms(3, "proptixiaka-programmata"),
       Promise.all(hubOrder.map((hub) => getFeaturedPost(hub))),
     ]);
 
@@ -153,7 +154,10 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
       hero: mockHomepage.hero,
       latestPosts: postsRes.data.slice(0, 3),
       featuredHubPosts,
-      featuredPrograms: featuredProgramsRes.data,
+      featuredPrograms: {
+        postgraduate: featuredPostgraduateProgramsRes.data,
+        undergraduate: featuredUndergraduateProgramsRes.data,
+      },
       trendingTopics: mockHomepage.trendingTopics,
       stats: mockHomepage.stats,
       testimonials: mockHomepage.testimonials,
@@ -161,7 +165,11 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
       seo: mockHomepage.seo,
     };
 
-    const anyMock = postsRes.isMock || featuredProgramsRes.isMock || featuredHubPostResults.some((result) => result.isMock);
+    const anyMock =
+      postsRes.isMock ||
+      featuredPostgraduateProgramsRes.isMock ||
+      featuredUndergraduateProgramsRes.isMock ||
+      featuredHubPostResults.some((result) => result.isMock);
     return { data: payload, isMock: anyMock };
   } catch {
     return { data: await loadMockHomepage(), isMock: true };
@@ -468,10 +476,11 @@ function normalizeProgramCardPayload(program: Record<string, unknown>): Program 
 }
 
 export async function getFeaturedPrograms(
-  limit = 3
+  limit = 3,
+  level?: string
 ): Promise<{ data: Program[]; isMock: boolean }> {
   const response = await tryFetch<Record<string, unknown>>(
-    buildUrl(WP_BASE_URL, "/wp-json/delta/v1/featured-programs", { limit })
+    buildUrl(WP_BASE_URL, "/wp-json/delta/v1/featured-programs", { limit, ...(level ? { level } : {}) })
   );
 
   if (!response) {

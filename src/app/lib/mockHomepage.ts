@@ -20,7 +20,10 @@ export const MOCK_HOMEPAGE: HomepagePayload = {
     MOCK_POSTS[0],
     MOCK_POSTS[3],
   ],
-  featuredPrograms: MOCK_PROGRAMS.slice(0, 3),
+  featuredPrograms: {
+    postgraduate: MOCK_PROGRAMS.slice(0, 3),
+    undergraduate: [],
+  },
   trendingTopics: ["ΑΣΕΠ 3Κ/2026", "Νέοι Πίνακες ΟΠΣΥΔ", "Μεταπτυχιακά Αθήνα", "Πιστοποιήσεις"],
   stats: {
     students: "12,000+",
