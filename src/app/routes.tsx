@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { Root } from "./Root";
 import { RouteErrorScreen } from "./components/RouteErrorScreen";
 import {
+  LegacyBlogHubRedirectPage,
   LegacyCategoryRedirectPage,
   LegacyExactRedirectPage,
   LegacyProgramRedirectPage,
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
       // Named pages — matched before the dynamic hub catch-all
       { path: "blog", lazy: async () => ({ Component: (await import("./pages/Blog")).Blog }) },
       { path: "blog/:slug", lazy: async () => ({ Component: (await import("./pages/BlogArticle")).BlogArticle }) },
-      { path: "blog-hub", lazy: async () => ({ Component: (await import("./pages/BlogHub")).BlogHub }) },
+      { path: "blog-hub", Component: LegacyBlogHubRedirectPage },
       { path: "news", Component: LegacyExactRedirectPage },
       { path: "επικοινωνια", Component: LegacyExactRedirectPage },
       { path: "kostologisi-ergasias", Component: LegacyExactRedirectPage },

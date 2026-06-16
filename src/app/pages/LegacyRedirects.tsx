@@ -47,6 +47,10 @@ export function LegacyCategoryRedirectPage() {
   return <Navigate to={target} replace />;
 }
 
+export function LegacyBlogHubRedirectPage() {
+  return <Navigate to="/blog" replace />;
+}
+
 export function LegacyProgramRedirectPage() {
   const location = useLocation();
   const { legacyProgramSlug } = useParams<{ legacyProgramSlug: string }>();

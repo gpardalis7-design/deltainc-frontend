@@ -94,14 +94,6 @@ export function getPageAnalyticsContext(pathname: string): EventParams {
     };
   }
 
-  if (normalizedPath === "/blog-hub") {
-    return {
-      page_type: "blog_hub",
-      content_type: "page",
-      device_type: getDeviceType(),
-    };
-  }
-
   if (normalizedPath.startsWith("/blog/") && segments[1]) {
     return {
       page_type: "blog_article",

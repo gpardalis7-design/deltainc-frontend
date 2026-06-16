@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { label: "ΟΠΣΥΔ", url: "/opsyd" },
   { label: "Μεταπτυχιακά", url: "/metaptyxiaka" },
   { label: "Delta Apps", url: "/delta-apps", isNew: true },
-  { label: "Blog", url: "/blog-hub" },
+  { label: "Blog", url: "/blog" },
   { label: "Επικοινωνία", url: "/contact" },
 ];
 

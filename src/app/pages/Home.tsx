@@ -363,8 +363,8 @@ export function Home() {
     null;
 
   const programTabs = [
-    { id: "undergraduate" as const, label: "Προπτυχιακά", slug: "proptixiaka-programmata" },
-    { id: "postgraduate" as const, label: "Μεταπτυχιακά", slug: "metaptyxiaka-pogrammata" },
+    { id: "undergraduate" as const, label: "Προπτυχιακά", slug: "proptixiaka-programmata", levelId: "323" },
+    { id: "postgraduate" as const, label: "Μεταπτυχιακά", slug: "metaptyxiaka-pogrammata", levelId: "303" },
   ];
 
   const availableProgramTabs = programTabs.filter((tab) => featuredPrograms[tab.id].length > 0);
@@ -378,9 +378,8 @@ export function Home() {
   const programSectionCtaLabel = resolvedProgramLevel === "undergraduate"
     ? "Δείτε όλα τα προπτυχιακά"
     : "Δείτε όλα τα μεταπτυχιακά";
-  const programSectionCtaTarget = resolvedProgramLevel === "undergraduate"
-    ? "/courses?level=proptixiaka-programmata"
-    : "/courses?level=metaptyxiaka-pogrammata";
+  const resolvedProgramTab = programTabs.find((tab) => tab.id === resolvedProgramLevel) ?? programTabs[1];
+  const programSectionCtaTarget = `/courses?level=${resolvedProgramTab.levelId}`;
 
   return (
     <div style={{ background: D.bg }}>

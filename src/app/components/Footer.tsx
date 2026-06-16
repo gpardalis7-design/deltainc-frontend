@@ -21,7 +21,7 @@ const FOOTER_COLUMNS = [
   {
     title: "Περιεχόμενο",
     links: [
-      { label: "Blog", href: "/blog-hub" },
+      { label: "Blog", href: "/blog" },
       { label: "Delta Apps", href: "/delta-apps" },
       { label: "Κοστολόγηση Εργασίας", href: "/assignments" },
       { label: "Νέα/Επικαιρότητα", href: "/nea-epikairothta" },
