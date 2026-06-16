@@ -597,7 +597,22 @@ export function Home() {
               </AnimatedSection>
             ) : null}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+            <div className="md:hidden -mx-5 px-5">
+              <div
+                className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                aria-label="Δημοφιλή προγράμματα"
+              >
+                {visibleFeaturedPrograms.map((program, index) => (
+                  <div key={program.id} className="snap-start shrink-0 basis-[86%]">
+                    <AnimatedSection delay={index * 0.07}>
+                      <ProgramCard program={program} />
+                    </AnimatedSection>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden md:grid md:grid-cols-3 gap-4 md:gap-5">
               {visibleFeaturedPrograms.map((program, index) => (
                 <AnimatedSection key={program.id} delay={index * 0.07}>
                   <ProgramCard program={program} />
