@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Award, BookOpen, ChevronRight, FileText, GraduationCap, Star, Users } from "lucide-react";
+import { ArrowRight, Award, BookOpen, ChevronRight, FileText, GraduationCap, Users } from "lucide-react";
 import { getHomepage } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent } from "../lib/analytics";
 import type { BlogPost, DeltaHub, HomepagePayload, Program } from "../lib/types";
@@ -64,33 +64,6 @@ const PATH_CONFIG = {
 }>;
 
 const PATH_ORDER = ["metaptyxiaka", "asep", "opsyd", "pistopoihseis"] as const;
-
-const HOME_TESTIMONIALS = [
-  {
-    id: 1,
-    name: "Μαρία Π.",
-    role: "Εκπαιδευτικός ΠΕ70",
-    content:
-      "Μέσα από τους οδηγούς της Delta Edu κατάφερα να συγκρίνω τα διαθέσιμα μεταπτυχιακά και να επιλέξω το πρόγραμμα που ταίριαζε καλύτερα στον κλάδο μου.",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Γιώργος Κ.",
-    role: "Υποψήφιος Μεταπτυχιακού",
-    content:
-      "Οι πληροφορίες για τον ΟΠΣΥΔ ήταν ξεκάθαρες και με βοήθησαν να κατανοήσω τη διαδικασία χωρίς να ψάχνω σε δεκάδες πηγές.",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "Ελένη Μ.",
-    role: "Αναπληρώτρια Εκπαιδευτικός",
-    content:
-      "Η ενημέρωση για τις προκηρύξεις και τα εκπαιδευτικά βήματα ήταν συγκεντρωμένη, πρακτική και εύκολη να την παρακολουθήσω.",
-    rating: 5,
-  },
-] as const;
 
 function getEditorialHubLabel(slug: string, fallback?: string) {
   return slug === "metaptyxiaka" ? "Μεταπτυχιακά" : fallback || slug;
@@ -190,9 +163,6 @@ export function Home() {
   const [data, setData] = useState<HomepagePayload | null>(null);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
   const [selectedProgramLevel, setSelectedProgramLevel] = useState<"undergraduate" | "postgraduate">("postgraduate");
-  const testimonialScrollRef = useRef<HTMLDivElement | null>(null);
-  const [canScrollTestimonialsPrev, setCanScrollTestimonialsPrev] = useState(false);
-  const [canScrollTestimonialsNext, setCanScrollTestimonialsNext] = useState(false);
   const { hubs: categoryHubs } = useCategories();
   const { setShowStickyBottom } = useNavigation();
   const heroPrimaryCtaRef = useRef<HTMLAnchorElement | null>(null);
@@ -265,41 +235,6 @@ export function Home() {
       setShowStickyBottom(true);
     };
   }, [data, loading, setShowStickyBottom]);
-
-  const syncTestimonialCarouselState = () => {
-    const container = testimonialScrollRef.current;
-    if (!container) return;
-
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-    setCanScrollTestimonialsPrev(container.scrollLeft > 8);
-    setCanScrollTestimonialsNext(maxScrollLeft - container.scrollLeft > 8);
-  };
-
-  const scrollTestimonials = (direction: "prev" | "next") => {
-    const container = testimonialScrollRef.current;
-    if (!container) return;
-
-    container.scrollBy({
-      left: direction === "next" ? container.clientWidth * 0.92 : -container.clientWidth * 0.92,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    const container = testimonialScrollRef.current;
-    if (!container) return;
-
-    const handleScroll = () => syncTestimonialCarouselState();
-
-    syncTestimonialCarouselState();
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, []);
 
   if (loading) {
     return <PageLoader />;
@@ -690,106 +625,6 @@ export function Home() {
         </section>
       ) : null}
 
-      {HOME_TESTIMONIALS.length > 0 ? (
-        <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homeTrustBand}>
-          <div className="max-w-7xl mx-auto">
-            <AnimatedSection>
-              <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between mb-8 md:mb-10">
-                <div className="max-w-3xl">
-                  <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>
-                    Εμπειρίες Χρηστών
-                  </div>
-                  <h2 className="type-display-section" style={{ fontSize: "clamp(1.45rem, 3vw, 2rem)", color: D.ink }}>
-                    Αξιολογήσεις από χρήστες της Delta Edu
-                  </h2>
-                  <p className="text-sm mt-3" style={{ color: D.inkSoft, lineHeight: 1.7 }}>
-                    Δείτε πως η Delta Edu βοήθησε εκπαιδευτικούς, φοιτητές και υποψηφίους να βρουν το επόμενο ακαδημαϊκό ή επαγγελματικό τους βήμα
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2 self-start md:self-auto">
-                  <button
-                    type="button"
-                    onClick={() => scrollTestimonials("prev")}
-                    disabled={!canScrollTestimonialsPrev}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-opacity disabled:cursor-not-allowed"
-                    style={{
-                      background: D.surfaceStrong,
-                      border: `1px solid ${D.border}`,
-                      color: D.ink,
-                      opacity: canScrollTestimonialsPrev ? 1 : 0.45,
-                    }}
-                    aria-label="Προηγούμενες αξιολογήσεις"
-                  >
-                    <ChevronRight size={18} className="rotate-180" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => scrollTestimonials("next")}
-                    disabled={!canScrollTestimonialsNext}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full transition-opacity disabled:cursor-not-allowed"
-                    style={{
-                      background: D.ink,
-                      color: "#fff",
-                      border: `1px solid ${D.ink}`,
-                      opacity: canScrollTestimonialsNext ? 1 : 0.45,
-                    }}
-                    aria-label="Επόμενες αξιολογήσεις"
-                  >
-                    <ChevronRight size={18} />
-                  </button>
-                </div>
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection>
-              <div
-                ref={testimonialScrollRef}
-                className="flex gap-5 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-2"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              >
-                {HOME_TESTIMONIALS.map((testimonial) => (
-                  <div
-                    key={testimonial.id}
-                    className="snap-start shrink-0 basis-[88%] sm:basis-[calc(50%-0.625rem)] lg:basis-[calc((100%-3rem)/3)]"
-                  >
-                    <div className="flex flex-col gap-4 p-5 md:p-6 rounded-3xl h-full min-h-[290px]" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusCard }}>
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
-                          Αξιολόγηση
-                        </span>
-                        <div className="flex gap-0.5">
-                          {Array.from({ length: testimonial.rating }).map((_, index) => (
-                            <Star key={index} size={14} fill={D.accent} style={{ color: D.accent }} />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="flex-1 text-sm leading-relaxed" style={{ color: D.ink, lineHeight: 1.8 }}>
-                        "{testimonial.content}"
-                      </p>
-                      <div className="flex items-center gap-3 pt-3" style={{ borderTop: `1px solid ${D.border}` }}>
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: D.accentSoft }}>
-                          <span className="type-ui-label" style={{ color: D.accentStrong, fontSize: "0.85rem" }}>
-                            {testimonial.name.charAt(0)}
-                          </span>
-                        </div>
-                        <div>
-                          <div className="text-sm" style={{ fontWeight: 600, color: D.ink }}>
-                            {testimonial.name}
-                          </div>
-                          <div className="text-xs" style={{ color: D.inkSoft }}>
-                            {testimonial.role}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </AnimatedSection>
-          </div>
-        </section>
-      ) : null}
     </div>
   );
 }
