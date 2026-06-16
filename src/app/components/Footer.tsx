@@ -78,7 +78,7 @@ export function Footer() {
               <Logo variant="light" />
             </div>
             <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.45)" }}>
-              Η #1 πηγή για εκπαιδευτικές ειδήσεις, μεταπτυχιακά προγράμματα και οδηγούς για εκπαιδευτικούς στην Ελλάδα.
+              Η Νο1 πηγή για μεταπτυχιακά, προκηρύξεις, πιστοποιήσεις και εκπαιδευτική ενημέρωση στην Ελλάδα.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-6">
@@ -109,7 +109,7 @@ export function Footer() {
                 Newsletter
               </div>
               <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>
-                Λάβετε χρήσιμες ενημερώσεις για προκηρύξεις, πίνακες και εκπαιδευτικές ευκαιρίες.
+                Μην χάνετε νέες προκηρύξεις και προγράμματα. Ενημερωθείτε πρώτοι για ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά και πιστοποιήσεις. Εγγραφή δωρεάν.
               </p>
               <button
                 type="button"
@@ -127,7 +127,7 @@ export function Footer() {
                 Καλέστε μας
               </div>
               <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>
-                Για άμεση επικοινωνία με την ομάδα Delta.
+                Χρειάζεστε βοήθεια; Επικοινωνήστε με την ομάδα της Delta Edu.
               </p>
               <a
                 href={CONTACT_PHONE_LINK}

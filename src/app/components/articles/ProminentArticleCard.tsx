@@ -12,7 +12,7 @@ import { getArticleCardImage } from "./articleImage";
 type ProminentArticleCardProps = {
   post: BlogPost;
   dateLabel: string;
-  eyebrow: string;
+  eyebrow?: string;
   ctaLabel?: string;
 };
 
@@ -55,9 +55,11 @@ export function ProminentArticleCard({
       )}
       <div className="p-6 md:p-7 flex flex-col flex-1 gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
-            {eyebrow}
-          </span>
+          {eyebrow ? (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-[0.12em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
+              {eyebrow}
+            </span>
+          ) : null}
           <ArticleLabelChip label={primaryLabel} className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px]" />
           {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px]" /> : null}
         </div>
