@@ -500,7 +500,7 @@ export function Home() {
                       <ProminentArticleCard
                         post={selectedEditorialPost}
                         dateLabel={`${formatDate(selectedEditorialPost.publishedAt)} · ${formatReadingTime(selectedEditorialPost.readingTimeMinutes)}`}
-                        ctaLabel={selectedEditorialPost.hub?.slug === "metaptyxiaka" ? "Διαβάστε τον οδηγό σπουδών" : "Διαβάστε τον οδηγό"}
+                        ctaLabel="Συνεχίστε την ανάγνωση"
                       />
                     </motion.div>
                   </AnimatePresence>
