@@ -149,10 +149,12 @@ export async function getHomepage(): Promise<{ data: HomepagePayload; isMock: bo
     const featuredHubPosts = featuredHubPostResults
       .map((result) => result.data)
       .filter((post): post is BlogPost => Boolean(post));
+    const featuredHubPostIds = new Set(featuredHubPosts.map((post) => post.id));
+    const deduplicatedLatestPosts = postsRes.data.filter((post) => !featuredHubPostIds.has(post.id));
 
     const payload: HomepagePayload = {
       hero: mockHomepage.hero,
-      latestPosts: postsRes.data.slice(0, 3),
+      latestPosts: deduplicatedLatestPosts.slice(0, 3),
       featuredHubPosts,
       featuredPrograms: {
         postgraduate: featuredPostgraduateProgramsRes.data,
