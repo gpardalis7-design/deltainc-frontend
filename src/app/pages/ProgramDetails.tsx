@@ -617,69 +617,141 @@ export function ProgramDetails() {
   const programContentStyles = `
     .program-prose {
       color: ${D.inkSoft};
-      max-width: 52rem;
+      max-width: 100%;
     }
     .program-prose > *:first-child { margin-top: 0; }
+    .program-prose > * { max-width: 100%; }
     .program-prose h1,
     .program-prose h2,
     .program-prose h3,
     .program-prose h4 {
       font-family: 'Manrope', sans-serif;
-      color: ${D.ink};
-      letter-spacing: -0.03em;
+      color: ${D.accentStrong};
       text-wrap: balance;
     }
     .program-prose h2 {
-      font-size: clamp(1.6rem, 2vw, 2rem);
+      font-size: clamp(1.5rem, 2vw, 2rem);
       font-weight: 800;
-      line-height: 1.14;
-      margin-top: 0;
-      margin-bottom: 1.1rem;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
     }
     .program-prose h3 {
-      font-size: clamp(1.2rem, 1.6vw, 1.45rem);
-      font-weight: 750;
-      line-height: 1.22;
-      margin-top: 2.4rem;
-      margin-bottom: 0.85rem;
-      padding-top: 1.4rem;
-      border-top: 1px solid ${D.border};
+      font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      margin-top: 1.75rem;
+      margin-bottom: 0.6rem;
     }
     .program-prose h4 {
-      font-size: 1.04rem;
+      font-size: 1rem;
       font-weight: 700;
       line-height: 1.35;
+      letter-spacing: -0.01em;
       margin-top: 1.5rem;
       margin-bottom: 0.5rem;
     }
-    .program-prose p,
-    .program-prose li {
-      font-size: 1.075rem;
-      line-height: 1.82;
-      color: ${D.inkSoft};
-    }
     .program-prose p {
-      margin: 0 0 1.15rem;
+      font-size: 1.0625rem;
+      line-height: 1.85;
+      color: ${D.inkSoft};
+      margin: 0 0 1.4rem;
+    }
+    .program-prose p.standfirst {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: ${D.ink};
+      margin-bottom: 2rem;
+      font-weight: 500;
     }
     .program-prose strong {
       color: ${D.ink};
       font-weight: 700;
     }
     .program-prose em {
-      color: ${D.ink};
+      color: ${D.inkSoft};
+      font-style: italic;
     }
     .program-prose ul,
     .program-prose ol {
-      margin: 1rem 0 1.4rem 0;
-      padding-left: 1.35rem;
+      margin-bottom: 1.4rem;
+      padding-left: 0;
+      list-style: none;
     }
-    .program-prose li + li {
-      margin-top: 0.55rem;
+    .program-prose ul li,
+    .program-prose ol li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.55rem;
+      line-height: 1.7;
+      color: ${D.inkSoft};
+      font-size: 1.0125rem;
+    }
+    .program-prose ul li::before {
+      content: '·';
+      position: absolute;
+      left: 0.4rem;
+      color: ${D.accent};
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+    .program-prose ol {
+      counter-reset: list-counter;
+    }
+    .program-prose ol li {
+      counter-increment: list-counter;
+    }
+    .program-prose ol li::before {
+      content: counter(list-counter) '.';
+      position: absolute;
+      left: 0;
+      color: ${D.accent};
+      font-weight: 700;
+      font-size: 0.85rem;
+      top: 0.2rem;
     }
     .program-prose hr {
       border: 0;
       border-top: 1px solid ${D.border};
       margin: 2rem 0;
+    }
+    .program-prose blockquote {
+      border-left: 3px solid ${D.accent};
+      padding: 0.75rem 1.25rem;
+      margin: 2rem 0;
+      background: ${D.accentSoft};
+      border-radius: 0 0.75rem 0.75rem 0;
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: ${D.ink};
+      font-style: italic;
+    }
+    .program-prose .callout {
+      background: ${D.surface};
+      border: 1px solid rgba(197,141,42,0.25);
+      border-radius: 0.875rem;
+      padding: 1rem 1.25rem;
+      margin: 1.75rem 0;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: ${D.ink};
+    }
+    .program-prose a {
+      color: ${D.accent};
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .program-prose img,
+    .program-prose video,
+    .program-prose iframe,
+    .program-prose canvas,
+    .program-prose svg {
+      max-width: 100%;
+      height: auto;
     }
     .program-prose .TyagGW_tableContainer,
     .program-prose .TyagGW_tableWrapper,
@@ -733,22 +805,47 @@ export function ProgramDetails() {
       color: ${D.ink};
       background: rgba(248, 250, 255, 0.92);
     }
+    .program-prose pre,
+    .program-prose .wp-block-preformatted {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 1.75rem 0 2rem;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x;
+      padding: 0.9rem 1rem;
+      border-radius: 1rem;
+      background: ${D.surfaceStrong};
+      border: 1px solid ${D.border};
+      color: ${D.ink};
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05);
+    }
     @media (max-width: 768px) {
-      .program-prose {
-        max-width: none;
-      }
       .program-prose h2 {
         font-size: 1.5rem;
       }
       .program-prose h3 {
         font-size: 1.18rem;
-        margin-top: 2rem;
-        padding-top: 1.1rem;
       }
-      .program-prose p,
-      .program-prose li {
+      .program-prose p {
         font-size: 1rem;
-        line-height: 1.75;
+        line-height: 1.78;
+      }
+      .program-prose ul li,
+      .program-prose ol li {
+        font-size: 1rem;
+      }
+      .program-prose .TyagGW_tableContainer,
+      .program-prose .TyagGW_tableWrapper,
+      .program-prose .rich-table-scroll,
+      .program-prose .wp-block-table,
+      .program-prose figure:has(table),
+      .program-prose pre,
+      .program-prose .wp-block-preformatted {
+        margin-left: 0;
+        margin-right: 0;
       }
       .program-prose table {
         min-width: 32rem;

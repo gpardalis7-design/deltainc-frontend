@@ -226,7 +226,7 @@ export function normalizeWpProgram(
   const city = cityTerms.map(toTaxTerm);
   const uniType = uniTypeTerms.map(toTaxTerm);
 
-  const title = (p.title as { rendered: string })?.rendered || "";
+  const title = decodeHtmlEntities((p.title as { rendered: string })?.rendered || "");
   const excerpt = ((p.excerpt as { rendered: string })?.rendered || "")
     .replace(/<[^>]*>/g, "")
     .trim();
