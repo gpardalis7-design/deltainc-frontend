@@ -24,8 +24,8 @@ export function OpsydApplyCta({
       rel="noopener noreferrer"
       aria-label={`${label} - άνοιγμα φόρμας`}
     >
-      <span className={styles.eyebrow}>Τι χρειάζεστε τώρα;</span>
-      <span className={styles.headline}>Αναλαμβάνουμε την αίτησή σας στο ΟΠΣΥΔ</span>
+      <span className={styles.eyebrow}>Ξεκινήστε από εδώ</span>
+      <span className={styles.headline}>Αναλαμβάνουμε την αίτησή σας στο ΟΠΣΥΔ και στο ΑΣΕΠ</span>
       <span className={styles.description}>Με εχεμύθεια, σωστή σειρά ελέγχων και χωρίς λάθη στα δικαιολογητικά.</span>
       <span className={styles.wrap}>
         <span className={styles.ping} aria-hidden="true" />
