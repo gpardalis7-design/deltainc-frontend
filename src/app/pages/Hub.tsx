@@ -252,10 +252,6 @@ function GuidedHubView({
                 <span className="px-3 py-1 rounded-full text-xs" style={{ background: D.accentSoft, color: D.accent, border: "1px solid rgba(255,255,255,0.16)", fontWeight: 700 }}>
                   {displayName}
                 </span>
-                <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>Οδηγός εκκίνησης</span>
-                {total > 0 ? (
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{total} άρθρα</span>
-                ) : null}
               </div>
 
               <h1 className="type-display-hero mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", lineHeight: 1.1, color: "#fff" }}>
@@ -665,11 +661,8 @@ function EditorialHubView({
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-5 flex-wrap">
               <span className="px-3 py-1 rounded-full text-xs" style={{ background: D.accentSoft, color: D.accent, border: "1px solid rgba(255,255,255,0.16)", fontWeight: 700 }}>
-                Κατηγορία
+                {displayName}
               </span>
-              {total > 0 ? (
-                <span className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{total} άρθρα</span>
-              ) : null}
             </div>
 
             <h1 className="type-display-hero mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", lineHeight: 1.1, color: "#fff" }}>
