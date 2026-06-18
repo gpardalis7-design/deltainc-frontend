@@ -20,6 +20,7 @@ import { GUIDED_HUB_DATA, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubC
 import { resolveHubVariant } from "../lib/hubs/hubVariant";
 import { getArticleCardImage } from "../components/articles/articleImage";
 import { ChecklistHero } from "../components/ChecklistHero";
+import { OpsydApplyCta } from "../components/OpsydApplyCta";
 
 const HUB_INITIAL_GRID_POSTS = 9;
 const HUB_LOAD_MORE_PER_PAGE = 9;
@@ -303,6 +304,8 @@ function GuidedHubView({
                 title="Από την προκήρυξη στην αίτηση"
                 subtitle="Ακολουθήστε τα βασικά βήματα για να ελέγξετε την προκήρυξη, τα δικαιολογητικά και την τελική υποβολή."
               />
+            ) : hubSlug === "opsyd" ? (
+              <OpsydApplyCta />
             ) : displayUrgentInfo ? (
               <aside
                 className="rounded-3xl p-5 md:p-6"
