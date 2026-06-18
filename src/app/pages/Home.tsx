@@ -143,7 +143,7 @@ function ProgramCard({ program }: { program: Program }) {
             Δίδακτρα
           </div>
           <div className="text-sm mt-1" style={{ color: D.ink, fontWeight: 700 }}>
-            Δίδακτρα: σε δόσεις
+            Σε δόσεις
           </div>
         </div>
       </div>
@@ -356,9 +356,6 @@ export function Home() {
               }}
             >
               <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${D.warmAccentStrong}, ${D.accentStrong}, rgba(37,99,235,0.12))` }} />
-              <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>
-                Επιλέξτε κατεύθυνση
-              </div>
               <h2 className="type-display-section mb-2.5" style={{ fontSize: "1.34rem", color: D.ink, lineHeight: 1.16, letterSpacing: "-0.03em" }}>
                 Ξεκινήστε από τη σωστή διαδρομή
               </h2>
@@ -435,9 +432,6 @@ export function Home() {
           <AnimatedSection>
             <div className="flex flex-col gap-3 mb-7 md:mb-8">
               <div>
-                <div className="type-eyebrow mb-2" style={{ color: D.warmAccentStrong }}>
-                  Επιλεγμένα Άρθρα
-                </div>
                 <h2 className="type-display-section" style={{ fontSize: "clamp(1.35rem, 3vw, 1.85rem)", color: D.ink }}>
                   Δημοφιλείς οδηγοί &amp; άρθρα
                 </h2>
@@ -453,7 +447,7 @@ export function Home() {
               <AnimatedSection>
                 <div className="flex flex-col gap-4">
                   <div className="type-eyebrow" style={{ color: D.warmAccentStrong }}>
-                    Επιλέξτε κατηγορία
+                    Επιλέξτε Κατηγορία
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {editorialEntries.map(({ slug, post }) => (
