@@ -335,111 +335,6 @@ function GuidedHubView({
         </div>
       </section>
 
-      <section className="px-6 py-6" style={sectionSurfaces.hubControls}>
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusControl }}>
-              <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
-              <input
-                type="text"
-                placeholder={`Αναζήτηση σε ${displayName}...`}
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                className="bg-transparent outline-none text-sm flex-1 placeholder:text-black/30"
-                style={{ color: D.ink }}
-              />
-            </form>
-            <button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
-              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600, borderRadius: D.radiusControl } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, borderRadius: D.radiusControl }}
-            >
-              <SlidersHorizontal size={15} />
-              {activeFiltersCount > 0 && <span className="w-5 h-5 rounded-full text-xs text-white flex items-center justify-center" style={{ background: D.accentStrong }}>{activeFiltersCount}</span>}
-            </button>
-          </div>
-
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="pt-4 pb-2">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="type-ui-label text-sm" style={{ color: D.ink }}>Ταξινόμηση</h3>
-                  {activeFiltersCount > 0 && (
-                    <button onClick={clearFilters} className="flex items-center gap-1 text-xs transition-colors" style={{ color: D.inkSoft }}>
-                      <X size={12} /> Καθαρισμός
-                    </button>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => updateParams({ sort: undefined })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={!activeSort ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    <Calendar size={11} className="inline mr-1" />
-                    Πιο Πρόσφατα
-                  </button>
-                  <button
-                    onClick={() => updateParams({ sort: activeSort === "oldest" ? undefined : "oldest" })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={activeSort === "oldest" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    <Calendar size={11} className="inline mr-1" />
-                    Παλαιότερα
-                  </button>
-                  <button
-                    onClick={() => updateParams({ sort: activeSort === "title" ? undefined : "title" })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={activeSort === "title" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    Αλφαβητικά
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeFiltersCount > 0 && (
-            <div className="flex items-center gap-2 flex-wrap mt-4 pt-4" style={{ borderTop: `1px solid ${D.border}` }}>
-              <span className="text-xs" style={{ color: D.inkSoft }}>Ενεργά:</span>
-              {search && (
-                <button
-                  onClick={() => { updateParams({ search: undefined }); setSearchInput(""); }}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  <Search size={10} /> "{search}" <X size={12} />
-                </button>
-              )}
-              {activeSort && (
-                <button
-                  onClick={() => updateParams({ sort: undefined })}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  {activeSort === "oldest" ? "Παλαιότερα" : activeSort === "title" ? "Αλφαβητικά" : activeSort} <X size={12} />
-                </button>
-              )}
-              {activeTag && (
-                <button
-                  onClick={() => updateParams({ tag: undefined })}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  Επιλεγμένα <X size={12} />
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
-
       {displayKeyTopics.length > 0 && (
         <section id="hub-topics" className="px-6 py-14" style={sectionSurfaces.hubTopics}>
           <div className="max-w-7xl mx-auto">
@@ -566,6 +461,111 @@ function GuidedHubView({
           </div>
         </section>
       )}
+
+      <section className="px-6 py-6" style={sectionSurfaces.hubControls}>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusControl }}>
+              <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
+              <input
+                type="text"
+                placeholder={`Αναζήτηση σε ${displayName}...`}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="bg-transparent outline-none text-sm flex-1 placeholder:text-black/30"
+                style={{ color: D.ink }}
+              />
+            </form>
+            <button
+              type="button"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
+              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600, borderRadius: D.radiusControl } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft, borderRadius: D.radiusControl }}
+            >
+              <SlidersHorizontal size={15} />
+              {activeFiltersCount > 0 && <span className="w-5 h-5 rounded-full text-xs text-white flex items-center justify-center" style={{ background: D.accentStrong }}>{activeFiltersCount}</span>}
+            </button>
+          </div>
+
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
+            >
+              <div className="pt-4 pb-2">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="type-ui-label text-sm" style={{ color: D.ink }}>Ταξινόμηση</h3>
+                  {activeFiltersCount > 0 && (
+                    <button onClick={clearFilters} className="flex items-center gap-1 text-xs transition-colors" style={{ color: D.inkSoft }}>
+                      <X size={12} /> Καθαρισμός
+                    </button>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => updateParams({ sort: undefined })}
+                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
+                    style={!activeSort ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                  >
+                    <Calendar size={11} className="inline mr-1" />
+                    Πιο Πρόσφατα
+                  </button>
+                  <button
+                    onClick={() => updateParams({ sort: activeSort === "oldest" ? undefined : "oldest" })}
+                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
+                    style={activeSort === "oldest" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                  >
+                    <Calendar size={11} className="inline mr-1" />
+                    Παλαιότερα
+                  </button>
+                  <button
+                    onClick={() => updateParams({ sort: activeSort === "title" ? undefined : "title" })}
+                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
+                    style={activeSort === "title" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                  >
+                    Αλφαβητικά
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeFiltersCount > 0 && (
+            <div className="flex items-center gap-2 flex-wrap mt-4 pt-4" style={{ borderTop: `1px solid ${D.border}` }}>
+              <span className="text-xs" style={{ color: D.inkSoft }}>Ενεργά:</span>
+              {search && (
+                <button
+                  onClick={() => { updateParams({ search: undefined }); setSearchInput(""); }}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  <Search size={10} /> "{search}" <X size={12} />
+                </button>
+              )}
+              {activeSort && (
+                <button
+                  onClick={() => updateParams({ sort: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  {activeSort === "oldest" ? "Παλαιότερα" : activeSort === "title" ? "Αλφαβητικά" : activeSort} <X size={12} />
+                </button>
+              )}
+              {activeTag && (
+                <button
+                  onClick={() => updateParams({ tag: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  Επιλεγμένα <X size={12} />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
 
       <HubArticlesSection
         displayName={displayName}
