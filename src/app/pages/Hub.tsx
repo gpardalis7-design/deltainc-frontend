@@ -19,6 +19,7 @@ import { useNavigation, type FormType } from "../lib/navigationContext";
 import { GUIDED_HUB_DATA, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
 import { resolveHubVariant } from "../lib/hubs/hubVariant";
 import { getArticleCardImage } from "../components/articles/articleImage";
+import { ChecklistHero } from "../components/ChecklistHero";
 
 const HUB_INITIAL_GRID_POSTS = 9;
 const HUB_LOAD_MORE_PER_PAGE = 9;
@@ -211,6 +212,7 @@ function GuidedHubView({
   handleLoadMore,
   handleSearch,
   hasMore,
+  hubSlug,
   loading,
   loadingMore,
   posts,
@@ -295,7 +297,13 @@ function GuidedHubView({
               </div>
             </div>
 
-            {displayUrgentInfo ? (
+            {hubSlug === "asep" ? (
+              <ChecklistHero
+                eyebrow="Οδηγός ΑΣΕΠ"
+                title="Από την προκήρυξη στην αίτηση"
+                subtitle="Ακολουθήστε τα βασικά βήματα για να ελέγξετε την προκήρυξη, τα δικαιολογητικά και την τελική υποβολή."
+              />
+            ) : displayUrgentInfo ? (
               <aside
                 className="rounded-3xl p-5 md:p-6"
                 style={{
