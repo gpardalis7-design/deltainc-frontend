@@ -105,9 +105,9 @@ export function LearningPathDivider({ step }: { step: 1 | 2 | 3 }) {
             const accent = m.gold ? GOLD : NAVY;
             return (
               <g key={m.at}>
-                {m.gold ? <circle cx={p.x} cy={p.y} r={18} fill="rgba(185,152,90,0.10)" /> : null}
-                <circle cx={p.x} cy={p.y} r={13} fill="#ffffff" stroke={accent} strokeWidth={1.5} />
-                <g transform={`translate(${p.x},${p.y}) scale(0.66) translate(-12,-12)`}>
+                {m.gold ? <circle cx={p.x} cy={p.y} r={24} fill="rgba(185,152,90,0.10)" /> : null}
+                <circle cx={p.x} cy={p.y} r={18} fill="#ffffff" stroke={accent} strokeWidth={1.5} />
+                <g transform={`translate(${p.x},${p.y}) scale(0.92) translate(-12,-12)`}>
                   <IconGlyph name={m.icon!} color={accent} />
                 </g>
               </g>
