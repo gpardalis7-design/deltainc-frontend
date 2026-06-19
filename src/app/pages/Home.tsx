@@ -11,6 +11,7 @@ import { PageLoader } from "../components/PageLoader";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
 import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
 import { HomeHeroEcosystemVisual } from "../components/HomeHeroEcosystemVisual";
+import { LearningPathDivider } from "../components/HomeLearningPath";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
@@ -342,6 +343,8 @@ export function Home() {
         </div>
       </section>
 
+      <LearningPathDivider step={1} />
+
       <section className="py-2 md:py-4 px-5 md:px-6" style={sectionSurfaces.homeTrust}>
         <div className="max-w-7xl mx-auto">
           <AnimatedSection>
@@ -426,6 +429,8 @@ export function Home() {
           </AnimatedSection>
         </div>
       </section>
+
+      <LearningPathDivider step={2} />
 
       <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homeEditorial}>
         <div className="max-w-7xl mx-auto">
@@ -540,6 +545,8 @@ export function Home() {
           ) : null}
         </div>
       </section>
+
+      {visibleFeaturedPrograms.length > 0 ? <LearningPathDivider step={3} /> : null}
 
       {visibleFeaturedPrograms.length > 0 ? (
         <section className="py-11 md:py-15 px-5 md:px-6" style={sectionSurfaces.homePrograms}>
