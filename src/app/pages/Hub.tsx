@@ -6,7 +6,8 @@ import {
   BookOpen, CheckCircle2, HelpCircle,
   Search, SlidersHorizontal, X,
 } from "lucide-react";
-import { getFeaturedPost, getPosts } from "../lib/deltaApi";
+import { getFeaturedPost, getPosts, getTags } from "../lib/deltaApi";
+import { isGuideArticle, isGuideTerm } from "../lib/articleGuide";
 import { findLegacyArticleRedirect } from "../lib/legacyRedirectManifest";
 import { trackContextualEvent, trackCtaClick, trackEvent } from "../lib/analytics";
 import { useCategories } from "../lib/categoriesContext";
@@ -125,7 +126,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className="group rounded-3xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:-translate-y-0.5"
+      className="group h-full rounded-3xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:-translate-y-0.5"
       style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
       onClick={() =>
         trackEvent("featured_article_click", {
@@ -139,7 +140,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
     >
       {post.featuredImage && image && (
-        <div className="overflow-hidden md:w-2/5 shrink-0" style={{ height: "clamp(200px,28vw,280px)" }}>
+        <div className="h-[clamp(200px,28vw,280px)] shrink-0 overflow-hidden md:h-auto md:min-h-[280px] md:w-2/5">
           <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
       )}
@@ -154,6 +155,47 @@ function FeaturedPost({ post }: { post: BlogPost }) {
         <div className="flex items-center gap-4 mt-5 text-xs" style={{ color: "rgba(19,35,58,0.4)" }}>
           <div className="flex items-center gap-1"><Calendar size={11} /> {formatDate(post.publishedAt)}</div>
           <span className="ml-auto flex items-center gap-1 text-sm" style={{ color: D.accent, fontWeight: 700 }}>Διαβάστε <ArrowRight size={14} /></span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function GuidePost({ post }: { post: BlogPost }) {
+  const image = getArticleCardImage(post.featuredImage, "card");
+
+  return (
+    <Link
+      to={`/blog/${post.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
+      style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusCard }}
+      onClick={() =>
+        trackEvent("guide_article_click", {
+          page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+          article_slug: post.slug,
+          article_title: post.title,
+          article_source_section: "hub_guide_post",
+        })
+      }
+      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
+    >
+      {post.featuredImage && image ? (
+        <div className="h-40 shrink-0 overflow-hidden">
+          <img src={image.src} alt={post.featuredImage.alt} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        </div>
+      ) : null}
+      <div className="flex flex-1 flex-col p-5">
+        <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-xs" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
+          <BookOpen size={12} /> Οδηγός
+        </span>
+        <h2 className="type-display-card mb-2 line-clamp-3" style={{ fontSize: "1rem", color: D.ink, lineHeight: 1.4 }}>
+          {post.title}
+        </h2>
+        <p className="mb-5 line-clamp-3 text-sm" style={{ color: D.inkSoft, lineHeight: 1.65 }}>{post.excerpt}</p>
+        <div className="mt-auto flex items-center gap-3 border-t pt-4 text-xs" style={{ borderColor: D.border, color: "rgba(19,35,58,0.4)" }}>
+          <span className="flex items-center gap-1"><Calendar size={11} /> {formatDate(post.publishedAt)}</span>
+          <span className="ml-auto flex items-center gap-1" style={{ color: D.accent, fontWeight: 700 }}>Διαβάστε <ArrowRight size={12} /></span>
         </div>
       </div>
     </Link>
@@ -202,6 +244,8 @@ type HubViewProps = {
   featuredEyebrow: string;
   featured?: BlogPost;
   featuredLoading: boolean;
+  guide?: BlogPost;
+  guideLoading: boolean;
   handleLoadMore: () => void;
   handleSearch: (e: React.FormEvent) => void;
   hasMore: boolean;
@@ -244,6 +288,8 @@ function GuidedHubView({
   featuredEyebrow,
   featured,
   featuredLoading,
+  guide,
+  guideLoading,
   handleLoadMore,
   handleSearch,
   hasMore,
@@ -440,7 +486,7 @@ function GuidedHubView({
                 <div className="flex items-start justify-between gap-4 mb-5">
                   <div className="min-w-0 flex-1">
                     <div className="type-eyebrow mb-2" style={{ color: D.accentStrong }}>
-                      Οδηγός Υποβολής
+                      {activeInfoPanel.eyebrow || "Οδηγός Υποβολής"}
                     </div>
                     <h3 className="type-display-section" style={{ fontSize: "1.2rem", color: D.ink }}>
                       {activeInfoPanel.title}
@@ -478,9 +524,18 @@ function GuidedHubView({
                           <p className="type-display-card text-sm mb-1.5" style={{ color: D.ink, lineHeight: 1.5 }}>
                             {item.title}
                           </p>
-                          <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-                            {item.body}
-                          </p>
+                          {item.body ? (
+                            <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+                              {item.body}
+                            </p>
+                          ) : null}
+                          {item.points?.length ? (
+                            <ul className="mt-2 space-y-1.5 pl-5 text-sm list-disc" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
+                              {item.points.map((point, pointIndex) => (
+                                <li key={`${activeInfoPanel.id}-${index}-point-${pointIndex}`}>{point}</li>
+                              ))}
+                            </ul>
+                          ) : null}
                         </div>
                       </div>
                     </div>
@@ -654,6 +709,8 @@ function GuidedHubView({
         displayName={displayName}
         featured={featured}
         featuredLoading={featuredLoading}
+        guide={guide}
+        guideLoading={guideLoading}
         handleLoadMore={handleLoadMore}
         hasMore={hasMore}
         isFiltered={activeFiltersCount > 0}
@@ -929,6 +986,8 @@ function HubArticlesSection({
   displayName,
   featured,
   featuredLoading,
+  guide,
+  guideLoading = false,
   handleLoadMore,
   hasMore,
   isFiltered = false,
@@ -949,6 +1008,8 @@ function HubArticlesSection({
   displayName: string;
   featured?: BlogPost;
   featuredLoading: boolean;
+  guide?: BlogPost;
+  guideLoading?: boolean;
   handleLoadMore: () => void;
   hasMore: boolean;
   isFiltered?: boolean;
@@ -967,7 +1028,7 @@ function HubArticlesSection({
   emptyActionHref?: string;
 }) {
   const visiblePosts = isFiltered ? posts : rest;
-  const displayedCount = isFiltered ? visiblePosts.length : visiblePosts.length + (featured ? 1 : 0);
+  const displayedCount = isFiltered ? visiblePosts.length : visiblePosts.length + (featured ? 1 : 0) + (guide ? 1 : 0);
   const sectionEyebrow = isFiltered
     ? searchQuery
       ? `Αποτελέσματα για “${searchQuery}”`
@@ -987,21 +1048,26 @@ function HubArticlesSection({
           <Fade>
             <div className="mb-10">
               <div className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>{featuredEyebrow}</div>
-              <div
-                className="rounded-3xl overflow-hidden"
-                style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
-              >
-                <div className="animate-pulse grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-                  <div style={{ height: "clamp(200px,28vw,280px)", background: "rgba(19,35,58,0.08)" }} />
-                  <div className="p-7">
-                    <div className="h-6 w-28 rounded-full mb-4" style={{ background: "rgba(19,35,58,0.08)" }} />
-                    <div className="h-7 w-4/5 rounded mb-3" style={{ background: "rgba(19,35,58,0.08)" }} />
-                    <div className="h-7 w-3/5 rounded mb-4" style={{ background: "rgba(19,35,58,0.06)" }} />
-                    <div className="h-4 w-full rounded mb-2" style={{ background: "rgba(19,35,58,0.05)" }} />
-                    <div className="h-4 w-5/6 rounded mb-6" style={{ background: "rgba(19,35,58,0.05)" }} />
-                    <div className="h-4 w-32 rounded" style={{ background: "rgba(19,35,58,0.05)" }} />
+              <div className={guideLoading ? "grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]" : undefined}>
+                <div
+                  className="overflow-hidden rounded-3xl"
+                  style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
+                >
+                  <div className="grid animate-pulse grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+                    <div style={{ height: "clamp(200px,28vw,280px)", background: "rgba(19,35,58,0.08)" }} />
+                    <div className="p-7">
+                      <div className="h-6 w-28 rounded-full mb-4" style={{ background: "rgba(19,35,58,0.08)" }} />
+                      <div className="h-7 w-4/5 rounded mb-3" style={{ background: "rgba(19,35,58,0.08)" }} />
+                      <div className="h-7 w-3/5 rounded mb-4" style={{ background: "rgba(19,35,58,0.06)" }} />
+                      <div className="h-4 w-full rounded mb-2" style={{ background: "rgba(19,35,58,0.05)" }} />
+                      <div className="h-4 w-5/6 rounded mb-6" style={{ background: "rgba(19,35,58,0.05)" }} />
+                      <div className="h-4 w-32 rounded" style={{ background: "rgba(19,35,58,0.05)" }} />
+                    </div>
                   </div>
                 </div>
+                {guideLoading ? (
+                  <div className="min-h-[280px] animate-pulse rounded-2xl" style={{ background: "rgba(19,35,58,0.07)", border: `1px solid ${D.border}`, borderRadius: D.radiusCard }} />
+                ) : null}
               </div>
             </div>
           </Fade>
@@ -1011,7 +1077,18 @@ function HubArticlesSection({
           <Fade>
             <div className="mb-10">
               <div className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>{featuredEyebrow}</div>
-              <FeaturedPost post={featured} />
+              <div className={guide || guideLoading ? "grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]" : undefined}>
+                <FeaturedPost post={featured} />
+                {guide ? (
+                  <GuidePost post={guide} />
+                ) : guideLoading ? (
+                  <div
+                    className="min-h-[280px] animate-pulse rounded-2xl"
+                    style={{ background: "rgba(19,35,58,0.07)", border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}
+                    aria-label="Φόρτωση οδηγού"
+                  />
+                ) : null}
+              </div>
             </div>
           </Fade>
         )}
@@ -1147,6 +1224,8 @@ export function Hub() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [featuredOverride, setFeaturedOverride] = useState<BlogPost | null>(null);
   const [featuredLoading, setFeaturedLoading] = useState(false);
+  const [guideOverride, setGuideOverride] = useState<BlogPost | null>(null);
+  const [guideLoading, setGuideLoading] = useState(hubSlug === "opsyd");
   const [currentPage, setCurrentPage] = useState(1);
   const [sourceOffset, setSourceOffset] = useState(0);
   const [, setTotalPages] = useState(1);
@@ -1521,6 +1600,80 @@ export function Hub() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hubSlug, liveHub?.wpCategoryId, currentPage, search, activeSort, activeTag]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const isFilteredRequest = Boolean(search || activeSort || activeTag);
+    const shouldResolveGuide = hubSlug === "opsyd" && shouldUseFeatured && !isFilteredRequest;
+
+    if (!shouldResolveGuide) {
+      setGuideOverride(null);
+      setGuideLoading(false);
+      return;
+    }
+
+    if (loading || featuredLoading) {
+      setGuideLoading(true);
+      return;
+    }
+
+    if (guideOverride && guideOverride.id !== featuredOverride?.id && isGuideArticle(guideOverride)) {
+      setGuideLoading(false);
+      return;
+    }
+
+    const guideFromCurrentPage = posts.find(
+      (post) => post.id !== featuredOverride?.id && isGuideArticle(post)
+    );
+
+    if (guideFromCurrentPage) {
+      setGuideOverride(guideFromCurrentPage);
+      setGuideLoading(false);
+      return;
+    }
+
+    setGuideLoading(true);
+    getTags()
+      .then(async ({ data: tags }) => {
+        const guideTag = tags.find(isGuideTerm);
+        if (!guideTag) return null;
+
+        const result = await getPosts({
+          hub: hubSlug,
+          wpCategoryId: liveHub?.wpCategoryId,
+          tag: String(guideTag.id),
+          perPage: 3,
+        });
+
+        return result.data.find((post) => post.id !== featuredOverride?.id) ?? null;
+      })
+      .then((guidePost) => {
+        if (cancelled) return;
+        setGuideOverride(guidePost);
+        setGuideLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setGuideOverride(null);
+        setGuideLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    activeSort,
+    activeTag,
+    featuredLoading,
+    featuredOverride?.id,
+    guideOverride,
+    hubSlug,
+    liveHub?.wpCategoryId,
+    loading,
+    posts,
+    search,
+    shouldUseFeatured,
+  ]);
+
   const updateParams = (updates: Record<string, string | number | undefined>) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
@@ -1803,9 +1956,14 @@ export function Hub() {
 
   const seo = hubSeo(hubSlug ?? "", Boolean(search || activeSort || activeTag));
   const featured = shouldUseFeatured && !featuredLoading ? featuredOverride : undefined;
-  const rest = shouldUseFeatured ? posts.filter((p) => p.id !== featured?.id) : posts;
   const isFiltered = Boolean(search || activeSort || activeTag);
-  const displayedArticleCount = isFiltered ? posts.length : posts.length + (featured ? 1 : 0);
+  const guide = hubSlug === "opsyd" && !isFiltered && !guideLoading ? guideOverride ?? undefined : undefined;
+  const rest = shouldUseFeatured
+    ? posts.filter((post) => post.id !== featured?.id && post.id !== guide?.id)
+    : posts;
+  const displayedArticleCount = isFiltered
+    ? posts.length
+    : rest.length + (featured ? 1 : 0) + (guide ? 1 : 0);
   const hasMore = displayedArticleCount < total;
 
   const viewProps: HubViewProps = {
@@ -1826,6 +1984,8 @@ export function Hub() {
     featuredEyebrow: hubDisplayConfig.featuredEyebrow,
     featured,
     featuredLoading,
+    guide,
+    guideLoading: hubSlug === "opsyd" && !isFiltered && guideLoading,
     handleLoadMore,
     handleSearch,
     hasMore,
