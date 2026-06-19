@@ -311,7 +311,7 @@ function GuidedHubView({
             ) : hubSlug === "opsyd" ? (
               <OpsydApplyCta />
             ) : hubSlug === "metaptyxiaka" ? (
-              <OrbitConstellation />
+              <OrbitConstellation centerHref="/courses" />
             ) : displayUrgentInfo ? (
               <aside
                 className="rounded-3xl p-5 md:p-6"

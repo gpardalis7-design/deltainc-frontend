@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Link } from "react-router";
 import styles from "./OrbitConstellation.module.css";
 
 type OrbitNode = {
@@ -19,6 +20,8 @@ type OrbitConstellationProps = {
   title?: string;
   caption?: string;
   centerIcon?: ReactNode;
+  centerHref?: string;
+  centerAriaLabel?: string;
   nodes?: OrbitNode[];
 };
 
@@ -35,8 +38,12 @@ export function OrbitConstellation({
   title = "Όλα οδηγούν στο σωστό πρόγραμμα.",
   caption = "Μοριοδότηση · Δίδακτρα · Διάρκεια · Προοπτικές · Εξ αποστάσεως",
   centerIcon = <CapIcon />,
+  centerHref,
+  centerAriaLabel = "Μετάβαση στην αναζήτηση προγραμμάτων",
   nodes = DEFAULT_NODES,
 }: OrbitConstellationProps) {
+  const centerClassName = centerHref ? `${styles.core} ${styles.coreLink}` : styles.core;
+
   return (
     <div className={styles.panel}>
       <p className={styles.eyebrow}>{eyebrow}</p>
@@ -48,7 +55,13 @@ export function OrbitConstellation({
         <span className={styles.ring} style={{ "--d": "280px", "--rs": "150s" } as CSSProperties} />
 
         <span className={styles.halo} />
-        <span className={styles.core}>{centerIcon}</span>
+        {centerHref ? (
+          <Link to={centerHref} className={centerClassName} aria-label={centerAriaLabel}>
+            {centerIcon}
+          </Link>
+        ) : (
+          <span className={centerClassName}>{centerIcon}</span>
+        )}
 
         {nodes.map((n, i) => (
           <div

@@ -92,6 +92,26 @@
   box-shadow: 0 0 26px rgba(185, 152, 90, 0.5);
 }
 
+.coreLink {
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.coreLink:hover {
+  transform: scale(1.05);
+  filter: brightness(1.06);
+  box-shadow: 0 0 32px rgba(185, 152, 90, 0.68);
+}
+
+.coreLink:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.92);
+  outline-offset: 4px;
+}
+
 .arm {
   position: absolute;
   left: 50%;
