@@ -49,7 +49,7 @@ const FORM_CONFIG: Record<FormType, {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function ContactFormModal() {
-  const { isModalOpen, closeModal, cta, modalFormType } = useNavigation();
+  const { isModalOpen, closeModal, cta, modalFormType, modalInitialInterest } = useNavigation();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -121,14 +121,27 @@ export function ContactFormModal() {
     if (trackedViewRef.current === trackedKey) return;
 
     const config = FORM_CONFIG[formType];
-    const payloadConfig = getPayloadConfig(formType, formData.interest || config.placeholder);
+    const viewInterest = formData.interest || modalInitialInterest || config.placeholder;
+    const payloadConfig = getPayloadConfig(formType, viewInterest);
     trackLeadFormEvent("lead_form_view", {
       form_type: payloadConfig.form_type,
       hub: payloadConfig.hub,
       source_label: payloadConfig.source_label,
     });
     trackedViewRef.current = trackedKey;
-  }, [formData.interest, formType, isModalOpen]);
+  }, [formData.interest, formType, isModalOpen, modalInitialInterest]);
+
+  useEffect(() => {
+    if (!isModalOpen || !formType || !modalInitialInterest) return;
+    const config = FORM_CONFIG[formType];
+    if (!config.options.includes(modalInitialInterest)) return;
+
+    setFormData((current) => (
+      current.interest === modalInitialInterest
+        ? current
+        : { ...current, interest: modalInitialInterest }
+    ));
+  }, [formType, isModalOpen, modalInitialInterest]);
 
   if (!formType) return null;
 

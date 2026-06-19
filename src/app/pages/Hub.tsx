@@ -233,6 +233,9 @@ function GuidedHubView({
   applyTopicFilter,
   scrollToTopicSection,
 }: HubViewProps) {
+  const { openModalFor } = useNavigation();
+  const showOpsydApplicationCta = hubSlug === "opsyd" && activeInfoPanel?.id === "opsyd-documents-checklist";
+
   return (
     <div style={{ background: D.bg }}>
       <section
@@ -468,6 +471,34 @@ function GuidedHubView({
                         </p>
                       ))}
                     </div>
+                  </div>
+                ) : null}
+
+                {showOpsydApplicationCta ? (
+                  <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
+                    <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.6 }}>
+                      Δεν είστε σίγουροι για το επόμενο βήμα;
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        trackCtaClick("Θέλω βοήθεια με την αίτηση", "opsyd_info_panel_inline", {
+                          hub: "opsyd",
+                          cta_target: "modal",
+                          preselected_interest: "Αίτηση για τους πίνακες",
+                        });
+                        openModalFor("opsyd", "Αίτηση για τους πίνακες");
+                      }}
+                      className="group inline-flex items-center gap-1.5 text-sm transition-colors"
+                      style={{
+                        background: "transparent",
+                        color: D.accentStrong,
+                        fontWeight: 700,
+                      }}
+                    >
+                      Θέλω βοήθεια με την αίτηση
+                      <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </button>
                   </div>
                 ) : null}
               </div>

@@ -23,9 +23,10 @@ interface NavigationContextValue {
   setCTA: (cta: NavigationCTA) => void;
   setShowStickyBottom: (show: boolean) => void;
   openModal: () => void;
-  openModalFor: (formType: FormType) => void;
+  openModalFor: (formType: FormType, initialInterest?: string) => void;
   closeModal: () => void;
   modalFormType: FormType | null;
+  modalInitialInterest: string | null;
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -46,15 +47,21 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [showStickyBottom, setShowStickyBottom] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalFormType, setModalFormType] = useState<FormType | null>(null);
+  const [modalInitialInterest, setModalInitialInterest] = useState<string | null>(null);
 
-  const openModal = () => setIsModalOpen(true);
-  const openModalFor = (formType: FormType) => {
+  const openModal = () => {
+    setModalInitialInterest(null);
+    setIsModalOpen(true);
+  };
+  const openModalFor = (formType: FormType, initialInterest?: string) => {
     setModalFormType(formType);
+    setModalInitialInterest(initialInterest ?? null);
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
     setModalFormType(null);
+    setModalInitialInterest(null);
   };
 
   return (
@@ -71,6 +78,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         openModalFor,
         closeModal,
         modalFormType,
+        modalInitialInterest,
       }}
     >
       {children}
