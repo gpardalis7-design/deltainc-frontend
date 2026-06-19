@@ -1,0 +1,194 @@
+.panel {
+  /* Tuned for the dark navy Μεταπτυχιακά hero. Override via these vars if needed. */
+  --orb-hero-from: var(--hero-mid, #172554);
+  --orb-hero-to: var(--hero-to, #1e3a8a);
+  --orb-spoke: #60a5fa;
+  --orb-node: #bfdbfe;
+  --orb-gold: var(--warm-accent, #b9985a);
+
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--orb-hero-from) 0%, var(--orb-hero-to) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 1.5rem;
+  max-width: 460px;
+  font-family: var(--font-body, inherit);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 6px;
+}
+.eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6;
+}
+
+.title {
+  font-family: var(--font-display, inherit);
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.stage {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--d);
+  height: var(--d);
+  margin-left: calc(-0.5 * var(--d));
+  margin-top: calc(-0.5 * var(--d));
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  animation: ringspin var(--rs) linear infinite;
+  animation-direction: var(--rd, normal);
+}
+
+.halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
+  border-radius: 50%;
+  background: rgba(185, 152, 90, 0.32);
+  animation: corepulse 2.6s ease-in-out infinite;
+}
+
+.core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0c187, var(--orb-gold));
+  color: #14213d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 26px rgba(185, 152, 90, 0.5);
+}
+
+.arm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--a, 0deg));
+  animation: orbit var(--dur) linear infinite;
+  animation-direction: var(--dir, normal);
+}
+
+.spoke {
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--r));
+  width: 2px;
+  height: var(--r);
+  margin-left: -1px;
+  background: linear-gradient(to top, rgba(96, 165, 250, 0), rgba(96, 165, 250, 0.55));
+  animation: spokepulse 3.2s ease-in-out infinite var(--pd);
+}
+
+.node {
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--r));
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--orb-node);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transform: rotate(calc(-1 * var(--a, 0deg)));
+  animation: orbitc var(--dur) linear infinite;
+  animation-direction: var(--dir, normal);
+}
+
+.caption {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin: 8px 0 0;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(var(--a, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--a, 0deg) + 360deg));
+  }
+}
+@keyframes orbitc {
+  from {
+    transform: rotate(calc(-1 * var(--a, 0deg)));
+  }
+  to {
+    transform: rotate(calc(-1 * var(--a, 0deg) - 360deg));
+  }
+}
+@keyframes ringspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spokepulse {
+  0%,
+  100% {
+    opacity: 0.14;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+@keyframes corepulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.14;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .halo,
+  .arm,
+  .node,
+  .spoke {
+    animation: none;
+  }
+}
