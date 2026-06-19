@@ -38,6 +38,12 @@ const FORM_CONFIG: Record<FormType, {
     options: ["Πιστοποίηση Αγγλικών", "Πιστοποίηση Υπολογιστών", "Άλλο"],
     placeholder: "Ποια πιστοποίηση σας ενδιαφέρει;",
   },
+  graptosDiagonismos: {
+    title: "Προετοιμασία Γραπτού Διαγωνισμού ΑΣΕΠ",
+    description: "Συμπληρώστε τα στοιχεία σας και θα επικοινωνήσουμε μαζί σας για καθοδήγηση σχετικά με την προετοιμασία σας.",
+    options: ["Ύλη και πρόγραμμα μελέτης", "Σημειώσεις και υλικό", "Mock tests", "Στρατηγική προετοιμασίας", "Άλλο"],
+    placeholder: "Τι σας ενδιαφέρει;",
+  },
   general: {
     title: "Χρειάζεστε καθοδήγηση;",
     description: "Συμπληρώστε τα στοιχεία σας και η ομάδα της Delta Inc. θα επικοινωνήσει μαζί σας για να σας κατευθύνει σωστά.",
@@ -93,6 +99,13 @@ export function ContactFormModal() {
           subject: `Μεταπτυχιακά - ${interest}`,
           hub: "metaptyxiaka",
           source_label: "Μεταπτυχιακά popup",
+        };
+      case "graptosDiagonismos":
+        return {
+          form_type: "asep_written_exam_popup",
+          subject: `Γραπτός Διαγωνισμός ΑΣΕΠ - ${interest}`,
+          hub: "asep",
+          source_label: "Γραπτός Διαγωνισμός ΑΣΕΠ popup",
         };
       case "general":
         return {

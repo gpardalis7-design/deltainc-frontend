@@ -46,6 +46,39 @@ function Fade({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
   return <>{children}</>;
 }
 
+function isFaqHeadingLine(line: string) {
+  return /^(Οδηγός|Βήμα\s+\d+|Προσοχή|Γιατί είναι σημαντικός|Χρήσιμη Συμβουλή|Χρειάζεστε βοήθεια|Σημαντική Επισήμανση|Σημαντικές Επισημάνσεις|Πότε πρέπει|Συχνά Λάθη|Πώς δημοσιεύονται|Πώς μπορώ|Δεν βρίσκω|Πόσο χρόνο χρειάζεται|\d+\.\s)/i.test(line);
+}
+
+function renderFaqAnswer(answer: string) {
+  return answer.split("\n").map((rawLine, index) => {
+    const line = rawLine.trim();
+
+    if (!line) {
+      return <div key={`faq-space-${index}`} className="h-2" aria-hidden="true" />;
+    }
+
+    const isBullet = line.startsWith("•");
+    const isHeading = isFaqHeadingLine(line);
+
+    return (
+      <p
+        key={`faq-line-${index}`}
+        className="text-sm"
+        style={{
+          color: isHeading ? D.ink : D.inkSoft,
+          fontWeight: isHeading ? 750 : 400,
+          lineHeight: isHeading ? 1.55 : 1.8,
+          marginTop: isHeading && index > 0 ? "0.75rem" : 0,
+          paddingLeft: isBullet ? "1rem" : 0,
+        }}
+      >
+        {line}
+      </p>
+    );
+  });
+}
+
 // ─── Post card ────────────────────────────────────────────────────────────────
 
 function PostCard({ post }: { post: BlogPost }) {
@@ -235,6 +268,11 @@ function GuidedHubView({
 }: HubViewProps) {
   const { openModalFor } = useNavigation();
   const showOpsydApplicationCta = hubSlug === "opsyd" && activeInfoPanel?.id === "opsyd-documents-checklist";
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setOpenFaqIndex(null);
+  }, [hubSlug]);
 
   return (
     <div style={{ background: D.bg }}>
@@ -640,12 +678,31 @@ function GuidedHubView({
             <div className="space-y-3">
               {displayFaq.map((f, i) => (
                 <Fade key={i} delay={i * 0.05}>
-                  <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}>
-                    <div className="flex items-start gap-3 mb-3">
-                      <HelpCircle size={16} style={{ color: D.accent, flexShrink: 0, marginTop: 2 }} />
-                      <p className="type-display-card text-sm" style={{ color: D.ink, lineHeight: 1.45 }}>{f.q}</p>
-                    </div>
-                    <p className="text-sm pl-7" style={{ color: D.inkSoft, lineHeight: 1.75 }}>{f.a}</p>
+                  <div className="rounded-2xl" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, borderRadius: D.radiusCard }}>
+                    <button
+                      type="button"
+                      aria-expanded={openFaqIndex === i}
+                      aria-controls={`hub-faq-answer-${i}`}
+                      onClick={() => setOpenFaqIndex((current) => current === i ? null : i)}
+                      className="flex w-full items-start justify-between gap-4 p-5 sm:p-6 text-left transition-colors"
+                    >
+                      <span className="flex items-start gap-3">
+                        <HelpCircle size={16} style={{ color: D.accent, flexShrink: 0, marginTop: 2 }} />
+                        <span className="type-display-card text-sm" style={{ color: D.ink, lineHeight: 1.45 }}>{f.q}</span>
+                      </span>
+                      <ChevronRight
+                        size={17}
+                        className="mt-0.5 shrink-0 transition-transform duration-200"
+                        style={{ color: D.inkSoft, transform: openFaqIndex === i ? "rotate(90deg)" : "rotate(0deg)" }}
+                      />
+                    </button>
+                    {openFaqIndex === i ? (
+                      <div id={`hub-faq-answer-${i}`} className="px-5 pb-5 sm:px-6 sm:pb-6">
+                        <div className="pl-7">
+                          {renderFaqAnswer(f.a)}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </Fade>
               ))}

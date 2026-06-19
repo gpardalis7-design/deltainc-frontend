@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 export type NavigationMode = "content" | "service";
 
-export type FormType = "asep" | "opsyd" | "metaptyxiaka" | "pistopoihseis" | "general";
+export type FormType = "asep" | "opsyd" | "metaptyxiaka" | "pistopoihseis" | "graptosDiagonismos" | "general";
 
 export interface NavigationCTA {
   text: string;
