@@ -10,9 +10,9 @@ import { Logo } from "./Logo";
 // Fixed navigation items
 const NAV_ITEMS = [
   { label: "Αρχική", url: "/" },
+  { label: "Μεταπτυχιακά", url: "/metaptyxiaka" },
   { label: "ΑΣΕΠ", url: "/asep" },
   { label: "ΟΠΣΥΔ", url: "/opsyd" },
-  { label: "Μεταπτυχιακά", url: "/metaptyxiaka" },
   { label: "Delta Apps", url: "/delta-apps", isNew: true },
   { label: "Blog", url: "/blog" },
   { label: "Επικοινωνία", url: "/contact" },

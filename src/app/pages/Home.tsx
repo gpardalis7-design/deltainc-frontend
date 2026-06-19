@@ -271,8 +271,8 @@ export function Home() {
     null;
 
   const programTabs = [
-    { id: "undergraduate" as const, label: "Προπτυχιακά", slug: "proptixiaka-programmata", levelId: "323" },
     { id: "postgraduate" as const, label: "Μεταπτυχιακά", slug: "metaptyxiaka-pogrammata", levelId: "303" },
+    { id: "undergraduate" as const, label: "Προπτυχιακά", slug: "proptixiaka-programmata", levelId: "323" },
   ];
 
   const availableProgramTabs = programTabs.filter((tab) => featuredPrograms[tab.id].length > 0);
