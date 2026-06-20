@@ -1,6 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router";
-import { Search, SlidersHorizontal, X, MapPin, Clock, Euro, GraduationCap, ArrowRight, ChevronDown } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ArrowRight,
+  Clock,
+  Euro,
+  FileCheck2,
+  GraduationCap,
+  Headphones,
+  MapPin,
+  MessageCircle,
+  Search,
+  SlidersHorizontal,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import { getProgramFilters, getPrograms } from "../lib/deltaApi";
 import { trackContextualEvent, trackEvent } from "../lib/analytics";
 import type { Program, FilterOptions } from "../lib/types";
@@ -147,6 +161,18 @@ const FILTER_OPTION_KEYS: Record<FilterKey, keyof FilterOptions> = {
   uniType: "uni_type",
 };
 
+const COURSE_DISCOVERY_STEPS = [
+  { label: "Αναζητήστε πρόγραμμα", icon: Search },
+  { label: "Συγκρίνετε επιλογές", icon: ArrowLeftRight },
+  { label: "Ζητήστε πληροφορίες", icon: MessageCircle },
+  { label: "Λάβετε δωρεάν καθοδήγηση", icon: Headphones },
+  {
+    label: "Υποβάλετε αίτηση",
+    detail: "Με τη βοήθεια της Delta Edu, εντελώς δωρεάν.",
+    icon: FileCheck2,
+  },
+];
+
 export function Courses() {
   const [searchParams, setSearchParams] = useSearchParams();
   const isMobile = useIsMobile();
@@ -177,7 +203,6 @@ export function Courses() {
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState<FilterOptions | undefined>();
   const [showFilters, setShowFilters] = useState(false);
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   const [qInput, setQInput] = useState(q);
   const currentFilters: FilterState = {
@@ -303,7 +328,6 @@ export function Courses() {
 
   const openFiltersPanel = () => {
     setDraftFilters(currentFilters);
-    setShowAdvancedFilters(Boolean(currentFilters.university || currentFilters.uniType));
     setShowFilters(true);
   };
 
@@ -466,52 +490,24 @@ export function Courses() {
   };
 
   const getParamKey = (key: FilterKey) => key === "uniType" ? "uni_type" : key;
-  const primaryFilterKeys: FilterKey[] = ["category", "level", "city", "mode"];
-  const advancedFilterKeys: FilterKey[] = ["uniType", "university"];
+  const filterKeys: FilterKey[] = ["category", "level", "city", "mode", "uniType", "university"];
 
   const desktopFilters = filters ? (
     <div className="mt-4 rounded-[28px] p-4 md:p-5" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 8px 24px ${D.shadow}`, borderRadius: D.radiusShell }}>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {primaryFilterKeys.map((key) => (
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {filterKeys.map((key) => (
           <div key={key}>
             {renderDropdownFilter(FILTER_LABELS[key], key, currentFilters[key], (value) => handleDesktopFilterChange(key, value))}
           </div>
         ))}
       </div>
-
-      <div className="mt-3">
-        <button
-          type="button"
-          onClick={() => setShowAdvancedFilters((prev) => !prev)}
-          className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-all"
-          style={{ background: D.surface, border: `1px solid ${D.border}`, color: D.inkSoft }}
-        >
-          Περισσότερα φίλτρα
-          {(activeUniversity || activeUniType) && (
-            <span className="rounded-full px-1.5 py-0.5 text-[10px]" style={{ background: D.accentSoft, color: D.accentStrong }}>
-              {[activeUniversity, activeUniType].filter(Boolean).length}
-            </span>
-          )}
-          <ChevronDown size={13} style={{ transform: showAdvancedFilters ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 160ms ease" }} />
-        </button>
-      </div>
-
-      {showAdvancedFilters && (
-        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2" style={{ borderTop: `1px solid ${D.border}`, paddingTop: "1rem" }}>
-          {advancedFilterKeys.map((key) => (
-            <div key={key}>
-            {renderDropdownFilter(FILTER_LABELS[key], key, currentFilters[key], (value) => handleDesktopFilterChange(key, value))}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   ) : null;
 
   const filterGroups = (
-    <div className="space-y-5">
+      <div className="space-y-5">
       <div className="grid grid-cols-1 gap-3">
-        {[...primaryFilterKeys, ...advancedFilterKeys].map((key) => (
+        {filterKeys.map((key) => (
           <div key={key}>
             {renderDropdownFilter(FILTER_LABELS[key], key, draftFilters[key], (value) => setDraftFilters((prev) => ({ ...prev, [key]: value })))}
           </div>
@@ -534,11 +530,56 @@ export function Courses() {
               {isMock && <MockBadge />}
             </div>
             <h1 className="type-display-hero mb-3" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", color: D.ink }}>
-              Αναζήτηση Προγραμμάτων
+              Βρείτε το κατάλληλο μεταπτυχιακό για εσάς
             </h1>
-            <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "520px" }}>
-              Ανακαλύψτε μεταπτυχιακά προγράμματα από ελληνικά πανεπιστήμια. Φιλτράρετε βάσει πόλης, τρόπου φοίτησης και ειδικότητας.
+            <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "720px" }}>
+              Συγκρίνετε μεταπτυχιακά προγράμματα από Ελλάδα και Κύπρο, φιλτράρετε βάσει ειδικότητας, κόστους και τρόπου φοίτησης και ζητήστε δωρεάν ενημέρωση για όσα σας ενδιαφέρουν.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="px-6 pb-10" aria-labelledby="courses-how-it-works">
+        <div className="max-w-7xl mx-auto">
+          <h2 id="courses-how-it-works" className="type-display-section mb-6" style={{ color: D.ink, fontSize: "1.4rem" }}>
+            Πώς λειτουργεί;
+          </h2>
+          <div className="relative">
+            <div
+              className="absolute left-5 top-5 bottom-5 w-px md:left-[10%] md:right-[10%] md:top-5 md:h-px md:w-auto"
+              style={{ background: D.border }}
+              aria-hidden="true"
+            />
+            <ol className="relative grid grid-cols-1 gap-5 md:grid-cols-5 md:gap-4">
+              {COURSE_DISCOVERY_STEPS.map((step, index) => {
+                const StepIcon = step.icon;
+                return (
+                  <li key={step.label} className="flex min-w-0 items-start gap-3 md:block md:text-center">
+                    <span
+                      className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full md:mx-auto md:mb-3"
+                      style={{ background: D.accentSoft, color: D.accentStrong, boxShadow: `0 0 0 6px ${D.bg}` }}
+                      aria-hidden="true"
+                    >
+                      <StepIcon size={18} strokeWidth={2} />
+                    </span>
+                    <div className="min-w-0 pt-0.5 md:pt-0">
+                      <div className="mb-1 text-[10px] font-bold uppercase" style={{ color: D.accentStrong }}>
+                        {String(index + 1).padStart(2, "0")}
+                      </div>
+                      <h3 className="text-sm font-bold" style={{ color: D.ink, lineHeight: 1.35 }}>
+                        {step.label}
+                      </h3>
+                      {step.detail ? (
+                        <p className="mt-1 text-xs" style={{ color: D.inkSoft, lineHeight: 1.5 }}>
+                          {step.detail}
+                        </p>
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </div>
       </section>
@@ -558,7 +599,7 @@ export function Courses() {
           }} className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="flex items-center gap-3 px-4 py-3 rounded-2xl w-full sm:flex-1" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, boxShadow: `0 2px 8px ${D.shadow}`, borderRadius: D.radiusCard }}>
               <Search size={16} style={{ color: "rgba(19,35,58,0.35)" }} />
-              <input type="text" placeholder='Αναζήτηση π.χ. "εκπαίδευση" ή "ΑΠΘ"...' value={qInput} onChange={(e) => setQInput(e.target.value)} className="bg-transparent outline-none flex-1 text-sm placeholder:text-black/30" style={{ color: D.ink }} />
+              <input type="text" placeholder="Πληκτρολογήστε ειδικότητα, πανεπιστήμιο ή επάγγελμα (π.χ. Ψυχολογία, Ειδική Αγωγή, MBA)" value={qInput} onChange={(e) => setQInput(e.target.value)} className="min-w-0 bg-transparent outline-none flex-1 text-sm placeholder:text-black/30" style={{ color: D.ink }} />
             </div>
             <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:w-auto">
               <button type="submit" className="w-full px-5 py-3 rounded-2xl text-sm transition-all hover:opacity-90" style={{ background: D.ink, color: "#fff", fontWeight: 600, minHeight: "48px", borderRadius: D.radiusControl }}>
