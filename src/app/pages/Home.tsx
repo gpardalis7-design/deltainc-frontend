@@ -288,7 +288,7 @@ export function Home() {
     ? "Δείτε όλα τα προπτυχιακά"
     : "Δείτε όλα τα μεταπτυχιακά";
   const resolvedProgramTab = programTabs.find((tab) => tab.id === resolvedProgramLevel) ?? programTabs[1];
-  const programSectionCtaTarget = `/courses?level=${resolvedProgramTab.levelId}`;
+  const programSectionCtaTarget = `/courses?level=${resolvedProgramTab.levelId}#course-search`;
 
   return (
     <div style={{ background: D.bg }}>

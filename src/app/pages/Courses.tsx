@@ -585,7 +585,7 @@ export function Courses() {
       </section>
 
       {/* Search bar */}
-      <section className="px-6 pb-6" style={{ borderBottom: `1px solid ${D.border}` }}>
+      <section id="course-search" className="px-6 pb-6" style={{ borderBottom: `1px solid ${D.border}` }}>
         <div className="max-w-7xl mx-auto">
           <form onSubmit={(e) => {
             e.preventDefault();
