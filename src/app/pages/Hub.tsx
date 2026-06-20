@@ -17,7 +17,7 @@ import { hubSeo, notFoundSeo } from "../lib/seo";
 import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
-import { GUIDED_HUB_DATA, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
+import { GUIDED_HUB_DATA, type GuidedHubFaq, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
 import { resolveHubVariant } from "../lib/hubs/hubVariant";
 import { getArticleCardImage } from "../components/articles/articleImage";
 import { ChecklistHero } from "../components/ChecklistHero";
@@ -51,7 +51,26 @@ function isFaqHeadingLine(line: string) {
   return /^(Οδηγός|Βήμα\s+\d+|Προσοχή|Γιατί είναι σημαντικός|Χρήσιμη Συμβουλή|Χρειάζεστε βοήθεια|Σημαντική Επισήμανση|Σημαντικές Επισημάνσεις|Πότε πρέπει|Συχνά Λάθη|Πώς δημοσιεύονται|Πώς μπορώ|Δεν βρίσκω|Πόσο χρόνο χρειάζεται|\d+\.\s)/i.test(line);
 }
 
-function renderFaqAnswer(answer: string) {
+function renderFaqLineContent(line: string, links: GuidedHubFaq["links"]) {
+  const link = links?.find((candidate) => line.includes(candidate.text));
+  if (!link) return line;
+
+  const linkStart = line.indexOf(link.text);
+  const before = line.slice(0, linkStart);
+  const after = line.slice(linkStart + link.text.length);
+
+  return (
+    <>
+      {before}
+      <Link to={link.href} className="underline underline-offset-2" style={{ color: D.accentStrong, fontWeight: 700 }}>
+        {link.text}
+      </Link>
+      {after}
+    </>
+  );
+}
+
+function renderFaqAnswer(answer: string, links?: GuidedHubFaq["links"]) {
   return answer.split("\n").map((rawLine, index) => {
     const line = rawLine.trim();
 
@@ -74,7 +93,7 @@ function renderFaqAnswer(answer: string) {
           paddingLeft: isBullet ? "1rem" : 0,
         }}
       >
-        {line}
+        {renderFaqLineContent(line, links)}
       </p>
     );
   });
@@ -230,11 +249,12 @@ type HubViewProps = {
       panelId?: string;
       search?: string;
       sort?: string;
+      tag?: string;
     };
     icon: React.ReactNode;
   }[];
   displayInfoPanels: Record<string, GuidedHubInfoPanel>;
-  displayFaq: { q: string; a: string }[];
+  displayFaq: GuidedHubFaq[];
   activeInfoPanel?: GuidedHubInfoPanel;
   closeInfoPanel: () => void;
   activeFiltersCount: number;
@@ -266,7 +286,7 @@ type HubViewProps = {
   topicSectionRef: React.RefObject<HTMLDivElement | null>;
   total: number;
   updateParams: (updates: Record<string, string | number | undefined>) => void;
-  applyTopicFilter: (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string }) => void;
+  applyTopicFilter: (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string; tag?: string }) => void;
   scrollToTopicSection: () => void;
 };
 
@@ -395,7 +415,11 @@ function GuidedHubView({
             ) : hubSlug === "opsyd" ? (
               <OpsydApplyCta />
             ) : hubSlug === "metaptyxiaka" ? (
-              <OrbitConstellation centerHref="/courses" />
+              <OrbitConstellation
+                centerHref="/courses"
+                title="Συγκρίνετε πριν αποφασίσετε"
+                caption="Διάρκεια • Δίδακτρα • Εξ αποστάσεως • Μόρια • Προοπτικές"
+              />
             ) : displayUrgentInfo ? (
               <aside
                 className="rounded-3xl p-5 md:p-6"
@@ -444,7 +468,9 @@ function GuidedHubView({
               <div className="mb-8">
                 <div className="type-eyebrow mb-2" style={{ color: D.inkSoft }}>Επόμενα βήματα</div>
                 <h2 className="type-display-section" style={{ fontSize: "1.4rem", color: D.ink }}>
-                  Ξεκινήστε από το σωστό θέμα
+                  {hubSlug === "metaptyxiaka"
+                    ? "Όσα πρέπει να γνωρίζετε πριν επιλέξετε πρόγραμμα"
+                    : "Ξεκινήστε από το σωστό θέμα"}
                 </h2>
               </div>
             </Fade>
@@ -756,7 +782,7 @@ function GuidedHubView({
                     {openFaqIndex === i ? (
                       <div id={`hub-faq-answer-${i}`} className="px-5 pb-5 sm:px-6 sm:pb-6">
                         <div className="pl-7">
-                          {renderFaqAnswer(f.a)}
+                          {renderFaqAnswer(f.a, f.links)}
                         </div>
                       </div>
                     ) : null}
@@ -1762,7 +1788,7 @@ export function Hub() {
     pendingInfoPanelScrollRef.current = false;
   };
 
-  const applyTopicFilter = (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string }) => {
+  const applyTopicFilter = (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string; tag?: string }) => {
     if (target.panelId) {
       trackContextualEvent("hub_topic_filter_click", {
         hub: hubSlug,
@@ -1799,17 +1825,19 @@ export function Hub() {
 
     const nextSearch = target.search || "";
     const nextSort = target.sort || "";
+    const nextTag = target.tag || "";
 
     trackContextualEvent("hub_topic_filter_click", {
       hub: hubSlug,
       topic_label: label,
       topic_search: nextSearch || undefined,
       topic_sort: nextSort || undefined,
+      topic_tag: nextTag || undefined,
       total_articles: total,
     });
 
     setActiveInfoPanelId(null);
-    if (search === nextSearch && activeSort === nextSort) {
+    if (search === nextSearch && activeSort === nextSort && activeTag === nextTag) {
       requestAnimationFrame(() => {
         requestAnimationFrame(scrollToStartHere);
       });
@@ -1820,6 +1848,7 @@ export function Hub() {
     updateParams({
       search: nextSearch || undefined,
       sort: nextSort || undefined,
+      tag: nextTag || undefined,
     });
     setSearchInput(nextSearch);
     setShowFilters(false);
