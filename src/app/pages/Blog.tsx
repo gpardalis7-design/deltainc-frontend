@@ -10,6 +10,7 @@ import { SeoHead } from "../components/SeoHead";
 import { blogIndexSeo } from "../lib/seo";
 import { D } from "../Root";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
+import { BlogTopicConstellation } from "../components/BlogTopicConstellation";
 
 const REGULAR_POSTS_BATCH = 6;
 
@@ -178,19 +179,24 @@ export function Blog() {
       <section className="pt-36 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(197,141,42,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
         <div className="max-w-7xl mx-auto">
-          <div>
-            <div className="flex items-center gap-3 mb-5 flex-wrap">
-              <span className="inline-block px-3 py-1 rounded-full text-xs tracking-widest uppercase" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
-                Blog
-              </span>
-              {isMock && <MockBadge />}
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-5 flex-wrap">
+                <span className="inline-block px-3 py-1 rounded-full text-xs tracking-widest uppercase" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.25)`, color: D.accentStrong }}>
+                  Blog
+                </span>
+                {isMock && <MockBadge />}
+              </div>
+              <h1 className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1, color: D.ink }}>
+                Άρθρα & Οδηγοί
+              </h1>
+              <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "460px" }}>
+                Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις.
+              </p>
             </div>
-            <h1 className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1, color: D.ink }}>
-              Άρθρα & Οδηγοί
-            </h1>
-            <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "460px" }}>
-              Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις.
-            </p>
+            <div className="hidden lg:flex justify-end">
+              <BlogTopicConstellation />
+            </div>
           </div>
         </div>
       </section>
