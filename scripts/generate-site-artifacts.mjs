@@ -30,6 +30,10 @@ function decodeMaybe(value) {
   }
 }
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function curlJson(url) {
   const output = execFileSync("curl", ["-s", "-L", url], {
     encoding: "utf8",
@@ -128,6 +132,13 @@ function createStaticEntries() {
     });
   }
 
+  for (const archive of Object.values(policy.editorialCategoryArchives)) {
+    entries.push({
+      loc: `${siteUrl}${archive.path}`,
+      lastmod: now,
+    });
+  }
+
   return entries;
 }
 
@@ -192,8 +203,8 @@ function createRedirectManifest(posts, programs) {
   };
 }
 
-function appendRedirectRules(redirects, seenSources, from, to) {
-  const destination = normalizePath(to);
+function appendRedirectRules(redirects, seenSources, from, to, options = {}) {
+  const destination = options.preserveDestinationTrailingSlash ? to : normalizePath(to);
 
   for (const source of createPathVariants(from)) {
     if (source === destination || seenSources.has(source)) continue;
@@ -231,19 +242,19 @@ function buildVercelConfig(redirectManifest) {
     appendRedirectRules(redirects, seenSources, `/category/${slug}`, destination);
   }
 
-  for (const [slug, destination] of Object.entries(policy.editorialCategoryRedirects)) {
-    appendRedirectRules(redirects, seenSources, `/category/${slug}`, destination);
-  }
-
-  for (const source of createPathVariants("/category/:slug")) {
-    if (seenSources.has(source)) continue;
-    seenSources.add(source);
-    redirects.push({
-      source,
-      destination: "/blog",
-      permanent: true,
+  for (const archive of Object.values(policy.editorialCategoryArchives)) {
+    appendRedirectRules(redirects, seenSources, `/${archive.slug}`, archive.path, {
+      preserveDestinationTrailingSlash: true,
+    });
+    appendRedirectRules(redirects, seenSources, `${archive.path}page/:page`, archive.path, {
+      preserveDestinationTrailingSlash: true,
     });
   }
+
+  const knownCategorySegments = [
+    ...Object.keys(policy.serviceCategoryRedirects),
+    ...Object.keys(policy.editorialCategoryArchives),
+  ].map((slug) => escapeRegex(encodeURIComponent(decodeMaybe(slug))));
 
   return {
     headers: [
@@ -253,6 +264,15 @@ function buildVercelConfig(redirectManifest) {
       },
     ],
     redirects,
+    routes: [
+      {
+        src: `/category/(?!(?:${knownCategorySegments.join("|")})(?:/|$)).+`,
+        status: 404,
+        headers: {
+          "X-Robots-Tag": "noindex, follow",
+        },
+      },
+    ],
     rewrites: [
       {
         source: "/((?!assets/|.*\\..*).*)",

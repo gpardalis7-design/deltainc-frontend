@@ -11,6 +11,7 @@ import type { BlogPost } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
 import { articleSeo } from "../lib/seo";
 import { D } from "../Root";
+import { getEditorialCategoryArchivePath } from "../lib/editorialCategoryArchives";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { resolveArticleIntent } from "../lib/articleIntent";
 import { getArticlePrimaryLabel } from "../lib/articleLabels";
@@ -839,7 +840,7 @@ export function BlogArticle() {
   const hubPath = post.hub
     ? `/${post.hub.slug}`
     : primaryCategory?.slug
-      ? `/${primaryCategory.slug}`
+      ? getEditorialCategoryArchivePath(primaryCategory.slug) ?? `/blog?hub=${encodeURIComponent(primaryCategory.slug)}`
       : "/blog";
   const breadcrumbLabel = destinationName === "Blog" ? null : destinationName;
   const matchesPrimaryContext = (candidate: BlogPost) => {
@@ -995,7 +996,7 @@ export function BlogArticle() {
 
                   {primaryLabel && (
                     <div className="mb-3">
-                      {post.hub ? (
+                      {post.hub || primaryCategory ? (
                         <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
                           {primaryLabel}
                         </Link>
@@ -1072,7 +1073,7 @@ export function BlogArticle() {
 
               {primaryLabel && (
                 <div className="mb-4">
-                  {post.hub ? (
+                  {post.hub || primaryCategory ? (
                     <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
                       {primaryLabel}
                     </Link>

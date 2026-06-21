@@ -18,7 +18,7 @@ import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
 import { GUIDED_HUB_DATA, type GuidedHubFaq, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
-import { resolveHubVariant } from "../lib/hubs/hubVariant";
+import { getEditorialCategoryArchive } from "../lib/editorialCategoryArchives";
 import { getArticleCardImage } from "../components/articles/articleImage";
 import { ChecklistHero } from "../components/ChecklistHero";
 import { OpsydApplyCta } from "../components/OpsydApplyCta";
@@ -26,14 +26,11 @@ import { OrbitConstellation } from "../components/OrbitConstellation";
 
 const HUB_INITIAL_GRID_POSTS = 9;
 const HUB_LOAD_MORE_PER_PAGE = 9;
-const EDITORIAL_HUB_DEFAULTS = {
-  featuredEyebrow: "Προτεινόμενο άρθρο",
-  cta: {
-    text: "Επικοινωνήστε Μαζί Μας",
-    link: "/contact#contact-form",
-    formType: undefined,
-  } as { text: string; link?: string; formType?: FormType },
-} as const;
+const FALLBACK_HUB_CTA = {
+  text: "Επικοινωνήστε Μαζί Μας",
+  link: "/contact#contact-form",
+  formType: undefined,
+} as { text: string; link?: string; formType?: FormType };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -798,216 +795,6 @@ function GuidedHubView({
   );
 }
 
-function EditorialHubView({
-  displayName,
-  displayH1,
-  displayIntro,
-  heroSectionRef,
-  activeFiltersCount,
-  activeSort,
-  activeTag,
-  clearFilters,
-  handleLoadMore,
-  handleSearch,
-  hasMore,
-  loading,
-  loadingMore,
-  posts,
-  primaryCTA,
-  rest,
-  search,
-  searchInput,
-  setSearchInput,
-  setShowFilters,
-  showFilters,
-  startHereRef,
-  total,
-  updateParams,
-}: HubViewProps) {
-  return (
-    <div style={{ background: D.bg }}>
-      <section
-        ref={heroSectionRef}
-        className="pt-24 relative overflow-hidden"
-        style={{ background: `linear-gradient(145deg, ${D.ink} 0%, ${D.heroMid} 58%, ${D.heroTo} 100%)` }}
-      >
-        <div className="absolute left-[-160px] top-16 h-[360px] w-[360px] rounded-full blur-3xl pointer-events-none" style={{ background: "rgba(29,78,216,0.18)" }} />
-        <div className="absolute right-[-140px] top-20 h-[420px] w-[420px] rounded-full blur-3xl pointer-events-none" style={{ background: "rgba(255,255,255,0.055)" }} />
-        <div className="absolute -bottom-12 left-0 right-0 h-32 pointer-events-none" style={{ background: `linear-gradient(180deg, transparent 0%, rgba(247,250,252,0.58) 48%, ${D.bg} 100%)` }} />
-        <div className="max-w-7xl mx-auto px-6 pt-10 pb-20 relative">
-          <nav aria-label="breadcrumb" className="flex items-center gap-2 text-xs mb-6" style={{ color: "rgba(255,255,255,0.35)" }}>
-            <Link to="/" className="hover:text-white transition-colors" style={{ color: "rgba(255,255,255,0.35)" }}>Αρχική</Link>
-            <ChevronRight size={12} />
-            <Link to="/blog" className="hover:text-white transition-colors" style={{ color: "rgba(255,255,255,0.35)" }}>Blog</Link>
-            <ChevronRight size={12} />
-            <span style={{ color: D.accent }}>{displayName}</span>
-          </nav>
-
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-5 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-xs" style={{ background: D.accentSoft, color: D.accent, border: "1px solid rgba(255,255,255,0.16)", fontWeight: 700 }}>
-                {displayName}
-              </span>
-            </div>
-
-            <h1 className="type-display-hero mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", lineHeight: 1.1, color: "#fff" }}>
-              {displayH1}
-            </h1>
-            <p className="max-w-2xl mb-6" style={{ color: "rgba(255,255,255,0.6)", fontSize: "1rem", lineHeight: 1.7 }}>
-              {displayIntro}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="button"
-                onClick={() => startHereRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all hover:opacity-90"
-                style={{ background: D.accent, color: D.ink, fontWeight: 700 }}
-              >
-                Δείτε τα άρθρα <ArrowRight size={15} />
-              </button>
-              <button
-                type="button"
-                onClick={primaryCTA.onClick}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-sm transition-all"
-                style={{ background: "rgba(255,255,255,0.08)", color: "#fff", fontWeight: 600, border: "1px solid rgba(255,255,255,0.12)" }}
-              >
-                {primaryCTA.label} <ChevronRight size={15} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-6 py-6" style={sectionSurfaces.hubControls}>
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
-              <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
-              <input
-                type="text"
-                placeholder={`Αναζήτηση σε ${displayName}...`}
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                className="bg-transparent outline-none text-sm flex-1 placeholder:text-black/30"
-                style={{ color: D.ink }}
-              />
-            </form>
-            <button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
-              style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-            >
-              <SlidersHorizontal size={15} />
-              {activeFiltersCount > 0 && <span className="w-5 h-5 rounded-full text-xs text-white flex items-center justify-center" style={{ background: D.accentStrong }}>{activeFiltersCount}</span>}
-            </button>
-          </div>
-
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="pt-4 pb-2">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="type-ui-label text-sm" style={{ color: D.ink }}>Ταξινόμηση</h3>
-                  {activeFiltersCount > 0 && (
-                    <button onClick={clearFilters} className="flex items-center gap-1 text-xs transition-colors" style={{ color: D.inkSoft }}>
-                      <X size={12} /> Καθαρισμός
-                    </button>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => updateParams({ sort: undefined })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={!activeSort ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    <Calendar size={11} className="inline mr-1" />
-                    Πιο Πρόσφατα
-                  </button>
-                  <button
-                    onClick={() => updateParams({ sort: activeSort === "oldest" ? undefined : "oldest" })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={activeSort === "oldest" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    <Calendar size={11} className="inline mr-1" />
-                    Παλαιότερα
-                  </button>
-                  <button
-                    onClick={() => updateParams({ sort: activeSort === "title" ? undefined : "title" })}
-                    className="px-3 py-1.5 rounded-lg text-xs transition-all"
-                    style={activeSort === "title" ? { background: D.accentSoft, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                  >
-                    Αλφαβητικά
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeFiltersCount > 0 && (
-            <div className="flex items-center gap-2 flex-wrap mt-4 pt-4" style={{ borderTop: `1px solid ${D.border}` }}>
-              <span className="text-xs" style={{ color: D.inkSoft }}>Ενεργά:</span>
-              {search && (
-                <button
-                  onClick={() => { updateParams({ search: undefined }); setSearchInput(""); }}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  <Search size={10} /> "{search}" <X size={12} />
-                </button>
-              )}
-              {activeSort && (
-                <button
-                  onClick={() => updateParams({ sort: undefined })}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  {activeSort === "oldest" ? "Παλαιότερα" : activeSort === "title" ? "Αλφαβητικά" : activeSort} <X size={12} />
-                </button>
-              )}
-              {activeTag && (
-                <button
-                  onClick={() => updateParams({ tag: undefined })}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
-                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
-                >
-                  Επιλεγμένα <X size={12} />
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
-
-      <HubArticlesSection
-        displayName={displayName}
-        featured={undefined}
-        featuredLoading={false}
-        handleLoadMore={handleLoadMore}
-        hasMore={hasMore}
-        isFiltered={activeFiltersCount > 0}
-        loading={loading}
-        loadingMore={loadingMore}
-        posts={posts}
-        rest={rest}
-        searchQuery={search}
-        startHereRef={startHereRef}
-        total={total}
-        emptyTitle={`Δεν υπάρχουν άρθρα ακόμα στην κατηγορία ${displayName}.`}
-        emptyDescription="Η κατηγορία είναι διαθέσιμη αλλά δεν έχει αρκετό δημοσιευμένο περιεχόμενο ακόμη. Μπορείτε να συνεχίσετε στο γενικό blog ή να επικοινωνήσετε με την ομάδα Delta."
-        emptyActionLabel="Δείτε όλο το Blog"
-        emptyActionHref="/blog"
-      />
-
-    </div>
-  );
-}
-
 function HubArticlesSection({
   displayName,
   featured,
@@ -1223,18 +1010,6 @@ function HubArticlesSection({
   );
 }
 
-function hasUsefulDescription(description: string | undefined): description is string {
-  return Boolean(description && description.trim().length >= 24);
-}
-
-function buildEditorialIntro(name: string, description: string | undefined): string {
-  if (hasUsefulDescription(description)) {
-    return description.trim();
-  }
-
-  return `Βρείτε συγκεντρωμένα τα σημαντικότερα άρθρα, αναλύσεις και πρόσφατες εξελίξεις γύρω από ${name}, με καθαρή editorial ροή και εύκολη περιήγηση στο σχετικό περιεχόμενο.`;
-}
-
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export function Hub() {
@@ -1273,19 +1048,11 @@ export function Hub() {
   const { hubs, loading: catsLoading, sourceUnavailable: categoriesSourceUnavailable } = useCategories();
 
   const hub = hubSlug ? GUIDED_HUB_DATA[hubSlug] : null;
-  const hubVariant = resolveHubVariant(hubSlug);
+  const editorialArchiveAlias = getEditorialCategoryArchive(hubSlug);
   // Find the live WP category — gives us the real wpCategoryId
   const liveHub = hubs.find((h) => h.slug === hubSlug);
   const legacyArticleRedirectTarget = hubSlug ? findLegacyArticleRedirect(`/${hubSlug}`) : null;
-
-  const hubDisplayConfig = hub
-    ? {
-        cta: hub.cta,
-        featuredEyebrow: hub.featuredEyebrow,
-      }
-    : EDITORIAL_HUB_DEFAULTS;
-
-  const ctaConfig = hubDisplayConfig.cta;
+  const ctaConfig = hub?.cta ?? FALLBACK_HUB_CTA;
 
   // Configure navigation for this Hub page
   usePageNavigation({
@@ -1435,7 +1202,7 @@ export function Hub() {
     const featuredRes = await getFeaturedPost(hubSlug);
     return featuredRes.data;
   };
-  const shouldUseFeatured = hubVariant === "guided";
+  const shouldUseFeatured = Boolean(hub);
 
   // Fetch posts whenever the hub slug, currentPage, filters, or resolved WP category ID changes.
   useEffect(() => {
@@ -1871,13 +1638,16 @@ export function Hub() {
     });
   }, [activeInfoPanelId]);
 
-  if (!catsLoading && !hub && !liveHub && legacyArticleRedirectTarget) {
+  if (editorialArchiveAlias) {
+    return <Navigate to={editorialArchiveAlias.path} replace />;
+  }
+
+  if (!catsLoading && !hub && legacyArticleRedirectTarget) {
     return <Navigate to={legacyArticleRedirectTarget} replace />;
   }
 
-  // Show "not found" only when:
-  // - Not a hardcoded hub AND not a known live WP category AND context has finished loading
-  if (!hub && !liveHub && !catsLoading) {
+  // Root-level dynamic routes are reserved for the configured service hubs.
+  if (!hub && !catsLoading) {
     const notFoundStateSeo = notFoundSeo(location.pathname);
 
     return (
@@ -1951,7 +1721,7 @@ export function Hub() {
   }
 
   // While context is still loading (hub could be valid), show a skeleton
-  if (!hub && !liveHub && catsLoading) {
+  if (!hub && catsLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: D.bg }}>
         <div className="w-8 h-8 rounded-full border-2 animate-spin" style={{ borderColor: `${D.accent} transparent` }} />
@@ -1959,15 +1729,14 @@ export function Hub() {
     );
   }
 
-  // Use guided hub config when available; otherwise build a lighter editorial fallback.
-  const displayName = hub?.name ?? liveHub?.name ?? hubSlug ?? "";
-  const displayH1 = hub?.h1 ?? `${displayName}: Άρθρα, Αναλύσεις & Ενημερώσεις`;
-  const displayIntro = hub?.intro ?? buildEditorialIntro(displayName, liveHub?.description);
-  const displayUrgentInfo = hub?.urgentInfo;
-  const displayKeyTopics = hub?.keyTopics ?? [];
-  const displayInfoPanels = hub?.infoPanels ?? {};
+  const displayName = hub.name;
+  const displayH1 = hub.h1;
+  const displayIntro = hub.intro;
+  const displayUrgentInfo = hub.urgentInfo;
+  const displayKeyTopics = hub.keyTopics;
+  const displayInfoPanels = hub.infoPanels;
   const activeInfoPanel = activeInfoPanelId ? displayInfoPanels[activeInfoPanelId] : undefined;
-  const displayFaq = hub?.faq ?? [];
+  const displayFaq = hub.faq;
   const primaryCTA = {
     label: displayUrgentInfo?.ctaLabel || ctaConfig.text,
     onClick: () => {
@@ -1984,12 +1753,10 @@ export function Hub() {
   };
 
   const seo = hubSeo(hubSlug ?? "", Boolean(search || activeSort || activeTag));
-  const featured = shouldUseFeatured && !featuredLoading ? featuredOverride : undefined;
+  const featured = !featuredLoading ? featuredOverride : undefined;
   const isFiltered = Boolean(search || activeSort || activeTag);
   const guide = hubSlug === "opsyd" && !isFiltered && !guideLoading ? guideOverride ?? undefined : undefined;
-  const rest = shouldUseFeatured
-    ? posts.filter((post) => post.id !== featured?.id && post.id !== guide?.id)
-    : posts;
+  const rest = posts.filter((post) => post.id !== featured?.id && post.id !== guide?.id);
   const displayedArticleCount = isFiltered
     ? posts.length
     : rest.length + (featured ? 1 : 0) + (guide ? 1 : 0);
@@ -2010,7 +1777,7 @@ export function Hub() {
     activeSort,
     activeTag,
     clearFilters,
-    featuredEyebrow: hubDisplayConfig.featuredEyebrow,
+    featuredEyebrow: hub.featuredEyebrow,
     featured,
     featuredLoading,
     guide,
@@ -2042,11 +1809,7 @@ export function Hub() {
   return (
     <>
       <SeoHead seo={seo} />
-      {hubVariant === "guided" ? (
-        <GuidedHubView {...viewProps} />
-      ) : (
-        <EditorialHubView {...viewProps} />
-      )}
+      <GuidedHubView {...viewProps} />
     </>
   );
 }

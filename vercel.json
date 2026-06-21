@@ -5430,44 +5430,73 @@
       "permanent": true
     },
     {
-      "source": "/category/nea-epikairothta",
-      "destination": "/nea-epikairothta",
+      "source": "/ekpaideysi",
+      "destination": "/category/ekpaideysi/",
       "permanent": true
     },
     {
-      "source": "/category/nea-epikairothta/",
-      "destination": "/nea-epikairothta",
+      "source": "/ekpaideysi/",
+      "destination": "/category/ekpaideysi/",
       "permanent": true
     },
     {
-      "source": "/category/ekpaideysi",
-      "destination": "/ekpaideysi",
+      "source": "/category/ekpaideysi/page/:page",
+      "destination": "/category/ekpaideysi/",
       "permanent": true
     },
     {
-      "source": "/category/ekpaideysi/",
-      "destination": "/ekpaideysi",
+      "source": "/category/ekpaideysi/page/:page/",
+      "destination": "/category/ekpaideysi/",
       "permanent": true
     },
     {
-      "source": "/category/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1",
-      "destination": "/επιδόματα",
+      "source": "/nea-epikairothta",
+      "destination": "/category/nea-epikairothta/",
       "permanent": true
     },
     {
-      "source": "/category/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1/",
-      "destination": "/επιδόματα",
+      "source": "/nea-epikairothta/",
+      "destination": "/category/nea-epikairothta/",
       "permanent": true
     },
     {
-      "source": "/category/:slug",
-      "destination": "/blog",
+      "source": "/category/nea-epikairothta/page/:page",
+      "destination": "/category/nea-epikairothta/",
       "permanent": true
     },
     {
-      "source": "/category/:slug/",
-      "destination": "/blog",
+      "source": "/category/nea-epikairothta/page/:page/",
+      "destination": "/category/nea-epikairothta/",
       "permanent": true
+    },
+    {
+      "source": "/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1",
+      "destination": "/category/επιδόματα/",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1/",
+      "destination": "/category/επιδόματα/",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1/page/:page",
+      "destination": "/category/επιδόματα/",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1/page/:page/",
+      "destination": "/category/επιδόματα/",
+      "permanent": true
+    }
+  ],
+  "routes": [
+    {
+      "src": "/category/(?!(?:prokirykseis-asep-sox|opsyd-proslipsis-anaplirwtwn|metaptychiaka|%CF%80%CE%B9%CF%83%CF%84%CE%BF%CF%80%CE%BF%CE%B9%CE%AE%CF%83%CE%B5%CE%B9%CF%82|ekpaideysi|nea-epikairothta|%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1)(?:/|$)).+",
+      "status": 404,
+      "headers": {
+        "X-Robots-Tag": "noindex, follow"
+      }
     }
   ],
   "rewrites": [

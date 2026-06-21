@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { motion } from "motion/react";
 import { ArrowRight, Search, SlidersHorizontal, X, Tag, Calendar, TrendingUp } from "lucide-react";
 import { getPosts, getTags } from "../lib/deltaApi";
@@ -7,10 +7,12 @@ import { useCategories } from "../lib/categoriesContext";
 import type { BlogPost, DeltaTaxonomyTerm } from "../lib/types";
 import { MockBadge } from "../components/MockBadge";
 import { SeoHead } from "../components/SeoHead";
-import { blogIndexSeo } from "../lib/seo";
+import { blogIndexSeo, categoryArchiveSeo } from "../lib/seo";
 import { D } from "../Root";
 import { StackedArticleCard } from "../components/articles/StackedArticleCard";
 import { BlogTopicConstellation } from "../components/BlogTopicConstellation";
+import { trackContextualEvent } from "../lib/analytics";
+import type { EditorialCategoryArchive } from "../lib/editorialCategoryArchives";
 
 const REGULAR_POSTS_BATCH = 6;
 
@@ -45,9 +47,14 @@ function PostCard({ post }: { post: BlogPost }) {
   );
 }
 
-export function Blog() {
+interface BlogProps {
+  archive?: EditorialCategoryArchive;
+}
+
+export function Blog({ archive }: BlogProps = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeHub = searchParams.get("hub") || "";
+  const navigate = useNavigate();
+  const activeHub = archive?.slug ?? searchParams.get("hub") ?? "";
   const search = searchParams.get("search") || "";
   const activeTag = searchParams.get("tag") || "";
   const activeSort = searchParams.get("sort") || "";
@@ -64,6 +71,7 @@ export function Blog() {
   const [searchInput, setSearchInput] = useState(search);
   const [showFilters, setShowFilters] = useState(false);
   const [tags, setTags] = useState<DeltaTaxonomyTerm[]>([]);
+  const resultsRef = useRef<HTMLElement>(null);
 
   // Live categories for filter pills
   const { hubs } = useCategories();
@@ -163,7 +171,37 @@ export function Blog() {
     setRequestOffset(cursorOffset);
   };
 
-  const activeFiltersCount = [activeHub, activeTag, activeSort].filter(Boolean).length;
+  const scrollToResults = () => {
+    requestAnimationFrame(() => {
+      const target = resultsRef.current;
+      if (!target) return;
+
+      const header = document.querySelector("header");
+      const headerHeight = header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+
+      window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+    });
+  };
+
+  const applyHubFilter = (hubSlug?: string) => {
+    trackContextualEvent("blog_category_filter_click", {
+      category: hubSlug || "all",
+      previous_category: activeHub || "all",
+    });
+    if (archive) {
+      if (hubSlug === archive.slug) {
+        updateParams({ hub: undefined });
+      } else {
+        navigate(hubSlug ? `/blog?hub=${encodeURIComponent(hubSlug)}` : "/blog");
+      }
+    } else {
+      updateParams({ hub: hubSlug || undefined });
+    }
+    scrollToResults();
+  };
+
+  const activeFiltersCount = [archive ? "" : activeHub, search, activeTag, activeSort].filter(Boolean).length;
 
   const clearFilters = () => {
     updateParams({ hub: undefined, tag: undefined, sort: undefined, search: undefined });
@@ -171,10 +209,13 @@ export function Blog() {
   };
 
   const visibleCount = regularPosts.length;
-
   return (
-    <div style={{ background: D.bg }}>
-      <SeoHead seo={blogIndexSeo(Boolean(activeHub || search || activeTag || activeSort))} />
+    <div style={{ background: D.bg, overflowX: "clip" }}>
+      <SeoHead
+        seo={archive
+          ? categoryArchiveSeo(archive, Boolean(search || activeTag || activeSort))
+          : blogIndexSeo(Boolean(activeHub || search || activeTag || activeSort))}
+      />
       {/* Header */}
       <section className="pt-36 pb-12 px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none" style={{ background: "radial-gradient(circle, rgba(197,141,42,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
@@ -187,11 +228,11 @@ export function Blog() {
                 </span>
                 {isMock && <MockBadge />}
               </div>
-              <h1 className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1, color: D.ink }}>
-                Άρθρα & Οδηγοί
+              <h1 className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.04em", lineHeight: 1, color: D.ink, overflowWrap: "anywhere" }}>
+                {archive?.h1 ?? "Άρθρα & Οδηγοί"}
               </h1>
               <p style={{ color: D.inkSoft, fontSize: "1.05rem", maxWidth: "460px" }}>
-                Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις.
+                {archive?.intro ?? "Αναλυτικά άρθρα για ΟΠΣΥΔ, ΑΣΕΠ, μεταπτυχιακά και πιστοποιήσεις."}
               </p>
             </div>
             <div className="hidden lg:flex justify-end">
@@ -205,21 +246,21 @@ export function Blog() {
       <section className="px-6 pb-6" style={{ borderBottom: `1px solid ${D.border}` }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
+            <form onSubmit={handleSearch} className="flex min-w-0 items-center gap-2 px-4 py-2.5 rounded-xl flex-1 max-w-md" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
               <Search size={14} style={{ color: "rgba(19,35,58,0.35)" }} />
               <input
                 type="text"
                 placeholder="Αναζήτηση άρθρων..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="bg-transparent outline-none text-sm flex-1 placeholder:text-black/30"
+                className="bg-transparent outline-none text-sm min-w-0 flex-1 placeholder:text-black/30"
                 style={{ color: D.ink }}
               />
             </form>
             <button 
               type="button" 
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all"
+              className="flex shrink-0 items-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-sm transition-all"
               style={showFilters || activeFiltersCount > 0 ? { background: D.accentSoft, border: `1px solid rgba(197,141,42,0.35)`, color: D.accentStrong, fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
             >
               <SlidersHorizontal size={15} />
@@ -230,25 +271,44 @@ export function Blog() {
           {/* Hub Pills */}
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => updateParams({ hub: undefined })}
+              type="button"
+              onClick={() => applyHubFilter()}
+              aria-pressed={!activeHub}
               className="px-3.5 py-2 rounded-xl text-xs transition-all duration-200"
               style={!activeHub ? { background: D.ink, color: "#fff", fontWeight: 600 } : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
             >
               Όλα
             </button>
-            {hubs.map((hub) => (
-              <Link
-                key={hub.slug}
-                to={`/${hub.slug}`}
-                className="px-3.5 py-2 rounded-xl text-xs transition-all duration-200"
-                style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = D.accentSoft; (e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.35)"; (e.currentTarget as HTMLElement).style.color = D.accentStrong; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = D.surfaceStrong; (e.currentTarget as HTMLElement).style.borderColor = D.border; (e.currentTarget as HTMLElement).style.color = D.inkSoft; }}
-              >
-                {hub.name}
-                {hub.count ? <span className="ml-1 opacity-50">({hub.count})</span> : null}
-              </Link>
-            ))}
+            {hubs.map((hub) => {
+              const isActive = activeHub === hub.slug;
+              return (
+                <button
+                  key={hub.slug}
+                  type="button"
+                  onClick={() => applyHubFilter(hub.slug)}
+                  aria-pressed={isActive}
+                  className="px-3.5 py-2 rounded-xl text-xs transition-all duration-200"
+                  style={isActive
+                    ? { background: D.ink, color: "#fff", fontWeight: 600 }
+                    : { background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.inkSoft }}
+                  onMouseEnter={(e) => {
+                    if (isActive) return;
+                    e.currentTarget.style.background = D.accentSoft;
+                    e.currentTarget.style.borderColor = "rgba(197,141,42,0.35)";
+                    e.currentTarget.style.color = D.accentStrong;
+                  }}
+                  onMouseLeave={(e) => {
+                    if (isActive) return;
+                    e.currentTarget.style.background = D.surfaceStrong;
+                    e.currentTarget.style.borderColor = D.border;
+                    e.currentTarget.style.color = D.inkSoft;
+                  }}
+                >
+                  {hub.name}
+                  {hub.count ? <span className="ml-1 opacity-50">({hub.count})</span> : null}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -351,7 +411,7 @@ export function Blog() {
                   <Search size={10} /> "{search}" <X size={12} />
                 </button>
               )}
-              {activeHub && (
+              {activeHub && !archive && (
                 <button
                   onClick={() => updateParams({ hub: undefined })}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
@@ -391,7 +451,7 @@ export function Blog() {
       )}
 
       {/* Content */}
-      <section className="px-6 py-12 pb-24">
+      <section ref={resultsRef} id="blog-results" className="px-6 py-12 pb-24">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

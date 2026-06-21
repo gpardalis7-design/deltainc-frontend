@@ -8,7 +8,6 @@ import {
 } from "../lib/legacyRedirectManifest";
 import {
   getLegacyStaticRedirect,
-  resolveLegacyCategoryRedirectPath,
 } from "../lib/sitePolicy";
 
 function normalizePath(pathname: string): string {
@@ -38,12 +37,6 @@ export function LegacyExactRedirectPage() {
     return <RedirectFallback message="Η παλιά διαδρομή δεν αντιστοιχίστηκε αυτόματα." href="/" />;
   }
 
-  return <Navigate to={target} replace />;
-}
-
-export function LegacyCategoryRedirectPage() {
-  const { legacyCategorySlug } = useParams<{ legacyCategorySlug: string }>();
-  const target = resolveLegacyCategoryRedirectPath(legacyCategorySlug) ?? "/blog";
   return <Navigate to={target} replace />;
 }
 

@@ -3,6 +3,7 @@ import { ArrowRight, Facebook, Instagram, Mail, Phone } from "lucide-react";
 import { D } from "../Root";
 import { trackContactIntent, trackCtaClick, trackFooterLinkClick } from "../lib/analytics";
 import { openCookieSettings } from "../lib/cookieConsent";
+import { getEditorialCategoryArchivePath } from "../lib/editorialCategoryArchives";
 import { Logo } from "./Logo";
 const CONTACT_PHONE_DISPLAY = "+30 694 051 9003";
 const CONTACT_PHONE_LINK = "tel:+306940519003";
@@ -24,9 +25,9 @@ const FOOTER_COLUMNS = [
       { label: "Blog", href: "/blog" },
       { label: "Delta Apps", href: "/delta-apps" },
       { label: "Κοστολόγηση Εργασίας", href: "/assignments" },
-      { label: "Νέα/Επικαιρότητα", href: "/nea-epikairothta" },
-      { label: "Εκπαίδευση", href: "/ekpaideysi" },
-      { label: "Επιδόματα", href: "/επιδόματα" },
+      { label: "Νέα/Επικαιρότητα", href: getEditorialCategoryArchivePath("nea-epikairothta") ?? "/blog" },
+      { label: "Εκπαίδευση", href: getEditorialCategoryArchivePath("ekpaideysi") ?? "/blog" },
+      { label: "Επιδόματα", href: getEditorialCategoryArchivePath("επιδόματα") ?? "/blog" },
       { label: "Σχετικά με εμάς", href: "/about" },
     ],
   },

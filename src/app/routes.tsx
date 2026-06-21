@@ -3,7 +3,6 @@ import { Root } from "./Root";
 import { RouteErrorScreen } from "./components/RouteErrorScreen";
 import {
   LegacyBlogHubRedirectPage,
-  LegacyCategoryRedirectPage,
   LegacyExactRedirectPage,
   LegacyProgramRedirectPage,
 } from "./pages/LegacyRedirects";
@@ -24,7 +23,7 @@ export const router = createBrowserRouter([
       { path: "kostologisi-ergasias", Component: LegacyExactRedirectPage },
       { path: "μεταπτυχιακά-search-engine", Component: LegacyExactRedirectPage },
       { path: "cookie-policy-eu", Component: LegacyExactRedirectPage },
-      { path: "category/:legacyCategorySlug", Component: LegacyCategoryRedirectPage },
+      { path: "category/:categorySlug", lazy: async () => ({ Component: (await import("./pages/CategoryArchive")).CategoryArchive }) },
       { path: "program/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
       { path: "grad-undergrad/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
       { path: "μεταπτυχιακά-search-engine/:legacyProgramSlug", Component: LegacyProgramRedirectPage },

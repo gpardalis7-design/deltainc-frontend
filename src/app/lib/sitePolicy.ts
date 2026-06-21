@@ -5,9 +5,7 @@ type RoutePath = `/${string}`;
 export const INDEXABLE_STATIC_ROUTES = policy.indexableStaticRoutes as RoutePath[];
 export const NOINDEX_STATIC_ROUTES = policy.noindexStaticRoutes as RoutePath[];
 export const PROMOTED_SERVICE_HUB_SLUGS = policy.promotedServiceHubSlugs as string[];
-export const EDITORIAL_HUB_SLUGS = policy.editorialHubSlugs as string[];
 export const SERVICE_CATEGORY_REDIRECTS = policy.serviceCategoryRedirects as Record<string, RoutePath>;
-export const EDITORIAL_CATEGORY_REDIRECTS = policy.editorialCategoryRedirects as Record<string, RoutePath>;
 export const LEGACY_STATIC_REDIRECTS = policy.legacyStaticRedirects as Record<RoutePath, RoutePath>;
 
 export type StaticSeoPage =
@@ -18,8 +16,7 @@ export type StaticSeoPage =
   | "terms"
   | "assignments"
   | "deltaApps"
-  | "moriaCalculator"
-  | "blogHub";
+  | "moriaCalculator";
 
 const STATIC_PAGE_PATHS: Record<StaticSeoPage, RoutePath> = {
   about: "/about",
@@ -30,7 +27,6 @@ const STATIC_PAGE_PATHS: Record<StaticSeoPage, RoutePath> = {
   assignments: "/assignments",
   deltaApps: "/delta-apps",
   moriaCalculator: "/delta-apps/moria-calculator",
-  blogHub: "/blog-hub",
 };
 
 function normalizeSlug(value: string | undefined): string {
@@ -50,10 +46,6 @@ export function isPromotedServiceHubSlug(slug: string | undefined): boolean {
   return PROMOTED_SERVICE_HUB_SLUGS.includes(normalizeSlug(slug));
 }
 
-export function isEditorialHubSlug(slug: string | undefined): boolean {
-  return EDITORIAL_HUB_SLUGS.includes(normalizeSlug(slug));
-}
-
 export function shouldIndexHubSlug(slug: string | undefined): boolean {
   return isPromotedServiceHubSlug(slug);
 }
@@ -71,13 +63,7 @@ export function getLegacyStaticRedirect(pathname: string): RoutePath | null {
   return LEGACY_STATIC_REDIRECTS[normalized as RoutePath] ?? null;
 }
 
-export function resolveLegacyCategoryRedirectPath(slug: string | undefined): RoutePath | null {
+export function resolveServiceCategoryRedirectPath(slug: string | undefined): RoutePath | null {
   const normalizedSlug = normalizeSlug(slug);
-  if (SERVICE_CATEGORY_REDIRECTS[normalizedSlug]) {
-    return SERVICE_CATEGORY_REDIRECTS[normalizedSlug];
-  }
-  if (EDITORIAL_CATEGORY_REDIRECTS[normalizedSlug]) {
-    return EDITORIAL_CATEGORY_REDIRECTS[normalizedSlug];
-  }
-  return null;
+  return SERVICE_CATEGORY_REDIRECTS[normalizedSlug] ?? null;
 }

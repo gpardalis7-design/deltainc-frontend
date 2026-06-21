@@ -10,7 +10,6 @@
     "/about"
   ],
   "noindexStaticRoutes": [
-    "/blog-hub",
     "/privacy-policy",
     "/cookie-policy",
     "/terms"
@@ -21,21 +20,40 @@
     "metaptyxiaka",
     "pistopoihseis"
   ],
-  "editorialHubSlugs": [
-    "ekpaideysi",
-    "nea-epikairothta",
-    "επιδόματα"
-  ],
+  "editorialCategoryArchives": {
+    "ekpaideysi": {
+      "slug": "ekpaideysi",
+      "path": "/category/ekpaideysi/",
+      "name": "Εκπαίδευση",
+      "h1": "Νέα για Εκπαιδευτικούς",
+      "intro": "Προκηρύξεις, ενημερώσεις και πρακτικοί οδηγοί για εκπαιδευτικούς.",
+      "titleFull": "Νέα για Εκπαιδευτικούς – Προκηρύξεις, Ενημερώσεις & Οδηγοί|",
+      "description": "Νέα για εκπαιδευτικούς: διορισμοί, προσλήψεις, σεμινάρια, υποτροφίες και οδηγοί ΑΣΕΠ. Έγκυρη ενημέρωση από την Delta Education."
+    },
+    "nea-epikairothta": {
+      "slug": "nea-epikairothta",
+      "path": "/category/nea-epikairothta/",
+      "name": "Νέα/Επικαιρότητα",
+      "h1": "Νέα & Επικαιρότητα",
+      "intro": "Τελευταίες ειδήσεις, ανακοινώσεις και εξελίξεις από την εκπαίδευση, το Δημόσιο και την αγορά εργασίας.",
+      "titleFull": "Νέα/Επικαιρότητα Archives - Delta",
+      "description": ""
+    },
+    "επιδόματα": {
+      "slug": "επιδόματα",
+      "path": "/category/επιδόματα/",
+      "name": "Επιδόματα",
+      "h1": "Επιδόματα",
+      "intro": "Ενημερώσεις για επιδόματα, προθεσμίες, πληρωμές και οδηγούς αιτήσεων.",
+      "titleFull": "Επιδόματα Archives - Delta",
+      "description": ""
+    }
+  },
   "serviceCategoryRedirects": {
     "prokirykseis-asep-sox": "/asep",
     "opsyd-proslipsis-anaplirwtwn": "/opsyd",
     "metaptychiaka": "/metaptyxiaka",
     "πιστοποιήσεις": "/pistopoihseis"
-  },
-  "editorialCategoryRedirects": {
-    "nea-epikairothta": "/nea-epikairothta",
-    "ekpaideysi": "/ekpaideysi",
-    "επιδόματα": "/επιδόματα"
   },
   "legacyStaticRedirects": {
     "/news": "/blog",

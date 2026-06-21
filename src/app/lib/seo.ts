@@ -3,6 +3,7 @@
 // All server-rendering caveats are noted; the patterns are identical to what
 // generateMetadata would produce in Next.js App Router.
 import { shouldIndexHubSlug, shouldIndexStaticPage, type StaticSeoPage } from "./sitePolicy";
+import { getEditorialCategoryArchive, type EditorialCategoryArchive } from "./editorialCategoryArchives";
 
 export const SITE_URL = "https://deltainc.gr";
 export const SITE_NAME = "Delta";
@@ -144,14 +145,31 @@ export function blogIndexSeo(filtered = false): SeoMeta {
   };
 }
 
-export function blogHubSeo(): SeoMeta {
+export function categoryArchiveSeo(archive: EditorialCategoryArchive, filtered = false): SeoMeta {
+  const archiveUrl = canonical(archive.path);
+
   return {
-    title: "Blog Hub | Delta",
-    description:
-      "Επιλεγμένες διαδρομές περιήγησης και editorial επισημάνσεις από το Delta Blog.",
-    canonical: canonical("/blog-hub"),
-    robots: "noindex,follow",
+    title: archive.name,
+    titleFull: archive.titleFull,
+    description: archive.description,
+    canonical: archiveUrl,
+    robots: filtered ? "noindex,follow" : "index,follow",
     og: { type: "website", image: DEFAULT_OG_IMAGE },
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: archive.titleFull,
+      ...(archive.description ? { description: archive.description } : {}),
+      url: archiveUrl,
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Αρχική", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Blog", item: canonical("/blog") },
+          { "@type": "ListItem", position: 3, name: archive.name, item: archiveUrl },
+        ],
+      },
+    },
   };
 }
 
@@ -164,6 +182,7 @@ export function articleSeo(post: {
   featuredImage?: { url: string; alt: string } | null;
   author?: { name: string } | null;
   hub?: { name: string; slug: string } | null;
+  categories?: { name: string; slug: string }[];
 }): SeoMeta {
   const path = `/blog/${post.slug}`;
   const image = post.featuredImage?.url || DEFAULT_OG_IMAGE;
@@ -171,6 +190,9 @@ export function articleSeo(post: {
   const author = post.author?.name || "Delta Editorial Team";
   const hubName = post.hub?.name;
   const hubSlug = post.hub?.slug;
+  const editorialArchive = post.categories
+    ?.map((category) => getEditorialCategoryArchive(category.slug))
+    .find((archive): archive is EditorialCategoryArchive => Boolean(archive));
 
   const breadcrumbItems: object[] = [
     { "@type": "ListItem", position: 1, name: "Αρχική", item: SITE_URL },
@@ -178,6 +200,9 @@ export function articleSeo(post: {
   ];
   if (hubSlug && hubName) {
     breadcrumbItems.push({ "@type": "ListItem", position: 3, name: hubName, item: canonical(`/${hubSlug}`) });
+    breadcrumbItems.push({ "@type": "ListItem", position: 4, name: post.title, item: canonical(path) });
+  } else if (editorialArchive) {
+    breadcrumbItems.push({ "@type": "ListItem", position: 3, name: editorialArchive.name, item: canonical(editorialArchive.path) });
     breadcrumbItems.push({ "@type": "ListItem", position: 4, name: post.title, item: canonical(path) });
   } else {
     breadcrumbItems.push({ "@type": "ListItem", position: 3, name: post.title, item: canonical(path) });
@@ -247,7 +272,7 @@ export function programsSeo(filtered = false): SeoMeta {
   };
 }
 
-export function staticPageSeo(page: Exclude<StaticSeoPage, "blogHub">): SeoMeta {
+export function staticPageSeo(page: StaticSeoPage): SeoMeta {
   const pages = {
     about: {
       title: "Σχετικά με το Delta | Επικοινωνία & Ομάδα",

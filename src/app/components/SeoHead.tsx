@@ -24,14 +24,14 @@ export function SeoHead({ seo }: SeoHeadProps) {
       {/* Core */}
       <html lang="el" />
       <title>{titleFull}</title>
-      <meta name="description" content={seo.description} />
+      {seo.description ? <meta name="description" content={seo.description} /> : null}
       <link rel="canonical" href={seo.canonical} />
       <meta name="robots" content={robots} />
 
       {/* Open Graph */}
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:title" content={seo.og?.type === "article" ? seo.title : titleFull} />
-      <meta property="og:description" content={seo.description} />
+      {seo.description ? <meta property="og:description" content={seo.description} /> : null}
       <meta property="og:url" content={seo.canonical} />
       <meta property="og:type" content={ogType} />
       <meta property="og:image" content={ogImage} />
@@ -52,7 +52,7 @@ export function SeoHead({ seo }: SeoHeadProps) {
       {/* Twitter / X */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seo.og?.type === "article" ? seo.title : titleFull} />
-      <meta name="twitter:description" content={seo.description} />
+      {seo.description ? <meta name="twitter:description" content={seo.description} /> : null}
       <meta name="twitter:image" content={ogImage} />
       <meta name="twitter:image:alt" content={seo.og?.imageAlt || seo.title} />
       <meta name="twitter:site" content="@deltainc_gr" />
