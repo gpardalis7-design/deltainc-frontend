@@ -2,9 +2,11 @@ import type {
   BlogPost,
   DeltaHub,
   DeltaMedia,
+  DeltaSeo,
   DeltaTaxonomyTerm,
   Program,
 } from "./types";
+import { canonical } from "./seo";
 
 type PostNormalizerOptions = {
   hubSlugHint?: string;
@@ -68,8 +70,8 @@ function normalizeWpMedia(media: Record<string, unknown> | null, fallbackAlt: st
     id: media.id as number,
     url: (media.source_url || (media.guid as { rendered: string })?.rendered || "") as string,
     alt: (media.alt_text as string) || fallbackAlt,
-    width: (mediaDetails.width as number) || 1200,
-    height: (mediaDetails.height as number) || 800,
+    width: (mediaDetails.width as number) || 0,
+    height: (mediaDetails.height as number) || 0,
     mimeType: (media.mime_type as string) || "image/jpeg",
     sizes: {
       thumbnail: normalizeSize(rawSizes.thumbnail),
@@ -79,12 +81,46 @@ function normalizeWpMedia(media: Record<string, unknown> | null, fallbackAlt: st
       full: typeof (media.source_url as string | undefined) === "string"
         ? {
             url: media.source_url as string,
-            width: (mediaDetails.width as number) || 1200,
-            height: (mediaDetails.height as number) || 800,
+            width: (mediaDetails.width as number) || 0,
+            height: (mediaDetails.height as number) || 0,
             mimeType: (media.mime_type as string) || "image/jpeg",
           }
         : undefined,
     },
+  };
+}
+
+function normalizeWpSeo(
+  item: Record<string, unknown>,
+  fallbackTitle: string,
+  fallbackDescription: string,
+  featuredImage: DeltaMedia | null,
+  frontendPath: string,
+): DeltaSeo {
+  const yoast = item.yoast_head_json && typeof item.yoast_head_json === "object"
+    ? item.yoast_head_json as Record<string, unknown>
+    : {};
+  const yoastImages = Array.isArray(yoast.og_image) ? yoast.og_image as Record<string, unknown>[] : [];
+  const yoastImage = yoastImages[0];
+  const yoastImageUrl = typeof yoastImage?.url === "string" ? yoastImage.url : "";
+  const ogImage = yoastImageUrl
+    ? {
+        id: 0,
+        url: yoastImageUrl,
+        alt: decodeHtmlEntities(String(yoastImage.alt || yoastImage.caption || fallbackTitle)),
+        width: Number(yoastImage.width) || 0,
+        height: Number(yoastImage.height) || 0,
+        mimeType: typeof yoastImage.type === "string" ? yoastImage.type : "",
+      }
+    : featuredImage;
+
+  return {
+    title: decodeHtmlEntities(String(yoast.og_title || yoast.title || fallbackTitle)).trim(),
+    description: decodeHtmlEntities(
+      String(yoast.og_description || yoast.description || fallbackDescription),
+    ).trim(),
+    canonicalUrl: canonical(frontendPath),
+    ogImage,
   };
 }
 
@@ -112,6 +148,7 @@ export function normalizeWpPost(
   const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
   const meta = (p.meta as Record<string, unknown>) || {};
   const acf = (p.acf as Record<string, unknown>) || {};
+  const featuredImage = normalizeWpMedia(media, title);
 
   const matchedHubSlug =
     hubSlugHint ??
@@ -152,7 +189,7 @@ export function normalizeWpPost(
         meta.is_evergreen_guide ??
         meta.isEvergreenGuide
     ),
-    featuredImage: normalizeWpMedia(media, title),
+    featuredImage,
     author: authorRaw
       ? {
           id: authorRaw.id as number,
@@ -192,7 +229,7 @@ export function normalizeWpPost(
           meta.isFeatured
       ) ??
       false,
-    seo: null,
+    seo: normalizeWpSeo(p, title, excerpt, featuredImage, `/blog/${p.slug as string}`),
     relatedPosts: [],
   };
 }
@@ -233,6 +270,7 @@ export function normalizeWpProgram(
   const content = (p.content as { rendered: string })?.rendered || "";
   const meta = (p.meta as Record<string, unknown>) || {};
   const acf = (p.acf as Record<string, unknown>) || {};
+  const featuredImage = normalizeWpMedia(media, title);
 
   return {
     id: p.id as number,
@@ -241,7 +279,7 @@ export function normalizeWpProgram(
     title,
     excerpt: excerpt.slice(0, 200),
     contentHtml: content,
-    featuredImage: normalizeWpMedia(media, title),
+    featuredImage,
     summary: {
       level: level[0]?.name || "Master",
       category: category[0]?.name || "",
@@ -267,6 +305,6 @@ export function normalizeWpProgram(
     isFeatured: (meta.is_featured as boolean) || (acf.is_featured as boolean) || false,
     publishedAt: p.date as string,
     updatedAt: p.modified as string,
-    seo: null,
+    seo: normalizeWpSeo(p, title, excerpt, featuredImage, `/courses/${p.slug as string}`),
   };
 }

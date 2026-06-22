@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { normalizeContentItem, trimTrailingSlash } from "./social-preview-lib.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -9,10 +10,13 @@ const policyPath = resolve(rootDir, "src/app/lib/sitePolicy.json");
 const sitemapPath = resolve(rootDir, "public/sitemap.xml");
 const redirectManifestPath = resolve(rootDir, "src/app/lib/generated/legacyRedirectManifest.json");
 const vercelConfigPath = resolve(rootDir, "vercel.json");
+const socialPreviewManifestPath = resolve(rootDir, ".vite/social-preview-manifest.json");
 
-const siteUrl = "https://deltainc.gr";
-const wpBaseUrl = process.env.VITE_WP_BASE_URL || siteUrl;
+const siteUrl = trimTrailingSlash(process.env.VITE_CANONICAL_SITE_URL || "https://deltainc.gr");
+const publicSiteUrl = trimTrailingSlash(process.env.VITE_SITE_URL || siteUrl);
+const wpBaseUrl = trimTrailingSlash(process.env.VITE_WP_BASE_URL || siteUrl);
 const wpApiBase = `${wpBaseUrl}/wp-json/wp/v2`;
+const allowIndexing = process.env.VITE_ALLOW_INDEXING !== "false";
 const policy = JSON.parse(readFileSync(policyPath, "utf8"));
 
 function normalizePath(pathname) {
@@ -35,9 +39,23 @@ function escapeRegex(value) {
 }
 
 function curlJson(url) {
-  const output = execFileSync("curl", ["-s", "-L", url], {
+  const output = execFileSync("curl", [
+    "-sS",
+    "-L",
+    "--fail",
+    "--retry",
+    "3",
+    "--retry-delay",
+    "1",
+    "--connect-timeout",
+    "10",
+    "--max-time",
+    "60",
+    url,
+  ], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
+    maxBuffer: 50 * 1024 * 1024,
   });
   return JSON.parse(output);
 }
@@ -102,7 +120,14 @@ function fetchPaginatedCollection(endpoint) {
   let page = 1;
 
   while (page <= 50) {
-    const url = `${wpApiBase}/${endpoint}?per_page=100&page=${page}&_fields=slug,link,modified`;
+    console.log(`Fetching WordPress ${endpoint} metadata page ${page}…`);
+    const params = new URLSearchParams({
+      per_page: "100",
+      page: String(page),
+      _embed: "wp:featuredmedia",
+      _fields: "slug,link,date,modified,title,excerpt,yoast_head_json,_embedded",
+    });
+    const url = `${wpApiBase}/${endpoint}?${params.toString()}`;
     const data = curlJson(url);
     if (isInvalidPageResponse(data)) break;
     if (!Array.isArray(data) || data.length === 0) break;
@@ -111,6 +136,9 @@ function fetchPaginatedCollection(endpoint) {
     page += 1;
   }
 
+  if (items.length === 0) {
+    throw new Error(`WordPress returned no published items for ${endpoint}`);
+  }
   return items;
 }
 
@@ -224,6 +252,7 @@ function buildVercelConfig(redirectManifest) {
     { key: "X-Content-Type-Options", value: "nosniff" },
     { key: "X-Frame-Options", value: "DENY" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    ...(!allowIndexing ? [{ key: "X-Robots-Tag", value: "noindex, follow" }] : []),
   ];
 
   for (const entry of redirectManifest.exactRedirects) {
@@ -257,6 +286,7 @@ function buildVercelConfig(redirectManifest) {
   ].map((slug) => escapeRegex(encodeURIComponent(decodeMaybe(slug))));
 
   return {
+    trailingSlash: false,
     headers: [
       {
         source: "/(.*)",
@@ -274,8 +304,28 @@ function buildVercelConfig(redirectManifest) {
       },
     ],
     rewrites: [
+      ...(wpBaseUrl !== publicSiteUrl
+        ? [
+            {
+              source: "/wp-content/:path*",
+              destination: `${wpBaseUrl}/wp-content/:path*`,
+            },
+            {
+              source: "/wp-json/:path*",
+              destination: `${wpBaseUrl}/wp-json/:path*`,
+            },
+          ]
+        : []),
       {
-        source: "/((?!assets/|.*\\..*).*)",
+        source: "/courses",
+        destination: "/index.html",
+      },
+      {
+        source: "/blog",
+        destination: "/index.html",
+      },
+      {
+        source: "/((?!assets/|courses/|blog/|wp-content/|wp-json/|.*\\..*).*)",
         destination: "/index.html",
       },
     ],
@@ -292,41 +342,37 @@ function writeArtifacts(posts, programs) {
   const sitemapEntries = [...staticEntries, ...contentEntries];
   const redirectManifest = createRedirectManifest(posts, programs);
   const vercelConfig = buildVercelConfig(redirectManifest);
+  const socialEntries = [
+    ...posts.map((post) => normalizeContentItem(post, "article")),
+    ...programs.map((program) => normalizeContentItem(program, "program")),
+  ];
+  const seenRoutes = new Set();
+  for (const entry of socialEntries) {
+    const routeKey = `${entry.kind}:${entry.slug}`;
+    if (seenRoutes.has(routeKey)) throw new Error(`Duplicate social preview route: ${routeKey}`);
+    seenRoutes.add(routeKey);
+  }
 
   ensureDir(sitemapPath);
   ensureDir(redirectManifestPath);
+  ensureDir(socialPreviewManifestPath);
   writeFileSync(sitemapPath, buildUrlSet(sitemapEntries), "utf8");
   writeFileSync(redirectManifestPath, `${JSON.stringify(redirectManifest, null, 2)}\n`, "utf8");
   writeFileSync(vercelConfigPath, `${JSON.stringify(vercelConfig, null, 2)}\n`, "utf8");
-}
-
-function rewriteVercelConfigFromExistingManifest() {
-  const manifest = JSON.parse(readFileSync(redirectManifestPath, "utf8"));
-  const vercelConfig = buildVercelConfig(manifest);
-  writeFileSync(vercelConfigPath, `${JSON.stringify(vercelConfig, null, 2)}\n`, "utf8");
+  writeFileSync(
+    socialPreviewManifestPath,
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), wpBaseUrl, publicSiteUrl, entries: socialEntries }, null, 2)}\n`,
+    "utf8",
+  );
 }
 
 function main() {
-  try {
-    const posts = fetchPaginatedCollection("posts");
-    const programs = fetchPaginatedCollection("program");
-    writeArtifacts(posts, programs);
-    console.log(`Generated sitemap, redirect manifest, and vercel config from ${posts.length} posts and ${programs.length} programs.`);
-  } catch (error) {
-    try {
-      rewriteVercelConfigFromExistingManifest();
-      console.warn(
-        "Site artifact generation skipped; refreshed vercel config from checked-in redirect manifest.",
-        error instanceof Error ? error.message : error,
-      );
-      return;
-    } catch (fallbackError) {
-      console.warn(
-        "Site artifact generation skipped; keeping checked-in artifacts.",
-        fallbackError instanceof Error ? fallbackError.message : fallbackError,
-      );
-    }
-  }
+  const posts = fetchPaginatedCollection("posts");
+  const programs = fetchPaginatedCollection("program");
+  writeArtifacts(posts, programs);
+  console.log(
+    `Generated sitemap, redirects, Vercel routing, and social metadata from ${posts.length} posts and ${programs.length} programs for ${publicSiteUrl}.`,
+  );
 }
 
 main();
