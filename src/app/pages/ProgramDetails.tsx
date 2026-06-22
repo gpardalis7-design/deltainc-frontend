@@ -13,6 +13,7 @@ import { D } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
+import { canonical, publicUrl, type SeoMeta } from "../lib/seo";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -602,14 +603,24 @@ export function ProgramDetails() {
 
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
 
-  const seo = {
-    title: `${program.title} | Delta Inc Education`,
-    description: program.excerpt,
-    canonical: `https://deltainc.gr/courses/${program.slug}`,
-    og: program.featuredImage
+  const selectedSeoImage = program.seo?.ogImage || program.featuredImage;
+  const seoTitle = program.seo?.title?.trim() || `${program.title} | Delta Inc Education`;
+  const seo: SeoMeta = {
+    title: seoTitle,
+    titleFull: seoTitle,
+    description:
+      program.seo?.description?.trim() ||
+      program.excerpt ||
+      `Μάθετε περισσότερα για «${program.title}» στο Delta.`,
+    canonical: canonical(`/courses/${program.slug}`),
+    og: selectedSeoImage
       ? {
-          image: program.featuredImage.url,
-          imageAlt: program.featuredImage.alt || program.title,
+          type: "website",
+          url: publicUrl(`/courses/${program.slug}`),
+          image: selectedSeoImage.url,
+          imageAlt: selectedSeoImage.alt || program.title,
+          imageWidth: selectedSeoImage.width || undefined,
+          imageHeight: selectedSeoImage.height || undefined,
         }
       : undefined,
   };

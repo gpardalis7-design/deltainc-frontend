@@ -5,9 +5,17 @@
 import { shouldIndexHubSlug, shouldIndexStaticPage, type StaticSeoPage } from "./sitePolicy";
 import { getEditorialCategoryArchive, type EditorialCategoryArchive } from "./editorialCategoryArchives";
 
-export const SITE_URL = "https://deltainc.gr";
+function trimTrailingSlash(value: string): string {
+  return value.replace(/\/+$/, "");
+}
+
+export const SITE_URL = trimTrailingSlash(
+  import.meta.env.VITE_CANONICAL_SITE_URL || "https://deltainc.gr",
+);
+export const PUBLIC_SITE_URL = trimTrailingSlash(import.meta.env.VITE_SITE_URL || SITE_URL);
+export const ALLOW_INDEXING = import.meta.env.VITE_ALLOW_INDEXING !== "false";
 export const SITE_NAME = "Delta";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.jpg`;
+export const DEFAULT_OG_IMAGE = `${PUBLIC_SITE_URL}/og-default.jpg`;
 
 export type RobotsRule = "index,follow" | "noindex,follow" | "noindex,nofollow";
 
@@ -19,8 +27,11 @@ export interface SeoMeta {
   robots?: RobotsRule;
   og?: {
     type?: "website" | "article";
+    url?: string;
     image?: string;
     imageAlt?: string;
+    imageWidth?: number;
+    imageHeight?: number;
     publishedTime?: string;
     modifiedTime?: string;
     author?: string;
@@ -32,6 +43,10 @@ export interface SeoMeta {
 
 export function canonical(path: string): string {
   return `${SITE_URL}${path}`;
+}
+
+export function publicUrl(path: string): string {
+  return `${PUBLIC_SITE_URL}${path}`;
 }
 
 // ─── Per-page SEO factories ───────────────────────────────────────────────────
@@ -179,14 +194,22 @@ export function articleSeo(post: {
   slug: string;
   publishedAt: string;
   updatedAt: string;
-  featuredImage?: { url: string; alt: string } | null;
+  featuredImage?: { url: string; alt: string; width?: number; height?: number } | null;
+  seo?: {
+    title: string;
+    description: string;
+    ogImage?: { url: string; alt: string; width?: number; height?: number } | null;
+  } | null;
   author?: { name: string } | null;
   hub?: { name: string; slug: string } | null;
   categories?: { name: string; slug: string }[];
 }): SeoMeta {
   const path = `/blog/${post.slug}`;
-  const image = post.featuredImage?.url || DEFAULT_OG_IMAGE;
-  const imageAlt = post.featuredImage?.alt || post.title;
+  const seoTitle = post.seo?.title?.trim();
+  const seoDescription = post.seo?.description?.trim();
+  const selectedImage = post.seo?.ogImage || post.featuredImage;
+  const image = selectedImage?.url || DEFAULT_OG_IMAGE;
+  const imageAlt = selectedImage?.alt || post.title;
   const author = post.author?.name || "Delta Editorial Team";
   const hubName = post.hub?.name;
   const hubSlug = post.hub?.slug;
@@ -209,14 +232,18 @@ export function articleSeo(post: {
   }
 
   return {
-    title: `${post.title} | Delta`,
-    description: post.excerpt.slice(0, 160),
+    title: seoTitle || post.title,
+    titleFull: seoTitle || `${post.title} | Delta`,
+    description: (seoDescription || post.excerpt).slice(0, 300),
     canonical: canonical(path),
     robots: "index,follow",
     og: {
       type: "article",
+      url: publicUrl(path),
       image,
       imageAlt,
+      imageWidth: selectedImage?.width || (selectedImage ? undefined : 1200),
+      imageHeight: selectedImage?.height || (selectedImage ? undefined : 630),
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       author,
@@ -225,9 +252,14 @@ export function articleSeo(post: {
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: post.title,
-        description: post.excerpt.slice(0, 160),
-        image: { "@type": "ImageObject", url: image, width: 1200, height: 630 },
+        headline: seoTitle || post.title,
+        description: (seoDescription || post.excerpt).slice(0, 300),
+        image: {
+          "@type": "ImageObject",
+          url: image,
+          ...(selectedImage?.width ? { width: selectedImage.width } : !selectedImage ? { width: 1200 } : {}),
+          ...(selectedImage?.height ? { height: selectedImage.height } : !selectedImage ? { height: 630 } : {}),
+        },
         datePublished: post.publishedAt,
         dateModified: post.updatedAt || post.publishedAt,
         author: { "@type": "Person", name: author },

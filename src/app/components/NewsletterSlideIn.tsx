@@ -4,13 +4,14 @@ import { ArrowRight, Mail, X } from "lucide-react";
 import { D } from "../Root";
 import { useNavigation as useSiteNavigation } from "../lib/navigationContext";
 import { getDeviceType, trackEvent } from "../lib/analytics";
+import { WP_BASE_URL } from "../lib/api/core";
 import {
   getOverlayVisibility,
   OVERLAY_VISIBILITY_CHANGED_EVENT,
   setOverlayVisibility,
 } from "../lib/uiOverlayState";
 
-const NEWSLETTER_SUBSCRIBE_URL = "https://deltainc.gr/wp-admin/admin-ajax.php?action=tnp&na=sa";
+const NEWSLETTER_SUBSCRIBE_URL = `${WP_BASE_URL}/wp-admin/admin-ajax.php?action=tnp&na=sa`;
 const SESSION_SHOWN_KEY = "newsletter_popup_shown_session";
 const DISMISSED_AT_KEY = "newsletter_popup_dismissed_at";
 const OPEN_EVENT_NAME = "delta:open-newsletter";
