@@ -263,6 +263,29 @@ function decodeMaybeEncodedSlug(value: unknown): string {
   }
 }
 
+/**
+ * Phase 2: read a build-time embedded blog post (injected into <head> as
+ * <script id="__DELTA_BLOG_POST__" type="application/json">) and normalize it
+ * with the same pure normalizer the live fetch uses — so BlogArticle can seed
+ * initial state and skip the skeleton. Returns null if absent or slug mismatch.
+ */
+export function getEmbeddedPost(slug: string): BlogPost | null {
+  if (typeof document === "undefined" || !slug) return null;
+  const raw = document.getElementById("__DELTA_BLOG_POST__")?.textContent?.trim();
+  if (!raw) return null;
+  try {
+    const payload = JSON.parse(raw) as Record<string, unknown>;
+    if (decodeMaybeEncodedSlug(payload.slug) !== decodeMaybeEncodedSlug(slug)) return null;
+    return normalizeWpPost(payload, {
+      hubs: MOCK_HUBS,
+      hubSlugs: HUB_SLUGS,
+      wpIdToHubSlug: WP_ID_TO_HUB_SLUG,
+    });
+  } catch {
+    return null;
+  }
+}
+
 function decodeHtmlEntities(value: string): string {
   return value
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))

@@ -5,7 +5,7 @@ import {
   ArrowLeft, Clock, Calendar, Mail,
   ChevronRight, User, Tag, Facebook,
 } from "lucide-react";
-import { getPost, getPosts } from "../lib/deltaApi";
+import { getPost, getPosts, getEmbeddedPost } from "../lib/deltaApi";
 import { getArticleContent } from "../lib/mockArticleContent";
 import type { BlogPost } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
@@ -658,13 +658,16 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
 
 export function BlogArticle() {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPost | null>(null);
+  // Phase 2: seed from build-time embedded data so the crawlable route paints
+  // its real content immediately (no skeleton) and re-renders (not hydrates).
+  const embeddedForSlug = useMemo(() => (slug ? getEmbeddedPost(slug) : null), [slug]);
+  const [post, setPost] = useState<BlogPost | null>(embeddedForSlug);
   const [postIsMock, setPostIsMock] = useState(false);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [guidePosts, setGuidePosts] = useState<BlogPost[]>([]);
   const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [curatedNextPost, setCuratedNextPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!embeddedForSlug);
   const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [isArticleReadyForModal, setIsArticleReadyForModal] = useState(false);
   const [hasMetReadTime, setHasMetReadTime] = useState(false);
@@ -683,8 +686,15 @@ export function BlogArticle() {
     if (!slug) return;
 
     let isCurrent = true;
-    setLoading(true);
-    setPost(null);
+    // Re-read embedded data for the current slug; if present, keep showing it
+    // (no skeleton) while we refresh in the background.
+    const embedded = getEmbeddedPost(slug);
+    if (embedded) {
+      setPost(embedded);
+    } else {
+      setLoading(true);
+      setPost(null);
+    }
     setPostIsMock(false);
     setSourceUnavailable(false);
     window.scrollTo(0, 0);
@@ -692,7 +702,7 @@ export function BlogArticle() {
     setGuidePosts([]);
     setLatestPosts([]);
     setCuratedNextPost(null);
-    setIsArticleReadyForModal(false);
+    setIsArticleReadyForModal(Boolean(embedded));
     setHasMetReadTime(false);
     setHasMetScrollDepth(false);
     autoModalOpenedRef.current = false;
@@ -700,11 +710,12 @@ export function BlogArticle() {
     getPost(slug).then(({ data, isMock, sourceUnavailable: unavailable }) => {
       if (!isCurrent) return;
 
-      setPost(data);
+      const resolved = data ?? embedded;
+      setPost(resolved);
       setPostIsMock(isMock);
-      setSourceUnavailable(unavailable);
+      setSourceUnavailable(unavailable && !resolved);
       setLoading(false);
-      setIsArticleReadyForModal(Boolean(data));
+      setIsArticleReadyForModal(Boolean(resolved));
 
       if (data) {
         if (data.nextArticleSlug && data.nextArticleSlug !== slug) {
