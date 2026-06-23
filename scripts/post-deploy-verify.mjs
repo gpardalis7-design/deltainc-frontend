@@ -24,6 +24,10 @@
  *   --ua <string>       User-Agent for crawler-view fetches (default: facebookexternalhit).
  *   --expect-noindex    Require X-Robots-Tag: noindex (staging). Default: off.
  *   --no-playwright     Skip the Playwright layer entirely.
+ *   --bypass-token <t>  Vercel "Protection Bypass for Automation" secret, so the
+ *                       harness can fetch a protected preview (sent as the
+ *                       x-vercel-protection-bypass header). Falls back to
+ *                       env VERCEL_AUTOMATION_BYPASS_SECRET.
  */
 
 import { execFileSync } from "node:child_process";
@@ -40,6 +44,7 @@ function parseArgs(argv) {
     else if (token === "--ua") args.ua = argv[++i];
     else if (token === "--expect-noindex") args.expectNoindex = true;
     else if (token === "--no-playwright") args.noPlaywright = true;
+    else if (token === "--bypass-token") args.bypassToken = argv[++i];
     else if (token.startsWith("--")) throw new Error(`Unknown flag: ${token}`);
     else args.positional.push(token);
   }
@@ -60,6 +65,7 @@ const CRAWLER_UA =
   "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)";
 const EXPECT_NOINDEX = Boolean(cli.expectNoindex);
 const USE_PLAYWRIGHT = !cli.noPlaywright;
+const BYPASS_TOKEN = cli.bypassToken || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "";
 
 // ---------------------------------------------------------------------------
 // curl helpers
@@ -82,6 +88,10 @@ function curl(path, { method = "GET", ua = CRAWLER_UA, followRedirects = false }
     "--max-time",
     "45",
   ];
+  if (BYPASS_TOKEN) {
+    curlArgs.push("-H", `x-vercel-protection-bypass: ${BYPASS_TOKEN}`);
+    curlArgs.push("-H", "x-vercel-set-bypass-cookie: true");
+  }
   if (method === "HEAD") curlArgs.push("-I");
   if (followRedirects) curlArgs.push("-L");
   curlArgs.push(url);
