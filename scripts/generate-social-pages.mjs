@@ -3,7 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "node-html-parser";
-import { buildPageMetadata, contentPath, trimTrailingSlash } from "./social-preview-lib.mjs";
+import { buildPageMetadata, contentPath, normalizeSlug, trimTrailingSlash } from "./social-preview-lib.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -51,7 +51,7 @@ function metaTag(attribute, key, content) {
   return `<meta ${attribute}="${escapeHtml(key)}" content="${escapeHtml(content)}" data-social-meta="generated">`;
 }
 
-function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true } = {}) {
+function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null } = {}) {
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -90,7 +90,22 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
     );
   }
 
+  if (article) {
+    for (const schema of buildArticleJsonLd(article)) {
+      tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
+    }
+    tags.push(
+      `<script id="__DELTA_BLOG_POST__" type="application/json" data-delta-embedded="post">${jsonForScript(trimPostPayload(article))}</script>`,
+    );
+  }
+
   head.insertAdjacentHTML("beforeend", `\n    ${tags.filter(Boolean).join("\n    ")}\n  `);
+
+  if (article) {
+    const rootEl = document.querySelector("#root");
+    if (rootEl) rootEl.set_content(buildArticleBodyHtml(article));
+  }
+
   return document.toString();
 }
 
@@ -105,7 +120,6 @@ function safeOutputPath(entry) {
 // ─── Phase 2: crawlable article body + JSON-LD injection (spike: one route) ───
 const wpBaseUrl = trimTrailingSlash(process.env.VITE_WP_BASE_URL || canonicalSiteUrl);
 const wpApiBase = `${wpBaseUrl}/wp-json/wp/v2`;
-const SPIKE_BLOG_SLUG = process.env.SPIKE_BLOG_SLUG || "meta-tis-panellinies";
 
 function curlJson(url) {
   const out = execFileSync(
@@ -237,47 +251,31 @@ function jsonForScript(value) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
-function enhanceSpikeArticle() {
-  let post;
-  try {
-    const posts = curlJson(`${wpApiBase}/posts?slug=${encodeURIComponent(SPIKE_BLOG_SLUG)}&_embed=1`);
-    post = Array.isArray(posts) ? posts[0] : null;
-  } catch (error) {
-    console.warn(`Phase 2 spike: fetch failed for '${SPIKE_BLOG_SLUG}' (${error.message}); skipping injection.`);
-    return false;
+// Fetch every published post with full content + embeds, keyed by the SAME
+// decoded/NFC slug the manifest uses (normalizeSlug) so Greek slugs match.
+function fetchAllArticles() {
+  const map = new Map();
+  let page = 1;
+  while (page <= 50) {
+    let posts;
+    try {
+      posts = curlJson(`${wpApiBase}/posts?per_page=100&page=${page}&_embed=1`);
+    } catch {
+      break; // a page past the last returns 400 (rest_post_invalid_page_number)
+    }
+    if (!Array.isArray(posts) || posts.length === 0) break;
+    for (const post of posts) {
+      if (typeof post?.slug !== "string") continue;
+      try {
+        map.set(normalizeSlug(post.slug), post);
+      } catch {
+        /* skip unsafe slug */
+      }
+    }
+    if (posts.length < 100) break;
+    page += 1;
   }
-  if (!post) {
-    console.warn(`Phase 2 spike: no post for slug '${SPIKE_BLOG_SLUG}'; skipping injection.`);
-    return false;
-  }
-
-  const filePath = resolve(distDir, "blog", SPIKE_BLOG_SLUG, "index.html");
-  let html;
-  try {
-    html = readFileSync(filePath, "utf8");
-  } catch {
-    console.warn(`Phase 2 spike: per-route file missing for '${SPIKE_BLOG_SLUG}'; skipping injection.`);
-    return false;
-  }
-
-  const document = parse(html, { comment: true });
-  const head = document.querySelector("head");
-  const rootEl = document.querySelector("#root");
-  if (!head || !rootEl) {
-    console.warn("Phase 2 spike: <head> or #root missing in built shell; skipping injection.");
-    return false;
-  }
-
-  rootEl.set_content(buildArticleBodyHtml(post));
-  const headTags = [
-    ...buildArticleJsonLd(post).map(
-      (schema) => `<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`,
-    ),
-    `<script id="__DELTA_BLOG_POST__" type="application/json" data-delta-embedded="post">${jsonForScript(trimPostPayload(post))}</script>`,
-  ];
-  head.insertAdjacentHTML("beforeend", `\n    ${headTags.join("\n    ")}\n  `);
-  writeFileSync(filePath, document.toString(), "utf8");
-  return true;
+  return map;
 }
 
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
@@ -305,13 +303,21 @@ const homeMetadata = {
 
 writeFileSync(indexPath, renderHtml(baseHtml, homeMetadata), "utf8");
 
+const articleMap = fetchAllArticles();
 let fallbackImageCount = 0;
+let articlesInjected = 0;
+const missingArticleSlugs = [];
 for (const entry of manifest.entries) {
   const metadata = buildPageMetadata(entry, { publicSiteUrl, canonicalSiteUrl, allowIndexing });
   if (!entry.image) fallbackImageCount += 1;
+  const article = entry.kind === "article" ? articleMap.get(entry.slug) ?? null : null;
+  if (entry.kind === "article") {
+    if (article) articlesInjected += 1;
+    else missingArticleSlugs.push(entry.slug);
+  }
   const outputPath = safeOutputPath(entry);
   mkdirSync(dirname(outputPath), { recursive: true });
-  writeFileSync(outputPath, renderHtml(baseHtml, metadata), "utf8");
+  writeFileSync(outputPath, renderHtml(baseHtml, metadata, { article }), "utf8");
 }
 
 const notFoundMetadata = {
@@ -325,12 +331,16 @@ writeFileSync(
   "utf8",
 );
 
-const spikeInjected = enhanceSpikeArticle();
-
 console.log(
   `Generated ${manifest.entries.length} social preview pages (${fallbackImageCount} using the fallback image) and 404.html.`,
 );
-if (spikeInjected) {
-  console.log(`Phase 2 spike: injected crawlable body + BlogPosting JSON-LD + embedded data into /blog/${SPIKE_BLOG_SLUG}.`);
+console.log(
+  `Phase 2: injected crawlable body + BlogPosting JSON-LD + embedded data into ${articlesInjected} blog articles.`,
+);
+if (missingArticleSlugs.length > 0) {
+  console.warn(
+    `Phase 2: ${missingArticleSlugs.length} article(s) had no fetched WP post (head-meta only): ` +
+      `${missingArticleSlugs.slice(0, 5).join(", ")}${missingArticleSlugs.length > 5 ? "…" : ""}`,
+  );
 }
 

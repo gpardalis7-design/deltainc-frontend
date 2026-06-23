@@ -32,6 +32,7 @@ assert(fallbackDimensions.height === 630, `Fallback image height is ${fallbackDi
 
 const genericTitle = "Delta | Εκπαίδευση, ΑΣΕΠ, ΟΠΣΥΔ & Μεταπτυχιακά";
 let greekEntryVerified = false;
+let articlesWithBody = 0;
 
 for (const entry of manifest.entries) {
   const section = entry.kind === "article" ? "blog" : "courses";
@@ -45,6 +46,17 @@ for (const entry of manifest.entries) {
   assert(canonicals.length === 1, `${section}/${entry.slug} has ${canonicals.length} canonical tags`);
   assert(ogTitles[0].getAttribute("content") === entry.title, `${section}/${entry.slug} has the wrong og:title`);
   assert(ogTitles[0].getAttribute("content") !== genericTitle, `${section}/${entry.slug} fell back to the homepage title`);
+
+  if (entry.kind === "article") {
+    const ldScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    const blogPostingCount = ldScripts.filter((s) => /"@type"\s*:\s*"BlogPosting"/.test(s.text)).length;
+    assert(blogPostingCount === 1, `${section}/${entry.slug} has ${blogPostingCount} BlogPosting JSON-LD blocks (expected 1)`);
+    const h1 = document.querySelector("h1");
+    assert(h1 && h1.text.trim().length > 0, `${section}/${entry.slug} has no crawlable <h1>`);
+    const bodyEl = document.querySelector(".article-body");
+    assert(bodyEl && bodyEl.text.trim().length > 200, `${section}/${entry.slug} has a missing or empty article body`);
+    articlesWithBody += 1;
+  }
   if (/[^\u0000-\u007f]/.test(entry.slug)) greekEntryVerified = true;
 }
 
@@ -60,5 +72,8 @@ assert(vercel.rewrites.some((rule) => rule.source === "/courses" && rule.destina
 assert(vercel.rewrites.some((rule) => rule.source === "/blog" && rule.destination === "/index.html"), "Missing /blog collection rewrite");
 assert(vercel.rewrites.some((rule) => rule.source.includes("courses/") && rule.source.includes("blog/")), "SPA fallback does not exclude content detail routes");
 
-console.log(`Verified ${manifest.entries.length} generated social preview pages, a Greek slug, routing, and 404 metadata.`);
+console.log(
+  `Verified ${manifest.entries.length} generated social preview pages ` +
+    `(${articlesWithBody} with crawlable body + BlogPosting JSON-LD), a Greek slug, routing, and 404 metadata.`,
+);
 
