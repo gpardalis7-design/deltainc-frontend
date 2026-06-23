@@ -45,6 +45,7 @@ function parseArgs(argv) {
     else if (token === "--expect-noindex") args.expectNoindex = true;
     else if (token === "--no-playwright") args.noPlaywright = true;
     else if (token === "--bypass-token") args.bypassToken = argv[++i];
+    else if (token === "--article-slug") args.articleSlug = argv[++i];
     else if (token.startsWith("--")) throw new Error(`Unknown flag: ${token}`);
     else args.positional.push(token);
   }
@@ -66,6 +67,8 @@ const CRAWLER_UA =
 const EXPECT_NOINDEX = Boolean(cli.expectNoindex);
 const USE_PLAYWRIGHT = !cli.noPlaywright;
 const BYPASS_TOKEN = cli.bypassToken || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "";
+const ARTICLE_SLUG = cli.articleSlug || process.env.ARTICLE_SLUG || "";
+const HOME_TITLE_PREFIX = "Delta | Εκπαίδευση";
 
 // ---------------------------------------------------------------------------
 // curl helpers
@@ -298,6 +301,58 @@ function runRobotsChecks() {
   }
 }
 
+// Phase 2: a blog route must serve its real <h1> + body + Article JSON-LD in the
+// raw (pre-JS) HTML — not a skeleton, not the homepage shell.
+function runArticleChecks(slug) {
+  console.log(`\nblog article injection checks (/blog/${slug})`);
+
+  const res = curl(`/blog/${encodeURI(slug)}`, { followRedirects: true });
+  const ok = record(
+    `article /blog/${slug} returns 200 html`,
+    res.status === 200 && /text\/html/i.test(res.contentType),
+    { detail: res.error || `status ${res.status}, ${res.contentType || "no content-type"}` },
+  );
+  if (!ok || !res.body) return;
+  const body = res.body;
+
+  const h1 = (body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1]?.replace(/<[^>]*>/g, "").trim() || "";
+  record("article has a non-empty <h1>", h1.length > 0, { detail: h1 ? `“${h1.slice(0, 56)}”` : "none" });
+
+  const title = (body.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]?.trim() || "";
+  record(
+    "per-route file served (title is not the homepage)",
+    title.length > 0 && !title.startsWith(HOME_TITLE_PREFIX),
+    { detail: `“${title.slice(0, 56)}”` },
+  );
+
+  const hasBodyClass = /class="article-body"/.test(body);
+  const textLen = body
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim().length;
+  record(
+    "real body injected (article-body + substantial text)",
+    hasBodyClass && textLen > 1500,
+    { detail: `article-body=${hasBodyClass}, ~${textLen} chars visible text` },
+  );
+
+  const ldBlocks = body.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || [];
+  record(
+    "Article (BlogPosting) JSON-LD present",
+    ldBlocks.some((b) => /"@type"\s*:\s*"BlogPosting"/.test(b)),
+    { detail: `${ldBlocks.length} ld+json block(s)` },
+  );
+
+  record("not a loading skeleton", !/animate-pulse/.test(body), {
+    detail: /animate-pulse/.test(body) ? "skeleton markup present" : "no skeleton",
+  });
+
+  record("embedded post data present for client re-render", /id="__DELTA_BLOG_POST__"/.test(body), {
+    required: false,
+  });
+}
+
 async function runPlaywrightCheck() {
   if (!USE_PLAYWRIGHT) {
     console.log("\nPlaywright check: skipped (--no-playwright).");
@@ -347,6 +402,7 @@ async function main() {
   console.log(`Post-deploy verification — target: ${BASE}`);
   runCurlChecks();
   runRobotsChecks();
+  if (ARTICLE_SLUG) runArticleChecks(ARTICLE_SLUG);
   await runPlaywrightCheck();
 
   const failed = results.filter((r) => !r.ok && r.required);
