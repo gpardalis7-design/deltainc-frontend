@@ -8,6 +8,7 @@
     "dev": "vite",
     "generate:site-artifacts": "node scripts/generate-site-artifacts.mjs",
     "verify:social": "node scripts/verify-social-previews.mjs",
+    "verify:deploy": "node scripts/post-deploy-verify.mjs",
     "typecheck": "tsc --noEmit",
     "typecheck:clean": "tsc --noEmit --noUnusedLocals --noUnusedParameters"
   },
