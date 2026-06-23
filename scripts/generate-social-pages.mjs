@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -101,6 +102,184 @@ function safeOutputPath(entry) {
   return outputPath;
 }
 
+// ─── Phase 2: crawlable article body + JSON-LD injection (spike: one route) ───
+const wpBaseUrl = trimTrailingSlash(process.env.VITE_WP_BASE_URL || canonicalSiteUrl);
+const wpApiBase = `${wpBaseUrl}/wp-json/wp/v2`;
+const SPIKE_BLOG_SLUG = process.env.SPIKE_BLOG_SLUG || "meta-tis-panellinies";
+
+function curlJson(url) {
+  const out = execFileSync(
+    "curl",
+    ["-sS", "-L", "--fail", "--retry", "2", "--connect-timeout", "10", "--max-time", "60", url],
+    { encoding: "utf8", maxBuffer: 50 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] },
+  );
+  return JSON.parse(out);
+}
+
+function decodeEntities(value) {
+  return String(value || "")
+    .replace(/&#(\d+);/g, (_, c) => String.fromCodePoint(Number(c)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, c) => String.fromCodePoint(parseInt(c, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
+// Minimal build-time sanitization of trusted WP body HTML before it goes into
+// the static #root (the client re-renders with the full DOMPurify pass on mount).
+function cleanContentHtml(html) {
+  const root = parse(html || "", { comment: false });
+  for (const node of root.querySelectorAll("script,style,noscript,iframe")) node.remove();
+  for (const el of root.querySelectorAll("*")) {
+    for (const name of Object.keys(el.attributes)) {
+      const value = el.getAttribute(name) || "";
+      if (/^on/i.test(name)) el.removeAttribute(name);
+      else if ((name === "href" || name === "src") && /^\s*javascript:/i.test(value)) el.removeAttribute(name);
+    }
+  }
+  return root.toString();
+}
+
+function firstEmbedded(post, key) {
+  const arr = (post._embedded || {})[key];
+  return Array.isArray(arr) ? arr[0] : undefined;
+}
+
+// Lean payload the client reads as initial state — only what normalizeWpPost needs.
+function trimPostPayload(post) {
+  const e = post._embedded || {};
+  return {
+    id: post.id,
+    slug: post.slug,
+    link: post.link,
+    date: post.date,
+    modified: post.modified,
+    title: { rendered: post.title?.rendered || "" },
+    excerpt: { rendered: post.excerpt?.rendered || "" },
+    content: { rendered: post.content?.rendered || "" },
+    acf: post.acf || {},
+    meta: post.meta || {},
+    yoast_head_json: post.yoast_head_json || undefined,
+    _embedded: {
+      "wp:featuredmedia": e["wp:featuredmedia"],
+      author: e.author,
+      "wp:term": e["wp:term"],
+    },
+  };
+}
+
+function buildArticleBodyHtml(post) {
+  const title = decodeEntities(post.title?.rendered || "");
+  const dateLabel = post.date
+    ? new Date(post.date).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" })
+    : "";
+  const media = firstEmbedded(post, "wp:featuredmedia");
+  const imgUrl = media?.source_url || "";
+  const imgAlt = decodeEntities(media?.alt_text || title);
+  const figure = imgUrl
+    ? `<figure><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(imgAlt)}" width="1200" height="630" /></figure>`
+    : "";
+  return [
+    `<main class="article-prerender">`,
+    `<article>`,
+    `<nav aria-label="breadcrumb"><a href="/">Αρχική</a> › <a href="/blog">Blog</a> › <span>${escapeHtml(title)}</span></nav>`,
+    `<h1>${escapeHtml(title)}</h1>`,
+    `<p class="article-byline">Delta${dateLabel ? ` · ${escapeHtml(dateLabel)}` : ""}</p>`,
+    figure,
+    `<div class="article-body">${cleanContentHtml(post.content?.rendered || "")}</div>`,
+    `</article>`,
+    `</main>`,
+  ].join("\n");
+}
+
+function buildArticleJsonLd(post) {
+  const title = decodeEntities(post.title?.rendered || "");
+  const description = decodeEntities((post.excerpt?.rendered || "").replace(/<[^>]*>/g, "")).trim().slice(0, 300);
+  const media = firstEmbedded(post, "wp:featuredmedia");
+  const imageUrl = media?.source_url || `${publicSiteUrl}/og-default.jpg`;
+  const url = `${canonicalSiteUrl}/blog/${post.slug}`;
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description,
+      image: { "@type": "ImageObject", url: imageUrl },
+      datePublished: post.date || undefined,
+      dateModified: post.modified || post.date || undefined,
+      author: { "@type": "Organization", name: "Delta", url: canonicalSiteUrl },
+      publisher: {
+        "@type": "Organization",
+        name: "Delta",
+        logo: { "@type": "ImageObject", url: `${canonicalSiteUrl}/LOGO.png` },
+      },
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      url,
+      inLanguage: "el-GR",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Αρχική", item: `${canonicalSiteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${canonicalSiteUrl}/blog` },
+        { "@type": "ListItem", position: 3, name: title, item: url },
+      ],
+    },
+  ];
+}
+
+// Escape so JSON embedded in a <script> can never break out of the tag.
+function jsonForScript(value) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
+function enhanceSpikeArticle() {
+  let post;
+  try {
+    const posts = curlJson(`${wpApiBase}/posts?slug=${encodeURIComponent(SPIKE_BLOG_SLUG)}&_embed=1`);
+    post = Array.isArray(posts) ? posts[0] : null;
+  } catch (error) {
+    console.warn(`Phase 2 spike: fetch failed for '${SPIKE_BLOG_SLUG}' (${error.message}); skipping injection.`);
+    return false;
+  }
+  if (!post) {
+    console.warn(`Phase 2 spike: no post for slug '${SPIKE_BLOG_SLUG}'; skipping injection.`);
+    return false;
+  }
+
+  const filePath = resolve(distDir, "blog", SPIKE_BLOG_SLUG, "index.html");
+  let html;
+  try {
+    html = readFileSync(filePath, "utf8");
+  } catch {
+    console.warn(`Phase 2 spike: per-route file missing for '${SPIKE_BLOG_SLUG}'; skipping injection.`);
+    return false;
+  }
+
+  const document = parse(html, { comment: true });
+  const head = document.querySelector("head");
+  const rootEl = document.querySelector("#root");
+  if (!head || !rootEl) {
+    console.warn("Phase 2 spike: <head> or #root missing in built shell; skipping injection.");
+    return false;
+  }
+
+  rootEl.set_content(buildArticleBodyHtml(post));
+  const headTags = [
+    ...buildArticleJsonLd(post).map(
+      (schema) => `<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`,
+    ),
+    `<script id="__DELTA_BLOG_POST__" type="application/json" data-delta-embedded="post">${jsonForScript(trimPostPayload(post))}</script>`,
+  ];
+  head.insertAdjacentHTML("beforeend", `\n    ${headTags.join("\n    ")}\n  `);
+  writeFileSync(filePath, document.toString(), "utf8");
+  return true;
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const baseHtml = readFileSync(indexPath, "utf8");
 const homeDescription =
@@ -146,7 +325,12 @@ writeFileSync(
   "utf8",
 );
 
+const spikeInjected = enhanceSpikeArticle();
+
 console.log(
   `Generated ${manifest.entries.length} social preview pages (${fallbackImageCount} using the fallback image) and 404.html.`,
 );
+if (spikeInjected) {
+  console.log(`Phase 2 spike: injected crawlable body + BlogPosting JSON-LD + embedded data into /blog/${SPIKE_BLOG_SLUG}.`);
+}
 
