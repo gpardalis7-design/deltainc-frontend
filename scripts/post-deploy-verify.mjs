@@ -371,10 +371,13 @@ async function runPlaywrightCheck() {
     return;
   }
 
+  const target = ARTICLE_SLUG ? `${BASE}/blog/${encodeURI(ARTICLE_SLUG)}` : `${BASE}/`;
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
+    if (BYPASS_TOKEN) await page.setExtraHTTPHeaders({ "x-vercel-protection-bypass": BYPASS_TOKEN });
     const problems = [];
+    let pageViews = 0;
     page.on("console", (msg) => {
       const text = msg.text();
       if (msg.type() === "error" || /hydrat|did not match|Warning:/i.test(text)) {
@@ -382,13 +385,25 @@ async function runPlaywrightCheck() {
       }
     });
     page.on("pageerror", (err) => problems.push(`pageerror: ${err.message}`));
+    page.on("request", (req) => {
+      const u = req.url();
+      if (/google-analytics\.com\/(g\/)?collect|\/g\/collect/.test(u)) {
+        const post = req.postData() || "";
+        if (/(?:[?&]|^)en=page_view/.test(u) || /\bpage_view\b/.test(post)) pageViews += 1;
+      }
+    });
 
-    await page.goto(`${BASE}/`, { waitUntil: "networkidle", timeout: 45000 });
+    await page.goto(target, { waitUntil: "networkidle", timeout: 45000 });
+    await page.waitForTimeout(1500);
     record(
-      "zero console errors / hydration warnings on homepage",
+      `zero console errors / hydration warnings (${ARTICLE_SLUG ? "article" : "homepage"})`,
       problems.length === 0,
       { detail: problems.length ? problems.slice(0, 5).join(" | ") : "clean" },
     );
+    record("exactly one GA page_view", pageViews === 1, {
+      required: false,
+      detail: `${pageViews} page_view hit(s)`,
+    });
   } finally {
     await browser.close();
   }
