@@ -67,7 +67,10 @@ const CRAWLER_UA =
 const EXPECT_NOINDEX = Boolean(cli.expectNoindex);
 const USE_PLAYWRIGHT = !cli.noPlaywright;
 const BYPASS_TOKEN = cli.bypassToken || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "";
-const ARTICLE_SLUG = cli.articleSlug || process.env.ARTICLE_SLUG || "";
+const ARTICLE_SLUGS = (cli.articleSlug || process.env.ARTICLE_SLUG || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 const HOME_TITLE_PREFIX = "Delta | Εκπαίδευση";
 
 // ---------------------------------------------------------------------------
@@ -351,6 +354,26 @@ function runArticleChecks(slug) {
   record("embedded post data present for client re-render", /id="__DELTA_BLOG_POST__"/.test(body), {
     required: false,
   });
+
+  const ogImage = extractMeta(body, "og:image");
+  if (!ogImage) {
+    record("article og:image present", false, { detail: "no og:image meta" });
+  } else {
+    const img = curl(ogImage, { method: "HEAD", followRedirects: true });
+    record(
+      "article featured image reachable (200 image/*)",
+      img.status === 200 && /^image\//i.test(img.contentType),
+      { detail: `${ogImage.slice(0, 60)}… → ${img.error || `status ${img.status}, ${img.contentType}`}` },
+    );
+  }
+}
+
+function runBlogRoutingChecks() {
+  console.log("\nblog routing checks");
+  const unknown = curl("/blog/__no-such-post-geossg__", { followRedirects: false });
+  record("unknown /blog/* returns 404", unknown.status === 404, {
+    detail: unknown.error || `status ${unknown.status}`,
+  });
 }
 
 async function runPlaywrightCheck() {
@@ -371,7 +394,7 @@ async function runPlaywrightCheck() {
     return;
   }
 
-  const target = ARTICLE_SLUG ? `${BASE}/blog/${encodeURI(ARTICLE_SLUG)}` : `${BASE}/`;
+  const target = ARTICLE_SLUGS.length ? `${BASE}/blog/${encodeURI(ARTICLE_SLUGS[0])}` : `${BASE}/`;
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
@@ -396,7 +419,7 @@ async function runPlaywrightCheck() {
     await page.goto(target, { waitUntil: "networkidle", timeout: 45000 });
     await page.waitForTimeout(1500);
     record(
-      `zero console errors / hydration warnings (${ARTICLE_SLUG ? "article" : "homepage"})`,
+      `zero console errors / hydration warnings (${ARTICLE_SLUGS.length ? "article" : "homepage"})`,
       problems.length === 0,
       { detail: problems.length ? problems.slice(0, 5).join(" | ") : "clean" },
     );
@@ -417,7 +440,10 @@ async function main() {
   console.log(`Post-deploy verification — target: ${BASE}`);
   runCurlChecks();
   runRobotsChecks();
-  if (ARTICLE_SLUG) runArticleChecks(ARTICLE_SLUG);
+  if (ARTICLE_SLUGS.length) {
+    runBlogRoutingChecks();
+    for (const slug of ARTICLE_SLUGS) runArticleChecks(slug);
+  }
   await runPlaywrightCheck();
 
   const failed = results.filter((r) => !r.ok && r.required);
