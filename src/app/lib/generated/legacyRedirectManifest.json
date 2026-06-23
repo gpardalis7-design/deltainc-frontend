@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-12T15:36:40.620Z",
+  "generatedAt": "2026-06-22T17:44:59.680Z",
   "exactRedirects": [
     {
       "from": "/news",
@@ -28,6 +28,136 @@
     }
   ],
   "articleRedirects": [
+    {
+      "from": "/dorean-metaptychiaka",
+      "to": "/blog/dorean-metaptychiaka",
+      "type": "article"
+    },
+    {
+      "from": "/asep-5k-2026",
+      "to": "/blog/asep-5k-2026",
+      "type": "article"
+    },
+    {
+      "from": "/apospaseis-se-foreis",
+      "to": "/blog/apospaseis-se-foreis",
+      "type": "article"
+    },
+    {
+      "from": "/emp-qs-2027",
+      "to": "/blog/emp-qs-2027",
+      "type": "article"
+    },
+    {
+      "from": "/dimografiki-noimosyni-ekpaidefsi",
+      "to": "/blog/dimografiki-noimosyni-ekpaidefsi",
+      "type": "article"
+    },
+    {
+      "from": "/ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+      "to": "/blog/ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+      "type": "article"
+    },
+    {
+      "from": "/kenes-theseis-sto-dimosio",
+      "to": "/blog/kenes-theseis-sto-dimosio",
+      "type": "article"
+    },
+    {
+      "from": "/atheati-ergasia-ekpaideftikon",
+      "to": "/blog/atheati-ergasia-ekpaideftikon",
+      "type": "article"
+    },
+    {
+      "from": "/ypotrofia-aioliki-energeia-2026",
+      "to": "/blog/ypotrofia-aioliki-energeia-2026",
+      "type": "article"
+    },
+    {
+      "from": "/1ge-2ge-2026-apergia-apoxi-adedy",
+      "to": "/blog/1ge-2ge-2026-apergia-apoxi-adedy",
+      "type": "article"
+    },
+    {
+      "from": "/ekdiloseis-sta-panepistimia",
+      "to": "/blog/ekdiloseis-sta-panepistimia",
+      "type": "article"
+    },
+    {
+      "from": "/koina-dipla-metaptyxiaka",
+      "to": "/blog/koina-dipla-metaptyxiaka",
+      "type": "article"
+    },
+    {
+      "from": "/diethnopoiisi-ellinikon-aei",
+      "to": "/blog/diethnopoiisi-ellinikon-aei",
+      "type": "article"
+    },
+    {
+      "from": "/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+      "to": "/blog/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+      "type": "article"
+    },
+    {
+      "from": "/monimoi-diorismoi-2026-sxoleia",
+      "to": "/blog/monimoi-diorismoi-2026-sxoleia",
+      "type": "article"
+    },
+    {
+      "from": "/panepistimio-peiraios-ai",
+      "to": "/blog/panepistimio-peiraios-ai",
+      "type": "article"
+    },
+    {
+      "from": "/meta-tis-panellinies",
+      "to": "/blog/meta-tis-panellinies",
+      "type": "article"
+    },
+    {
+      "from": "/spoudes-unic-athens",
+      "to": "/blog/spoudes-unic-athens",
+      "type": "article"
+    },
+    {
+      "from": "/apospaseis-ekpaideftikon-2026-2027",
+      "to": "/blog/apospaseis-ekpaideftikon-2026-2027",
+      "type": "article"
+    },
+    {
+      "from": "/paidagogiki-eparkeia-asep",
+      "to": "/blog/paidagogiki-eparkeia-asep",
+      "type": "article"
+    },
+    {
+      "from": "/panepistimia-stin-ellada",
+      "to": "/blog/panepistimia-stin-ellada",
+      "type": "article"
+    },
+    {
+      "from": "/ex-apostaseos-metaptyxiaka-doatap",
+      "to": "/blog/ex-apostaseos-metaptyxiaka-doatap",
+      "type": "article"
+    },
+    {
+      "from": "/metaptyxiaka-sto-opsyd",
+      "to": "/blog/metaptyxiaka-sto-opsyd",
+      "type": "article"
+    },
+    {
+      "from": "/ptychio-tei-metaptychiako",
+      "to": "/blog/ptychio-tei-metaptychiako",
+      "type": "article"
+    },
+    {
+      "from": "/diorismoi-sti-defterovathmia",
+      "to": "/blog/diorismoi-sti-defterovathmia",
+      "type": "article"
+    },
+    {
+      "from": "/idiotikoi-ekpaideftikoi-asep",
+      "to": "/blog/idiotikoi-ekpaideftikoi-asep",
+      "type": "article"
+    },
     {
       "from": "/aitiseis-eppaik-pesyp-2026",
       "to": "/blog/aitiseis-eppaik-pesyp-2026",
@@ -1771,6 +1901,26 @@
   ],
   "programRedirects": [
     {
+      "from": "/grad-undergrad/iatriki-unic-athens",
+      "to": "/courses/iatriki-unic-athens",
+      "type": "program"
+    },
+    {
+      "from": "/program/iatriki-unic-athens",
+      "to": "/courses/iatriki-unic-athens",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/iatriki-unic-athens",
+      "to": "/courses/iatriki-unic-athens",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/iatriki-unic-athens",
+      "to": "/courses/iatriki-unic-athens",
+      "type": "program"
+    },
+    {
       "from": "/grad-undergrad/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
       "to": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
       "type": "program"
@@ -2692,6 +2842,32 @@
     }
   ],
   "postSlugs": [
+    "dorean-metaptychiaka",
+    "asep-5k-2026",
+    "apospaseis-se-foreis",
+    "emp-qs-2027",
+    "dimografiki-noimosyni-ekpaidefsi",
+    "ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+    "kenes-theseis-sto-dimosio",
+    "atheati-ergasia-ekpaideftikon",
+    "ypotrofia-aioliki-energeia-2026",
+    "1ge-2ge-2026-apergia-apoxi-adedy",
+    "ekdiloseis-sta-panepistimia",
+    "koina-dipla-metaptyxiaka",
+    "diethnopoiisi-ellinikon-aei",
+    "metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+    "monimoi-diorismoi-2026-sxoleia",
+    "panepistimio-peiraios-ai",
+    "meta-tis-panellinies",
+    "spoudes-unic-athens",
+    "apospaseis-ekpaideftikon-2026-2027",
+    "paidagogiki-eparkeia-asep",
+    "panepistimia-stin-ellada",
+    "ex-apostaseos-metaptyxiaka-doatap",
+    "metaptyxiaka-sto-opsyd",
+    "ptychio-tei-metaptychiako",
+    "diorismoi-sti-defterovathmia",
+    "idiotikoi-ekpaideftikoi-asep",
     "aitiseis-eppaik-pesyp-2026",
     "asep-2gb-2026-elas-theseis",
     "asep-paidikoi-stathmoi-9000-proslipseis",
@@ -3042,6 +3218,7 @@
     "%cf%80%ce%b9%cf%83%cf%84%ce%bf%cf%80%ce%bf%ce%af%ce%b7%cf%83%ce%b7-%ce%b1%ce%b3%ce%b3%ce%bb%ce%b9%ce%ba%cf%8e%ce%bd-%ce%b1%cf%83%ce%b5%cf%80"
   ],
   "programSlugs": [
+    "iatriki-unic-athens",
     "%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
     "%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
     "%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",

@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -14,6 +15,10 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
         }
       ]
     }
@@ -67,6 +72,266 @@
     {
       "source": "/cookie-policy-eu/",
       "destination": "/cookie-policy",
+      "permanent": true
+    },
+    {
+      "source": "/dorean-metaptychiaka",
+      "destination": "/blog/dorean-metaptychiaka",
+      "permanent": true
+    },
+    {
+      "source": "/dorean-metaptychiaka/",
+      "destination": "/blog/dorean-metaptychiaka",
+      "permanent": true
+    },
+    {
+      "source": "/asep-5k-2026",
+      "destination": "/blog/asep-5k-2026",
+      "permanent": true
+    },
+    {
+      "source": "/asep-5k-2026/",
+      "destination": "/blog/asep-5k-2026",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-se-foreis",
+      "destination": "/blog/apospaseis-se-foreis",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-se-foreis/",
+      "destination": "/blog/apospaseis-se-foreis",
+      "permanent": true
+    },
+    {
+      "source": "/emp-qs-2027",
+      "destination": "/blog/emp-qs-2027",
+      "permanent": true
+    },
+    {
+      "source": "/emp-qs-2027/",
+      "destination": "/blog/emp-qs-2027",
+      "permanent": true
+    },
+    {
+      "source": "/dimografiki-noimosyni-ekpaidefsi",
+      "destination": "/blog/dimografiki-noimosyni-ekpaidefsi",
+      "permanent": true
+    },
+    {
+      "source": "/dimografiki-noimosyni-ekpaidefsi/",
+      "destination": "/blog/dimografiki-noimosyni-ekpaidefsi",
+      "permanent": true
+    },
+    {
+      "source": "/ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+      "destination": "/blog/ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+      "permanent": true
+    },
+    {
+      "source": "/ex-apostaseos-metaptychiaka-panepistimio-lemesou/",
+      "destination": "/blog/ex-apostaseos-metaptychiaka-panepistimio-lemesou",
+      "permanent": true
+    },
+    {
+      "source": "/kenes-theseis-sto-dimosio",
+      "destination": "/blog/kenes-theseis-sto-dimosio",
+      "permanent": true
+    },
+    {
+      "source": "/kenes-theseis-sto-dimosio/",
+      "destination": "/blog/kenes-theseis-sto-dimosio",
+      "permanent": true
+    },
+    {
+      "source": "/atheati-ergasia-ekpaideftikon",
+      "destination": "/blog/atheati-ergasia-ekpaideftikon",
+      "permanent": true
+    },
+    {
+      "source": "/atheati-ergasia-ekpaideftikon/",
+      "destination": "/blog/atheati-ergasia-ekpaideftikon",
+      "permanent": true
+    },
+    {
+      "source": "/ypotrofia-aioliki-energeia-2026",
+      "destination": "/blog/ypotrofia-aioliki-energeia-2026",
+      "permanent": true
+    },
+    {
+      "source": "/ypotrofia-aioliki-energeia-2026/",
+      "destination": "/blog/ypotrofia-aioliki-energeia-2026",
+      "permanent": true
+    },
+    {
+      "source": "/1ge-2ge-2026-apergia-apoxi-adedy",
+      "destination": "/blog/1ge-2ge-2026-apergia-apoxi-adedy",
+      "permanent": true
+    },
+    {
+      "source": "/1ge-2ge-2026-apergia-apoxi-adedy/",
+      "destination": "/blog/1ge-2ge-2026-apergia-apoxi-adedy",
+      "permanent": true
+    },
+    {
+      "source": "/ekdiloseis-sta-panepistimia",
+      "destination": "/blog/ekdiloseis-sta-panepistimia",
+      "permanent": true
+    },
+    {
+      "source": "/ekdiloseis-sta-panepistimia/",
+      "destination": "/blog/ekdiloseis-sta-panepistimia",
+      "permanent": true
+    },
+    {
+      "source": "/koina-dipla-metaptyxiaka",
+      "destination": "/blog/koina-dipla-metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/koina-dipla-metaptyxiaka/",
+      "destination": "/blog/koina-dipla-metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/diethnopoiisi-ellinikon-aei",
+      "destination": "/blog/diethnopoiisi-ellinikon-aei",
+      "permanent": true
+    },
+    {
+      "source": "/diethnopoiisi-ellinikon-aei/",
+      "destination": "/blog/diethnopoiisi-ellinikon-aei",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+      "destination": "/blog/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon/",
+      "destination": "/blog/metaptychiako-papei-xrimatooikonomiki-dioikisi-dimosion-organismon",
+      "permanent": true
+    },
+    {
+      "source": "/monimoi-diorismoi-2026-sxoleia",
+      "destination": "/blog/monimoi-diorismoi-2026-sxoleia",
+      "permanent": true
+    },
+    {
+      "source": "/monimoi-diorismoi-2026-sxoleia/",
+      "destination": "/blog/monimoi-diorismoi-2026-sxoleia",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimio-peiraios-ai",
+      "destination": "/blog/panepistimio-peiraios-ai",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimio-peiraios-ai/",
+      "destination": "/blog/panepistimio-peiraios-ai",
+      "permanent": true
+    },
+    {
+      "source": "/meta-tis-panellinies",
+      "destination": "/blog/meta-tis-panellinies",
+      "permanent": true
+    },
+    {
+      "source": "/meta-tis-panellinies/",
+      "destination": "/blog/meta-tis-panellinies",
+      "permanent": true
+    },
+    {
+      "source": "/spoudes-unic-athens",
+      "destination": "/blog/spoudes-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/spoudes-unic-athens/",
+      "destination": "/blog/spoudes-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-ekpaideftikon-2026-2027",
+      "destination": "/blog/apospaseis-ekpaideftikon-2026-2027",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-ekpaideftikon-2026-2027/",
+      "destination": "/blog/apospaseis-ekpaideftikon-2026-2027",
+      "permanent": true
+    },
+    {
+      "source": "/paidagogiki-eparkeia-asep",
+      "destination": "/blog/paidagogiki-eparkeia-asep",
+      "permanent": true
+    },
+    {
+      "source": "/paidagogiki-eparkeia-asep/",
+      "destination": "/blog/paidagogiki-eparkeia-asep",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimia-stin-ellada",
+      "destination": "/blog/panepistimia-stin-ellada",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimia-stin-ellada/",
+      "destination": "/blog/panepistimia-stin-ellada",
+      "permanent": true
+    },
+    {
+      "source": "/ex-apostaseos-metaptyxiaka-doatap",
+      "destination": "/blog/ex-apostaseos-metaptyxiaka-doatap",
+      "permanent": true
+    },
+    {
+      "source": "/ex-apostaseos-metaptyxiaka-doatap/",
+      "destination": "/blog/ex-apostaseos-metaptyxiaka-doatap",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-sto-opsyd",
+      "destination": "/blog/metaptyxiaka-sto-opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-sto-opsyd/",
+      "destination": "/blog/metaptyxiaka-sto-opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/ptychio-tei-metaptychiako",
+      "destination": "/blog/ptychio-tei-metaptychiako",
+      "permanent": true
+    },
+    {
+      "source": "/ptychio-tei-metaptychiako/",
+      "destination": "/blog/ptychio-tei-metaptychiako",
+      "permanent": true
+    },
+    {
+      "source": "/diorismoi-sti-defterovathmia",
+      "destination": "/blog/diorismoi-sti-defterovathmia",
+      "permanent": true
+    },
+    {
+      "source": "/diorismoi-sti-defterovathmia/",
+      "destination": "/blog/diorismoi-sti-defterovathmia",
+      "permanent": true
+    },
+    {
+      "source": "/idiotikoi-ekpaideftikoi-asep",
+      "destination": "/blog/idiotikoi-ekpaideftikoi-asep",
+      "permanent": true
+    },
+    {
+      "source": "/idiotikoi-ekpaideftikoi-asep/",
+      "destination": "/blog/idiotikoi-ekpaideftikoi-asep",
       "permanent": true
     },
     {
@@ -3550,6 +3815,46 @@
       "permanent": true
     },
     {
+      "source": "/grad-undergrad/iatriki-unic-athens",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/iatriki-unic-athens/",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/program/iatriki-unic-athens",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/program/iatriki-unic-athens/",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/iatriki-unic-athens",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/iatriki-unic-athens/",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/iatriki-unic-athens",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/iatriki-unic-athens/",
+      "destination": "/courses/iatriki-unic-athens",
+      "permanent": true
+    },
+    {
       "source": "/grad-undergrad/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81",
       "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
       "permanent": true
@@ -5501,7 +5806,23 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/|.*\\..*).*)",
+      "source": "/wp-content/:path*",
+      "destination": "https://deltainc.gr/wp-content/:path*"
+    },
+    {
+      "source": "/wp-json/:path*",
+      "destination": "https://deltainc.gr/wp-json/:path*"
+    },
+    {
+      "source": "/courses",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!assets/|courses/|blog/|wp-content/|wp-json/|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

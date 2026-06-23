@@ -140,7 +140,6 @@ function VisualNodeBubble({
         y: [0, -node.orbitY, 0, node.orbitY, 0],
         rotate: [0, node.rotateRange, 0, -node.rotateRange, 0],
       };
-
   return (
     <motion.div
       aria-hidden="true"

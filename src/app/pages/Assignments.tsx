@@ -5,8 +5,9 @@ import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
 import { usePageNavigation } from "../lib/usePageNavigation";
+import { WP_BASE_URL } from "../lib/api/core";
 
-const ASSIGNMENTS_ENDPOINT = "https://deltainc.gr/wp-json/delta/v1/assignment-request";
+const ASSIGNMENTS_ENDPOINT = `${WP_BASE_URL}/wp-json/delta/v1/assignment-request`;
 const WRITING_LANGUAGES = ["Ελληνικά", "Αγγλικά"] as const;
 const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024;
 const MAX_FILE_COUNT = 10;

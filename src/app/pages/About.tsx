@@ -6,6 +6,7 @@ import { trackLeadFormEvent } from "../lib/analytics";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
+import { WP_BASE_URL } from "../lib/api/core";
 
 const interests = ["Μεταπτυχιακά", "ΑΣΕΠ", "ΟΠΣΥΔ", "Πιστοποιήσεις", "Άλλο"];
 
@@ -223,7 +224,7 @@ export function About() {
           <AnimatedSection delay={0.1}>
             <div className="mt-4 px-4 py-3 rounded-xl text-xs" style={{ background: D.accentSoft, border: `1px solid rgba(197,141,42,0.2)` }}>
               <span style={{ color: D.accentStrong, fontWeight: 600 }}>Base URL: </span>
-              <code style={{ color: D.accentStrong, fontFamily: "monospace" }}>https://deltainc.gr/wp-json/delta/v1</code>
+              <code style={{ color: D.accentStrong, fontFamily: "monospace" }}>{WP_BASE_URL}/wp-json/delta/v1</code>
             </div>
           </AnimatedSection>
         </div>

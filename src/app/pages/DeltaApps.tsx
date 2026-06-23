@@ -8,27 +8,37 @@ import { usePageNavigation } from "../lib/usePageNavigation";
 const UPCOMING_TOOLS = [
   {
     title: "Υπολογισμός Μισθού",
-    summary: "Ένα πιο πρακτικό εργαλείο για γρήγορη εκτίμηση καθαρών αποδοχών και βασικών παραμέτρων εργασίας.",
+    summary: "Πρακτικός υπολογισμός μεικτού, καθαρού και πληρωτέου ποσού με βασικά κλιμάκια, κρατήσεις, επιδόματα και φορολογία.",
     audience: "Ευρύτερο κοινό",
     lane: "Utility",
+    status: "live",
+    phase: "Phase 1",
+    href: "/delta-apps/salary-calculator",
+    actionLabel: "Άνοιγμα εργαλείου",
   },
   {
     title: "Checklist Εγγράφων",
     summary: "Οργανωμένες λίστες για αιτήσεις, υποβολές και δικαιολογητικά χωρίς να χάνετε κρίσιμα βήματα.",
     audience: "Σπουδές & εργασία",
     lane: "Workflow",
+    status: "upcoming",
+    phase: "Phase 1",
   },
   {
     title: "Προθεσμίες & Υπενθυμίσεις",
     summary: "Ένα πιο καθαρό σημείο παρακολούθησης βασικών deadlines, εξετάσεων και σημαντικών ενεργειών.",
     audience: "Καθημερινή οργάνωση",
     lane: "Planning",
+    status: "upcoming",
+    phase: "Phase 1",
   },
   {
     title: "Σύγκριση Επιλογών",
     summary: "Σύντομο εργαλείο αξιολόγησης σεναρίων, ώστε να βλέπετε γρήγορα διαφορές μεταξύ δύο επιλογών.",
     audience: "Αποφάσεις & planning",
     lane: "Decision support",
+    status: "upcoming",
+    phase: "Phase 1",
   },
 ] as const;
 
@@ -185,7 +195,7 @@ export function DeltaApps() {
                     {[
                       { label: "Χρήση", value: "Γρήγορη εκτίμηση" },
                       { label: "Στόχος", value: "Λιγότερη ασάφεια" },
-                      { label: "Μορφή", value: "Καθαρό step-by-step flow" },
+                      { label: "Μορφή", value: "2 live εργαλεία" },
                     ].map((item) => (
                       <div
                         key={item.label}
@@ -215,6 +225,13 @@ export function DeltaApps() {
                       style={{ background: D.ink, color: "#fff", fontWeight: 700, borderRadius: D.radiusPill }}
                     >
                       Άνοιγμα εργαλείου <ArrowRight size={15} />
+                    </Link>
+                    <Link
+                      to="/delta-apps/salary-calculator"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-opacity hover:opacity-90"
+                      style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700, borderRadius: D.radiusPill }}
+                    >
+                      Υπολογισμός Μισθού <ArrowRight size={15} />
                     </Link>
                   </div>
                 </div>
@@ -336,11 +353,22 @@ export function DeltaApps() {
                       <div className="text-[11px] uppercase tracking-[0.12em] mb-2 md:hidden" style={{ color: D.inkSoft, fontWeight: 700 }}>
                         Status
                       </div>
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-[0.1em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
-                        Coming soon
-                      </span>
+                      {tool.status === "live" && tool.href ? (
+                        <Link
+                          to={tool.href}
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-[0.1em] uppercase transition-opacity hover:opacity-90"
+                          style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
+                        >
+                          {tool.actionLabel ?? "Άνοιγμα"}
+                          <ArrowRight size={13} />
+                        </Link>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-[0.1em] uppercase" style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}>
+                          Coming soon
+                        </span>
+                      )}
                       <div className="text-[11px] mt-2" style={{ color: D.inkSoft, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                        Phase 1
+                        {tool.phase}
                       </div>
                     </div>
                   </div>

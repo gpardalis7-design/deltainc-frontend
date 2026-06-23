@@ -16,7 +16,8 @@ export type StaticSeoPage =
   | "terms"
   | "assignments"
   | "deltaApps"
-  | "moriaCalculator";
+  | "moriaCalculator"
+  | "salaryCalculator";
 
 const STATIC_PAGE_PATHS: Record<StaticSeoPage, RoutePath> = {
   about: "/about",
@@ -27,6 +28,7 @@ const STATIC_PAGE_PATHS: Record<StaticSeoPage, RoutePath> = {
   assignments: "/assignments",
   deltaApps: "/delta-apps",
   moriaCalculator: "/delta-apps/moria-calculator",
+  salaryCalculator: "/delta-apps/salary-calculator",
 };
 
 function normalizeSlug(value: string | undefined): string {

@@ -29,6 +29,7 @@ export const router = createBrowserRouter([
       { path: "μεταπτυχιακά-search-engine/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
       { path: "υπηρεσιες/μεταπτυχιακά-search-engine/:legacyProgramSlug", Component: LegacyProgramRedirectPage },
       { path: "delta-apps/moria-calculator", lazy: async () => ({ Component: (await import("./pages/MoriaCalculator")).MoriaCalculator }) },
+      { path: "delta-apps/salary-calculator", lazy: async () => ({ Component: (await import("./pages/SalaryCalculator")).SalaryCalculator }) },
       { path: "delta-apps", lazy: async () => ({ Component: (await import("./pages/DeltaApps")).DeltaApps }) },
       { path: "contact", lazy: async () => ({ Component: (await import("./pages/Contact")).Contact }) },
       { path: "assignments", lazy: async () => ({ Component: (await import("./pages/Assignments")).Assignments }) },

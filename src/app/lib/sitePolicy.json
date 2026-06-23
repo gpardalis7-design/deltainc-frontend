@@ -7,6 +7,7 @@
     "/assignments",
     "/delta-apps",
     "/delta-apps/moria-calculator",
+    "/delta-apps/salary-calculator",
     "/about"
   ],
   "noindexStaticRoutes": [

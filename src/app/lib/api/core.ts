@@ -1,6 +1,6 @@
 export type FetchWithHeadersResult = { data: unknown; headers: Headers } | null;
 
-export const WP_BASE_URL = import.meta.env.VITE_WP_BASE_URL || "https://deltainc.gr";
+export const WP_BASE_URL = (import.meta.env.VITE_WP_BASE_URL || "https://deltainc.gr").replace(/\/+$/, "");
 export const ENABLE_MOCK_FALLBACKS =
   import.meta.env.DEV || import.meta.env.VITE_ENABLE_MOCK_FALLBACKS === "true";
 
