@@ -147,6 +147,28 @@ function extractMeta(html, property) {
   return m2 ? m2[1] : null;
 }
 
+// Returns the Allow/Disallow rule lines (lowercased) for a robots.txt group whose
+// User-agent matches `ua` exactly, or null if the UA has no explicit group (it
+// then falls under `User-agent: *`). Assumes one UA per group.
+function robotsRulesForUA(text, ua) {
+  const lines = text.split(/\r?\n/);
+  const start = lines.findIndex((l) =>
+    new RegExp(`^\\s*user-agent:\\s*${ua}\\s*$`, "i").test(l),
+  );
+  if (start === -1) return null;
+  const rules = [];
+  for (let i = start + 1; i < lines.length; i += 1) {
+    const l = lines[i].trim();
+    if (l === "" || /^user-agent:/i.test(l)) break;
+    if (/^(dis)?allow:/i.test(l)) rules.push(l.toLowerCase());
+  }
+  return rules;
+}
+
+function uaBlocked(rules) {
+  return Array.isArray(rules) && rules.some((r) => /^disallow:\s*\/\s*$/.test(r));
+}
+
 // ---------------------------------------------------------------------------
 // Check registry
 // ---------------------------------------------------------------------------
@@ -220,6 +242,62 @@ function runCurlChecks() {
   );
 }
 
+function runRobotsChecks() {
+  console.log("\nrobots.txt + sitemap checks");
+
+  const robots = curl("/robots.txt", { followRedirects: true });
+  const okRobots = record(
+    "robots.txt returns 200 text/plain",
+    robots.status === 200 && /text\/plain/i.test(robots.contentType),
+    { detail: robots.error || `status ${robots.status}, ${robots.contentType || "no content-type"}` },
+  );
+
+  if (okRobots && robots.body) {
+    const body = robots.body;
+
+    record(
+      "robots.txt references Sitemap on canonical host",
+      /^\s*sitemap:\s*https:\/\/deltainc\.gr\/sitemap\.xml\s*$/im.test(body),
+      { detail: (body.match(/sitemap:.*/i) || ["(none)"])[0].trim() },
+    );
+
+    // Answer-engine bots must have an explicit group and not be blocked.
+    for (const ua of ["OAI-SearchBot", "PerplexityBot", "Claude-User"]) {
+      const rules = robotsRulesForUA(body, ua);
+      record(
+        `answer-engine bot allowed: ${ua}`,
+        rules !== null && !uaBlocked(rules),
+        { detail: rules === null ? "no explicit group" : rules.join("; ") || "(no rule)" },
+      );
+    }
+
+    // Training bots must be explicitly blocked.
+    for (const ua of ["GPTBot", "CCBot", "Google-Extended"]) {
+      const rules = robotsRulesForUA(body, ua);
+      record(
+        `training bot blocked: ${ua}`,
+        uaBlocked(rules),
+        { detail: rules === null ? "MISSING group" : rules.join("; ") },
+      );
+    }
+  }
+
+  const sitemap = curl("/sitemap.xml", { followRedirects: true });
+  const okSitemap = sitemap.status === 200 && /xml/i.test(sitemap.contentType);
+  record(
+    "sitemap.xml returns 200 xml",
+    okSitemap,
+    { detail: sitemap.error || `status ${sitemap.status}, ${sitemap.contentType || "no content-type"}` },
+  );
+  if (okSitemap && sitemap.body) {
+    record(
+      "sitemap uses canonical host in <loc>",
+      /<loc>https:\/\/deltainc\.gr\//i.test(sitemap.body),
+      { detail: (sitemap.body.match(/<loc>[^<]*<\/loc>/i) || ["(none)"])[0] },
+    );
+  }
+}
+
 async function runPlaywrightCheck() {
   if (!USE_PLAYWRIGHT) {
     console.log("\nPlaywright check: skipped (--no-playwright).");
@@ -268,6 +346,7 @@ async function runPlaywrightCheck() {
 async function main() {
   console.log(`Post-deploy verification — target: ${BASE}`);
   runCurlChecks();
+  runRobotsChecks();
   await runPlaywrightCheck();
 
   const failed = results.filter((r) => !r.ok && r.required);

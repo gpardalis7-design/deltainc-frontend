@@ -1,10 +1,59 @@
+# Delta — robots policy
+# Allow Google/Bing indexing + AI ANSWER-ENGINE discovery (drives citations),
+# while opting OUT of AI TRAINING crawlers.
+#
+# Non-indexable routes are deliberately NOT disallowed here: crawlers must fetch
+# them to read <meta name="robots"> / the X-Robots-Tag noindex header. Disallow
+# only true private/utility paths if they ever exist:
+# Disallow: /preview/
+# Disallow: /_diagnostics/
+
+# --- Default: every other crawler (Googlebot, Bingbot, Applebot, …) may crawl ---
 User-agent: *
 Allow: /
 
-# Non-indexable routes — crawlers must see the page to read noindex meta
-# so we do NOT disallow here; noindex is handled in the page's <meta name="robots">
-# Disallow only true private/utility paths if they ever exist:
-# Disallow: /preview/
-# Disallow: /_diagnostics/
+# --- AI answer-engine / on-demand & search discovery bots: explicitly ALLOWED ---
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# --- AI TRAINING crawlers: BLOCKED (opt out of model training) ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
 
 Sitemap: https://deltainc.gr/sitemap.xml
