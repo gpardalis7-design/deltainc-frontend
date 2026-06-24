@@ -68,6 +68,10 @@ For each route, at build time:
 
 Result: the app uses `createRoot` and re-renders content → content (no skeleton, no flash). **Non-JS AI crawlers get the real body; Google and humans get content immediately.** Because we re-render rather than hydrate, the hydration-mismatch failure class does not apply.
 
+> **Amendment (2026-06-23, approved):** Step 1 is implemented by **injecting the WordPress `content.rendered` body** (with minimal build-time sanitization) into `#root`, **not** by running `react-dom/server` on the live React subtree. Rationale: the article/program subtrees pull in `motion`, router hooks, app contexts, `window` access, and DOMPurify — the SSR-hazard surface this plan otherwise defers to Phase 9. Drift risk is bounded: the injected body and the client render the **same** `content.rendered` source, so only the lightweight wrapper (breadcrumb / byline / figure) is build-authored. Proper `react-dom/server` rendering of the subtree is **deferred to Phase 9** with the rest of the SSR work. Build-time sanitization is kept at **parity** with the client (`sanitizeHtml.ts`): scripts/styles/noscript stripped, iframes kept.
+>
+> *Known limitation (documented):* the "embedded data → no skeleton" guarantee applies on **direct load** (what crawlers and SEO landings get). **In-app SPA navigation** between articles still fetches + skeletons, as it always did — the embedded `<script>` exists only for the initially-loaded route. Removing this is part of the deferred Phase 9 true-SSG work.
+
 ---
 
 ## 6. Environment variables
