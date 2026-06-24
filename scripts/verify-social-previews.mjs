@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "node-html-parser";
+import { normalizeSlug } from "./social-preview-lib.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -55,6 +56,29 @@ for (const entry of manifest.entries) {
     assert(h1 && h1.text.trim().length > 0, `${section}/${entry.slug} has no crawlable <h1>`);
     const bodyEl = document.querySelector(".article-body");
     assert(bodyEl && bodyEl.text.trim().length > 200, `${section}/${entry.slug} has a missing or empty article body`);
+
+    // The embedded payload the client reads as initial state must parse, match
+    // the route slug, and carry content — else the client silently skeletons.
+    const embeddedScript = document.querySelector('script[id="__DELTA_BLOG_POST__"]');
+    assert(embeddedScript, `${section}/${entry.slug} is missing embedded post data`);
+    let embeddedPost;
+    try {
+      // .rawText (not .text): <script> content is raw text in the browser, so we
+      // must NOT entity-decode it — .text would corrupt JSON for bodies with
+      // &quot;/&lt;/&gt; entities (matching how the browser's textContent reads it).
+      embeddedPost = JSON.parse(embeddedScript.rawText);
+    } catch {
+      throw new Error(`${section}/${entry.slug} embedded post JSON does not parse`);
+    }
+    assert(
+      normalizeSlug(embeddedPost.slug) === entry.slug,
+      `${section}/${entry.slug} embedded slug mismatch (got ${embeddedPost.slug})`,
+    );
+    assert(
+      (embeddedPost.content?.rendered || "").length > 0,
+      `${section}/${entry.slug} embedded content is empty`,
+    );
+
     articlesWithBody += 1;
   }
   if (/[^\u0000-\u007f]/.test(entry.slug)) greekEntryVerified = true;

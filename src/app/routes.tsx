@@ -12,6 +12,9 @@ export const router = createBrowserRouter([
     path: "/",
     Component: Root,
     errorElement: <RouteErrorScreen />,
+    // Silences RR7's "No HydrateFallback element provided during initial
+    // hydration" warning while lazy routes load; renders nothing visible.
+    hydrateFallbackElement: <div aria-hidden="true" />,
     children: [
       { index: true, lazy: async () => ({ Component: (await import("./pages/Home")).Home }) },
       // Named pages — matched before the dynamic hub catch-all

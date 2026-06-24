@@ -144,9 +144,12 @@ function decodeEntities(value) {
 
 // Minimal build-time sanitization of trusted WP body HTML before it goes into
 // the static #root (the client re-renders with the full DOMPurify pass on mount).
+// iframes are intentionally KEPT to match the client's DOMPurify allowlist
+// (sanitizeHtml.ts ADD_TAGS:["iframe"]) — stripping them statically made the
+// 18 embed-bearing articles shift layout after React mounts.
 function cleanContentHtml(html) {
   const root = parse(html || "", { comment: false });
-  for (const node of root.querySelectorAll("script,style,noscript,iframe")) node.remove();
+  for (const node of root.querySelectorAll("script,style,noscript")) node.remove();
   for (const el of root.querySelectorAll("*")) {
     for (const name of Object.keys(el.attributes)) {
       const value = el.getAttribute(name) || "";

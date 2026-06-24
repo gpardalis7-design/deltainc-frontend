@@ -351,9 +351,7 @@ function runArticleChecks(slug) {
     detail: /animate-pulse/.test(body) ? "skeleton markup present" : "no skeleton",
   });
 
-  record("embedded post data present for client re-render", /id="__DELTA_BLOG_POST__"/.test(body), {
-    required: false,
-  });
+  record("embedded post data present for client re-render", /id="__DELTA_BLOG_POST__"/.test(body));
 
   const ogImage = extractMeta(body, "og:image");
   if (!ogImage) {
