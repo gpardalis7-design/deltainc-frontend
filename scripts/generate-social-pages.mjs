@@ -52,7 +52,7 @@ function metaTag(attribute, key, content) {
   return `<meta ${attribute}="${escapeHtml(key)}" content="${escapeHtml(content)}" data-social-meta="generated">`;
 }
 
-function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null } = {}) {
+function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null, archive = null } = {}) {
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -115,6 +115,12 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
     }
   }
 
+  if (archive) {
+    for (const schema of buildArchiveJsonLd(archive)) {
+      tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
+    }
+  }
+
   head.insertAdjacentHTML("beforeend", `\n    ${tags.filter(Boolean).join("\n    ")}\n  `);
 
   if (article) {
@@ -128,6 +134,10 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
   if (hub) {
     const rootEl = document.querySelector("#root");
     if (rootEl) rootEl.set_content(buildHubBodyHtml(hub));
+  }
+  if (archive) {
+    const rootEl = document.querySelector("#root");
+    if (rootEl) rootEl.set_content(buildArchiveBodyHtml(archive));
   }
 
   return document.toString();
@@ -555,6 +565,105 @@ function hubMetadata(hub) {
   };
 }
 
+// ─── Phase 4b: editorial category archives (CollectionPage + ItemList) ───────
+const editorialArchives =
+  JSON.parse(readFileSync(resolve(rootDir, "src/app/lib/sitePolicy.json"), "utf8")).editorialCategoryArchives || {};
+
+function decodeSlugMaybe(value) {
+  if (typeof value !== "string") return "";
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function archivePostsFor(articleMap, categorySlug, limit = 24) {
+  const target = decodeSlugMaybe(categorySlug);
+  const posts = [];
+  for (const post of articleMap.values()) {
+    const cats = post._embedded?.["wp:term"]?.[0];
+    if (Array.isArray(cats) && cats.some((c) => decodeSlugMaybe(c?.slug) === target)) posts.push(post);
+  }
+  posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+  return posts.slice(0, limit);
+}
+
+function archivePath(archive) {
+  return (archive.path || `/category/${archive.slug}`).replace(/\/+$/, "");
+}
+
+function buildArchiveBodyHtml(archive) {
+  const articles = archive.posts.length
+    ? `<section><h2>Άρθρα</h2><ul>${archive.posts
+        .map((p) => `<li><a href="/blog/${encodeURIComponent(p.slug)}">${escapeHtml(decodeEntities(p.title?.rendered || ""))}</a></li>`)
+        .join("")}</ul></section>`
+    : "";
+  return [
+    `<main class="archive-prerender">`,
+    `<article>`,
+    `<nav aria-label="breadcrumb"><a href="/">Αρχική</a> › <a href="/blog">Blog</a> › <span>${escapeHtml(archive.name)}</span></nav>`,
+    `<h1>${escapeHtml(archive.h1 || archive.name)}</h1>`,
+    archive.intro ? `<p class="archive-intro">${escapeHtml(archive.intro)}</p>` : "",
+    articles,
+    `</article>`,
+    `</main>`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function buildArchiveJsonLd(archive) {
+  const url = `${canonicalSiteUrl}${archivePath(archive)}`;
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: archive.h1 || archive.name,
+      description: (archive.description || archive.intro || "").slice(0, 300),
+      url,
+      inLanguage: "el-GR",
+      isPartOf: { "@type": "WebSite", name: "Delta", url: `${canonicalSiteUrl}/` },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: archive.posts.length,
+        itemListElement: archive.posts.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${canonicalSiteUrl}/blog/${p.slug}`,
+          name: decodeEntities(p.title?.rendered || ""),
+        })),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Αρχική", item: `${canonicalSiteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${canonicalSiteUrl}/blog` },
+        { "@type": "ListItem", position: 3, name: archive.name, item: url },
+      ],
+    },
+  ];
+}
+
+function archiveMetadata(archive) {
+  const path = archivePath(archive);
+  return {
+    title: (archive.titleFull && archive.titleFull.replace(/\|+$/, "").trim()) || archive.h1 || `${archive.name} | Delta`,
+    description: (archive.description || archive.intro || "").slice(0, 300),
+    canonical: `${canonicalSiteUrl}${path}`,
+    robots: allowIndexing
+      ? "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+      : "noindex,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+    og: {
+      type: "website",
+      url: `${publicSiteUrl}${path}`,
+      image: { url: `${publicSiteUrl}/og-default.jpg`, alt: "Delta Inc Education Center", width: 1200, height: 630 },
+    },
+  };
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const baseHtml = readFileSync(indexPath, "utf8");
 const homeDescription =
@@ -615,6 +724,15 @@ for (const [slug, hub] of Object.entries(hubContent)) {
   hubsInjected += 1;
 }
 
+let archivesInjected = 0;
+for (const [slug, archive] of Object.entries(editorialArchives)) {
+  const archiveWithPosts = { ...archive, slug, posts: archivePostsFor(articleMap, archive.slug || slug) };
+  const outputPath = resolve(distDir, "category", slug, "index.html");
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, renderHtml(baseHtml, archiveMetadata(archiveWithPosts), { archive: archiveWithPosts }), "utf8");
+  archivesInjected += 1;
+}
+
 const notFoundMetadata = {
   title: "Η σελίδα δεν βρέθηκε | Delta",
   description: "Η σελίδα που αναζητάτε δεν είναι διαθέσιμη.",
@@ -643,6 +761,9 @@ console.log(
 );
 console.log(
   `Phase 4a: generated ${hubsInjected} crawlable hub pages (CollectionPage + ItemList + BreadcrumbList).`,
+);
+console.log(
+  `Phase 4b: generated ${archivesInjected} crawlable category-archive pages (CollectionPage + ItemList + BreadcrumbList).`,
 );
 if (missingProgramSlugs.length > 0) {
   console.warn(

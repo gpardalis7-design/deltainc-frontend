@@ -126,6 +126,22 @@ for (const slug of ["opsyd", "asep", "metaptyxiaka", "pistopoihseis"]) {
   hubsVerified += 1;
 }
 
+// Phase 4b: editorial category archives (verified by slug from sitePolicy).
+const archivePolicy =
+  JSON.parse(readFileSync(resolve(rootDir, "src/app/lib/sitePolicy.json"), "utf8")).editorialCategoryArchives || {};
+let archivesVerified = 0;
+for (const slug of Object.keys(archivePolicy)) {
+  const doc = parse(readFileSync(resolve(distDir, "category", slug, "index.html"), "utf8"));
+  const ldScripts = doc.querySelectorAll('script[type="application/ld+json"]');
+  const collectionCount = ldScripts.filter((s) => /"@type"\s*:\s*"CollectionPage"/.test(s.text)).length;
+  assert(collectionCount === 1, `archive ${slug} has ${collectionCount} CollectionPage JSON-LD blocks (expected 1)`);
+  const h1 = doc.querySelector("h1");
+  assert(h1 && h1.text.trim().length > 0, `archive ${slug} has no crawlable <h1>`);
+  const main = doc.querySelector("main.archive-prerender");
+  assert(main && main.text.trim().length > 50, `archive ${slug} has a missing or empty body`);
+  archivesVerified += 1;
+}
+
 const notFound = parse(readFileSync(resolve(distDir, "404.html"), "utf8"));
 assert(notFound.querySelector('meta[name="robots"]')?.getAttribute("content") === "noindex,nofollow", "404.html is indexable");
 assert(notFound.querySelectorAll('meta[property="og:title"]').length === 0, "404.html advertises Open Graph metadata");
@@ -138,6 +154,6 @@ assert(vercel.rewrites.some((rule) => rule.source.includes("courses/") && rule.s
 
 console.log(
   `Verified ${manifest.entries.length} generated social preview pages ` +
-    `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
+    `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs + ${archivesVerified} archives with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
 );
 
