@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { parse } from "node-html-parser";
 import { buildPageMetadata, contentPath, normalizeSlug, trimTrailingSlash } from "./social-preview-lib.mjs";
 import { extractHubContent } from "./extract-hub-content.mjs";
+import { extractStaticPages } from "./extract-static-content.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -52,7 +53,7 @@ function metaTag(attribute, key, content) {
   return `<meta ${attribute}="${escapeHtml(key)}" content="${escapeHtml(content)}" data-social-meta="generated">`;
 }
 
-function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null, archive = null } = {}) {
+function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null, archive = null, page = null } = {}) {
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -121,6 +122,12 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
     }
   }
 
+  if (page) {
+    for (const schema of buildPageJsonLd(page)) {
+      tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
+    }
+  }
+
   head.insertAdjacentHTML("beforeend", `\n    ${tags.filter(Boolean).join("\n    ")}\n  `);
 
   if (article) {
@@ -138,6 +145,10 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
   if (archive) {
     const rootEl = document.querySelector("#root");
     if (rootEl) rootEl.set_content(buildArchiveBodyHtml(archive));
+  }
+  if (page) {
+    const rootEl = document.querySelector("#root");
+    if (rootEl) rootEl.set_content(buildStaticBodyHtml(page));
   }
 
   return document.toString();
@@ -664,6 +675,88 @@ function archiveMetadata(archive) {
   };
 }
 
+// ─── Phase 4c: homepage + static pages (WebPage + BreadcrumbList) ────────────
+const ROBOTS_INDEX = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
+const ROBOTS_NOINDEX = "noindex,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
+
+function pageH1(title) {
+  return title.split("|")[0].split("—")[0].trim();
+}
+
+function buildStaticBodyHtml(page) {
+  const breadcrumb = page.breadcrumb?.length
+    ? `<nav aria-label="breadcrumb">${page.breadcrumb
+        .map((b, i) =>
+          i < page.breadcrumb.length - 1
+            ? `<a href="${escapeHtml(b.path)}">${escapeHtml(b.name)}</a> › `
+            : `<span>${escapeHtml(b.name)}</span>`,
+        )
+        .join("")}</nav>`
+    : "";
+  const sections = (page.sections || [])
+    .filter((s) => s.items.length)
+    .map(
+      (s) =>
+        `<section><h2>${escapeHtml(s.heading)}</h2><ul>${s.items
+          .map((it) => `<li><a href="${escapeHtml(it.url)}">${escapeHtml(it.name)}</a></li>`)
+          .join("")}</ul></section>`,
+    )
+    .join("\n");
+  return [
+    `<main class="page-prerender">`,
+    `<article>`,
+    breadcrumb,
+    `<h1>${escapeHtml(page.h1)}</h1>`,
+    page.description ? `<p class="page-intro">${escapeHtml(page.description)}</p>` : "",
+    sections,
+    `</article>`,
+    `</main>`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function buildPageJsonLd(page) {
+  const ld = [
+    {
+      "@context": "https://schema.org",
+      "@type": page.schemaType || "WebPage",
+      name: page.h1,
+      description: (page.description || "").slice(0, 300),
+      url: page.url,
+      inLanguage: "el-GR",
+      isPartOf: { "@type": "WebSite", name: "Delta", url: `${canonicalSiteUrl}/` },
+    },
+  ];
+  if ((page.breadcrumb?.length || 0) > 1) {
+    ld.push({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: page.breadcrumb.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: `${canonicalSiteUrl}${b.path}`,
+      })),
+    });
+  }
+  return ld;
+}
+
+function staticMetadata(page, route) {
+  return {
+    title: page.title,
+    description: (page.description || "").slice(0, 300),
+    canonical: `${canonicalSiteUrl}${route}`,
+    robots: page.noindex ? ROBOTS_NOINDEX : allowIndexing ? ROBOTS_INDEX : ROBOTS_NOINDEX,
+    og: {
+      type: "website",
+      url: `${publicSiteUrl}${route}`,
+      image: { url: `${publicSiteUrl}/og-default.jpg`, alt: "Delta Inc Education Center", width: 1200, height: 630 },
+    },
+  };
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const baseHtml = readFileSync(indexPath, "utf8");
 const homeDescription =
@@ -687,7 +780,8 @@ const homeMetadata = {
   },
 };
 
-writeFileSync(indexPath, renderHtml(baseHtml, homeMetadata), "utf8");
+// Homepage dist/index.html is (re)written in the Phase 4c block below, once the
+// article/program data needed for its crawlable body has been fetched.
 
 const articleMap = fetchAllArticles();
 const programMap = fetchAllPrograms();
@@ -733,6 +827,108 @@ for (const [slug, archive] of Object.entries(editorialArchives)) {
   archivesInjected += 1;
 }
 
+// ─── Phase 4c: homepage + landing pages + static pages ───────────────────────
+let staticPagesInjected = 0;
+{
+  const sectionLinks = [
+    { name: "ΟΠΣΥΔ", url: "/opsyd" },
+    { name: "ΑΣΕΠ", url: "/asep" },
+    { name: "Μεταπτυχιακά", url: "/metaptyxiaka" },
+    { name: "Πιστοποιήσεις", url: "/pistopoihseis" },
+    { name: "Blog", url: "/blog" },
+    { name: "Προγράμματα Σπουδών", url: "/courses" },
+  ];
+  const latestArticleItems = [...articleMap.values()]
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+    .slice(0, 12)
+    .map((p) => ({ name: decodeEntities(p.title?.rendered || ""), url: `/blog/${encodeURIComponent(p.slug)}` }));
+  const programItems = [...programMap.values()]
+    .slice(0, 15)
+    .map((p) => ({ name: decodeEntities(p.title?.rendered || ""), url: `/courses/${encodeURIComponent(p.slug)}` }));
+
+  const homePage = {
+    h1: "Delta — Εκπαίδευση, ΑΣΕΠ, ΟΠΣΥΔ & Μεταπτυχιακά",
+    description: homeDescription,
+    url: `${canonicalSiteUrl}/`,
+    schemaType: "WebPage",
+    breadcrumb: [{ name: "Αρχική", path: "/" }],
+    sections: [
+      { heading: "Ενότητες", items: sectionLinks },
+      { heading: "Πρόσφατα άρθρα", items: latestArticleItems },
+    ],
+  };
+  writeFileSync(indexPath, renderHtml(baseHtml, homeMetadata, { page: homePage }), "utf8");
+  staticPagesInjected += 1;
+
+  const landings = [
+    {
+      route: "/blog",
+      page: {
+        h1: "Blog — Εκπαίδευση, ΑΣΕΠ & ΟΠΣΥΔ",
+        title: "Blog — Εκπαίδευση & ΑΣΕΠ | Delta",
+        description:
+          "Άρθρα, οδηγοί και ειδήσεις για ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά, πιστοποιήσεις και την εκπαίδευση από το Delta.",
+        url: `${canonicalSiteUrl}/blog`,
+        schemaType: "CollectionPage",
+        breadcrumb: [{ name: "Αρχική", path: "/" }, { name: "Blog", path: "/blog" }],
+        sections: [{ heading: "Πρόσφατα άρθρα", items: latestArticleItems }],
+      },
+    },
+    {
+      route: "/courses",
+      page: {
+        h1: "Μεταπτυχιακά & Προγράμματα Σπουδών",
+        title: "Μεταπτυχιακά & Προγράμματα Σπουδών | Delta",
+        description:
+          "Αναζητήστε μεταπτυχιακά προγράμματα στην Ελλάδα και το εξωτερικό. Φιλτράρετε κατά πανεπιστήμιο, πόλη, τρόπο φοίτησης και κόστος.",
+        url: `${canonicalSiteUrl}/courses`,
+        schemaType: "CollectionPage",
+        breadcrumb: [{ name: "Αρχική", path: "/" }, { name: "Μεταπτυχιακά", path: "/courses" }],
+        sections: [{ heading: "Προγράμματα", items: programItems }],
+      },
+    },
+  ];
+  for (const { route, page } of landings) {
+    const out = resolve(distDir, route.slice(1), "index.html");
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, renderHtml(baseHtml, staticMetadata(page, route), { page }), "utf8");
+    staticPagesInjected += 1;
+  }
+
+  const staticPagesSeo = extractStaticPages();
+  const ROUTE_TO_KEY = {
+    "/about": "about",
+    "/contact": "contact",
+    "/assignments": "assignments",
+    "/delta-apps": "deltaApps",
+    "/delta-apps/moria-calculator": "moriaCalculator",
+    "/delta-apps/salary-calculator": "salaryCalculator",
+    "/privacy-policy": "privacy",
+    "/cookie-policy": "cookies",
+    "/terms": "terms",
+  };
+  const NOINDEX_KEYS = new Set(["privacy", "cookies", "terms"]);
+  for (const [route, key] of Object.entries(ROUTE_TO_KEY)) {
+    const seo = staticPagesSeo[key];
+    if (!seo) continue;
+    const name = pageH1(seo.title);
+    const page = {
+      h1: name,
+      title: seo.title,
+      description: seo.description,
+      url: `${canonicalSiteUrl}${route}`,
+      schemaType: "WebPage",
+      breadcrumb: [{ name: "Αρχική", path: "/" }, { name, path: route }],
+      sections: [],
+      noindex: NOINDEX_KEYS.has(key),
+    };
+    const out = resolve(distDir, ...route.slice(1).split("/"), "index.html");
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, renderHtml(baseHtml, staticMetadata(page, route), { page }), "utf8");
+    staticPagesInjected += 1;
+  }
+}
+
 const notFoundMetadata = {
   title: "Η σελίδα δεν βρέθηκε | Delta",
   description: "Η σελίδα που αναζητάτε δεν είναι διαθέσιμη.",
@@ -764,6 +960,9 @@ console.log(
 );
 console.log(
   `Phase 4b: generated ${archivesInjected} crawlable category-archive pages (CollectionPage + ItemList + BreadcrumbList).`,
+);
+console.log(
+  `Phase 4c: generated ${staticPagesInjected} crawlable static pages (homepage + landings + static + WebPage JSON-LD).`,
 );
 if (missingProgramSlugs.length > 0) {
   console.warn(

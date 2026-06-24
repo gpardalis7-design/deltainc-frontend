@@ -54,6 +54,7 @@ function parseArgs(argv) {
     else if (token === "--course-slug") args.courseSlug = argv[++i];
     else if (token === "--hub-slug") args.hubSlug = argv[++i];
     else if (token === "--archive-slug") args.archiveSlug = argv[++i];
+    else if (token === "--page") args.page = argv[++i];
     else if (token.startsWith("--")) throw new Error(`Unknown flag: ${token}`);
     else args.positional.push(token);
   }
@@ -88,6 +89,10 @@ const HUB_SLUGS = (cli.hubSlug || process.env.HUB_SLUG || "")
   .map((s) => s.trim())
   .filter(Boolean);
 const ARCHIVE_SLUGS = (cli.archiveSlug || process.env.ARCHIVE_SLUG || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const PAGE_ROUTES = (cli.page || process.env.PAGE_ROUTES || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -542,6 +547,33 @@ function runArchiveChecks(slug) {
   );
 }
 
+// Phase 4c: a static page must serve its <h1> + body + WebPage/CollectionPage JSON-LD.
+function runPageChecks(route) {
+  console.log(`\nstatic page checks (${route})`);
+  const res = curl(route, { followRedirects: true });
+  const ok = record(
+    `page ${route} returns 200 html`,
+    res.status === 200 && /text\/html/i.test(res.contentType),
+    { detail: res.error || `status ${res.status}, ${res.contentType || "no content-type"}` },
+  );
+  if (!ok || !res.body) return;
+  const body = res.body;
+
+  const h1 = (body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1]?.replace(/<[^>]*>/g, "").trim() || "";
+  record("page has a non-empty <h1>", h1.length > 0, { detail: h1 ? `“${h1.slice(0, 56)}”` : "none" });
+
+  record("real page body injected", /class="page-prerender"/.test(body), {
+    detail: /class="page-prerender"/.test(body) ? "page-prerender present" : "missing",
+  });
+
+  const ldBlocks = body.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || [];
+  record(
+    "WebPage/CollectionPage JSON-LD present",
+    ldBlocks.some((b) => /"@type"\s*:\s*"(WebPage|CollectionPage)"/.test(b)),
+    { detail: `${ldBlocks.length} ld+json block(s)` },
+  );
+}
+
 async function runPlaywrightCheck() {
   if (!USE_PLAYWRIGHT) {
     console.log("\nPlaywright check: skipped (--no-playwright).");
@@ -616,6 +648,7 @@ async function main() {
   }
   for (const slug of HUB_SLUGS) runHubChecks(slug);
   for (const slug of ARCHIVE_SLUGS) runArchiveChecks(slug);
+  for (const route of PAGE_ROUTES) runPageChecks(route);
   await runPlaywrightCheck();
 
   const failed = results.filter((r) => !r.ok && r.required);

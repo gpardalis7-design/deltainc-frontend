@@ -142,6 +142,33 @@ for (const slug of Object.keys(archivePolicy)) {
   archivesVerified += 1;
 }
 
+// Phase 4c: homepage + static pages (crawlable body + correct robots).
+const staticRoutes = [
+  { route: "/", file: ["index.html"], indexable: true },
+  { route: "/blog", file: ["blog", "index.html"], indexable: true },
+  { route: "/courses", file: ["courses", "index.html"], indexable: true },
+  { route: "/about", file: ["about", "index.html"], indexable: true },
+  { route: "/contact", file: ["contact", "index.html"], indexable: true },
+  { route: "/assignments", file: ["assignments", "index.html"], indexable: true },
+  { route: "/delta-apps", file: ["delta-apps", "index.html"], indexable: true },
+  { route: "/delta-apps/moria-calculator", file: ["delta-apps", "moria-calculator", "index.html"], indexable: true },
+  { route: "/delta-apps/salary-calculator", file: ["delta-apps", "salary-calculator", "index.html"], indexable: true },
+  { route: "/privacy-policy", file: ["privacy-policy", "index.html"], indexable: false },
+  { route: "/cookie-policy", file: ["cookie-policy", "index.html"], indexable: false },
+  { route: "/terms", file: ["terms", "index.html"], indexable: false },
+];
+let staticPagesVerified = 0;
+for (const sp of staticRoutes) {
+  const doc = parse(readFileSync(resolve(distDir, ...sp.file), "utf8"));
+  const h1 = doc.querySelector("h1");
+  assert(h1 && h1.text.trim().length > 0, `static ${sp.route} has no crawlable <h1>`);
+  const main = doc.querySelector("main.page-prerender");
+  assert(main && main.text.trim().length > 20, `static ${sp.route} has a missing or empty body`);
+  const robots = doc.querySelector('meta[name="robots"]')?.getAttribute("content") || "";
+  if (!sp.indexable) assert(/noindex/.test(robots), `policy page ${sp.route} is not noindex (got "${robots}")`);
+  staticPagesVerified += 1;
+}
+
 const notFound = parse(readFileSync(resolve(distDir, "404.html"), "utf8"));
 assert(notFound.querySelector('meta[name="robots"]')?.getAttribute("content") === "noindex,nofollow", "404.html is indexable");
 assert(notFound.querySelectorAll('meta[property="og:title"]').length === 0, "404.html advertises Open Graph metadata");
@@ -154,6 +181,6 @@ assert(vercel.rewrites.some((rule) => rule.source.includes("courses/") && rule.s
 
 console.log(
   `Verified ${manifest.entries.length} generated social preview pages ` +
-    `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs + ${archivesVerified} archives with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
+    `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs + ${archivesVerified} archives + ${staticPagesVerified} static pages with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
 );
 
