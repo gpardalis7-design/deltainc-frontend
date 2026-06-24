@@ -286,6 +286,24 @@ export function getEmbeddedPost(slug: string): BlogPost | null {
   }
 }
 
+/**
+ * Phase 3: read a build-time embedded program (<script id="__DELTA_PROGRAM__">)
+ * and normalize it with the same pure normalizer the live fetch uses — so
+ * ProgramDetails can seed initial state and skip the skeleton.
+ */
+export function getEmbeddedProgram(slug: string): Program | null {
+  if (typeof document === "undefined" || !slug) return null;
+  const raw = document.getElementById("__DELTA_PROGRAM__")?.textContent?.trim();
+  if (!raw) return null;
+  try {
+    const payload = JSON.parse(raw) as Record<string, unknown>;
+    if (decodeMaybeEncodedSlug(payload.slug) !== decodeMaybeEncodedSlug(slug)) return null;
+    return normalizeWpProgram(payload, { hubs: MOCK_HUBS });
+  } catch {
+    return null;
+  }
+}
+
 function decodeHtmlEntities(value: string): string {
   return value
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))

@@ -5,7 +5,7 @@ import {
   ArrowLeft, ChevronRight, GraduationCap, MapPin, Clock, Euro, Calendar,
   Globe, Building2, X, Mail, User, Phone, ArrowRight, Laptop, Loader2,
 } from "lucide-react";
-import { getProgram, getPrograms, submitContact } from "../lib/deltaApi";
+import { getProgram, getPrograms, getEmbeddedProgram, submitContact } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent, trackLeadFormEvent } from "../lib/analytics";
 import type { Program } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
@@ -455,9 +455,11 @@ function RelatedProgramCard({ program }: { program: Program }) {
 
 export function ProgramDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const [program, setProgram] = useState<Program | null>(null);
+  // Phase 3: seed from build-time embedded program → crawlable + no skeleton on direct load.
+  const embeddedForSlug = useMemo(() => (slug ? getEmbeddedProgram(slug) : null), [slug]);
+  const [program, setProgram] = useState<Program | null>(embeddedForSlug);
   const [relatedPrograms, setRelatedPrograms] = useState<Program[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!embeddedForSlug);
   const [sourceUnavailable, setSourceUnavailable] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "curriculum" | "admissions" | "outcomes" | "faq">("overview");
   const [showModal, setShowModal] = useState(false);
@@ -480,13 +482,19 @@ export function ProgramDetails() {
   // Fetch program
   useEffect(() => {
     if (!slug) return;
-    setLoading(true);
+    const embedded = getEmbeddedProgram(slug);
+    if (embedded) {
+      setProgram(embedded);
+    } else {
+      setLoading(true);
+    }
     setActiveTab("overview");
     window.scrollTo(0, 0);
 
     getProgram(slug).then(({ data, sourceUnavailable: unavailable }) => {
-      setProgram(data);
-      setSourceUnavailable(unavailable);
+      const resolved = data ?? embedded;
+      setProgram(resolved);
+      setSourceUnavailable(unavailable && !resolved);
       setLoading(false);
 
       if (data) {
@@ -544,8 +552,16 @@ export function ProgramDetails() {
     };
   }, [hideInfoRequestCta, program?.id]);
 
+  // Phase 3: ACF sections when present, else fall back to the Elementor
+  // content.rendered — matching the build-time injected body so the React
+  // view doesn't drop content on mount for Elementor-only programs.
+  const hasStructuredSections = program
+    ? Object.values(program.sections).some((s) => typeof s === "string" && s.trim().length > 0)
+    : false;
   const activeContent = program
-    ? (program.sections[activeTab] || program.excerpt)
+    ? hasStructuredSections
+      ? program.sections[activeTab] || program.excerpt
+      : program.contentHtml || program.excerpt
     : "";
   const sanitizedProgramContent = useMemo(() => sanitizeRichHtml(activeContent), [activeContent]);
   useScrollableRichTables(programProseRef, [program?.id, activeTab, sanitizedProgramContent]);
@@ -595,11 +611,13 @@ export function ProgramDetails() {
     },
   ];
 
-  const visibleTabs = tabs.filter((tab) =>
-    tab.key === "overview" ||
-    tab.key === "curriculum" ||
-    Boolean(tab.content?.trim()),
-  );
+  const visibleTabs = hasStructuredSections
+    ? tabs.filter((tab) =>
+        tab.key === "overview" ||
+        tab.key === "curriculum" ||
+        Boolean(tab.content?.trim()),
+      )
+    : [tabs[0]]; // Elementor fallback: single tab showing content.rendered
 
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
 

@@ -51,7 +51,7 @@ function metaTag(attribute, key, content) {
   return `<meta ${attribute}="${escapeHtml(key)}" content="${escapeHtml(content)}" data-social-meta="generated">`;
 }
 
-function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null } = {}) {
+function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null } = {}) {
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -99,11 +99,24 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
     );
   }
 
+  if (program) {
+    for (const schema of buildCourseJsonLd(program)) {
+      tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
+    }
+    tags.push(
+      `<script id="__DELTA_PROGRAM__" type="application/json" data-delta-embedded="program">${jsonForScript(trimProgramPayload(program))}</script>`,
+    );
+  }
+
   head.insertAdjacentHTML("beforeend", `\n    ${tags.filter(Boolean).join("\n    ")}\n  `);
 
   if (article) {
     const rootEl = document.querySelector("#root");
     if (rootEl) rootEl.set_content(buildArticleBodyHtml(article));
+  }
+  if (program) {
+    const rootEl = document.querySelector("#root");
+    if (rootEl) rootEl.set_content(buildProgramBodyHtml(program));
   }
 
   return document.toString();
@@ -281,6 +294,169 @@ function fetchAllArticles() {
   return map;
 }
 
+// ─── Phase 3: program (course) crawlable body + Course JSON-LD ───────────────
+function resolveTermByTax(program, taxonomy) {
+  const groups = program._embedded?.["wp:term"] || [];
+  for (const group of groups) {
+    if (!Array.isArray(group)) continue;
+    for (const term of group) {
+      if (term?.taxonomy === taxonomy && term?.name) return decodeEntities(term.name).trim();
+    }
+  }
+  return "";
+}
+
+function programAcfField(program, key) {
+  const v = (program.acf || {})[key] ?? (program.meta || {})[key];
+  return typeof v === "string" ? v : "";
+}
+
+// Like cleanContentHtml but also strips ACF editor-cruft class tokens
+// (e.g. isSelectedEnd). iframes are kept (client DOMPurify parity).
+function cleanProgramHtml(html) {
+  const root = parse(html || "", { comment: false });
+  for (const node of root.querySelectorAll("script,style,noscript")) node.remove();
+  for (const el of root.querySelectorAll("[class]")) {
+    const kept = (el.getAttribute("class") || "").split(/\s+/).filter((c) => c && !/^isSelected/i.test(c));
+    if (kept.length) el.setAttribute("class", kept.join(" "));
+    else el.removeAttribute("class");
+  }
+  return root.toString();
+}
+
+const PROGRAM_SECTIONS = [
+  ["overview", "Επισκόπηση"],
+  ["curriculum", "Πρόγραμμα Σπουδών"],
+  ["admissions", "Προϋποθέσεις Εισαγωγής"],
+  ["outcomes", "Επαγγελματικές Προοπτικές"],
+  ["faq", "Συχνές Ερωτήσεις"],
+];
+
+function buildProgramSummaryHtml(program) {
+  const rows = [
+    ["Πανεπιστήμιο", resolveTermByTax(program, "program_university")],
+    ["Επίπεδο", resolveTermByTax(program, "program_level")],
+    ["Πόλη", resolveTermByTax(program, "program_city")],
+    ["Μορφή", resolveTermByTax(program, "program_mode")],
+    ["Τύπος", resolveTermByTax(program, "uni_type")],
+    ["Διάρκεια", programAcfField(program, "duration").trim()],
+  ].filter(([, v]) => v);
+  if (!rows.length) return "";
+  return `<dl class="program-summary">${rows
+    .map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`)
+    .join("")}</dl>`;
+}
+
+// ACF sections when populated, else the Elementor content.rendered fallback.
+function buildProgramBodyHtml(program) {
+  const title = decodeEntities(program.title?.rendered || "");
+  const media = firstEmbedded(program, "wp:featuredmedia");
+  const imgUrl = media?.source_url || "";
+  const figure = imgUrl
+    ? `<figure><img src="${escapeHtml(imgUrl)}" alt="${escapeHtml(decodeEntities(media?.alt_text || title))}" width="1200" height="630" /></figure>`
+    : "";
+
+  const sections = PROGRAM_SECTIONS.map(([key, heading]) => [heading, programAcfField(program, key)]).filter(
+    ([, html]) => html.trim().length > 0,
+  );
+  const contentBlocks =
+    sections.length > 0
+      ? sections
+          .map(([heading, html]) => `<section><h2>${escapeHtml(heading)}</h2><div class="program-prose">${cleanProgramHtml(html)}</div></section>`)
+          .join("\n")
+      : `<div class="program-prose">${cleanProgramHtml(program.content?.rendered || "")}</div>`;
+
+  const excerpt = decodeEntities((program.excerpt?.rendered || "").replace(/<[^>]*>/g, "")).trim();
+  return [
+    `<main class="program-prerender">`,
+    `<article>`,
+    `<nav aria-label="breadcrumb"><a href="/">Αρχική</a> › <a href="/courses">Μεταπτυχιακά</a> › <span>${escapeHtml(title)}</span></nav>`,
+    `<h1>${escapeHtml(title)}</h1>`,
+    excerpt ? `<p class="program-excerpt">${escapeHtml(excerpt)}</p>` : "",
+    buildProgramSummaryHtml(program),
+    figure,
+    contentBlocks,
+    `</article>`,
+    `</main>`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function buildCourseJsonLd(program) {
+  const title = decodeEntities(program.title?.rendered || "");
+  const description =
+    decodeEntities((program.excerpt?.rendered || "").replace(/<[^>]*>/g, "")).trim().slice(0, 300) ||
+    `Πρόγραμμα σπουδών «${title}» στο Delta.`;
+  const url = `${canonicalSiteUrl}/courses/${program.slug}`;
+  const university = resolveTermByTax(program, "program_university");
+  const media = firstEmbedded(program, "wp:featuredmedia");
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      name: title,
+      description,
+      url,
+      inLanguage: "el-GR",
+      ...(media?.source_url ? { image: { "@type": "ImageObject", url: media.source_url } } : {}),
+      ...(university ? { provider: { "@type": "CollegeOrUniversity", name: university } } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Αρχική", item: `${canonicalSiteUrl}/` },
+        { "@type": "ListItem", position: 2, name: "Μεταπτυχιακά", item: `${canonicalSiteUrl}/courses` },
+        { "@type": "ListItem", position: 3, name: title, item: url },
+      ],
+    },
+  ];
+}
+
+function trimProgramPayload(program) {
+  const e = program._embedded || {};
+  return {
+    id: program.id,
+    slug: program.slug,
+    link: program.link,
+    date: program.date,
+    modified: program.modified,
+    title: { rendered: program.title?.rendered || "" },
+    excerpt: { rendered: program.excerpt?.rendered || "" },
+    content: { rendered: program.content?.rendered || "" },
+    acf: program.acf || {},
+    meta: program.meta || {},
+    yoast_head_json: program.yoast_head_json || undefined,
+    _embedded: { "wp:featuredmedia": e["wp:featuredmedia"], "wp:term": e["wp:term"] },
+  };
+}
+
+function fetchAllPrograms() {
+  const map = new Map();
+  let page = 1;
+  while (page <= 50) {
+    let programs;
+    try {
+      programs = curlJson(`${wpApiBase}/program?per_page=100&page=${page}&_embed=1`);
+    } catch {
+      break;
+    }
+    if (!Array.isArray(programs) || programs.length === 0) break;
+    for (const program of programs) {
+      if (typeof program?.slug !== "string") continue;
+      try {
+        map.set(normalizeSlug(program.slug), program);
+      } catch {
+        /* skip unsafe slug */
+      }
+    }
+    if (programs.length < 100) break;
+    page += 1;
+  }
+  return map;
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const baseHtml = readFileSync(indexPath, "utf8");
 const homeDescription =
@@ -307,20 +483,28 @@ const homeMetadata = {
 writeFileSync(indexPath, renderHtml(baseHtml, homeMetadata), "utf8");
 
 const articleMap = fetchAllArticles();
+const programMap = fetchAllPrograms();
 let fallbackImageCount = 0;
 let articlesInjected = 0;
+let programsInjected = 0;
 const missingArticleSlugs = [];
+const missingProgramSlugs = [];
 for (const entry of manifest.entries) {
   const metadata = buildPageMetadata(entry, { publicSiteUrl, canonicalSiteUrl, allowIndexing });
   if (!entry.image) fallbackImageCount += 1;
   const article = entry.kind === "article" ? articleMap.get(entry.slug) ?? null : null;
+  const program = entry.kind === "program" ? programMap.get(entry.slug) ?? null : null;
   if (entry.kind === "article") {
     if (article) articlesInjected += 1;
     else missingArticleSlugs.push(entry.slug);
   }
+  if (entry.kind === "program") {
+    if (program) programsInjected += 1;
+    else missingProgramSlugs.push(entry.slug);
+  }
   const outputPath = safeOutputPath(entry);
   mkdirSync(dirname(outputPath), { recursive: true });
-  writeFileSync(outputPath, renderHtml(baseHtml, metadata, { article }), "utf8");
+  writeFileSync(outputPath, renderHtml(baseHtml, metadata, { article, program }), "utf8");
 }
 
 const notFoundMetadata = {
@@ -344,6 +528,15 @@ if (missingArticleSlugs.length > 0) {
   console.warn(
     `Phase 2: ${missingArticleSlugs.length} article(s) had no fetched WP post (head-meta only): ` +
       `${missingArticleSlugs.slice(0, 5).join(", ")}${missingArticleSlugs.length > 5 ? "…" : ""}`,
+  );
+}
+console.log(
+  `Phase 3: injected crawlable body + Course JSON-LD + embedded data into ${programsInjected} programs.`,
+);
+if (missingProgramSlugs.length > 0) {
+  console.warn(
+    `Phase 3: ${missingProgramSlugs.length} program(s) had no fetched WP program (head-meta only): ` +
+      `${missingProgramSlugs.slice(0, 5).join(", ")}${missingProgramSlugs.length > 5 ? "…" : ""}`,
   );
 }
 
