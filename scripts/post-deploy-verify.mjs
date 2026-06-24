@@ -31,6 +31,11 @@
  */
 
 import { execFileSync } from "node:child_process";
+import { readFileSync, unlinkSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+let curlSeq = 0;
 
 // ---------------------------------------------------------------------------
 // Args
@@ -84,12 +89,15 @@ const HOME_TITLE_PREFIX = "Delta | Εκπαίδευση";
 
 function curl(path, { method = "GET", ua = CRAWLER_UA, followRedirects = false } = {}) {
   const url = path.startsWith("http") ? path : `${BASE}${path}`;
+  // Dump headers to a temp file (NOT stdout) so a blank line inside the HTML
+  // body can never be mistaken for the header/body boundary.
+  const headerFile = join(tmpdir(), `geossg-hdr-${process.pid}-${curlSeq++}.txt`);
   const curlArgs = [
     "-sS",
     "-o",
     method === "HEAD" ? "/dev/null" : "-",
     "-D",
-    "-", // dump response headers to stdout
+    headerFile,
     "-w",
     "\n__HTTP_STATUS__:%{http_code}\n__CONTENT_TYPE__:%{content_type}\n",
     "-A",
@@ -108,33 +116,40 @@ function curl(path, { method = "GET", ua = CRAWLER_UA, followRedirects = false }
   curlArgs.push(url);
 
   let raw;
+  let headerBlob = "";
   try {
     raw = execFileSync("curl", curlArgs, {
       encoding: "utf8",
       maxBuffer: 50 * 1024 * 1024,
       stdio: ["ignore", "pipe", "pipe"],
     });
+    try {
+      headerBlob = readFileSync(headerFile, "utf8");
+    } catch {
+      /* headers optional */
+    }
   } catch (error) {
     return { error: error.message || String(error), status: 0, headers: {}, body: "", contentType: "" };
+  } finally {
+    try {
+      unlinkSync(headerFile);
+    } catch {
+      /* ignore */
+    }
   }
 
   const statusMatch = raw.match(/__HTTP_STATUS__:(\d+)/);
   const ctMatch = raw.match(/__CONTENT_TYPE__:([^\n]*)/);
   const status = statusMatch ? Number(statusMatch[1]) : 0;
   const contentType = ctMatch ? ctMatch[1].trim() : "";
+  // stdout is the body alone (plus the trailing -w marker block we strip).
+  const body = method === "HEAD" ? "" : raw.replace(/\n?__HTTP_STATUS__:[\s\S]*$/, "");
 
-  // Strip the trailing -w marker block to leave header dump + body.
-  const cleaned = raw.replace(/\n?__HTTP_STATUS__:[\s\S]*$/, "");
-  // The last header block precedes the body (separated by a blank line). With
-  // redirects there can be multiple header blocks; keep the final one.
-  const splitIdx = cleaned.lastIndexOf("\r\n\r\n") !== -1
-    ? cleaned.lastIndexOf("\r\n\r\n")
-    : cleaned.lastIndexOf("\n\n");
-  const headerBlob = splitIdx === -1 ? cleaned : cleaned.slice(0, splitIdx);
-  const body = method === "HEAD" || splitIdx === -1 ? "" : cleaned.slice(splitIdx).replace(/^\s+/, "");
-
+  // Parse the final header block (after any redirects).
+  const blocks = headerBlob.split(/\r?\n\r?\n/).filter((b) => /^HTTP\//m.test(b));
+  const lastBlock = blocks.length ? blocks[blocks.length - 1] : headerBlob;
   const headers = {};
-  for (const line of headerBlob.split(/\r?\n/)) {
+  for (const line of lastBlock.split(/\r?\n/)) {
     const m = line.match(/^([A-Za-z0-9-]+):\s*(.*)$/);
     if (m) headers[m[1].toLowerCase()] = m[2];
   }
