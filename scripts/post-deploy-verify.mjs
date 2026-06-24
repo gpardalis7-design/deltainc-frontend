@@ -52,6 +52,7 @@ function parseArgs(argv) {
     else if (token === "--bypass-token") args.bypassToken = argv[++i];
     else if (token === "--article-slug") args.articleSlug = argv[++i];
     else if (token === "--course-slug") args.courseSlug = argv[++i];
+    else if (token === "--hub-slug") args.hubSlug = argv[++i];
     else if (token.startsWith("--")) throw new Error(`Unknown flag: ${token}`);
     else args.positional.push(token);
   }
@@ -78,6 +79,10 @@ const ARTICLE_SLUGS = (cli.articleSlug || process.env.ARTICLE_SLUG || "")
   .map((s) => s.trim())
   .filter(Boolean);
 const COURSE_SLUGS = (cli.courseSlug || process.env.COURSE_SLUG || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const HUB_SLUGS = (cli.hubSlug || process.env.HUB_SLUG || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -462,6 +467,43 @@ function runCourseChecks(slug) {
   }
 }
 
+// Phase 4a: a guided hub must serve its <h1> + body + CollectionPage/ItemList JSON-LD.
+function runHubChecks(slug) {
+  console.log(`\nhub injection checks (/${slug})`);
+  const res = curl(`/${encodeURI(slug)}`, { followRedirects: true });
+  const ok = record(
+    `hub /${slug} returns 200 html`,
+    res.status === 200 && /text\/html/i.test(res.contentType),
+    { detail: res.error || `status ${res.status}, ${res.contentType || "no content-type"}` },
+  );
+  if (!ok || !res.body) return;
+  const body = res.body;
+
+  const h1 = (body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1]?.replace(/<[^>]*>/g, "").trim() || "";
+  record("hub has a non-empty <h1>", h1.length > 0, { detail: h1 ? `“${h1.slice(0, 56)}”` : "none" });
+
+  const hasBody = /class="hub-prerender"/.test(body);
+  const textLen = body
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim().length;
+  record("real hub body injected (substantial text)", hasBody && textLen > 300, {
+    detail: `hub-prerender=${hasBody}, ~${textLen} chars visible text`,
+  });
+
+  const ldBlocks = body.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || [];
+  record(
+    "CollectionPage + ItemList JSON-LD present",
+    ldBlocks.some((b) => /"@type"\s*:\s*"CollectionPage"/.test(b) && /"@type"\s*:\s*"ItemList"/.test(b)),
+    { detail: `${ldBlocks.length} ld+json block(s)` },
+  );
+
+  record("not a loading skeleton", !/animate-pulse/.test(body), {
+    detail: /animate-pulse/.test(body) ? "skeleton markup present" : "no skeleton",
+  });
+}
+
 async function runPlaywrightCheck() {
   if (!USE_PLAYWRIGHT) {
     console.log("\nPlaywright check: skipped (--no-playwright).");
@@ -534,6 +576,7 @@ async function main() {
     runCoursesRoutingChecks();
     for (const slug of COURSE_SLUGS) runCourseChecks(slug);
   }
+  for (const slug of HUB_SLUGS) runHubChecks(slug);
   await runPlaywrightCheck();
 
   const failed = results.filter((r) => !r.ok && r.required);

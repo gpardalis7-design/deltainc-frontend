@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "node-html-parser";
 import { buildPageMetadata, contentPath, normalizeSlug, trimTrailingSlash } from "./social-preview-lib.mjs";
+import { extractHubContent } from "./extract-hub-content.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -51,7 +52,7 @@ function metaTag(attribute, key, content) {
   return `<meta ${attribute}="${escapeHtml(key)}" content="${escapeHtml(content)}" data-social-meta="generated">`;
 }
 
-function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null } = {}) {
+function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null } = {}) {
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -108,6 +109,12 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
     );
   }
 
+  if (hub) {
+    for (const schema of buildHubJsonLd(hub)) {
+      tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
+    }
+  }
+
   head.insertAdjacentHTML("beforeend", `\n    ${tags.filter(Boolean).join("\n    ")}\n  `);
 
   if (article) {
@@ -117,6 +124,10 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
   if (program) {
     const rootEl = document.querySelector("#root");
     if (rootEl) rootEl.set_content(buildProgramBodyHtml(program));
+  }
+  if (hub) {
+    const rootEl = document.querySelector("#root");
+    if (rootEl) rootEl.set_content(buildHubBodyHtml(hub));
   }
 
   return document.toString();
@@ -457,6 +468,93 @@ function fetchAllPrograms() {
   return map;
 }
 
+// ─── Phase 4a: guided hub crawlable pages (CollectionPage + ItemList) ────────
+const HUB_CATEGORY_IDS = { opsyd: 342, asep: 285, metaptyxiaka: 286, pistopoihseis: 349 };
+
+function hubPostsFor(articleMap, categoryId, limit = 24) {
+  const posts = [];
+  for (const post of articleMap.values()) {
+    const cats = post._embedded?.["wp:term"]?.[0];
+    if (Array.isArray(cats) && cats.some((c) => c?.id === categoryId)) posts.push(post);
+  }
+  posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+  return posts.slice(0, limit);
+}
+
+function buildHubBodyHtml(hub) {
+  const topics = hub.keyTopics.length
+    ? `<section><h2>Βασικά θέματα</h2><ul>${hub.keyTopics
+        .map((t) => `<li><strong>${escapeHtml(t.label)}</strong> — ${escapeHtml(t.desc)}</li>`)
+        .join("")}</ul></section>`
+    : "";
+  const articles = hub.posts.length
+    ? `<section><h2>Σχετικά άρθρα</h2><ul>${hub.posts
+        .map((p) => `<li><a href="/blog/${encodeURIComponent(p.slug)}">${escapeHtml(decodeEntities(p.title?.rendered || ""))}</a></li>`)
+        .join("")}</ul></section>`
+    : "";
+  return [
+    `<main class="hub-prerender">`,
+    `<article>`,
+    `<nav aria-label="breadcrumb"><a href="/">Αρχική</a> › <span>${escapeHtml(hub.name)}</span></nav>`,
+    `<h1>${escapeHtml(hub.h1 || hub.name)}</h1>`,
+    `<p class="hub-intro">${escapeHtml(hub.intro)}</p>`,
+    topics,
+    articles,
+    `</article>`,
+    `</main>`,
+  ].join("\n");
+}
+
+function buildHubJsonLd(hub) {
+  const url = `${canonicalSiteUrl}/${hub.slug}`;
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: hub.h1 || hub.name,
+      description: hub.intro.slice(0, 300),
+      url,
+      inLanguage: "el-GR",
+      isPartOf: { "@type": "WebSite", name: "Delta", url: `${canonicalSiteUrl}/` },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: hub.posts.length,
+        itemListElement: hub.posts.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${canonicalSiteUrl}/blog/${p.slug}`,
+          name: decodeEntities(p.title?.rendered || ""),
+        })),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Αρχική", item: `${canonicalSiteUrl}/` },
+        { "@type": "ListItem", position: 2, name: hub.name, item: url },
+      ],
+    },
+  ];
+}
+
+function hubMetadata(hub) {
+  const path = `/${hub.slug}`;
+  return {
+    title: hub.h1 || `${hub.name} | Delta`,
+    description: hub.intro.slice(0, 300),
+    canonical: `${canonicalSiteUrl}${path}`,
+    robots: allowIndexing
+      ? "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+      : "noindex,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+    og: {
+      type: "website",
+      url: `${publicSiteUrl}${path}`,
+      image: { url: `${publicSiteUrl}/og-default.jpg`, alt: "Delta Inc Education Center", width: 1200, height: 630 },
+    },
+  };
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 const baseHtml = readFileSync(indexPath, "utf8");
 const homeDescription =
@@ -507,6 +605,16 @@ for (const entry of manifest.entries) {
   writeFileSync(outputPath, renderHtml(baseHtml, metadata, { article, program }), "utf8");
 }
 
+const hubContent = extractHubContent();
+let hubsInjected = 0;
+for (const [slug, hub] of Object.entries(hubContent)) {
+  const hubWithPosts = { ...hub, posts: hubPostsFor(articleMap, HUB_CATEGORY_IDS[slug]) };
+  const outputPath = resolve(distDir, slug, "index.html");
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, renderHtml(baseHtml, hubMetadata(hubWithPosts), { hub: hubWithPosts }), "utf8");
+  hubsInjected += 1;
+}
+
 const notFoundMetadata = {
   title: "Η σελίδα δεν βρέθηκε | Delta",
   description: "Η σελίδα που αναζητάτε δεν είναι διαθέσιμη.",
@@ -532,6 +640,9 @@ if (missingArticleSlugs.length > 0) {
 }
 console.log(
   `Phase 3: injected crawlable body + Course JSON-LD + embedded data into ${programsInjected} programs.`,
+);
+console.log(
+  `Phase 4a: generated ${hubsInjected} crawlable hub pages (CollectionPage + ItemList + BreadcrumbList).`,
 );
 if (missingProgramSlugs.length > 0) {
   console.warn(

@@ -112,6 +112,20 @@ for (const entry of manifest.entries) {
 
 assert(greekEntryVerified, "No Greek-slug route was verified");
 
+// Phase 4a: guided hub pages (not in the manifest — verified by slug).
+let hubsVerified = 0;
+for (const slug of ["opsyd", "asep", "metaptyxiaka", "pistopoihseis"]) {
+  const doc = parse(readFileSync(resolve(distDir, slug, "index.html"), "utf8"));
+  const ldScripts = doc.querySelectorAll('script[type="application/ld+json"]');
+  const collectionCount = ldScripts.filter((s) => /"@type"\s*:\s*"CollectionPage"/.test(s.text)).length;
+  assert(collectionCount === 1, `hub ${slug} has ${collectionCount} CollectionPage JSON-LD blocks (expected 1)`);
+  const h1 = doc.querySelector("h1");
+  assert(h1 && h1.text.trim().length > 0, `hub ${slug} has no crawlable <h1>`);
+  const main = doc.querySelector("main.hub-prerender");
+  assert(main && main.text.trim().length > 100, `hub ${slug} has a missing or empty body`);
+  hubsVerified += 1;
+}
+
 const notFound = parse(readFileSync(resolve(distDir, "404.html"), "utf8"));
 assert(notFound.querySelector('meta[name="robots"]')?.getAttribute("content") === "noindex,nofollow", "404.html is indexable");
 assert(notFound.querySelectorAll('meta[property="og:title"]').length === 0, "404.html advertises Open Graph metadata");
@@ -124,6 +138,6 @@ assert(vercel.rewrites.some((rule) => rule.source.includes("courses/") && rule.s
 
 console.log(
   `Verified ${manifest.entries.length} generated social preview pages ` +
-    `(${articlesWithBody} articles + ${programsWithBody} programs with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
+    `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
 );
 
