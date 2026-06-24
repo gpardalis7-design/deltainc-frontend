@@ -679,6 +679,27 @@ function archiveMetadata(archive) {
 const ROBOTS_INDEX = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 const ROBOTS_NOINDEX = "noindex,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
+// Phase 5: global site graph (single source, injected on the homepage).
+const ORGANIZATION_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Delta",
+  url: `${canonicalSiteUrl}/`,
+  logo: { "@type": "ImageObject", url: `${canonicalSiteUrl}/LOGO.png` },
+};
+const WEBSITE_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Delta",
+  url: `${canonicalSiteUrl}/`,
+  inLanguage: "el-GR",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: { "@type": "EntryPoint", urlTemplate: `${canonicalSiteUrl}/blog?search={search_term_string}` },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 function pageH1(title) {
   return title.split("|")[0].split("—")[0].trim();
 }
@@ -718,6 +739,7 @@ function buildStaticBodyHtml(page) {
 
 function buildPageJsonLd(page) {
   const ld = [
+    ...(page.extraJsonLd || []),
     {
       "@context": "https://schema.org",
       "@type": page.schemaType || "WebPage",
@@ -851,6 +873,7 @@ let staticPagesInjected = 0;
     description: homeDescription,
     url: `${canonicalSiteUrl}/`,
     schemaType: "WebPage",
+    extraJsonLd: [ORGANIZATION_LD, WEBSITE_LD],
     breadcrumb: [{ name: "Αρχική", path: "/" }],
     sections: [
       { heading: "Ενότητες", items: sectionLinks },

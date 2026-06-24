@@ -198,6 +198,17 @@ export function Root() {
     };
   }, []);
 
+  // Phase 5: react-helmet is the single source for head meta after mount, so
+  // drop the build-time injected meta/title/canonical (data-social-meta) to
+  // avoid duplicates. The injected JSON-LD blocks are intentionally KEPT as the
+  // single JSON-LD source (SeoHead no longer emits JSON-LD).
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.head
+      .querySelectorAll("title[data-social-meta], meta[data-social-meta], link[data-social-meta]")
+      .forEach((el) => el.remove());
+  }, []);
+
   return (
     <HelmetProvider>
       <CategoriesProvider>

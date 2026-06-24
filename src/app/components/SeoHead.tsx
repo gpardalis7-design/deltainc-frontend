@@ -29,12 +29,8 @@ export function SeoHead({ seo }: SeoHeadProps) {
   const imageWidth = seo.og?.imageWidth || (ogImage === DEFAULT_OG_IMAGE ? 1200 : undefined);
   const imageHeight = seo.og?.imageHeight || (ogImage === DEFAULT_OG_IMAGE ? 630 : undefined);
 
-  const jsonLdItems = seo.jsonLd
-    ? Array.isArray(seo.jsonLd)
-      ? seo.jsonLd
-      : [seo.jsonLd]
-    : [];
-
+  // Phase 5: JSON-LD is emitted once at build time (the single source); helmet
+  // no longer renders it, to avoid duplicate structured data after mount.
   return (
     <Helmet>
       {/* Core */}
@@ -72,13 +68,6 @@ export function SeoHead({ seo }: SeoHeadProps) {
       <meta name="twitter:image" content={ogImage} />
       <meta name="twitter:image:alt" content={seo.og?.imageAlt || seo.title} />
       <meta name="twitter:site" content="@deltainc_gr" />
-
-      {/* Structured data / JSON-LD */}
-      {jsonLdItems.map((schema, i) => (
-        <script key={i} type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      ))}
     </Helmet>
   );
 }
