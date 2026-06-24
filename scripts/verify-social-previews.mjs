@@ -34,6 +34,7 @@ assert(fallbackDimensions.height === 630, `Fallback image height is ${fallbackDi
 const genericTitle = "Delta | Εκπαίδευση, ΑΣΕΠ, ΟΠΣΥΔ & Μεταπτυχιακά";
 let greekEntryVerified = false;
 let articlesWithBody = 0;
+let programsWithBody = 0;
 
 for (const entry of manifest.entries) {
   const section = entry.kind === "article" ? "blog" : "courses";
@@ -81,6 +82,31 @@ for (const entry of manifest.entries) {
 
     articlesWithBody += 1;
   }
+
+  if (entry.kind === "program") {
+    const ldScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    const courseCount = ldScripts.filter((s) => /"@type"\s*:\s*"Course"/.test(s.text)).length;
+    assert(courseCount === 1, `${section}/${entry.slug} has ${courseCount} Course JSON-LD blocks (expected 1)`);
+    const h1 = document.querySelector("h1");
+    assert(h1 && h1.text.trim().length > 0, `${section}/${entry.slug} has no crawlable <h1>`);
+    const main = document.querySelector("main.program-prerender");
+    assert(main && main.text.trim().length > 100, `${section}/${entry.slug} has a missing or empty program body`);
+
+    const embeddedScript = document.querySelector('script[id="__DELTA_PROGRAM__"]');
+    assert(embeddedScript, `${section}/${entry.slug} is missing embedded program data`);
+    let embeddedProgram;
+    try {
+      embeddedProgram = JSON.parse(embeddedScript.rawText);
+    } catch {
+      throw new Error(`${section}/${entry.slug} embedded program JSON does not parse`);
+    }
+    assert(
+      normalizeSlug(embeddedProgram.slug) === entry.slug,
+      `${section}/${entry.slug} embedded slug mismatch (got ${embeddedProgram.slug})`,
+    );
+
+    programsWithBody += 1;
+  }
   if (/[^\u0000-\u007f]/.test(entry.slug)) greekEntryVerified = true;
 }
 
@@ -98,6 +124,6 @@ assert(vercel.rewrites.some((rule) => rule.source.includes("courses/") && rule.s
 
 console.log(
   `Verified ${manifest.entries.length} generated social preview pages ` +
-    `(${articlesWithBody} with crawlable body + BlogPosting JSON-LD), a Greek slug, routing, and 404 metadata.`,
+    `(${articlesWithBody} articles + ${programsWithBody} programs with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
 );
 

@@ -46,6 +46,7 @@ function parseArgs(argv) {
     else if (token === "--no-playwright") args.noPlaywright = true;
     else if (token === "--bypass-token") args.bypassToken = argv[++i];
     else if (token === "--article-slug") args.articleSlug = argv[++i];
+    else if (token === "--course-slug") args.courseSlug = argv[++i];
     else if (token.startsWith("--")) throw new Error(`Unknown flag: ${token}`);
     else args.positional.push(token);
   }
@@ -68,6 +69,10 @@ const EXPECT_NOINDEX = Boolean(cli.expectNoindex);
 const USE_PLAYWRIGHT = !cli.noPlaywright;
 const BYPASS_TOKEN = cli.bypassToken || process.env.VERCEL_AUTOMATION_BYPASS_SECRET || "";
 const ARTICLE_SLUGS = (cli.articleSlug || process.env.ARTICLE_SLUG || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const COURSE_SLUGS = (cli.courseSlug || process.env.COURSE_SLUG || "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -374,6 +379,74 @@ function runBlogRoutingChecks() {
   });
 }
 
+function runCoursesRoutingChecks() {
+  console.log("\ncourses routing checks");
+  const unknown = curl("/courses/__no-such-program-geossg__", { followRedirects: false });
+  record("unknown /courses/* returns 404", unknown.status === 404, {
+    detail: unknown.error || `status ${unknown.status}`,
+  });
+}
+
+// Phase 3: a course route must serve its real <h1> + body + Course JSON-LD
+// (with provider) in the raw (pre-JS) HTML.
+function runCourseChecks(slug) {
+  console.log(`\ncourse injection checks (/courses/${slug})`);
+
+  const res = curl(`/courses/${encodeURI(slug)}`, { followRedirects: true });
+  const ok = record(
+    `course /courses/${slug} returns 200 html`,
+    res.status === 200 && /text\/html/i.test(res.contentType),
+    { detail: res.error || `status ${res.status}, ${res.contentType || "no content-type"}` },
+  );
+  if (!ok || !res.body) return;
+  const body = res.body;
+
+  const h1 = (body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1]?.replace(/<[^>]*>/g, "").trim() || "";
+  record("course has a non-empty <h1>", h1.length > 0, { detail: h1 ? `“${h1.slice(0, 56)}”` : "none" });
+
+  const title = (body.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1]?.trim() || "";
+  record(
+    "per-route file served (title is not the homepage)",
+    title.length > 0 && !title.startsWith(HOME_TITLE_PREFIX),
+    { detail: `“${title.slice(0, 56)}”` },
+  );
+
+  const hasBody = /class="program-prerender"/.test(body);
+  const textLen = body
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim().length;
+  record("real program body injected (substantial text)", hasBody && textLen > 600, {
+    detail: `program-prerender=${hasBody}, ~${textLen} chars visible text`,
+  });
+
+  const ldBlocks = body.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || [];
+  record(
+    "Course JSON-LD present (with provider)",
+    ldBlocks.some((b) => /"@type"\s*:\s*"Course"/.test(b) && /"provider"/.test(b)),
+    { detail: `${ldBlocks.length} ld+json block(s)` },
+  );
+
+  record("not a loading skeleton", !/animate-pulse/.test(body), {
+    detail: /animate-pulse/.test(body) ? "skeleton markup present" : "no skeleton",
+  });
+
+  record("embedded program data present", /id="__DELTA_PROGRAM__"/.test(body));
+
+  const ogImage = extractMeta(body, "og:image");
+  if (!ogImage) {
+    record("course og:image present", false, { detail: "no og:image meta" });
+  } else {
+    const img = curl(ogImage, { method: "HEAD", followRedirects: true });
+    record(
+      "course featured image reachable (200 image/*)",
+      img.status === 200 && /^image\//i.test(img.contentType),
+      { detail: `${ogImage.slice(0, 60)}… → ${img.error || `status ${img.status}, ${img.contentType}`}` },
+    );
+  }
+}
+
 async function runPlaywrightCheck() {
   if (!USE_PLAYWRIGHT) {
     console.log("\nPlaywright check: skipped (--no-playwright).");
@@ -441,6 +514,10 @@ async function main() {
   if (ARTICLE_SLUGS.length) {
     runBlogRoutingChecks();
     for (const slug of ARTICLE_SLUGS) runArticleChecks(slug);
+  }
+  if (COURSE_SLUGS.length) {
+    runCoursesRoutingChecks();
+    for (const slug of COURSE_SLUGS) runCourseChecks(slug);
   }
   await runPlaywrightCheck();
 
