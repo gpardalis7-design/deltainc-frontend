@@ -54,13 +54,51 @@
     "prokirykseis-asep-sox": "/asep",
     "opsyd-proslipsis-anaplirwtwn": "/opsyd",
     "metaptychiaka": "/metaptyxiaka",
-    "πιστοποιήσεις": "/pistopoihseis"
+    "πιστοποιήσεις": "/pistopoihseis",
+    "προσλήψεις-αναπληρωτών": "/opsyd",
+    "didaktorika-programmata": "/metaptyxiaka",
+    "ypotrofies": "/blog",
+    "φοιτητές-2": "/blog",
+    "επαγγελματικά-φοιτητών": "/blog"
   },
   "legacyStaticRedirects": {
     "/news": "/blog",
     "/επικοινωνια": "/contact",
     "/kostologisi-ergasias": "/assignments",
     "/μεταπτυχιακά-search-engine": "/courses",
-    "/cookie-policy-eu": "/cookie-policy"
+    "/cookie-policy-eu": "/cookie-policy",
+    "/ypologismos-misthou-dimosiou": "/delta-apps/salary-calculator",
+    "/υπηρεσιες/ypologismos-misthou-dimosiou": "/delta-apps/salary-calculator",
+    "/υπολογισμός-μισθού": "/delta-apps/salary-calculator",
+    "/about-us": "/about",
+    "/σχετικά-2": "/about",
+    "/συνεργασίες": "/about",
+    "/delta-education": "/",
+    "/asep-": "/asep",
+    "/asep-2k-": "/asep",
+    "/pinakes-": "/opsyd",
+    "/prokiryxeis-ypotrofion-": "/blog",
+    "/ασεπ-7κ-2024-οι-προθεσμίες-υποβολής-αιτήσε": "/asep",
+    "/checklist-asep-2026-download": "/asep",
+    "/pistopoiisi-ypologiston-asep-ex-apostaseos": "/pistopoihseis",
+    "/ptychio-aggilikon-gia-asep": "/pistopoihseis",
+    "/voucher-dypa-750e": "/blog/voucher-katartisis-750-dypa",
+    "/αναγνώριση-τίτλων-σπουδών-ατεεν-δοατ": "/blog/doatap-ateen-anagnorisi-titlou",
+    "/metaptychiaka-kypros-2025": "/metaptyxiaka",
+    "/ειδική-αγωγή-εκπαιδευση": "/courses",
+    "/panepistimiaka-mathimata-online": "/courses"
+  },
+  "legacyPrefixRedirects": {
+    "/υπηρεσιες": "/courses",
+    "/μεταπτυχιακά-search-engine": "/courses",
+    "/grad-undergrad": "/courses",
+    "/program_category": "/courses",
+    "/program_city": "/courses",
+    "/program_university": "/courses",
+    "/program_level": "/courses",
+    "/program_mode": "/courses",
+    "/uni_type": "/courses",
+    "/tag": "/blog",
+    "/author": "/blog"
   }
 }

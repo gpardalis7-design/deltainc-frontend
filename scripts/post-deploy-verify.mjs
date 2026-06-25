@@ -488,6 +488,30 @@ function runFilteredUrlChecks() {
   }
 }
 
+// Phase 7: legacy URL → new route redirects (the cutover safety net — no 404s on
+// currently-ranking WP URLs). Samples the high-traffic exact fixes, each prefix
+// pattern, and an auto-generated post root→/blog redirect.
+function runRedirectChecks() {
+  console.log("\nlegacy redirect checks (301/308 → new route)");
+  const locPath = (l) => { try { return (new URL(l, BASE).pathname || "/").replace(/(.)\/$/, "$1"); } catch { return l; } };
+  const cases = [
+    ["/ypologismos-misthou-dimosiou", "/delta-apps/salary-calculator"], // salary calc (3,805 clicks)
+    ["/about-us", "/about"],
+    ["/voucher-dypa-750e", "/blog/voucher-katartisis-750-dypa"],        // renamed post
+    ["/tag/anything", "/blog"],            // /tag/* prefix
+    ["/author/someone", "/blog"],          // /author/* prefix
+    ["/program_city/test", "/courses"],    // program-taxonomy prefix
+    ["/υπηρεσιες/test", "/courses"],       // Greek prefix
+    ["/pinakes-anapliroton", "/blog/pinakes-anapliroton"],              // auto post root→/blog (top page)
+  ];
+  for (const [from, to] of cases) {
+    const res = curl(encodeURI(from), { followRedirects: false });
+    const loc = res.headers.location || "";
+    const ok = (res.status === 301 || res.status === 308) && locPath(loc) === to;
+    record(`${from} → ${to}`, ok, { detail: `status ${res.status}, location ${loc || "(none)"}` });
+  }
+}
+
 // Phase 3: a course route must serve its real <h1> + body + Course JSON-LD
 // (with provider) in the raw (pre-JS) HTML.
 function runCourseChecks(slug) {
@@ -711,6 +735,7 @@ async function main() {
   runRobotsChecks();
   runFeedChecks();
   runFilteredUrlChecks();
+  runRedirectChecks();
   if (ARTICLE_SLUGS.length) {
     runBlogRoutingChecks();
     for (const slug of ARTICLE_SLUGS) runArticleChecks(slug);

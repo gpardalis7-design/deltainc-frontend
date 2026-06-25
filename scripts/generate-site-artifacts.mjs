@@ -309,6 +309,23 @@ function appendRedirectRules(redirects, seenSources, from, to, options = {}) {
   }
 }
 
+// Phase 7: wildcard redirect for a whole legacy URL prefix → one destination
+// (e.g. /tag/* → /blog, /υπηρεσιες/* → /courses). Emitted AFTER the specific
+// article/program redirects so a real /grad-undergrad/<programSlug> still wins.
+function appendPrefixRedirect(redirects, seenSources, prefix, destination) {
+  const dest = normalizePath(destination);
+  const base = normalizePath(encodeURI(decodeMaybe(normalizePath(prefix))));
+  const wildcard = `${base}/:path*`;
+  if (!seenSources.has(wildcard)) {
+    seenSources.add(wildcard);
+    redirects.push({ source: wildcard, destination: dest, permanent: true });
+  }
+  if (base !== dest && !seenSources.has(base)) {
+    seenSources.add(base);
+    redirects.push({ source: base, destination: dest, permanent: true });
+  }
+}
+
 function buildVercelConfig(redirectManifest) {
   const redirects = [];
   const seenSources = new Set();
@@ -329,6 +346,10 @@ function buildVercelConfig(redirectManifest) {
 
   for (const entry of redirectManifest.programRedirects) {
     appendRedirectRules(redirects, seenSources, entry.from, entry.to);
+  }
+
+  for (const [prefix, destination] of Object.entries(policy.legacyPrefixRedirects || {})) {
+    appendPrefixRedirect(redirects, seenSources, prefix, destination);
   }
 
   for (const [slug, destination] of Object.entries(policy.serviceCategoryRedirects)) {
