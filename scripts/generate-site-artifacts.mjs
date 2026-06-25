@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 const policyPath = resolve(rootDir, "src/app/lib/sitePolicy.json");
 const sitemapPath = resolve(rootDir, "public/sitemap.xml");
+const feedPath = resolve(rootDir, "public/feed.xml");
 const redirectManifestPath = resolve(rootDir, "src/app/lib/generated/legacyRedirectManifest.json");
 const vercelConfigPath = resolve(rootDir, "vercel.json");
 const socialPreviewManifestPath = resolve(rootDir, ".vite/social-preview-manifest.json");
@@ -76,6 +77,26 @@ function escapeXml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
+}
+
+function stripTags(html) {
+  return String(html || "").replace(/<[^>]*>/g, " ");
+}
+
+// Compact HTML-entity decode for RSS title/description (WP rendered fields carry
+// &amp;/&#8217;/&hellip; etc). Numeric first; decode &amp; LAST to avoid
+// double-decoding sequences like &amp;lt;.
+function decodeEntities(value) {
+  return String(value || "")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&nbsp;/g, " ")
+    .replace(/&hellip;/g, "…")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
 }
 
 function withTrailingSlash(pathname) {
@@ -182,6 +203,49 @@ function createContentEntries(posts, programs) {
   }));
 
   return [...articleEntries, ...programEntries];
+}
+
+// Phase 6a: RSS 2.0 feed of the latest blog posts. Item links + the channel
+// self-reference use the canonical host (deltainc.gr), matching the sitemap; the
+// <link rel="alternate"> autodiscovery tag in index.html is host-relative.
+function createRssFeed(posts) {
+  const items = [...posts]
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+    .slice(0, 30)
+    .map((post) => {
+      const link = `${siteUrl}/blog/${post.slug}`;
+      const title = escapeXml(decodeEntities(stripTags(post.title?.rendered || "")).trim());
+      const description = escapeXml(
+        decodeEntities(stripTags(post.excerpt?.rendered || "")).replace(/\s+/g, " ").trim(),
+      );
+      const pubDate = new Date(post.date || Date.now()).toUTCString();
+      return [
+        "    <item>",
+        `      <title>${title}</title>`,
+        `      <link>${escapeXml(link)}</link>`,
+        `      <guid isPermaLink="true">${escapeXml(link)}</guid>`,
+        `      <pubDate>${pubDate}</pubDate>`,
+        `      <description>${description}</description>`,
+        "    </item>",
+      ].join("\n");
+    })
+    .join("\n");
+
+  return [
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">`,
+    `  <channel>`,
+    `    <title>Delta — Blog</title>`,
+    `    <link>${siteUrl}/blog</link>`,
+    `    <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml" />`,
+    `    <description>Άρθρα, οδηγοί και ειδήσεις για ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά και πιστοποιήσεις από το Delta.</description>`,
+    `    <language>el-GR</language>`,
+    `    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>`,
+    items,
+    `  </channel>`,
+    `</rss>`,
+    ``,
+  ].join("\n");
 }
 
 function createRedirectManifest(posts, programs) {
@@ -357,6 +421,7 @@ function writeArtifacts(posts, programs) {
   ensureDir(redirectManifestPath);
   ensureDir(socialPreviewManifestPath);
   writeFileSync(sitemapPath, buildUrlSet(sitemapEntries), "utf8");
+  writeFileSync(feedPath, createRssFeed(posts), "utf8");
   writeFileSync(redirectManifestPath, `${JSON.stringify(redirectManifest, null, 2)}\n`, "utf8");
   writeFileSync(vercelConfigPath, `${JSON.stringify(vercelConfig, null, 2)}\n`, "utf8");
   writeFileSync(
@@ -371,7 +436,7 @@ function main() {
   const programs = fetchPaginatedCollection("program");
   writeArtifacts(posts, programs);
   console.log(
-    `Generated sitemap, redirects, Vercel routing, and social metadata from ${posts.length} posts and ${programs.length} programs for ${publicSiteUrl}.`,
+    `Generated sitemap, RSS feed, redirects, Vercel routing, and social metadata from ${posts.length} posts and ${programs.length} programs for ${publicSiteUrl}.`,
   );
 }
 

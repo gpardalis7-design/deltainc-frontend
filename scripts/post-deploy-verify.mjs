@@ -346,6 +346,41 @@ function runRobotsChecks() {
   }
 }
 
+// Phase 6a: the RSS feed must be served (valid RSS 2.0, canonical host, items)
+// and advertised on the homepage via <link rel="alternate"> autodiscovery.
+function runFeedChecks() {
+  console.log("\nRSS feed checks (/feed.xml)");
+  const res = curl("/feed.xml", { followRedirects: true });
+  const ok = record(
+    "feed.xml returns 200 xml",
+    res.status === 200 && /xml/i.test(res.contentType),
+    { detail: res.error || `status ${res.status}, ${res.contentType || "no content-type"}` },
+  );
+  if (ok && res.body) {
+    const body = res.body;
+    record("feed is RSS 2.0", /<rss[^>]+version="2\.0"/.test(body));
+    const items = body.match(/<item>/g) || [];
+    record("feed has items", items.length > 0, { detail: `${items.length} item(s)` });
+    record(
+      "feed self-references canonical host",
+      /<atom:link(?=[^>]*rel="self")(?=[^>]*https:\/\/deltainc\.gr\/feed\.xml)[^>]*>/.test(body),
+      { detail: (body.match(/<atom:link[^>]+rel="self"[^>]*>/) || ["(none)"])[0].slice(0, 80) },
+    );
+    record(
+      "feed items link to /blog/ articles",
+      /<link>https:\/\/deltainc\.gr\/blog\/[^<]+<\/link>/.test(body),
+      { detail: (body.match(/<link>[^<]*\/blog\/[^<]*<\/link>/) || ["(none)"])[0] },
+    );
+  }
+
+  const home = curl("/", { followRedirects: true });
+  record(
+    "homepage advertises the feed (rel=alternate rss)",
+    /<link[^>]+rel="alternate"[^>]+application\/rss\+xml/.test(home.body || ""),
+    { detail: home.body && /application\/rss\+xml/.test(home.body) ? "present" : "missing" },
+  );
+}
+
 // Phase 2: a blog route must serve its real <h1> + body + Article JSON-LD in the
 // raw (pre-JS) HTML — not a skeleton, not the homepage shell.
 function runArticleChecks(slug) {
@@ -674,6 +709,7 @@ async function main() {
   console.log(`Post-deploy verification — target: ${BASE}`);
   runCurlChecks();
   runRobotsChecks();
+  runFeedChecks();
   runFilteredUrlChecks();
   if (ARTICLE_SLUGS.length) {
     runBlogRoutingChecks();

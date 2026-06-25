@@ -204,6 +204,23 @@ const notFound = parse(readFileSync(resolve(distDir, "404.html"), "utf8"));
 assert(notFound.querySelector('meta[name="robots"]')?.getAttribute("content") === "noindex,nofollow", "404.html is indexable");
 assert(notFound.querySelectorAll('meta[property="og:title"]').length === 0, "404.html advertises Open Graph metadata");
 
+// Phase 6a: RSS feed exists, is valid RSS 2.0, self-references the canonical
+// host, and carries items that link to /blog/ articles.
+const feed = readFileSync(resolve(distDir, "feed.xml"), "utf8");
+assert(/<rss[^>]+version="2\.0"/.test(feed), "feed.xml is not RSS 2.0");
+assert(/<atom:link(?=[^>]*rel="self")(?=[^>]*\/feed\.xml)[^>]*>/.test(feed), "feed.xml is missing its atom self link");
+const feedItems = feed.match(/<item>/g) || [];
+assert(feedItems.length > 0, "feed.xml has no <item> entries");
+assert(/<link>https:\/\/[^<]+\/blog\/[^<]+<\/link>/.test(feed), "feed.xml items do not link to /blog/ articles");
+assert(/<pubDate>[^<]+<\/pubDate>/.test(feed), "feed.xml items are missing <pubDate>");
+
+// Phase 6a: every page advertises the feed via <link rel="alternate"> autodiscovery.
+const homeShell = readFileSync(resolve(distDir, "index.html"), "utf8");
+assert(
+  /<link[^>]+rel="alternate"[^>]+application\/rss\+xml[^>]*>/.test(homeShell),
+  "homepage is missing the RSS <link rel=\"alternate\"> autodiscovery tag",
+);
+
 const vercel = JSON.parse(readFileSync(resolve(rootDir, "vercel.json"), "utf8"));
 assert(vercel.trailingSlash === false, "vercel.json must enforce URLs without trailing slashes");
 assert(vercel.rewrites.some((rule) => rule.source === "/courses" && rule.destination === "/index.html"), "Missing /courses collection rewrite");
