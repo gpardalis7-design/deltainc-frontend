@@ -144,9 +144,9 @@ for (const slug of Object.keys(archivePolicy)) {
 
 // Phase 4c: homepage + static pages (crawlable body + correct robots).
 const staticRoutes = [
-  { route: "/", file: ["index.html"], indexable: true },
-  { route: "/blog", file: ["blog", "index.html"], indexable: true },
-  { route: "/courses", file: ["courses", "index.html"], indexable: true },
+  { route: "/", file: ["index.html"], indexable: true, globalGraph: true },
+  { route: "/blog", file: ["blog", "index.html"], indexable: true, collectionItemList: true },
+  { route: "/courses", file: ["courses", "index.html"], indexable: true, collectionItemList: true },
   { route: "/about", file: ["about", "index.html"], indexable: true },
   { route: "/contact", file: ["contact", "index.html"], indexable: true },
   { route: "/assignments", file: ["assignments", "index.html"], indexable: true },
@@ -166,6 +166,37 @@ for (const sp of staticRoutes) {
   assert(main && main.text.trim().length > 20, `static ${sp.route} has a missing or empty body`);
   const robots = doc.querySelector('meta[name="robots"]')?.getAttribute("content") || "";
   if (!sp.indexable) assert(/noindex/.test(robots), `policy page ${sp.route} is not noindex (got "${robots}")`);
+
+  // Phase 5b: every static/listing page self-canonicalizes to its query-less URL,
+  // so faceted "?filter" variants (served from the same file) dedup to the parent.
+  const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute("href") || "";
+  assert(canonical && !canonical.includes("?"), `static ${sp.route} canonical is missing or carries a query string (got "${canonical}")`);
+
+  const ldScripts = doc.querySelectorAll('script[type="application/ld+json"]');
+  // .rawText (not .text): JSON-LD bodies are raw <script> text; entity-decoding corrupts them.
+  const ldTypes = ldScripts.map((s) => {
+    try {
+      return JSON.parse(s.rawText)["@type"];
+    } catch {
+      throw new Error(`static ${sp.route} has an unparseable JSON-LD block`);
+    }
+  });
+
+  // Phase 5b: homepage carries the global site graph (single source — Phase 5a).
+  if (sp.globalGraph) {
+    for (const type of ["Organization", "WebSite", "WebPage"]) {
+      assert(ldTypes.includes(type), `homepage is missing ${type} JSON-LD (got ${ldTypes.join(", ") || "none"})`);
+    }
+  }
+
+  // Phase 5b: blog/courses listings expose their entries as a CollectionPage ItemList.
+  if (sp.collectionItemList) {
+    const hasItemList = ldScripts.some(
+      (s) => /"@type"\s*:\s*"CollectionPage"/.test(s.rawText) && /"@type"\s*:\s*"ItemList"/.test(s.rawText),
+    );
+    assert(hasItemList, `listing ${sp.route} is missing CollectionPage + ItemList JSON-LD`);
+  }
+
   staticPagesVerified += 1;
 }
 

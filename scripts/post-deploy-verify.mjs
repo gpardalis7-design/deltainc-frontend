@@ -188,6 +188,13 @@ function extractMeta(html, property) {
   return m2 ? m2[1] : null;
 }
 
+function extractCanonical(html) {
+  const tag = html.match(/<link[^>]+rel=["']canonical["'][^>]*>/i);
+  if (!tag) return "";
+  const href = tag[0].match(/href=["']([^"']+)["']/i);
+  return href ? href[1] : "";
+}
+
 // Returns the Allow/Disallow rule lines (lowercased) for a robots.txt group whose
 // User-agent matches `ua` exactly, or null if the UA has no explicit group (it
 // then falls under `User-agent: *`). Assumes one UA per group.
@@ -417,6 +424,35 @@ function runCoursesRoutingChecks() {
   });
 }
 
+// Phase 5b: faceted/filtered listing URLs must canonicalize to the unfiltered
+// parent. Every "?filter" variant is served from the same static listing file,
+// so its self-canonical points at the query-less parent — the signal a crawler
+// (which can't run the client's noindex-on-filter JS) uses to dedup them.
+function runFilteredUrlChecks() {
+  console.log("\nfiltered/listing canonical checks (canonical-to-parent)");
+  const cases = [
+    { clean: "/blog", filtered: "/blog?hub=asep" },
+    { clean: "/courses", filtered: "/courses?university=test&mode=online" },
+  ];
+  for (const { clean, filtered } of cases) {
+    const cleanRes = curl(clean, { followRedirects: true });
+    const cleanCanonical = extractCanonical(cleanRes.body || "");
+    record(
+      `${clean} self-canonical is query-less`,
+      cleanRes.status === 200 && cleanCanonical.endsWith(clean) && !cleanCanonical.includes("?"),
+      { detail: cleanCanonical || `status ${cleanRes.status}, no canonical` },
+    );
+
+    const filteredRes = curl(filtered, { followRedirects: true });
+    const filteredCanonical = extractCanonical(filteredRes.body || "");
+    record(
+      `${filtered} canonicalizes to ${clean}`,
+      filteredRes.status === 200 && filteredCanonical.endsWith(clean) && !filteredCanonical.includes("?"),
+      { detail: filteredCanonical || `status ${filteredRes.status}, no canonical` },
+    );
+  }
+}
+
 // Phase 3: a course route must serve its real <h1> + body + Course JSON-LD
 // (with provider) in the raw (pre-JS) HTML.
 function runCourseChecks(slug) {
@@ -638,6 +674,7 @@ async function main() {
   console.log(`Post-deploy verification — target: ${BASE}`);
   runCurlChecks();
   runRobotsChecks();
+  runFilteredUrlChecks();
   if (ARTICLE_SLUGS.length) {
     runBlogRoutingChecks();
     for (const slug of ARTICLE_SLUGS) runArticleChecks(slug);

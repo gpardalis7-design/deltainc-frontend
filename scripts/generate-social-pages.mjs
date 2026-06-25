@@ -738,18 +738,31 @@ function buildStaticBodyHtml(page) {
 }
 
 function buildPageJsonLd(page) {
-  const ld = [
-    ...(page.extraJsonLd || []),
-    {
-      "@context": "https://schema.org",
-      "@type": page.schemaType || "WebPage",
-      name: page.h1,
-      description: (page.description || "").slice(0, 300),
-      url: page.url,
-      inLanguage: "el-GR",
-      isPartOf: { "@type": "WebSite", name: "Delta", url: `${canonicalSiteUrl}/` },
-    },
-  ];
+  const primary = {
+    "@context": "https://schema.org",
+    "@type": page.schemaType || "WebPage",
+    name: page.h1,
+    description: (page.description || "").slice(0, 300),
+    url: page.url,
+    inLanguage: "el-GR",
+    isPartOf: { "@type": "WebSite", name: "Delta", url: `${canonicalSiteUrl}/` },
+  };
+  // Phase 5b: listing templates (CollectionPage) carry an ItemList of their
+  // entries — parity with the hub/archive CollectionPages — so every collection
+  // template exposes its items to answer engines, not just a bare description.
+  if (page.mainEntityItems?.length) {
+    primary.mainEntity = {
+      "@type": "ItemList",
+      numberOfItems: page.mainEntityItems.length,
+      itemListElement: page.mainEntityItems.map((item, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: /^https?:\/\//.test(item.url) ? item.url : `${canonicalSiteUrl}${item.url}`,
+        name: item.name,
+      })),
+    };
+  }
+  const ld = [...(page.extraJsonLd || []), primary];
   if ((page.breadcrumb?.length || 0) > 1) {
     ld.push({
       "@context": "https://schema.org",
@@ -895,6 +908,7 @@ let staticPagesInjected = 0;
         schemaType: "CollectionPage",
         breadcrumb: [{ name: "Αρχική", path: "/" }, { name: "Blog", path: "/blog" }],
         sections: [{ heading: "Πρόσφατα άρθρα", items: latestArticleItems }],
+        mainEntityItems: latestArticleItems,
       },
     },
     {
@@ -908,6 +922,7 @@ let staticPagesInjected = 0;
         schemaType: "CollectionPage",
         breadcrumb: [{ name: "Αρχική", path: "/" }, { name: "Μεταπτυχιακά", path: "/courses" }],
         sections: [{ heading: "Προγράμματα", items: programItems }],
+        mainEntityItems: programItems,
       },
     },
   ];
