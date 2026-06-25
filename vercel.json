@@ -75,6 +75,276 @@
       "permanent": true
     },
     {
+      "source": "/ypologismos-misthou-dimosiou",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/ypologismos-misthou-dimosiou/",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/ypologismos-misthou-dimosiou",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/ypologismos-misthou-dimosiou/",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CF%83%CE%BC%CF%8C%CF%82-%CE%BC%CE%B9%CF%83%CE%B8%CE%BF%CF%8D",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CF%83%CE%BC%CF%8C%CF%82-%CE%BC%CE%B9%CF%83%CE%B8%CE%BF%CF%8D/",
+      "destination": "/delta-apps/salary-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/about-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%83%CF%87%CE%B5%CF%84%CE%B9%CE%BA%CE%AC-2",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%83%CF%87%CE%B5%CF%84%CE%B9%CE%BA%CE%AC-2/",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%83%CF%85%CE%BD%CE%B5%CF%81%CE%B3%CE%B1%CF%83%CE%AF%CE%B5%CF%82",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%83%CF%85%CE%BD%CE%B5%CF%81%CE%B3%CE%B1%CF%83%CE%AF%CE%B5%CF%82/",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/delta-education",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/delta-education/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/asep-",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/asep-/",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/asep-2k-",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/asep-2k-/",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/pinakes-",
+      "destination": "/opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/pinakes-/",
+      "destination": "/opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/prokiryxeis-ypotrofion-",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/prokiryxeis-ypotrofion-/",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B1%CF%83%CE%B5%CF%80-7%CE%BA-2024-%CE%BF%CE%B9-%CF%80%CF%81%CE%BF%CE%B8%CE%B5%CF%83%CE%BC%CE%AF%CE%B5%CF%82-%CF%85%CF%80%CE%BF%CE%B2%CE%BF%CE%BB%CE%AE%CF%82-%CE%B1%CE%B9%CF%84%CE%AE%CF%83%CE%B5",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B1%CF%83%CE%B5%CF%80-7%CE%BA-2024-%CE%BF%CE%B9-%CF%80%CF%81%CE%BF%CE%B8%CE%B5%CF%83%CE%BC%CE%AF%CE%B5%CF%82-%CF%85%CF%80%CE%BF%CE%B2%CE%BF%CE%BB%CE%AE%CF%82-%CE%B1%CE%B9%CF%84%CE%AE%CF%83%CE%B5/",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/checklist-asep-2026-download",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/checklist-asep-2026-download/",
+      "destination": "/asep",
+      "permanent": true
+    },
+    {
+      "source": "/pistopoiisi-ypologiston-asep-ex-apostaseos",
+      "destination": "/pistopoihseis",
+      "permanent": true
+    },
+    {
+      "source": "/pistopoiisi-ypologiston-asep-ex-apostaseos/",
+      "destination": "/pistopoihseis",
+      "permanent": true
+    },
+    {
+      "source": "/ptychio-aggilikon-gia-asep",
+      "destination": "/pistopoihseis",
+      "permanent": true
+    },
+    {
+      "source": "/ptychio-aggilikon-gia-asep/",
+      "destination": "/pistopoihseis",
+      "permanent": true
+    },
+    {
+      "source": "/voucher-dypa-750e",
+      "destination": "/blog/voucher-katartisis-750-dypa",
+      "permanent": true
+    },
+    {
+      "source": "/voucher-dypa-750e/",
+      "destination": "/blog/voucher-katartisis-750-dypa",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B1%CE%BD%CE%B1%CE%B3%CE%BD%CF%8E%CF%81%CE%B9%CF%83%CE%B7-%CF%84%CE%AF%CF%84%CE%BB%CF%89%CE%BD-%CF%83%CF%80%CE%BF%CF%85%CE%B4%CF%8E%CE%BD-%CE%B1%CF%84%CE%B5%CE%B5%CE%BD-%CE%B4%CE%BF%CE%B1%CF%84",
+      "destination": "/blog/doatap-ateen-anagnorisi-titlou",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B1%CE%BD%CE%B1%CE%B3%CE%BD%CF%8E%CF%81%CE%B9%CF%83%CE%B7-%CF%84%CE%AF%CF%84%CE%BB%CF%89%CE%BD-%CF%83%CF%80%CE%BF%CF%85%CE%B4%CF%8E%CE%BD-%CE%B1%CF%84%CE%B5%CE%B5%CE%BD-%CE%B4%CE%BF%CE%B1%CF%84/",
+      "destination": "/blog/doatap-ateen-anagnorisi-titlou",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiaka-kypros-2025",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiaka-kypros-2025/",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%AE-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%83%CE%B7",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%AE-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%83%CE%B7/",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimiaka-mathimata-online",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/panepistimiaka-mathimata-online/",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-gia-ekpaideutikous",
+      "destination": "/blog/metaptyxiaka-gia-ekpaideutikous",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-gia-ekpaideutikous/",
+      "destination": "/blog/metaptyxiaka-gia-ekpaideutikous",
+      "permanent": true
+    },
+    {
+      "source": "/apotelesmata-panellinion-2026",
+      "destination": "/blog/apotelesmata-panellinion-2026",
+      "permanent": true
+    },
+    {
+      "source": "/apotelesmata-panellinion-2026/",
+      "destination": "/blog/apotelesmata-panellinion-2026",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka",
+      "destination": "/blog/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka/",
+      "destination": "/blog/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/nees-sxolikes-monades-2026-2027",
+      "destination": "/blog/nees-sxolikes-monades-2026-2027",
+      "permanent": true
+    },
+    {
+      "source": "/nees-sxolikes-monades-2026-2027/",
+      "destination": "/blog/nees-sxolikes-monades-2026-2027",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-ypaitha",
+      "destination": "/blog/apospaseis-ypaitha",
+      "permanent": true
+    },
+    {
+      "source": "/apospaseis-ypaitha/",
+      "destination": "/blog/apospaseis-ypaitha",
+      "permanent": true
+    },
+    {
+      "source": "/ekpa-diethnis-katataxi",
+      "destination": "/blog/ekpa-diethnis-katataxi",
+      "permanent": true
+    },
+    {
+      "source": "/ekpa-diethnis-katataxi/",
+      "destination": "/blog/ekpa-diethnis-katataxi",
+      "permanent": true
+    },
+    {
+      "source": "/burnout-stous-neous",
+      "destination": "/blog/burnout-stous-neous",
+      "permanent": true
+    },
+    {
+      "source": "/burnout-stous-neous/",
+      "destination": "/blog/burnout-stous-neous",
+      "permanent": true
+    },
+    {
       "source": "/dorean-metaptychiaka",
       "destination": "/blog/dorean-metaptychiaka",
       "permanent": true
@@ -5695,6 +5965,111 @@
       "permanent": true
     },
     {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_category/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_category",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_city/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_city",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_university/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_university",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_level/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_level",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_mode/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/program_mode",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/uni_type/:path*",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/uni_type",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:path*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/tag",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/author/:path*",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/author",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
       "source": "/category/prokirykseis-asep-sox",
       "destination": "/asep",
       "permanent": true
@@ -5732,6 +6107,56 @@
     {
       "source": "/category/%CF%80%CE%B9%CF%83%CF%84%CE%BF%CF%80%CE%BF%CE%B9%CE%AE%CF%83%CE%B5%CE%B9%CF%82/",
       "destination": "/pistopoihseis",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CF%80%CF%81%CE%BF%CF%83%CE%BB%CE%AE%CF%88%CE%B5%CE%B9%CF%82-%CE%B1%CE%BD%CE%B1%CF%80%CE%BB%CE%B7%CF%81%CF%89%CF%84%CF%8E%CE%BD",
+      "destination": "/opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CF%80%CF%81%CE%BF%CF%83%CE%BB%CE%AE%CF%88%CE%B5%CE%B9%CF%82-%CE%B1%CE%BD%CE%B1%CF%80%CE%BB%CE%B7%CF%81%CF%89%CF%84%CF%8E%CE%BD/",
+      "destination": "/opsyd",
+      "permanent": true
+    },
+    {
+      "source": "/category/didaktorika-programmata",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/category/didaktorika-programmata/",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/category/ypotrofies",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/ypotrofies/",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%AD%CF%82-2",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%AD%CF%82-2/",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CE%B5%CF%80%CE%B1%CE%B3%CE%B3%CE%B5%CE%BB%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AC-%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CF%8E%CE%BD",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/category/%CE%B5%CF%80%CE%B1%CE%B3%CE%B3%CE%B5%CE%BB%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AC-%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CF%8E%CE%BD/",
+      "destination": "/blog",
       "permanent": true
     },
     {
@@ -5797,7 +6222,7 @@
   ],
   "routes": [
     {
-      "src": "/category/(?!(?:prokirykseis-asep-sox|opsyd-proslipsis-anaplirwtwn|metaptychiaka|%CF%80%CE%B9%CF%83%CF%84%CE%BF%CF%80%CE%BF%CE%B9%CE%AE%CF%83%CE%B5%CE%B9%CF%82|ekpaideysi|nea-epikairothta|%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1)(?:/|$)).+",
+      "src": "/category/(?!(?:prokirykseis-asep-sox|opsyd-proslipsis-anaplirwtwn|metaptychiaka|%CF%80%CE%B9%CF%83%CF%84%CE%BF%CF%80%CE%BF%CE%B9%CE%AE%CF%83%CE%B5%CE%B9%CF%82|%CF%80%CF%81%CE%BF%CF%83%CE%BB%CE%AE%CF%88%CE%B5%CE%B9%CF%82-%CE%B1%CE%BD%CE%B1%CF%80%CE%BB%CE%B7%CF%81%CF%89%CF%84%CF%8E%CE%BD|didaktorika-programmata|ypotrofies|%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CE%AD%CF%82-2|%CE%B5%CF%80%CE%B1%CE%B3%CE%B3%CE%B5%CE%BB%CE%BC%CE%B1%CF%84%CE%B9%CE%BA%CE%AC-%CF%86%CE%BF%CE%B9%CF%84%CE%B7%CF%84%CF%8E%CE%BD|ekpaideysi|nea-epikairothta|%CE%B5%CF%80%CE%B9%CE%B4%CF%8C%CE%BC%CE%B1%CF%84%CE%B1)(?:/|$)).+",
       "status": 404,
       "headers": {
         "X-Robots-Tag": "noindex, follow"

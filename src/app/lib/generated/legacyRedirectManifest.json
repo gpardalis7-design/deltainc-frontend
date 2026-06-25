@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T17:44:59.680Z",
+  "generatedAt": "2026-06-25T13:05:51.301Z",
   "exactRedirects": [
     {
       "from": "/news",
@@ -25,9 +25,144 @@
       "from": "/cookie-policy-eu",
       "to": "/cookie-policy",
       "type": "static"
+    },
+    {
+      "from": "/ypologismos-misthou-dimosiou",
+      "to": "/delta-apps/salary-calculator",
+      "type": "static"
+    },
+    {
+      "from": "/υπηρεσιες/ypologismos-misthou-dimosiou",
+      "to": "/delta-apps/salary-calculator",
+      "type": "static"
+    },
+    {
+      "from": "/υπολογισμός-μισθού",
+      "to": "/delta-apps/salary-calculator",
+      "type": "static"
+    },
+    {
+      "from": "/about-us",
+      "to": "/about",
+      "type": "static"
+    },
+    {
+      "from": "/σχετικά-2",
+      "to": "/about",
+      "type": "static"
+    },
+    {
+      "from": "/συνεργασίες",
+      "to": "/about",
+      "type": "static"
+    },
+    {
+      "from": "/delta-education",
+      "to": "/",
+      "type": "static"
+    },
+    {
+      "from": "/asep-",
+      "to": "/asep",
+      "type": "static"
+    },
+    {
+      "from": "/asep-2k-",
+      "to": "/asep",
+      "type": "static"
+    },
+    {
+      "from": "/pinakes-",
+      "to": "/opsyd",
+      "type": "static"
+    },
+    {
+      "from": "/prokiryxeis-ypotrofion-",
+      "to": "/blog",
+      "type": "static"
+    },
+    {
+      "from": "/ασεπ-7κ-2024-οι-προθεσμίες-υποβολής-αιτήσε",
+      "to": "/asep",
+      "type": "static"
+    },
+    {
+      "from": "/checklist-asep-2026-download",
+      "to": "/asep",
+      "type": "static"
+    },
+    {
+      "from": "/pistopoiisi-ypologiston-asep-ex-apostaseos",
+      "to": "/pistopoihseis",
+      "type": "static"
+    },
+    {
+      "from": "/ptychio-aggilikon-gia-asep",
+      "to": "/pistopoihseis",
+      "type": "static"
+    },
+    {
+      "from": "/voucher-dypa-750e",
+      "to": "/blog/voucher-katartisis-750-dypa",
+      "type": "static"
+    },
+    {
+      "from": "/αναγνώριση-τίτλων-σπουδών-ατεεν-δοατ",
+      "to": "/blog/doatap-ateen-anagnorisi-titlou",
+      "type": "static"
+    },
+    {
+      "from": "/metaptychiaka-kypros-2025",
+      "to": "/metaptyxiaka",
+      "type": "static"
+    },
+    {
+      "from": "/ειδική-αγωγή-εκπαιδευση",
+      "to": "/courses",
+      "type": "static"
+    },
+    {
+      "from": "/panepistimiaka-mathimata-online",
+      "to": "/courses",
+      "type": "static"
     }
   ],
   "articleRedirects": [
+    {
+      "from": "/metaptyxiaka-gia-ekpaideutikous",
+      "to": "/blog/metaptyxiaka-gia-ekpaideutikous",
+      "type": "article"
+    },
+    {
+      "from": "/apotelesmata-panellinion-2026",
+      "to": "/blog/apotelesmata-panellinion-2026",
+      "type": "article"
+    },
+    {
+      "from": "/metaptyxiaka",
+      "to": "/blog/metaptyxiaka",
+      "type": "article"
+    },
+    {
+      "from": "/nees-sxolikes-monades-2026-2027",
+      "to": "/blog/nees-sxolikes-monades-2026-2027",
+      "type": "article"
+    },
+    {
+      "from": "/apospaseis-ypaitha",
+      "to": "/blog/apospaseis-ypaitha",
+      "type": "article"
+    },
+    {
+      "from": "/ekpa-diethnis-katataxi",
+      "to": "/blog/ekpa-diethnis-katataxi",
+      "type": "article"
+    },
+    {
+      "from": "/burnout-stous-neous",
+      "to": "/blog/burnout-stous-neous",
+      "type": "article"
+    },
     {
       "from": "/dorean-metaptychiaka",
       "to": "/blog/dorean-metaptychiaka",
@@ -2842,6 +2977,13 @@
     }
   ],
   "postSlugs": [
+    "metaptyxiaka-gia-ekpaideutikous",
+    "apotelesmata-panellinion-2026",
+    "metaptyxiaka",
+    "nees-sxolikes-monades-2026-2027",
+    "apospaseis-ypaitha",
+    "ekpa-diethnis-katataxi",
+    "burnout-stous-neous",
     "dorean-metaptychiaka",
     "asep-5k-2026",
     "apospaseis-se-foreis",
