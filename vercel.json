@@ -255,6 +255,16 @@
       "permanent": true
     },
     {
+      "source": "/blog/metaptyxiaka",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
+      "source": "/blog/metaptyxiaka/",
+      "destination": "/metaptyxiaka",
+      "permanent": true
+    },
+    {
       "source": "/%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%AE-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%83%CE%B7",
       "destination": "/courses",
       "permanent": true
@@ -292,6 +302,16 @@
     {
       "source": "/apotelesmata-panellinion-2026/",
       "destination": "/blog/apotelesmata-panellinion-2026",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-programmata",
+      "destination": "/blog/metaptyxiaka-programmata",
+      "permanent": true
+    },
+    {
+      "source": "/metaptyxiaka-programmata/",
+      "destination": "/blog/metaptyxiaka-programmata",
       "permanent": true
     },
     {
