@@ -26,6 +26,8 @@ import { OrbitConstellation } from "../components/OrbitConstellation";
 
 const HUB_INITIAL_GRID_POSTS = 9;
 const HUB_LOAD_MORE_PER_PAGE = 9;
+const HUB_GUIDE_FETCH_BATCH_SIZE = 100;
+const HUB_GUIDE_FETCH_MAX_POSTS = 1000;
 const FALLBACK_HUB_CTA = {
   text: "Επικοινωνήστε Μαζί Μας",
   link: "/contact#contact-form",
@@ -225,6 +227,15 @@ type HubCTA = {
   href?: string;
 };
 
+type HubTopicTarget = {
+  link?: string;
+  panelId?: string;
+  search?: string;
+  sort?: string;
+  tag?: string;
+  guide?: boolean;
+};
+
 type HubViewProps = {
   displayName: string;
   displayH1: string;
@@ -241,13 +252,7 @@ type HubViewProps = {
     label: string;
     desc: string;
     actionLabel: string;
-    target: {
-      link?: string;
-      panelId?: string;
-      search?: string;
-      sort?: string;
-      tag?: string;
-    };
+    target: HubTopicTarget;
     icon: React.ReactNode;
   }[];
   displayInfoPanels: Record<string, GuidedHubInfoPanel>;
@@ -273,6 +278,7 @@ type HubViewProps = {
   primaryCTA: HubCTA;
   rest: BlogPost[];
   search: string;
+  guideMode: boolean;
   searchInput: string;
   setSearchInput: (value: string) => void;
   setShowFilters: (value: boolean) => void;
@@ -283,7 +289,7 @@ type HubViewProps = {
   topicSectionRef: React.RefObject<HTMLDivElement | null>;
   total: number;
   updateParams: (updates: Record<string, string | number | undefined>) => void;
-  applyTopicFilter: (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string; tag?: string }) => void;
+  applyTopicFilter: (label: string, target: HubTopicTarget) => void;
   scrollToTopicSection: () => void;
 };
 
@@ -317,10 +323,12 @@ function GuidedHubView({
   primaryCTA,
   rest,
   search,
+  guideMode,
   searchInput,
   setSearchInput,
   setShowFilters,
   showFilters,
+  sourceUnavailable,
   infoPanelRef,
   startHereRef,
   topicSectionRef,
@@ -705,6 +713,15 @@ function GuidedHubView({
                   <Search size={10} /> "{search}" <X size={12} />
                 </button>
               )}
+              {guideMode && (
+                <button
+                  onClick={() => updateParams({ guide: undefined })}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs transition-all"
+                  style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid rgba(197,141,42,0.25)` }}
+                >
+                  <BookOpen size={10} /> Οδηγοί <X size={12} />
+                </button>
+              )}
               {activeSort && (
                 <button
                   onClick={() => updateParams({ sort: undefined })}
@@ -734,6 +751,7 @@ function GuidedHubView({
         featuredLoading={featuredLoading}
         guide={guide}
         guideLoading={guideLoading}
+        guideMode={guideMode}
         handleLoadMore={handleLoadMore}
         hasMore={hasMore}
         isFiltered={activeFiltersCount > 0}
@@ -742,6 +760,7 @@ function GuidedHubView({
         posts={posts}
         rest={rest}
         searchQuery={search}
+        sourceUnavailable={sourceUnavailable}
         startHereRef={startHereRef}
         total={total}
         featuredEyebrow={featuredEyebrow}
@@ -801,6 +820,7 @@ function HubArticlesSection({
   featuredLoading,
   guide,
   guideLoading = false,
+  guideMode = false,
   handleLoadMore,
   hasMore,
   isFiltered = false,
@@ -823,6 +843,7 @@ function HubArticlesSection({
   featuredLoading: boolean;
   guide?: BlogPost;
   guideLoading?: boolean;
+  guideMode?: boolean;
   handleLoadMore: () => void;
   hasMore: boolean;
   isFiltered?: boolean;
@@ -843,11 +864,17 @@ function HubArticlesSection({
   const visiblePosts = isFiltered ? posts : rest;
   const displayedCount = isFiltered ? visiblePosts.length : visiblePosts.length + (featured ? 1 : 0) + (guide ? 1 : 0);
   const sectionEyebrow = isFiltered
-    ? searchQuery
+    ? guideMode
+      ? "Άρθρα-οδηγοί"
+      : searchQuery
       ? `Αποτελέσματα για “${searchQuery}”`
       : "Φιλτραρισμένα αποτελέσματα"
     : "Περισσότερο περιεχόμενο";
-  const sectionTitle = isFiltered ? `Αποτελέσματα στο ${displayName}` : `Όλα τα Άρθρα ${displayName}`;
+  const sectionTitle = isFiltered
+    ? guideMode
+      ? `Οδηγοί στο ${displayName}`
+      : `Αποτελέσματα στο ${displayName}`
+    : `Όλα τα Άρθρα ${displayName}`;
 
   return (
     <section className="px-6 py-16" style={sectionSurfaces.hubArticles}>
@@ -1021,6 +1048,7 @@ export function Hub() {
   const search = searchParams.get("search") || "";
   const activeSort = searchParams.get("sort") || "";
   const activeTag = searchParams.get("tag") || "";
+  const guideMode = searchParams.get("guide") === "true";
   
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [featuredOverride, setFeaturedOverride] = useState<BlogPost | null>(null);
@@ -1121,7 +1149,7 @@ export function Hub() {
   }, [hubSlug, setShowStickyBottom]);
 
   // Track filters and reset when they change
-  const prevFiltersRef = useRef({ search, sort: activeSort, tag: activeTag });
+  const prevFiltersRef = useRef({ search, sort: activeSort, tag: activeTag, guide: guideMode });
 
   const fetchNonFeaturedBatch = async ({
     startOffset,
@@ -1202,6 +1230,43 @@ export function Hub() {
     const featuredRes = await getFeaturedPost(hubSlug);
     return featuredRes.data;
   };
+
+  const fetchGuidePosts = async ({ sortValue }: { sortValue?: string }) => {
+    const collected: BlogPost[] = [];
+    let nextOffset = 0;
+    let totalAvailable = HUB_GUIDE_FETCH_MAX_POSTS;
+
+    while (nextOffset < totalAvailable && nextOffset < HUB_GUIDE_FETCH_MAX_POSTS) {
+      const result = await getPosts({
+        hub: hubSlug,
+        wpCategoryId: liveHub?.wpCategoryId,
+        perPage: HUB_GUIDE_FETCH_BATCH_SIZE,
+        offset: nextOffset,
+        sort: sortValue || undefined,
+      });
+
+      if (result.sourceUnavailable) {
+        return { data: [] as BlogPost[], sourceUnavailable: true };
+      }
+
+      collected.push(...result.data);
+      nextOffset += result.data.length;
+      totalAvailable = Math.min(result.meta.total || nextOffset, HUB_GUIDE_FETCH_MAX_POSTS);
+
+      if (result.data.length === 0 || nextOffset >= totalAvailable) {
+        break;
+      }
+    }
+
+    const seen = new Set<number>();
+    const guidePosts = collected.filter((post) => {
+      if (!isGuideArticle(post) || seen.has(post.id)) return false;
+      seen.add(post.id);
+      return true;
+    });
+
+    return { data: guidePosts, sourceUnavailable: false };
+  };
   const shouldUseFeatured = Boolean(hub);
 
   // Fetch posts whenever the hub slug, currentPage, filters, or resolved WP category ID changes.
@@ -1212,13 +1277,32 @@ export function Hub() {
     const filtersChanged = 
       prevFiltersRef.current.search !== search ||
       prevFiltersRef.current.sort !== activeSort ||
-      prevFiltersRef.current.tag !== activeTag;
+      prevFiltersRef.current.tag !== activeTag ||
+      prevFiltersRef.current.guide !== guideMode;
 
-    const isFilteredRequest = Boolean(search || activeSort || activeTag);
+    const isFilteredRequest = Boolean(search || activeSort || activeTag || guideMode);
     const shouldSyncFeatured = shouldUseFeatured && !isFilteredRequest && currentPage === 1;
+    const loadGuidePosts = () => {
+      fetchGuidePosts({ sortValue: activeSort }).then(({ data, sourceUnavailable }) => {
+        if (cancelled) return;
+        setPosts(data);
+        setSourceOffset(data.length);
+        setTotalPages(1);
+        setTotal(data.length);
+        setPostsSourceUnavailable(sourceUnavailable);
+        setLoading(false);
+        setLoadingMore(false);
+      }).catch(() => {
+        if (cancelled) return;
+        setPosts([]);
+        setPostsSourceUnavailable(true);
+        setLoading(false);
+        setLoadingMore(false);
+      });
+    };
 
     if (filtersChanged) {
-      prevFiltersRef.current = { search, sort: activeSort, tag: activeTag };
+      prevFiltersRef.current = { search, sort: activeSort, tag: activeTag, guide: guideMode };
       // Reset to page 1 when filters change
       setPosts([]);
       setCurrentPage(1);
@@ -1258,6 +1342,11 @@ export function Hub() {
       } else {
         setFeaturedOverride(null);
         setFeaturedLoading(false);
+        if (guideMode) {
+          loadGuidePosts();
+          return;
+        }
+
         getPosts({
           hub: hubSlug,
           wpCategoryId: liveHub?.wpCategoryId,
@@ -1330,6 +1419,17 @@ export function Hub() {
       setFeaturedLoading(false);
     }
 
+    if (guideMode) {
+      if (isLoadMore) {
+        setLoading(false);
+        setLoadingMore(false);
+        return;
+      }
+
+      loadGuidePosts();
+      return;
+    }
+
     if (isLoadMore && shouldUseFeatured && featuredOverride) {
       fetchNonFeaturedBatch({
         startOffset: sourceOffset,
@@ -1391,11 +1491,11 @@ export function Hub() {
     };
   // Re-run when wpCategoryId becomes available (context loaded from WP)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hubSlug, liveHub?.wpCategoryId, currentPage, search, activeSort, activeTag]);
+  }, [hubSlug, liveHub?.wpCategoryId, currentPage, search, activeSort, activeTag, guideMode]);
 
   useEffect(() => {
     let cancelled = false;
-    const isFilteredRequest = Boolean(search || activeSort || activeTag);
+    const isFilteredRequest = Boolean(search || activeSort || activeTag || guideMode);
     const shouldResolveGuide = hubSlug === "opsyd" && shouldUseFeatured && !isFilteredRequest;
 
     if (!shouldResolveGuide) {
@@ -1459,6 +1559,7 @@ export function Hub() {
     featuredLoading,
     featuredOverride?.id,
     guideOverride,
+    guideMode,
     hubSlug,
     liveHub?.wpCategoryId,
     loading,
@@ -1500,11 +1601,11 @@ export function Hub() {
     }
 
     pendingResultsScrollRef.current = true;
-    updateParams({ search: nextSearch });
+    updateParams({ search: nextSearch, guide: undefined });
   };
 
   const clearFilters = () => {
-    updateParams({ search: undefined, sort: undefined, tag: undefined });
+    updateParams({ search: undefined, sort: undefined, tag: undefined, guide: undefined });
     setSearchInput("");
   };
 
@@ -1512,7 +1613,7 @@ export function Hub() {
     setCurrentPage(prev => prev + 1);
   };
 
-  const activeFiltersCount = [search, activeSort, activeTag].filter(Boolean).length;
+  const activeFiltersCount = [search, activeSort, activeTag, guideMode ? "guide" : ""].filter(Boolean).length;
 
   const scrollToStartHere = () => {
     const element = startHereRef.current;
@@ -1555,7 +1656,7 @@ export function Hub() {
     pendingInfoPanelScrollRef.current = false;
   };
 
-  const applyTopicFilter = (label: string, target: { link?: string; panelId?: string; search?: string; sort?: string; tag?: string }) => {
+  const applyTopicFilter = (label: string, target: HubTopicTarget) => {
     if (target.panelId) {
       trackContextualEvent("hub_topic_filter_click", {
         hub: hubSlug,
@@ -1590,6 +1691,34 @@ export function Hub() {
       return;
     }
 
+    if (target.guide) {
+      trackContextualEvent("hub_topic_filter_click", {
+        hub: hubSlug,
+        topic_label: label,
+        topic_guide: true,
+        total_articles: total,
+      });
+
+      setActiveInfoPanelId(null);
+      if (guideMode && !search && !activeSort && !activeTag) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(scrollToStartHere);
+        });
+        return;
+      }
+
+      pendingResultsScrollRef.current = true;
+      updateParams({
+        search: undefined,
+        sort: undefined,
+        tag: undefined,
+        guide: "true",
+      });
+      setSearchInput("");
+      setShowFilters(false);
+      return;
+    }
+
     const nextSearch = target.search || "";
     const nextSort = target.sort || "";
     const nextTag = target.tag || "";
@@ -1604,7 +1733,7 @@ export function Hub() {
     });
 
     setActiveInfoPanelId(null);
-    if (search === nextSearch && activeSort === nextSort && activeTag === nextTag) {
+    if (!guideMode && search === nextSearch && activeSort === nextSort && activeTag === nextTag) {
       requestAnimationFrame(() => {
         requestAnimationFrame(scrollToStartHere);
       });
@@ -1616,6 +1745,7 @@ export function Hub() {
       search: nextSearch || undefined,
       sort: nextSort || undefined,
       tag: nextTag || undefined,
+      guide: undefined,
     });
     setSearchInput(nextSearch);
     setShowFilters(false);
@@ -1752,9 +1882,9 @@ export function Hub() {
     href: ctaConfig.link,
   };
 
-  const seo = hubSeo(hubSlug ?? "", Boolean(search || activeSort || activeTag));
+  const seo = hubSeo(hubSlug ?? "", Boolean(search || activeSort || activeTag || guideMode));
   const featured = !featuredLoading ? featuredOverride : undefined;
-  const isFiltered = Boolean(search || activeSort || activeTag);
+  const isFiltered = Boolean(search || activeSort || activeTag || guideMode);
   const guide = hubSlug === "opsyd" && !isFiltered && !guideLoading ? guideOverride ?? undefined : undefined;
   const rest = posts.filter((post) => post.id !== featured?.id && post.id !== guide?.id);
   const displayedArticleCount = isFiltered
@@ -1792,6 +1922,7 @@ export function Hub() {
     primaryCTA,
     rest,
     search,
+    guideMode,
     searchInput,
     setSearchInput,
     setShowFilters,

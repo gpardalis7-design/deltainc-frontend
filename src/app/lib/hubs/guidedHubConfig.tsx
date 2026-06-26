@@ -63,6 +63,7 @@ export interface GuidedHubData {
       search?: string;
       sort?: string;
       tag?: string;
+      guide?: boolean;
     };
     icon: ReactNode;
   }[];
@@ -783,7 +784,7 @@ export const GUIDED_HUB_DATA: Record<string, GuidedHubData> = {
       ctaLabel: "Αναζήτηση προγραμμάτων",
     },
     keyTopics: [
-      { label: "Πώς να Επιλέξετε Μεταπτυχιακό", desc: "Κριτήρια επιλογής, παγίδες και ερωτήσεις που πρέπει να κάνετε", actionLabel: "Δείτε πώς να συγκρίνετε σωστά", target: { search: "επιλέξετε" }, icon: <HelpCircle size={18} /> },
+      { label: "Πώς να Επιλέξετε Μεταπτυχιακό", desc: "Κριτήρια επιλογής, παγίδες και ερωτήσεις που πρέπει να κάνετε", actionLabel: "Δείτε πώς να συγκρίνετε σωστά", target: { guide: true }, icon: <HelpCircle size={18} /> },
       { label: "Οδηγός Αίτησης & Εγγραφής", desc: "Διαδικασία από αναζήτηση έως ολοκλήρωση εγγραφής", actionLabel: "Μάθετε τη διαδικασία αίτησης", target: { panelId: "metaptyxiaka-application-guide" }, icon: <CheckCircle2 size={18} /> },
       { label: "Δίδακτρα & Χρηματοδότηση", desc: "Υποτροφίες, δόσεις και τρόποι χρηματοδότησης", actionLabel: "Δείτε άρθρα για κόστος και υποτροφίες", target: { tag: "ypotrofies" }, icon: <TrendingUp size={18} /> },
       { label: "Αναγνώριση ΔΟΑΤΑΠ/ΑΤΕΕΝ", desc: "Δείτε ποια μορφή αναγνώρισης αντιστοιχεί στον τίτλο και στον επαγγελματικό ή ακαδημαϊκό σας στόχο.", actionLabel: "Δείτε ποια αναγνώριση χρειάζεστε", target: { panelId: "metaptyxiaka-recognition-guide" }, icon: <BookOpen size={18} /> },
