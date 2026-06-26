@@ -139,12 +139,12 @@ function PostCard({ post }: { post: BlogPost }) {
 
 // ─── Featured post ────────────────────────────────────────────────────────────
 
-function FeaturedPost({ post }: { post: BlogPost }) {
+function FeaturedPost({ post, stacked = false }: { post: BlogPost; stacked?: boolean }) {
   const image = getArticleCardImage(post.featuredImage, "featured");
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className="group h-full rounded-3xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-0.5"
+      className={`group h-full rounded-3xl overflow-hidden flex flex-col ${stacked ? "" : "md:flex-row"} transition-all duration-300 hover:-translate-y-0.5`}
       style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
       onClick={() =>
         trackEvent("featured_article_click", {
@@ -158,7 +158,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
     >
       {post.featuredImage && image && (
-        <div className="h-[clamp(200px,28vw,280px)] shrink-0 overflow-hidden">
+        <div className={`h-[clamp(200px,28vw,280px)] shrink-0 overflow-hidden ${stacked ? "" : "md:h-auto md:min-h-[280px] md:w-2/5"}`}>
           <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
       )}
@@ -893,7 +893,7 @@ function HubArticlesSection({
                   className="overflow-hidden rounded-3xl"
                   style={{ border: `1px solid ${D.border}`, background: D.surfaceStrong, boxShadow: `0 4px 24px ${D.shadow}`, borderRadius: D.radiusShell }}
                 >
-                  <div className="animate-pulse">
+                  <div className={guideLoading ? "animate-pulse" : "grid animate-pulse grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"}>
                     <div style={{ height: "clamp(200px,28vw,280px)", background: "rgba(19,35,58,0.08)" }} />
                     <div className="p-7">
                       <div className="h-6 w-28 rounded-full mb-4" style={{ background: "rgba(19,35,58,0.08)" }} />
@@ -918,7 +918,7 @@ function HubArticlesSection({
             <div className="mb-10">
               <div className="type-eyebrow mb-4" style={{ color: D.inkSoft }}>{featuredEyebrow}</div>
               <div className={guide || guideLoading ? "grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]" : undefined}>
-                <FeaturedPost post={featured} />
+                <FeaturedPost post={featured} stacked={Boolean(guide || guideLoading)} />
                 {guide ? (
                   <GuidePost post={guide} />
                 ) : guideLoading ? (
