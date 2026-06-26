@@ -295,16 +295,6 @@
       "permanent": true
     },
     {
-      "source": "/metaptyxiaka",
-      "destination": "/blog/metaptyxiaka",
-      "permanent": true
-    },
-    {
-      "source": "/metaptyxiaka/",
-      "destination": "/blog/metaptyxiaka",
-      "permanent": true
-    },
-    {
       "source": "/nees-sxolikes-monades-2026-2027",
       "destination": "/blog/nees-sxolikes-monades-2026-2027",
       "permanent": true

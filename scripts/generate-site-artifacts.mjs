@@ -205,6 +205,17 @@ function createContentEntries(posts, programs) {
   return [...articleEntries, ...programEntries];
 }
 
+function createAppOwnedRedirectSources() {
+  const paths = new Set([
+    ...policy.indexableStaticRoutes,
+    ...policy.noindexStaticRoutes,
+    ...policy.promotedServiceHubSlugs.map((slug) => `/${slug}`),
+    ...Object.values(policy.editorialCategoryArchives).map((archive) => archive.path),
+  ]);
+
+  return new Set([...paths].flatMap((path) => createPathVariants(path)));
+}
+
 // Phase 6a: RSS 2.0 feed of the latest blog posts. Item links + the channel
 // self-reference use the canonical host (deltainc.gr), matching the sitemap; the
 // <link rel="alternate"> autodiscovery tag in index.html is host-relative.
@@ -249,6 +260,7 @@ function createRssFeed(posts) {
 }
 
 function createRedirectManifest(posts, programs) {
+  const appOwnedRedirectSources = createAppOwnedRedirectSources();
   const exactRedirects = Object.entries(policy.legacyStaticRedirects).map(([from, to]) => ({
     from: normalizePath(from),
     to: normalizePath(to),
@@ -264,7 +276,11 @@ function createRedirectManifest(posts, programs) {
         type: "article",
       };
     })
-    .filter((entry) => entry.from !== entry.to);
+    .filter((entry) => {
+      // App-owned routes win over legacy root post URLs. A WordPress post can
+      // share a slug with a hub, but Vercel redirects run before React routing.
+      return entry.from !== entry.to && !appOwnedRedirectSources.has(entry.from);
+    });
 
   const programRedirects = programs.flatMap((program) => {
     const exactOldPath = normalizePath(new URL(program.link).pathname);
