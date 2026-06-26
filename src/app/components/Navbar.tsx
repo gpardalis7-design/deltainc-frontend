@@ -13,7 +13,6 @@ const NAV_ITEMS = [
   { label: "Μεταπτυχιακά", url: "/metaptyxiaka" },
   { label: "ΑΣΕΠ", url: "/asep" },
   { label: "ΟΠΣΥΔ", url: "/opsyd" },
-  { label: "Delta Apps", url: "/delta-apps", isNew: true },
   { label: "Blog", url: "/blog" },
   { label: "Επικοινωνία", url: "/contact" },
 ];
@@ -124,21 +123,7 @@ export function Navbar() {
                     })
                   }
                 >
-                  <span className="inline-flex items-center gap-2">
-                    {item.label}
-                    {item.isNew ? (
-                      <span
-                        className="px-2 py-0.5 rounded-full text-[10px] tracking-[0.08em] uppercase"
-                        style={{
-                          background: active ? "rgba(15,23,42,0.08)" : D.accentSoft,
-                          color: active ? D.ink : D.accentStrong,
-                          fontWeight: 700,
-                        }}
-                      >
-                        Νέο
-                      </span>
-                    ) : null}
-                  </span>
+                  <span className="inline-flex items-center gap-2">{item.label}</span>
                 </Link>
               );
             })}
@@ -236,17 +221,7 @@ export function Navbar() {
                     })
                   }
                 >
-                  <span className="inline-flex items-center gap-2">
-                    {item.label}
-                    {item.isNew ? (
-                      <span
-                        className="px-2 py-0.5 rounded-full text-[10px] tracking-[0.08em] uppercase"
-                        style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700 }}
-                      >
-                        Νέο
-                      </span>
-                    ) : null}
-                  </span>
+                  <span className="inline-flex items-center gap-2">{item.label}</span>
                 </Link>
               );
             })}
