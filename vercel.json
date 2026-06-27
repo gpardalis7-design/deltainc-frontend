@@ -15,10 +15,6 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, follow"
         }
       ]
     }
@@ -282,6 +278,46 @@
     {
       "source": "/panepistimiaka-mathimata-online/",
       "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/ekpaidefsi-stin-psychotherapeia",
+      "destination": "/blog/ekpaidefsi-stin-psychotherapeia",
+      "permanent": true
+    },
+    {
+      "source": "/ekpaidefsi-stin-psychotherapeia/",
+      "destination": "/blog/ekpaidefsi-stin-psychotherapeia",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiaka-eidikis-agogis",
+      "destination": "/blog/metaptychiaka-eidikis-agogis",
+      "permanent": true
+    },
+    {
+      "source": "/metaptychiaka-eidikis-agogis/",
+      "destination": "/blog/metaptychiaka-eidikis-agogis",
+      "permanent": true
+    },
+    {
+      "source": "/sexoualiki-kakopoiisi-mathitrias-irakleio",
+      "destination": "/blog/sexoualiki-kakopoiisi-mathitrias-irakleio",
+      "permanent": true
+    },
+    {
+      "source": "/sexoualiki-kakopoiisi-mathitrias-irakleio/",
+      "destination": "/blog/sexoualiki-kakopoiisi-mathitrias-irakleio",
+      "permanent": true
+    },
+    {
+      "source": "/panellinies-2026",
+      "destination": "/blog/panellinies-2026",
+      "permanent": true
+    },
+    {
+      "source": "/panellinies-2026/",
+      "destination": "/blog/panellinies-2026",
       "permanent": true
     },
     {
@@ -4095,6 +4131,166 @@
       "permanent": true
     },
     {
+      "source": "/grad-undergrad/msc-shipping-operations-management",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-shipping-operations-management/",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-shipping-operations-management",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-shipping-operations-management/",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-shipping-operations-management",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-shipping-operations-management/",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-shipping-operations-management",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-shipping-operations-management/",
+      "destination": "/courses/msc-shipping-operations-management",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-real-estate",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-real-estate/",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-real-estate",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-real-estate/",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-real-estate",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-real-estate/",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-real-estate",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-real-estate/",
+      "destination": "/courses/msc-real-estate",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-digital-finance",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-digital-finance/",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-digital-finance",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-digital-finance/",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-digital-finance",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-digital-finance/",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-digital-finance",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-digital-finance/",
+      "destination": "/courses/msc-digital-finance",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-data-analytics-for-business",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/grad-undergrad/msc-data-analytics-for-business/",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-data-analytics-for-business",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/program/msc-data-analytics-for-business/",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-data-analytics-for-business",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-data-analytics-for-business/",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-data-analytics-for-business",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-data-analytics-for-business/",
+      "destination": "/courses/msc-data-analytics-for-business",
+      "permanent": true
+    },
+    {
       "source": "/grad-undergrad/iatriki-unic-athens",
       "destination": "/courses/iatriki-unic-athens",
       "permanent": true
@@ -4135,43 +4331,43 @@
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/grad-undergrad/proptychiako-psychologias-ex-apostaseos",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81/",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/grad-undergrad/proptychiako-psychologias-ex-apostaseos/",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/program/proptychiako-psychologias-ex-apostaseos",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81/",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/program/proptychiako-psychologias-ex-apostaseos/",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/proptychiako-psychologias-ex-apostaseos",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81/",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/proptychiako-psychologias-ex-apostaseos/",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/proptychiako-psychologias-ex-apostaseos",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%84%CF%85%CF%87%CE%AF%CE%BF-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1%CF%82-%CE%B5%CE%BE-%CE%B1%CF%80%CE%BF%CF%83%CF%84%CE%AC%CF%83%CE%B5%CF%89%CF%82-%CE%BA%CF%8D%CF%80%CF%81/",
-      "destination": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/proptychiako-psychologias-ex-apostaseos/",
+      "destination": "/courses/proptychiako-psychologias-ex-apostaseos",
       "permanent": true
     },
     {
@@ -4615,43 +4811,43 @@
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/grad-undergrad/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE/",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/grad-undergrad/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi/",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/program/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/program/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/program/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE/",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/program/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi/",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE/",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi/",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/%CF%80%CF%81%CE%AC%CF%83%CE%B9%CE%BD%CE%B7-%CE%BC%CE%B5%CF%84%CE%AC%CE%B2%CE%B1%CF%83%CE%B7-%CE%BA%CE%B1%CE%B9-%CE%B2%CE%B9%CF%8E%CF%83%CE%B9%CE%BC%CE%B7-%CE%B1%CE%BD%CE%AC%CF%80%CF%84%CF%85%CE%BE/",
-      "destination": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi/",
+      "destination": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "permanent": true
     },
     {
@@ -4895,43 +5091,43 @@
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/grad-undergrad/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/grad-undergrad/metaptychiako-eidiki-agogi-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/program/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/program/metaptychiako-eidiki-agogi-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%B9%CE%B4%CE%B9%CE%BA%CE%AE-%CE%B1%CE%B3%CF%89%CE%B3%CE%B7-%CE%BD%CE%AD%CE%B5%CF%82-%CF%84%CE%B5%CF%87%CE%BD%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B5%CF%82/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "permanent": true
     },
     {
@@ -5135,83 +5331,83 @@
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/grad-undergrad/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/grad-undergrad/metaptychiako-ekpaideftiki-igesia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/program/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/program/metaptychiako-ekpaideftiki-igesia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%AF%CE%B4%CE%B5%CF%85%CF%83%CE%B7-%CE%B7%CE%B3%CE%B5%CF%83%CE%AF%CE%B1-%CE%B4%CE%B9%CE%BF%CE%AF%CE%BA%CE%B7%CF%83%CE%B7/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/grad-undergrad/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/grad-undergrad/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/program/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/program/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/program/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/msc-%CF%83%CF%84%CE%B7%CE%BD-%CE%B5%CE%BA%CF%80%CE%B1%CE%B9%CE%B4%CE%B5%CF%85%CF%84%CE%B9%CE%BA%CE%AE-%CF%88%CF%85%CF%87%CE%BF%CE%BB%CE%BF%CE%B3%CE%AF%CE%B1/",
-      "destination": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos/",
+      "destination": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "permanent": true
     },
     {
@@ -5615,43 +5811,43 @@
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/4886",
-      "destination": "/courses/4886",
+      "source": "/grad-undergrad/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/grad-undergrad/4886/",
-      "destination": "/courses/4886",
+      "source": "/grad-undergrad/metaptychiako-organosiaki-ergasiaki-psychologia/",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/program/4886",
-      "destination": "/courses/4886",
+      "source": "/program/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/program/4886/",
-      "destination": "/courses/4886",
+      "source": "/program/metaptychiako-organosiaki-ergasiaki-psychologia/",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/4886",
-      "destination": "/courses/4886",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/4886/",
-      "destination": "/courses/4886",
+      "source": "/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia/",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/4886",
-      "destination": "/courses/4886",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
-      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/4886/",
-      "destination": "/courses/4886",
+      "source": "/%CF%85%CF%80%CE%B7%CF%81%CE%B5%CF%83%CE%B9%CE%B5%CF%82/%CE%BC%CE%B5%CF%84%CE%B1%CF%80%CF%84%CF%85%CF%87%CE%B9%CE%B1%CE%BA%CE%AC-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia/",
+      "destination": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "permanent": true
     },
     {
@@ -6242,11 +6438,11 @@
   "rewrites": [
     {
       "source": "/wp-content/:path*",
-      "destination": "https://deltainc.gr/wp-content/:path*"
+      "destination": "https://cms.deltainc.gr/wp-content/:path*"
     },
     {
       "source": "/wp-json/:path*",
-      "destination": "https://deltainc.gr/wp-json/:path*"
+      "destination": "https://cms.deltainc.gr/wp-json/:path*"
     },
     {
       "source": "/courses",

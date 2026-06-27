@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T13:05:51.301Z",
+  "generatedAt": "2026-06-27T08:05:22.014Z",
   "exactRedirects": [
     {
       "from": "/news",
@@ -133,6 +133,26 @@
     }
   ],
   "articleRedirects": [
+    {
+      "from": "/ekpaidefsi-stin-psychotherapeia",
+      "to": "/blog/ekpaidefsi-stin-psychotherapeia",
+      "type": "article"
+    },
+    {
+      "from": "/metaptychiaka-eidikis-agogis",
+      "to": "/blog/metaptychiaka-eidikis-agogis",
+      "type": "article"
+    },
+    {
+      "from": "/sexoualiki-kakopoiisi-mathitrias-irakleio",
+      "to": "/blog/sexoualiki-kakopoiisi-mathitrias-irakleio",
+      "type": "article"
+    },
+    {
+      "from": "/panellinies-2026",
+      "to": "/blog/panellinies-2026",
+      "type": "article"
+    },
     {
       "from": "/metaptyxiaka-gia-ekpaideutikous",
       "to": "/blog/metaptyxiaka-gia-ekpaideutikous",
@@ -2041,6 +2061,86 @@
   ],
   "programRedirects": [
     {
+      "from": "/grad-undergrad/msc-shipping-operations-management",
+      "to": "/courses/msc-shipping-operations-management",
+      "type": "program"
+    },
+    {
+      "from": "/program/msc-shipping-operations-management",
+      "to": "/courses/msc-shipping-operations-management",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/msc-shipping-operations-management",
+      "to": "/courses/msc-shipping-operations-management",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-shipping-operations-management",
+      "to": "/courses/msc-shipping-operations-management",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/msc-real-estate",
+      "to": "/courses/msc-real-estate",
+      "type": "program"
+    },
+    {
+      "from": "/program/msc-real-estate",
+      "to": "/courses/msc-real-estate",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/msc-real-estate",
+      "to": "/courses/msc-real-estate",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-real-estate",
+      "to": "/courses/msc-real-estate",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/msc-digital-finance",
+      "to": "/courses/msc-digital-finance",
+      "type": "program"
+    },
+    {
+      "from": "/program/msc-digital-finance",
+      "to": "/courses/msc-digital-finance",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/msc-digital-finance",
+      "to": "/courses/msc-digital-finance",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-digital-finance",
+      "to": "/courses/msc-digital-finance",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/msc-data-analytics-for-business",
+      "to": "/courses/msc-data-analytics-for-business",
+      "type": "program"
+    },
+    {
+      "from": "/program/msc-data-analytics-for-business",
+      "to": "/courses/msc-data-analytics-for-business",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/msc-data-analytics-for-business",
+      "to": "/courses/msc-data-analytics-for-business",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-data-analytics-for-business",
+      "to": "/courses/msc-data-analytics-for-business",
+      "type": "program"
+    },
+    {
       "from": "/grad-undergrad/iatriki-unic-athens",
       "to": "/courses/iatriki-unic-athens",
       "type": "program"
@@ -2061,23 +2161,23 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
-      "to": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "from": "/grad-undergrad/proptychiako-psychologias-ex-apostaseos",
+      "to": "/courses/proptychiako-psychologias-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
-      "to": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "from": "/program/proptychiako-psychologias-ex-apostaseos",
+      "to": "/courses/proptychiako-psychologias-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
-      "to": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "from": "/μεταπτυχιακά-search-engine/proptychiako-psychologias-ex-apostaseos",
+      "to": "/courses/proptychiako-psychologias-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
-      "to": "/courses/%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/proptychiako-psychologias-ex-apostaseos",
+      "to": "/courses/proptychiako-psychologias-ex-apostaseos",
       "type": "program"
     },
     {
@@ -2301,23 +2401,23 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
-      "to": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "from": "/grad-undergrad/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "to": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "type": "program"
     },
     {
-      "from": "/program/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
-      "to": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "from": "/program/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "to": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
-      "to": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "to": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
-      "to": "/courses/%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
+      "to": "/courses/metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
       "type": "program"
     },
     {
@@ -2441,23 +2541,23 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "from": "/grad-undergrad/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "to": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "from": "/program/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "to": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "to": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-ex-apostaseos",
+      "to": "/courses/metaptychiako-eidiki-agogi-ex-apostaseos",
       "type": "program"
     },
     {
@@ -2561,43 +2661,43 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/grad-undergrad/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/program/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/grad-undergrad/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/program/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
       "type": "program"
     },
     {
@@ -2801,23 +2901,23 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/4886",
-      "to": "/courses/4886",
+      "from": "/grad-undergrad/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "type": "program"
     },
     {
-      "from": "/program/4886",
-      "to": "/courses/4886",
+      "from": "/program/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/4886",
-      "to": "/courses/4886",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/4886",
-      "to": "/courses/4886",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
       "type": "program"
     },
     {
@@ -2982,6 +3082,10 @@
     }
   ],
   "postSlugs": [
+    "ekpaidefsi-stin-psychotherapeia",
+    "metaptychiaka-eidikis-agogis",
+    "sexoualiki-kakopoiisi-mathitrias-irakleio",
+    "panellinies-2026",
     "metaptyxiaka-gia-ekpaideutikous",
     "apotelesmata-panellinion-2026",
     "metaptyxiaka-programmata",
@@ -3365,8 +3469,12 @@
     "%cf%80%ce%b9%cf%83%cf%84%ce%bf%cf%80%ce%bf%ce%af%ce%b7%cf%83%ce%b7-%ce%b1%ce%b3%ce%b3%ce%bb%ce%b9%ce%ba%cf%8e%ce%bd-%ce%b1%cf%83%ce%b5%cf%80"
   ],
   "programSlugs": [
+    "msc-shipping-operations-management",
+    "msc-real-estate",
+    "msc-digital-finance",
+    "msc-data-analytics-for-business",
     "iatriki-unic-athens",
-    "%cf%80%cf%84%cf%85%cf%87%ce%af%ce%bf-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1%cf%82-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%ce%ba%cf%8d%cf%80%cf%81",
+    "proptychiako-psychologias-ex-apostaseos",
     "%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
     "%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
     "%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%ba%cf%8c-%ce%b2%ce%b9%ce%b2%ce%bb%ce%af%ce%bf-%ce%ba%ce%b1%ce%b9-%cf%80%ce%b1%ce%b9%ce%b4%ce%b1%ce%b3%cf%89%ce%b3%ce%b9%ce%ba%cf%8c-%cf%85%ce%bb%ce%b9%ce%ba%cf%8c",
@@ -3378,21 +3486,21 @@
     "msc-in-computational-design-and-digital-fabrication-%cf%85%cf%80%ce%bf%ce%bb%ce%bf%ce%b3%ce%b9%cf%83%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%83%cf%87%ce%b5%ce%b4%ce%b9%ce%b1%cf%83%ce%bc%cf%8c%cf%82-%ce%ba",
     "%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
     "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
-    "%cf%80%cf%81%ce%ac%cf%83%ce%b9%ce%bd%ce%b7-%ce%bc%ce%b5%cf%84%ce%ac%ce%b2%ce%b1%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%b2%ce%b9%cf%8e%cf%83%ce%b9%ce%bc%ce%b7-%ce%b1%ce%bd%ce%ac%cf%80%cf%84%cf%85%ce%be",
+    "metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
     "%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
     "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
     "security-and-defence",
     "elementor-5068",
     "distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
     "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
-    "msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%b7-%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82",
+    "metaptychiako-eidiki-agogi-ex-apostaseos",
     "%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
     "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
     "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
     "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
     "%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-    "msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-    "msc-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+    "metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
+    "metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
     "%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
     "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
     "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
@@ -3403,7 +3511,7 @@
     "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
     "%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
     "%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-    "4886",
+    "metaptychiako-organosiaki-ergasiaki-psychologia",
     "%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
     "ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
     "%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
