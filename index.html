@@ -36,6 +36,16 @@
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <script>document.documentElement.classList.add("delta-js");</script>
+      <style>
+        html.delta-js #root > .article-prerender,
+        html.delta-js #root > .program-prerender,
+        html.delta-js #root > .hub-prerender,
+        html.delta-js #root > .archive-prerender,
+        html.delta-js #root > .page-prerender {
+          display: none !important;
+        }
+      </style>
       <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
     </head>
 
