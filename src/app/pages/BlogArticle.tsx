@@ -168,6 +168,44 @@ const proseStyles = `
   .article-body blockquote { font-family: var(--font-body); border-left: 3px solid ${D.accent}; padding: 0.75rem 1.25rem; margin: 2rem 0; background: ${D.accentSoft}; border-radius: 0 0.75rem 0.75rem 0; font-size: 1.0625rem; line-height: 1.7; color: ${D.ink}; font-style: italic; }
   .article-body .callout { font-family: var(--font-body); background: ${D.surface}; border: 1px solid rgba(197,141,42,0.25); border-radius: 0.875rem; padding: 1rem 1.25rem; margin: 1.75rem 0; font-size: 0.9375rem; line-height: 1.6; color: ${D.ink}; }
   .article-body a { color: ${D.accent}; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; word-break: break-word; }
+  .article-body .delta-newsletter-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0.5rem 0 1rem;
+    padding: 0.72rem 1.05rem;
+    border: 1px solid rgba(29, 78, 216, 0.18);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: ${D.accent} !important;
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    font-weight: 750;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+  .article-body .delta-newsletter-cta::after {
+    content: '→';
+    font-size: 1rem;
+    line-height: 1;
+    transform: translateY(-0.02rem);
+  }
+  .article-body .delta-newsletter-cta:hover {
+    background: ${D.accentSoft};
+    border-color: rgba(29, 78, 216, 0.32);
+    color: ${D.accentStrong} !important;
+    text-decoration: none;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+    transform: translateY(-1px);
+  }
+  .article-body p:has(.delta-newsletter-cta) {
+    margin: 2rem 0;
+  }
   .article-body img,
   .article-body video,
   .article-body iframe,
@@ -828,6 +866,30 @@ export function BlogArticle() {
       : "";
   const sanitizedRichContent = useMemo(() => sanitizeRichHtml(richContent), [richContent]);
   useScrollableRichTables(articleBodyRef, [post?.id, sanitizedRichContent]);
+
+  useEffect(() => {
+    const articleBody = articleBodyRef.current;
+    if (!articleBody) return;
+
+    const handleArticleClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const newsletterCta = target.closest<HTMLAnchorElement | HTMLButtonElement>(".delta-newsletter-cta");
+      if (!newsletterCta || !articleBody.contains(newsletterCta)) return;
+
+      event.preventDefault();
+      trackCtaClick(newsletterCta.textContent?.trim() || "Εγγραφή στο Newsletter", "article_inline_newsletter", {
+        cta_target: "newsletter_popup",
+      });
+      window.dispatchEvent(new Event("delta:open-newsletter"));
+    };
+
+    articleBody.addEventListener("click", handleArticleClick);
+    return () => {
+      articleBody.removeEventListener("click", handleArticleClick);
+    };
+  }, [post?.id, sanitizedRichContent]);
 
   if (loading) return <ArticleSkeleton />;
   if (!post) {
