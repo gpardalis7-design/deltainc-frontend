@@ -44,8 +44,8 @@ const FOOTER_COLUMNS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "Facebook", href: "https://www.facebook.com/Delta.Inc1", icon: <Facebook size={15} /> },
-  { label: "Instagram", href: "https://www.instagram.com/delta_inc_/", icon: <Instagram size={15} /> },
+  { label: "Facebook", href: "https://www.facebook.com/Delta.edu.gr", icon: <Facebook size={15} /> },
+  { label: "Instagram", href: "https://www.instagram.com/delta.edu_/", icon: <Instagram size={15} /> },
 ];
 
 export function Footer() {
