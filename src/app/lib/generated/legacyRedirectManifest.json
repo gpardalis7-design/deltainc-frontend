@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T08:05:22.014Z",
+  "generatedAt": "2026-07-02T11:29:13.104Z",
   "exactRedirects": [
     {
       "from": "/news",
@@ -133,6 +133,61 @@
     }
   ],
   "articleRedirects": [
+    {
+      "from": "/diapolitismiki-ekpaidefsi-pms-patron-lefkosias",
+      "to": "/blog/diapolitismiki-ekpaidefsi-pms-patron-lefkosias",
+      "type": "article"
+    },
+    {
+      "from": "/polynomosxedio-paideias-scholeia-aspaite",
+      "to": "/blog/polynomosxedio-paideias-scholeia-aspaite",
+      "type": "article"
+    },
+    {
+      "from": "/monimes-proslipseis-asep",
+      "to": "/blog/monimes-proslipseis-asep",
+      "type": "article"
+    },
+    {
+      "from": "/spoudes-kai-epaggelmata",
+      "to": "/blog/spoudes-kai-epaggelmata",
+      "type": "article"
+    },
+    {
+      "from": "/3ea-2025-telikoi-pinakes",
+      "to": "/blog/3ea-2025-telikoi-pinakes",
+      "type": "article"
+    },
+    {
+      "from": "/foititiko-stegastiko-epidoma",
+      "to": "/blog/foititiko-stegastiko-epidoma",
+      "type": "article"
+    },
+    {
+      "from": "/paidagogiki-eparkeia-asep-aspaite",
+      "to": "/blog/paidagogiki-eparkeia-asep-aspaite",
+      "type": "article"
+    },
+    {
+      "from": "/proslipseis-paidikoi-stathmoi-asep",
+      "to": "/blog/proslipseis-paidikoi-stathmoi-asep",
+      "type": "article"
+    },
+    {
+      "from": "/ex-apostaseos-ptyxio-psychologias",
+      "to": "/blog/ex-apostaseos-ptyxio-psychologias",
+      "type": "article"
+    },
+    {
+      "from": "/vaseis-panellinion-2026",
+      "to": "/blog/vaseis-panellinion-2026",
+      "type": "article"
+    },
+    {
+      "from": "/ex-apostaseos-metaptyxiaka",
+      "to": "/blog/ex-apostaseos-metaptyxiaka",
+      "type": "article"
+    },
     {
       "from": "/ekpaidefsi-stin-psychotherapeia",
       "to": "/blog/ekpaidefsi-stin-psychotherapeia",
@@ -2061,6 +2116,426 @@
   ],
   "programRedirects": [
     {
+      "from": "/grad-undergrad/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "to": "/courses/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/program/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "to": "/courses/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "to": "/courses/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "to": "/courses/organosiaki-igesia-hrm-msc-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "to": "/courses/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "to": "/courses/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "to": "/courses/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "to": "/courses/metaptychiako-dioikisi-ergou-neapolis-duth",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/diethni-dioikisi-aeiforias-neapolis",
+      "to": "/courses/diethni-dioikisi-aeiforias-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/diethni-dioikisi-aeiforias-neapolis",
+      "to": "/courses/diethni-dioikisi-aeiforias-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/diethni-dioikisi-aeiforias-neapolis",
+      "to": "/courses/diethni-dioikisi-aeiforias-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/diethni-dioikisi-aeiforias-neapolis",
+      "to": "/courses/diethni-dioikisi-aeiforias-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/psifiako-marketing-neapolis-pafou",
+      "to": "/courses/psifiako-marketing-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/program/psifiako-marketing-neapolis-pafou",
+      "to": "/courses/psifiako-marketing-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/psifiako-marketing-neapolis-pafou",
+      "to": "/courses/psifiako-marketing-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/psifiako-marketing-neapolis-pafou",
+      "to": "/courses/psifiako-marketing-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/choros-etairiki-taftotita-neapolis",
+      "to": "/courses/choros-etairiki-taftotita-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/choros-etairiki-taftotita-neapolis",
+      "to": "/courses/choros-etairiki-taftotita-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/choros-etairiki-taftotita-neapolis",
+      "to": "/courses/choros-etairiki-taftotita-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/choros-etairiki-taftotita-neapolis",
+      "to": "/courses/choros-etairiki-taftotita-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "to": "/courses/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "to": "/courses/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "to": "/courses/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "to": "/courses/trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/pliroforiaka-systimata-msc-neapolis",
+      "to": "/courses/pliroforiaka-systimata-msc-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/pliroforiaka-systimata-msc-neapolis",
+      "to": "/courses/pliroforiaka-systimata-msc-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/pliroforiaka-systimata-msc-neapolis",
+      "to": "/courses/pliroforiaka-systimata-msc-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/pliroforiaka-systimata-msc-neapolis",
+      "to": "/courses/pliroforiaka-systimata-msc-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "to": "/courses/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "to": "/courses/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "to": "/courses/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "to": "/courses/metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "to": "/courses/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "to": "/courses/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "to": "/courses/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "to": "/courses/metaptychiako-europaiki-politiki-diakyvernisi-nup",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "to": "/courses/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "type": "program"
+    },
+    {
+      "from": "/program/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "to": "/courses/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "to": "/courses/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "to": "/courses/ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "to": "/courses/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "type": "program"
+    },
+    {
+      "from": "/program/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "to": "/courses/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "to": "/courses/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "to": "/courses/egklimatologiki-logistiki-distance-learning-nup-uowm",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/mba-tourism-distance-learning-neapolis",
+      "to": "/courses/mba-tourism-distance-learning-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/mba-tourism-distance-learning-neapolis",
+      "to": "/courses/mba-tourism-distance-learning-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/mba-tourism-distance-learning-neapolis",
+      "to": "/courses/mba-tourism-distance-learning-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mba-tourism-distance-learning-neapolis",
+      "to": "/courses/mba-tourism-distance-learning-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "to": "/courses/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "to": "/courses/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "to": "/courses/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "to": "/courses/metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "to": "/courses/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "to": "/courses/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "to": "/courses/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "to": "/courses/metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "to": "/courses/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "to": "/courses/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "to": "/courses/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "to": "/courses/metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "to": "/courses/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "to": "/courses/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "to": "/courses/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "to": "/courses/metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "to": "/courses/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/program/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "to": "/courses/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "to": "/courses/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "to": "/courses/metaptyxiako-data-analytics-fintech-neapolis-pafos",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "to": "/courses/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "to": "/courses/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "to": "/courses/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "to": "/courses/epikoinonia-marketing-dimosies-scheseis-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "to": "/courses/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/program/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "to": "/courses/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "to": "/courses/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "to": "/courses/dioikisi-epixeiriseon-neapolis-distance-learning",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/diethneis-sheseis-asfaleia-neapolis",
+      "to": "/courses/diethneis-sheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/program/diethneis-sheseis-asfaleia-neapolis",
+      "to": "/courses/diethneis-sheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/diethneis-sheseis-asfaleia-neapolis",
+      "to": "/courses/diethneis-sheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/diethneis-sheseis-asfaleia-neapolis",
+      "to": "/courses/diethneis-sheseis-asfaleia-neapolis",
+      "type": "program"
+    },
+    {
+      "from": "/grad-undergrad/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "to": "/courses/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/program/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "to": "/courses/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/μεταπτυχιακά-search-engine/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "to": "/courses/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "type": "program"
+    },
+    {
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "to": "/courses/ptychio-psychologias-panepistimio-neapolis-pafou",
+      "type": "program"
+    },
+    {
       "from": "/grad-undergrad/msc-shipping-operations-management",
       "to": "/courses/msc-shipping-operations-management",
       "type": "program"
@@ -2181,43 +2656,43 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
-      "to": "/courses/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
+      "from": "/grad-undergrad/kliniki-psixologia",
+      "to": "/courses/kliniki-psixologia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
-      "to": "/courses/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
+      "from": "/program/kliniki-psixologia",
+      "to": "/courses/kliniki-psixologia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
-      "to": "/courses/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
+      "from": "/μεταπτυχιακά-search-engine/kliniki-psixologia",
+      "to": "/courses/kliniki-psixologia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
-      "to": "/courses/%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/kliniki-psixologia",
+      "to": "/courses/kliniki-psixologia",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/grad-undergrad/dimosia-ygeia-ex-apostasews",
+      "to": "/courses/dimosia-ygeia-ex-apostasews",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/program/dimosia-ygeia-ex-apostasews",
+      "to": "/courses/dimosia-ygeia-ex-apostasews",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/μεταπτυχιακά-search-engine/dimosia-ygeia-ex-apostasews",
+      "to": "/courses/dimosia-ygeia-ex-apostasews",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/dimosia-ygeia-ex-apostasews",
+      "to": "/courses/dimosia-ygeia-ex-apostasews",
       "type": "program"
     },
     {
@@ -2301,43 +2776,43 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
-      "to": "/courses/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
+      "from": "/grad-undergrad/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
+      "to": "/courses/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
-      "to": "/courses/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
+      "from": "/program/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
+      "to": "/courses/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
-      "to": "/courses/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
+      "from": "/μεταπτυχιακά-search-engine/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
+      "to": "/courses/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
-      "to": "/courses/%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
+      "to": "/courses/mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
+      "from": "/grad-undergrad/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
+      "to": "/courses/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
+      "from": "/program/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
+      "to": "/courses/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
+      "from": "/μεταπτυχιακά-search-engine/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
+      "to": "/courses/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
+      "to": "/courses/epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
       "type": "program"
     },
     {
@@ -2361,43 +2836,43 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/grad-undergrad/dimosia-dioikisi-mpa-university-of-nicosia",
+      "to": "/courses/dimosia-dioikisi-mpa-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/program/dimosia-dioikisi-mpa-university-of-nicosia",
+      "to": "/courses/dimosia-dioikisi-mpa-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/μεταπτυχιακά-search-engine/dimosia-dioikisi-mpa-university-of-nicosia",
+      "to": "/courses/dimosia-dioikisi-mpa-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-      "to": "/courses/%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/dimosia-dioikisi-mpa-university-of-nicosia",
+      "to": "/courses/dimosia-dioikisi-mpa-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
+      "from": "/grad-undergrad/didaktiki-glossas-logotechnias-med-unic",
+      "to": "/courses/didaktiki-glossas-logotechnias-med-unic",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
+      "from": "/program/didaktiki-glossas-logotechnias-med-unic",
+      "to": "/courses/didaktiki-glossas-logotechnias-med-unic",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
+      "from": "/μεταπτυχιακά-search-engine/didaktiki-glossas-logotechnias-med-unic",
+      "to": "/courses/didaktiki-glossas-logotechnias-med-unic",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/didaktiki-glossas-logotechnias-med-unic",
+      "to": "/courses/didaktiki-glossas-logotechnias-med-unic",
       "type": "program"
     },
     {
@@ -2421,123 +2896,123 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
+      "from": "/grad-undergrad/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
+      "to": "/courses/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
+      "from": "/program/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
+      "to": "/courses/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
+      "to": "/courses/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
+      "to": "/courses/metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
+      "from": "/grad-undergrad/pms-keimenika-logotexnika-eidi-auth",
+      "to": "/courses/pms-keimenika-logotexnika-eidi-auth",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
+      "from": "/program/pms-keimenika-logotexnika-eidi-auth",
+      "to": "/courses/pms-keimenika-logotexnika-eidi-auth",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
+      "from": "/μεταπτυχιακά-search-engine/pms-keimenika-logotexnika-eidi-auth",
+      "to": "/courses/pms-keimenika-logotexnika-eidi-auth",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/pms-keimenika-logotexnika-eidi-auth",
+      "to": "/courses/pms-keimenika-logotexnika-eidi-auth",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/security-and-defence",
-      "to": "/courses/security-and-defence",
+      "from": "/grad-undergrad/security-and-defence-ex-apostaseos",
+      "to": "/courses/security-and-defence-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/security-and-defence",
-      "to": "/courses/security-and-defence",
+      "from": "/program/security-and-defence-ex-apostaseos",
+      "to": "/courses/security-and-defence-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/security-and-defence",
-      "to": "/courses/security-and-defence",
+      "from": "/μεταπτυχιακά-search-engine/security-and-defence-ex-apostaseos",
+      "to": "/courses/security-and-defence-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/security-and-defence",
-      "to": "/courses/security-and-defence",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/security-and-defence-ex-apostaseos",
+      "to": "/courses/security-and-defence-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/elementor-5068",
-      "to": "/courses/elementor-5068",
+      "from": "/grad-undergrad/mba-sti-viosimi-anaptyksi",
+      "to": "/courses/mba-sti-viosimi-anaptyksi",
       "type": "program"
     },
     {
-      "from": "/program/elementor-5068",
-      "to": "/courses/elementor-5068",
+      "from": "/program/mba-sti-viosimi-anaptyksi",
+      "to": "/courses/mba-sti-viosimi-anaptyksi",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/elementor-5068",
-      "to": "/courses/elementor-5068",
+      "from": "/μεταπτυχιακά-search-engine/mba-sti-viosimi-anaptyksi",
+      "to": "/courses/mba-sti-viosimi-anaptyksi",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/elementor-5068",
-      "to": "/courses/elementor-5068",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mba-sti-viosimi-anaptyksi",
+      "to": "/courses/mba-sti-viosimi-anaptyksi",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
-      "to": "/courses/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
+      "from": "/grad-undergrad/ma-tesol-ex-apostaseos",
+      "to": "/courses/ma-tesol-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
-      "to": "/courses/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
+      "from": "/program/ma-tesol-ex-apostaseos",
+      "to": "/courses/ma-tesol-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
-      "to": "/courses/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
+      "from": "/μεταπτυχιακά-search-engine/ma-tesol-ex-apostaseos",
+      "to": "/courses/ma-tesol-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
-      "to": "/courses/distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ma-tesol-ex-apostaseos",
+      "to": "/courses/ma-tesol-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
+      "from": "/grad-undergrad/metaptychiako-ekpaideftiki-psychologia",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
+      "from": "/program/metaptychiako-ekpaideftiki-psychologia",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-psychologia",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-psychologia",
+      "to": "/courses/metaptychiako-ekpaideftiki-psychologia",
       "type": "program"
     },
     {
@@ -2561,103 +3036,103 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
-      "to": "/courses/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
+      "from": "/grad-undergrad/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
+      "to": "/courses/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
-      "to": "/courses/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
+      "from": "/program/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
+      "to": "/courses/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
-      "to": "/courses/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
+      "from": "/μεταπτυχιακά-search-engine/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
+      "to": "/courses/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
-      "to": "/courses/%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
+      "to": "/courses/diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/grad-undergrad/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
+      "to": "/courses/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/program/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
+      "to": "/courses/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
+      "to": "/courses/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
+      "to": "/courses/metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
+      "from": "/grad-undergrad/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
+      "to": "/courses/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
+      "from": "/program/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
+      "to": "/courses/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
+      "to": "/courses/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
+      "to": "/courses/metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
+      "from": "/grad-undergrad/ekpaideutiki-technologia-med-unic",
+      "to": "/courses/ekpaideutiki-technologia-med-unic",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
+      "from": "/program/ekpaideutiki-technologia-med-unic",
+      "to": "/courses/ekpaideutiki-technologia-med-unic",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
+      "from": "/μεταπτυχιακά-search-engine/ekpaideutiki-technologia-med-unic",
+      "to": "/courses/ekpaideutiki-technologia-med-unic",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ekpaideutiki-technologia-med-unic",
+      "to": "/courses/ekpaideutiki-technologia-med-unic",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/grad-undergrad/ptychio-psychologias-evropaiko-panepistimio-kyprou",
+      "to": "/courses/ptychio-psychologias-evropaiko-panepistimio-kyprou",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/program/ptychio-psychologias-evropaiko-panepistimio-kyprou",
+      "to": "/courses/ptychio-psychologias-evropaiko-panepistimio-kyprou",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/μεταπτυχιακά-search-engine/ptychio-psychologias-evropaiko-panepistimio-kyprou",
+      "to": "/courses/ptychio-psychologias-evropaiko-panepistimio-kyprou",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
-      "to": "/courses/%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ptychio-psychologias-evropaiko-panepistimio-kyprou",
+      "to": "/courses/ptychio-psychologias-evropaiko-panepistimio-kyprou",
       "type": "program"
     },
     {
@@ -2701,303 +3176,303 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
-      "to": "/courses/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
+      "from": "/grad-undergrad/metaptychiako-nees-technologies-kainotomia-didaktiki",
+      "to": "/courses/metaptychiako-nees-technologies-kainotomia-didaktiki",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
-      "to": "/courses/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
+      "from": "/program/metaptychiako-nees-technologies-kainotomia-didaktiki",
+      "to": "/courses/metaptychiako-nees-technologies-kainotomia-didaktiki",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
-      "to": "/courses/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-nees-technologies-kainotomia-didaktiki",
+      "to": "/courses/metaptychiako-nees-technologies-kainotomia-didaktiki",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
-      "to": "/courses/%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-nees-technologies-kainotomia-didaktiki",
+      "to": "/courses/metaptychiako-nees-technologies-kainotomia-didaktiki",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
+      "from": "/grad-undergrad/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
+      "to": "/courses/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
+      "from": "/program/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
+      "to": "/courses/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
+      "to": "/courses/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
+      "to": "/courses/metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
+      "from": "/grad-undergrad/metaptychiako-psifiakes-kai-ipies-dexiotites",
+      "to": "/courses/metaptychiako-psifiakes-kai-ipies-dexiotites",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
+      "from": "/program/metaptychiako-psifiakes-kai-ipies-dexiotites",
+      "to": "/courses/metaptychiako-psifiakes-kai-ipies-dexiotites",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-psifiakes-kai-ipies-dexiotites",
+      "to": "/courses/metaptychiako-psifiakes-kai-ipies-dexiotites",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-psifiakes-kai-ipies-dexiotites",
+      "to": "/courses/metaptychiako-psifiakes-kai-ipies-dexiotites",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
+      "from": "/grad-undergrad/metaptychiako-ekpaideftiki-dioikisi-igesia",
+      "to": "/courses/metaptychiako-ekpaideftiki-dioikisi-igesia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
+      "from": "/program/metaptychiako-ekpaideftiki-dioikisi-igesia",
+      "to": "/courses/metaptychiako-ekpaideftiki-dioikisi-igesia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-dioikisi-igesia",
+      "to": "/courses/metaptychiako-ekpaideftiki-dioikisi-igesia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-ekpaideftiki-dioikisi-igesia",
+      "to": "/courses/metaptychiako-ekpaideftiki-dioikisi-igesia",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
+      "from": "/grad-undergrad/metaptychiako-steam-texnologies-mathisis",
+      "to": "/courses/metaptychiako-steam-texnologies-mathisis",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
+      "from": "/program/metaptychiako-steam-texnologies-mathisis",
+      "to": "/courses/metaptychiako-steam-texnologies-mathisis",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-steam-texnologies-mathisis",
+      "to": "/courses/metaptychiako-steam-texnologies-mathisis",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-steam-texnologies-mathisis",
+      "to": "/courses/metaptychiako-steam-texnologies-mathisis",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
+      "from": "/grad-undergrad/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
+      "to": "/courses/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
+      "from": "/program/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
+      "to": "/courses/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
+      "to": "/courses/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
+      "to": "/courses/metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
+      "from": "/grad-undergrad/metaptychiako-eidiki-agogi-euc",
+      "to": "/courses/metaptychiako-eidiki-agogi-euc",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
+      "from": "/program/metaptychiako-eidiki-agogi-euc",
+      "to": "/courses/metaptychiako-eidiki-agogi-euc",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-euc",
+      "to": "/courses/metaptychiako-eidiki-agogi-euc",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
-      "to": "/courses/%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-euc",
+      "to": "/courses/metaptychiako-eidiki-agogi-euc",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
+      "from": "/grad-undergrad/ekpaideftiki-igesia-dioikisi-unic-med",
+      "to": "/courses/ekpaideftiki-igesia-dioikisi-unic-med",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
+      "from": "/program/ekpaideftiki-igesia-dioikisi-unic-med",
+      "to": "/courses/ekpaideftiki-igesia-dioikisi-unic-med",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
+      "from": "/μεταπτυχιακά-search-engine/ekpaideftiki-igesia-dioikisi-unic-med",
+      "to": "/courses/ekpaideftiki-igesia-dioikisi-unic-med",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ekpaideftiki-igesia-dioikisi-unic-med",
+      "to": "/courses/ekpaideftiki-igesia-dioikisi-unic-med",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
+      "from": "/grad-undergrad/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
+      "to": "/courses/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
+      "from": "/program/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
+      "to": "/courses/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
+      "to": "/courses/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
+      "to": "/courses/metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-      "to": "/courses/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
+      "from": "/grad-undergrad/metaptychiako-eidiki-agogi-panepistimio-patron",
+      "to": "/courses/metaptychiako-eidiki-agogi-panepistimio-patron",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-      "to": "/courses/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
+      "from": "/program/metaptychiako-eidiki-agogi-panepistimio-patron",
+      "to": "/courses/metaptychiako-eidiki-agogi-panepistimio-patron",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-      "to": "/courses/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-panepistimio-patron",
+      "to": "/courses/metaptychiako-eidiki-agogi-panepistimio-patron",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-      "to": "/courses/%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-eidiki-agogi-panepistimio-patron",
+      "to": "/courses/metaptychiako-eidiki-agogi-panepistimio-patron",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/metaptychiako-organosiaki-ergasiaki-psychologia",
-      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "from": "/grad-undergrad/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
+      "to": "/courses/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
       "type": "program"
     },
     {
-      "from": "/program/metaptychiako-organosiaki-ergasiaki-psychologia",
-      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "from": "/program/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
+      "to": "/courses/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
-      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "from": "/μεταπτυχιακά-search-engine/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
+      "to": "/courses/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-organosiaki-ergasiaki-psychologia",
-      "to": "/courses/metaptychiako-organosiaki-ergasiaki-psychologia",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
+      "to": "/courses/ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
-      "to": "/courses/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
+      "from": "/grad-undergrad/mba-ex-apostaseos-university-limassol",
+      "to": "/courses/mba-ex-apostaseos-university-limassol",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
-      "to": "/courses/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
+      "from": "/program/mba-ex-apostaseos-university-limassol",
+      "to": "/courses/mba-ex-apostaseos-university-limassol",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
-      "to": "/courses/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
+      "from": "/μεταπτυχιακά-search-engine/mba-ex-apostaseos-university-limassol",
+      "to": "/courses/mba-ex-apostaseos-university-limassol",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
-      "to": "/courses/%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mba-ex-apostaseos-university-limassol",
+      "to": "/courses/mba-ex-apostaseos-university-limassol",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
-      "to": "/courses/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
+      "from": "/grad-undergrad/ellinikos-politismos-ma-unic-ex-apostaseos",
+      "to": "/courses/ellinikos-politismos-ma-unic-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
-      "to": "/courses/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
+      "from": "/program/ellinikos-politismos-ma-unic-ex-apostaseos",
+      "to": "/courses/ellinikos-politismos-ma-unic-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
-      "to": "/courses/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
+      "from": "/μεταπτυχιακά-search-engine/ellinikos-politismos-ma-unic-ex-apostaseos",
+      "to": "/courses/ellinikos-politismos-ma-unic-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
-      "to": "/courses/ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/ellinikos-politismos-ma-unic-ex-apostaseos",
+      "to": "/courses/ellinikos-politismos-ma-unic-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
+      "from": "/grad-undergrad/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
+      "to": "/courses/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
+      "from": "/program/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
+      "to": "/courses/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
+      "from": "/μεταπτυχιακά-search-engine/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
+      "to": "/courses/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
-      "to": "/courses/%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
+      "to": "/courses/mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
+      "from": "/grad-undergrad/mba-marketing-university-of-nicosia",
+      "to": "/courses/mba-marketing-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
+      "from": "/program/mba-marketing-university-of-nicosia",
+      "to": "/courses/mba-marketing-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
+      "from": "/μεταπτυχιακά-search-engine/mba-marketing-university-of-nicosia",
+      "to": "/courses/mba-marketing-university-of-nicosia",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/mba-marketing-university-of-nicosia",
+      "to": "/courses/mba-marketing-university-of-nicosia",
       "type": "program"
     },
     {
@@ -3021,67 +3496,78 @@
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
-      "to": "/courses/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
+      "from": "/grad-undergrad/metaptychiako-psychiki-ygeia-paidiou-efivou",
+      "to": "/courses/metaptychiako-psychiki-ygeia-paidiou-efivou",
       "type": "program"
     },
     {
-      "from": "/program/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
-      "to": "/courses/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
+      "from": "/program/metaptychiako-psychiki-ygeia-paidiou-efivou",
+      "to": "/courses/metaptychiako-psychiki-ygeia-paidiou-efivou",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
-      "to": "/courses/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-psychiki-ygeia-paidiou-efivou",
+      "to": "/courses/metaptychiako-psychiki-ygeia-paidiou-efivou",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
-      "to": "/courses/%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-psychiki-ygeia-paidiou-efivou",
+      "to": "/courses/metaptychiako-psychiki-ygeia-paidiou-efivou",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
-      "to": "/courses/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
+      "from": "/grad-undergrad/occupational-safety-health-european-university-cyprus-online",
+      "to": "/courses/occupational-safety-health-european-university-cyprus-online",
       "type": "program"
     },
     {
-      "from": "/program/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
-      "to": "/courses/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
+      "from": "/program/occupational-safety-health-european-university-cyprus-online",
+      "to": "/courses/occupational-safety-health-european-university-cyprus-online",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
-      "to": "/courses/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
+      "from": "/μεταπτυχιακά-search-engine/occupational-safety-health-european-university-cyprus-online",
+      "to": "/courses/occupational-safety-health-european-university-cyprus-online",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
-      "to": "/courses/occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/occupational-safety-health-european-university-cyprus-online",
+      "to": "/courses/occupational-safety-health-european-university-cyprus-online",
       "type": "program"
     },
     {
-      "from": "/grad-undergrad/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
+      "from": "/grad-undergrad/metaptychiako-mba-ex-apostaseos",
+      "to": "/courses/metaptychiako-mba-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/program/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
+      "from": "/program/metaptychiako-mba-ex-apostaseos",
+      "to": "/courses/metaptychiako-mba-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
+      "from": "/μεταπτυχιακά-search-engine/metaptychiako-mba-ex-apostaseos",
+      "to": "/courses/metaptychiako-mba-ex-apostaseos",
       "type": "program"
     },
     {
-      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
-      "to": "/courses/%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83",
+      "from": "/υπηρεσιες/μεταπτυχιακά-search-engine/metaptychiako-mba-ex-apostaseos",
+      "to": "/courses/metaptychiako-mba-ex-apostaseos",
       "type": "program"
     }
   ],
   "postSlugs": [
+    "diapolitismiki-ekpaidefsi-pms-patron-lefkosias",
+    "polynomosxedio-paideias-scholeia-aspaite",
+    "monimes-proslipseis-asep",
+    "spoudes-kai-epaggelmata",
+    "3ea-2025-telikoi-pinakes",
+    "foititiko-stegastiko-epidoma",
+    "paidagogiki-eparkeia-asep-aspaite",
+    "proslipseis-paidikoi-stathmoi-asep",
+    "ex-apostaseos-ptyxio-psychologias",
+    "vaseis-panellinion-2026",
+    "ex-apostaseos-metaptyxiaka",
     "ekpaidefsi-stin-psychotherapeia",
     "metaptychiaka-eidikis-agogis",
     "sexoualiki-kakopoiisi-mathitrias-irakleio",
@@ -3469,56 +3955,77 @@
     "%cf%80%ce%b9%cf%83%cf%84%ce%bf%cf%80%ce%bf%ce%af%ce%b7%cf%83%ce%b7-%ce%b1%ce%b3%ce%b3%ce%bb%ce%b9%ce%ba%cf%8e%ce%bd-%ce%b1%cf%83%ce%b5%cf%80"
   ],
   "programSlugs": [
+    "organosiaki-igesia-hrm-msc-neapolis-pafos",
+    "metaptychiako-dioikisi-ergou-neapolis-duth",
+    "diethni-dioikisi-aeiforias-neapolis",
+    "psifiako-marketing-neapolis-pafou",
+    "choros-etairiki-taftotita-neapolis",
+    "trapeziki-xrimatooikonomiki-ependyseis-neapolis",
+    "pliroforiaka-systimata-msc-neapolis",
+    "metaptyxiako-neoteri-sygxroni-istoria-neapolis",
+    "metaptychiako-europaiki-politiki-diakyvernisi-nup",
+    "ekpaideftiki-psychologia-neapolis-ex-apostaseos",
+    "egklimatologiki-logistiki-distance-learning-nup-uowm",
+    "mba-tourism-distance-learning-neapolis",
+    "metaptyxiako-dioikisi-epixeiriseon-mba-neapolis",
+    "metaptyxiako-eyropaiko-dikaio-epixeiriseon-neapolis",
+    "metaptyxiako-diethneis-scheseis-asfaleia-neapolis",
+    "metaptyxiako-dimosia-dioikisi-neapolis-distance-learning",
+    "metaptyxiako-data-analytics-fintech-neapolis-pafos",
+    "epikoinonia-marketing-dimosies-scheseis-neapolis",
+    "dioikisi-epixeiriseon-neapolis-distance-learning",
+    "diethneis-sheseis-asfaleia-neapolis",
+    "ptychio-psychologias-panepistimio-neapolis-pafou",
     "msc-shipping-operations-management",
     "msc-real-estate",
     "msc-digital-finance",
     "msc-data-analytics-for-business",
     "iatriki-unic-athens",
     "proptychiako-psychologias-ex-apostaseos",
-    "%ce%ba%ce%bb%ce%b9%ce%bd%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-clinical-psychology",
-    "%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
+    "kliniki-psixologia",
+    "dimosia-ygeia-ex-apostasews",
     "%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%ba%cf%8c-%ce%b2%ce%b9%ce%b2%ce%bb%ce%af%ce%bf-%ce%ba%ce%b1%ce%b9-%cf%80%ce%b1%ce%b9%ce%b4%ce%b1%ce%b3%cf%89%ce%b3%ce%b9%ce%ba%cf%8c-%cf%85%ce%bb%ce%b9%ce%ba%cf%8c",
     "%ce%bf%ce%b9%ce%ba%ce%bf%ce%bd%ce%bf%ce%bc%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7%cf%82-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b1%cf%87%ce%b5",
     "%ce%ba%ce%bf%ce%b9%ce%bd%cf%89%ce%bd%ce%b9%ce%ba%ce%ae-%ce%bd%ce%b5%cf%85%cf%81%ce%bf%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%89%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80",
     "%ce%b9%cf%83%cf%84%ce%bf%cf%81%ce%af%ce%b1-%ce%b7%ce%b8%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%ba%ce%bf%ce%b9%ce%bd%cf%89%ce%bd%ce%b9%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1-%cf%84%ce%b7%cf%82-%ce%b9",
-    "%ce%bc%ce%b7%cf%87%ce%b1%ce%bd%ce%b9%ce%ba%ce%ae-%cf%80%ce%b5%cf%84%cf%81%ce%b5%ce%bb%ce%b1%ce%af%ce%bf%cf%85-%cf%86%cf%85%cf%83%ce%b9%ce%ba%ce%bf%cf%8d-%ce%b1%ce%b5%cf%81%ce%af%ce%bf%cf%85-%ce%ba",
-    "%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%b7%ce%bc%ce%b1%cf%84%ce%b9",
+    "mixaniki-petrelaiou-aeriou-energeias-university-nicosia",
+    "epixeirimatikotita-psifiakos-metasximatismos-mba-unic",
     "msc-in-computational-design-and-digital-fabrication-%cf%85%cf%80%ce%bf%ce%bb%ce%bf%ce%b3%ce%b9%cf%83%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%83%cf%87%ce%b5%ce%b4%ce%b9%ce%b1%cf%83%ce%bc%cf%8c%cf%82-%ce%ba",
-    "%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-mpa-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b7%cf%82-%ce%b3%ce%bb%cf%8e%cf%83%cf%83",
+    "dimosia-dioikisi-mpa-university-of-nicosia",
+    "didaktiki-glossas-logotechnias-med-unic",
     "metaptychiako-prasini-metavasi-kai-viosimi-anaptyxi",
-    "%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%cf%81%ce%bf%cf%83%ce%b1%ce%bd%ce%b1%cf%84%ce%bf%ce%bb%ce%b9%cf%83%ce%bc%cf%8c%cf%82-%ce%ba%ce%b1%ce%b9",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%ba%ce%b5%ce%b9%ce%bc%ce%b5%ce%bd%ce%b9%ce%ba%ce%ac-%ce%bb%ce%bf%ce%b3%ce%bf%cf%84",
-    "security-and-defence",
-    "elementor-5068",
-    "distance-learning-master-in-teaching-english-to-speakers-of-other-languages",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%88%cf%85%cf%87%ce%bf",
+    "metaptychiako-epaggelmatikos-prosanatolismos-symvouleftiki",
+    "pms-keimenika-logotexnika-eidi-auth",
+    "security-and-defence-ex-apostaseos",
+    "mba-sti-viosimi-anaptyksi",
+    "ma-tesol-ex-apostaseos",
+    "metaptychiako-ekpaideftiki-psychologia",
     "metaptychiako-eidiki-agogi-ex-apostaseos",
-    "%ce%b4%ce%b9%ce%b1%cf%80%ce%b1%ce%bd%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%b7%ce%bc%ce%b9%ce%b1%ce%ba%cf%8c-%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%80%cf%81%cf%8c%ce%b3",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b7%ce%bc%cf%8c%cf%83%ce%b9%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b4%ce%b9%ce%b4%ce%b1%ce%ba%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%cf%89%ce%bd-%ce%bc%ce%b1%ce%b8%ce%b7",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7%ce%bd-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%cf%84%ce%b5%cf%87%ce%bd",
-    "%ce%b5%ce%be-%ce%b1%cf%80%ce%bf%cf%83%cf%84%ce%ac%cf%83%ce%b5%cf%89%cf%82-%cf%80%cf%81%ce%bf%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%88%cf%85%cf%87%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b1",
+    "diapolitismiki-ekpaidefsi-kai-diamesolavisi-ex-apostaseos",
+    "metaptychiako-dimosia-dioikisi-ex-apostaseos-euc",
+    "metaptychiako-didaktiki-mathimatikon-fysikon-epistimon-ex-apostaseos",
+    "ekpaideutiki-technologia-med-unic",
+    "ptychio-psychologias-evropaiko-panepistimio-kyprou",
     "metaptychiako-ekpaideftiki-igesia-ex-apostaseos",
     "metaptychiako-ekpaideftiki-psychologia-ex-apostaseos",
-    "%ce%bd%ce%ad%ce%b5%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%ba%ce%b1%ce%b9%ce%bd%ce%bf%cf%84%ce%bf%ce%bc%ce%af%ce%b1-%ce%ba%ce%b1%ce%b9-%ce%b4%ce%b9%ce%b4%ce%b1",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%b5%ce%ba%cf%80",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%88%ce%b7%cf%86%ce%b9%ce%b1%ce%ba%ce%ad%cf%82-%ce%ba%ce%b1%ce%b9-%ce%ae%cf%80%ce%b9",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b4%ce%b9",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3%ce%af%ce%b5%cf%82-%ce%bc%ce%ac%ce%b8",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b4%ce%b7%ce%bc%ce%b9%ce%bf%cf%85%cf%81%ce%b3%ce%b9%ce%ba%cf%8c%cf%84%ce%b7",
-    "%ce%b5%cf%80%ce%b9%cf%83%cf%84%ce%ae%ce%bc%ce%b5%cf%82-%cf%84%ce%b7%cf%82-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae%cf%82-%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%bd%ce%b9%ce%b1%ce%af",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%ae-%ce%b7%ce%b3%ce%b5%cf%83%ce%af%ce%b1-%ce%b4%ce%b9",
-    "%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%ba%ce%b1%ce%b9-%ce%bf%cf%81%ce%b3%ce%ac%ce%bd%cf%89%cf%83%ce%b7-%ce%b5%ce%ba%cf%80%ce%b1%ce%b9%ce%b4%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd",
-    "%ce%b5%ce%b9%ce%b4%ce%b9%ce%ba%ce%ae-%ce%b1%ce%b3%cf%89%ce%b3%ce%ae-%ce%ba%ce%b1%ce%b9-%ce%b5%ce%ba%cf%80%ce%b1%ce%af%ce%b4%ce%b5%cf%85%cf%83%ce%b7-%ce%ba%ce%bf%ce%b9%ce%bd%cf%8c-%cf%80",
-    "metaptychiako-organosiaki-ergasiaki-psychologia",
-    "%ce%bc%ce%b2%ce%b1-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd",
-    "ma-in-greek-civilization-%ce%b5%ce%bb%ce%bb%ce%b7%ce%bd%ce%b9%ce%ba%cf%8c%cf%82-%cf%80%ce%bf%ce%bb%ce%b9%cf%84%ce%b9%cf%83%ce%bc%cf%8c%cf%82",
-    "%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83%ce%b5%cf%89%ce%bd-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b1%ce%bd%ce%b8%cf%81",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83-2",
+    "metaptychiako-nees-technologies-kainotomia-didaktiki",
+    "metaptychiako-ekpaidefsi-ekpaidefton-enilikon",
+    "metaptychiako-psifiakes-kai-ipies-dexiotites",
+    "metaptychiako-ekpaideftiki-dioikisi-igesia",
+    "metaptychiako-steam-texnologies-mathisis",
+    "metaptychiako-dimiourgikotita-kai-paichnidi-proti-agogi",
+    "metaptychiako-eidiki-agogi-euc",
+    "ekpaideftiki-igesia-dioikisi-unic-med",
+    "metaptychiako-dioikisi-organosi-ekpaideftikon-monadon",
+    "metaptychiako-eidiki-agogi-panepistimio-patron",
+    "ergasiaki-organosiaki-psychologia-panepistimio-lemesou",
+    "mba-ex-apostaseos-university-limassol",
+    "ellinikos-politismos-ma-unic-ex-apostaseos",
+    "mba-dioikisi-anthropinou-dynamikou-ex-apostaseos",
+    "mba-marketing-university-of-nicosia",
     "%ce%b4%ce%b9%ce%b1%cf%87%ce%b5%ce%af%cf%81%ce%b9%cf%83%ce%b7-%cf%80%ce%b5%cf%81%ce%b9%ce%b2%ce%ac%ce%bb%ce%bb%ce%bf%ce%bd%cf%84%ce%bf%cf%82-%ce%ba%ce%b1%ce%b9-%cf%80%ce%b5%cf%81%ce%b9%ce%b2%ce%b1",
-    "%cf%88%cf%85%cf%87%ce%b9%ce%ba%ce%ae-%cf%85%ce%b3%ce%b5%ce%af%ce%b1-%cf%80%ce%b1%ce%b9%ce%b4%ce%b9%ce%bf%cf%8d-%ce%ba%ce%b1%ce%b9-%ce%b5%cf%86%ce%ae%ce%b2%ce%bf%cf%85-%ce%b5%ce%be-%ce%b1%cf%80%ce%bf",
-    "occupational-safety-and-health-%ce%b5%cf%80%ce%b1%ce%b3%ce%b3%ce%b5%ce%bb%ce%bc%ce%b1%cf%84%ce%b9%ce%ba%ce%ae-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1-%ce%ba%ce%b1%ce%b9-%cf%85%ce%b3%ce%b5",
-    "%ce%bc%ce%b5%cf%84%ce%b1%cf%80%cf%84%cf%85%cf%87%ce%b9%ce%b1%ce%ba%cf%8c-%cf%83%cf%84%ce%b7-%ce%b4%ce%b9%ce%bf%ce%af%ce%ba%ce%b7%cf%83%ce%b7-%ce%b5%cf%80%ce%b9%cf%87%ce%b5%ce%b9%cf%81%ce%ae%cf%83"
+    "metaptychiako-psychiki-ygeia-paidiou-efivou",
+    "occupational-safety-health-european-university-cyprus-online",
+    "metaptychiako-mba-ex-apostaseos"
   ]
 }

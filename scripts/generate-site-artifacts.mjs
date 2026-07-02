@@ -79,6 +79,15 @@ function escapeXml(value) {
     .replace(/'/g, "&apos;");
 }
 
+function formatSitemapLastmod(value) {
+  if (!value) return undefined;
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+
+  const raw = String(value).trim();
+  const dateMatch = raw.match(/^(\d{4}-\d{2}-\d{2})/);
+  return dateMatch ? dateMatch[1] : undefined;
+}
+
 function stripTags(html) {
   return String(html || "").replace(/<[^>]*>/g, " ");
 }
@@ -121,12 +130,13 @@ function createPathVariants(pathname, { includeTrailingSlash = true } = {}) {
 function buildUrlSet(entries) {
   const body = entries
     .map((entry) => {
+      const lastmod = formatSitemapLastmod(entry.lastmod);
       const parts = [
         "  <url>",
         `    <loc>${escapeXml(entry.loc)}</loc>`,
       ];
-      if (entry.lastmod) {
-        parts.push(`    <lastmod>${escapeXml(entry.lastmod)}</lastmod>`);
+      if (lastmod) {
+        parts.push(`    <lastmod>${escapeXml(lastmod)}</lastmod>`);
       }
       parts.push("  </url>");
       return parts.join("\n");
@@ -373,12 +383,9 @@ function buildVercelConfig(redirectManifest) {
   }
 
   for (const archive of Object.values(policy.editorialCategoryArchives)) {
-    appendRedirectRules(redirects, seenSources, `/${archive.slug}`, archive.path, {
-      preserveDestinationTrailingSlash: true,
-    });
-    appendRedirectRules(redirects, seenSources, `${archive.path}page/:page`, archive.path, {
-      preserveDestinationTrailingSlash: true,
-    });
+    const archivePath = normalizePath(archive.path);
+    appendRedirectRules(redirects, seenSources, `/${archive.slug}`, archivePath);
+    appendRedirectRules(redirects, seenSources, `${withTrailingSlash(archivePath)}page/:page`, archivePath);
   }
 
   const knownCategorySegments = [

@@ -24,7 +24,7 @@
   "editorialCategoryArchives": {
     "ekpaideysi": {
       "slug": "ekpaideysi",
-      "path": "/category/ekpaideysi/",
+      "path": "/category/ekpaideysi",
       "name": "Εκπαίδευση",
       "h1": "Νέα για Εκπαιδευτικούς",
       "intro": "Προκηρύξεις, ενημερώσεις και πρακτικοί οδηγοί για εκπαιδευτικούς.",
@@ -33,20 +33,11 @@
     },
     "nea-epikairothta": {
       "slug": "nea-epikairothta",
-      "path": "/category/nea-epikairothta/",
+      "path": "/category/nea-epikairothta",
       "name": "Νέα/Επικαιρότητα",
       "h1": "Νέα & Επικαιρότητα",
       "intro": "Τελευταίες ειδήσεις, ανακοινώσεις και εξελίξεις από την εκπαίδευση, το Δημόσιο και την αγορά εργασίας.",
       "titleFull": "Νέα/Επικαιρότητα Archives - Delta",
-      "description": ""
-    },
-    "επιδόματα": {
-      "slug": "επιδόματα",
-      "path": "/category/επιδόματα/",
-      "name": "Επιδόματα",
-      "h1": "Επιδόματα",
-      "intro": "Ενημερώσεις για επιδόματα, προθεσμίες, πληρωμές και οδηγούς αιτήσεων.",
-      "titleFull": "Επιδόματα Archives - Delta",
       "description": ""
     }
   },
