@@ -87,9 +87,9 @@ export function homeSeo(): SeoMeta {
 export function hubSeo(slug: string, filtered = false): SeoMeta {
   const hubs: Record<string, { title: string; description: string }> = {
     opsyd: {
-      title: "ΟΠΣΥΔ: Οδηγοί, Πίνακες & Ενημερώσεις 2026 | Delta",
+      title: "ΟΠΣΥΔ: Αίτηση, Δικαιολογητικά, Μόρια & Έλεγχος Φακέλου | Delta",
       description:
-        "Πλήρης καθοδήγηση για ΟΠΣΥΔ — αίτηση ένταξης, πίνακες αναπληρωτών, δικαιολογητικά και νέες αλλαγές 2026. Όλα όσα χρειάζεται ένας εκπαιδευτικός.",
+        "Χρειάζεσαι βοήθεια με το ΟΠΣΥΔ; Δες τη διαδικασία αίτησης, τα δικαιολογητικά, τη μοριοδότηση και πώς γίνεται ο σωστός έλεγχος φακέλου.",
     },
     asep: {
       title: "ΑΣΕΠ: Προκηρύξεις, Εξετάσεις & Οδηγοί Αίτησης | Delta",
@@ -112,6 +112,7 @@ export function hubSeo(slug: string, filtered = false): SeoMeta {
   const shouldIndex = !filtered && shouldIndexHubSlug(slug);
   return {
     title: meta.title,
+    titleFull: slug === "opsyd" ? meta.title : undefined,
     description: meta.description,
     canonical: canonical(path),
     robots: shouldIndex ? "index,follow" : "noindex,follow",

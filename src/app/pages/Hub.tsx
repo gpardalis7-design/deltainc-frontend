@@ -17,7 +17,7 @@ import { hubSeo, notFoundSeo } from "../lib/seo";
 import { D, sectionSurfaces } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { useNavigation, type FormType } from "../lib/navigationContext";
-import { GUIDED_HUB_DATA, type GuidedHubFaq, type GuidedHubInfoPanel } from "../lib/hubs/guidedHubConfig";
+import { GUIDED_HUB_DATA, type GuidedHubFaq, type GuidedHubInfoPanel, type GuidedHubTextLink } from "../lib/hubs/guidedHubConfig";
 import { getEditorialCategoryArchive } from "../lib/editorialCategoryArchives";
 import { getArticleCardImage } from "../components/articles/articleImage";
 import { ChecklistHero } from "../components/ChecklistHero";
@@ -50,23 +50,40 @@ function isFaqHeadingLine(line: string) {
   return /^(Οδηγός|Βήμα\s+\d+|Προσοχή|Γιατί είναι σημαντικός|Χρήσιμη Συμβουλή|Χρειάζεστε βοήθεια|Σημαντική Επισήμανση|Σημαντικές Επισημάνσεις|Πότε πρέπει|Συχνά Λάθη|Πώς δημοσιεύονται|Πώς μπορώ|Δεν βρίσκω|Πόσο χρόνο χρειάζεται|\d+\.\s)/i.test(line);
 }
 
-function renderFaqLineContent(line: string, links: GuidedHubFaq["links"]) {
-  const link = links?.find((candidate) => line.includes(candidate.text));
-  if (!link) return line;
+function renderLinkedText(line: string, links?: GuidedHubTextLink[]) {
+  const matchingLinks = links
+    ?.filter((candidate) => line.includes(candidate.text))
+    .sort((a, b) => line.indexOf(a.text) - line.indexOf(b.text));
+  if (!matchingLinks?.length) return line;
 
-  const linkStart = line.indexOf(link.text);
-  const before = line.slice(0, linkStart);
-  const after = line.slice(linkStart + link.text.length);
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
 
-  return (
-    <>
-      {before}
-      <Link to={link.href} className="underline underline-offset-2" style={{ color: D.accentStrong, fontWeight: 700 }}>
+  matchingLinks.forEach((link) => {
+    const linkStart = line.indexOf(link.text, cursor);
+    if (linkStart < cursor) return;
+
+    if (linkStart > cursor) {
+      parts.push(line.slice(cursor, linkStart));
+    }
+
+    parts.push(
+      <Link key={`${link.href}-${linkStart}`} to={link.href} className="underline underline-offset-2" style={{ color: D.accentStrong, fontWeight: 700 }}>
         {link.text}
-      </Link>
-      {after}
-    </>
-  );
+      </Link>,
+    );
+    cursor = linkStart + link.text.length;
+  });
+
+  if (cursor < line.length) {
+    parts.push(line.slice(cursor));
+  }
+
+  return <>{parts}</>;
+}
+
+function renderFaqLineContent(line: string, links: GuidedHubFaq["links"]) {
+  return renderLinkedText(line, links);
 }
 
 function renderFaqAnswer(answer: string, links?: GuidedHubFaq["links"]) {
@@ -523,7 +540,7 @@ function GuidedHubView({
                       {activeInfoPanel.title}
                     </h3>
                     <p className="text-sm mt-3 max-w-3xl" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-                      {activeInfoPanel.intro}
+                      {renderLinkedText(activeInfoPanel.intro, activeInfoPanel.links)}
                     </p>
                   </div>
                   <button
@@ -557,13 +574,13 @@ function GuidedHubView({
                           </p>
                           {item.body ? (
                             <p className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-                              {item.body}
+                              {renderLinkedText(item.body, activeInfoPanel.links)}
                             </p>
                           ) : null}
                           {item.points?.length ? (
                             <ul className="mt-2 space-y-1.5 pl-5 text-sm list-disc" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
                               {item.points.map((point, pointIndex) => (
-                                <li key={`${activeInfoPanel.id}-${index}-point-${pointIndex}`}>{point}</li>
+                                <li key={`${activeInfoPanel.id}-${index}-point-${pointIndex}`}>{renderLinkedText(point, activeInfoPanel.links)}</li>
                               ))}
                             </ul>
                           ) : null}
@@ -591,7 +608,7 @@ function GuidedHubView({
                     <div className="space-y-3">
                       {activeInfoPanel.specialAttention.points.map((point, index) => (
                         <p key={`${activeInfoPanel.id}-note-${index}`} className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.75 }}>
-                          {point}
+                          {renderLinkedText(point, activeInfoPanel.links)}
                         </p>
                       ))}
                     </div>
@@ -1864,7 +1881,7 @@ export function Hub() {
   const displayIntro = hub.intro;
   const displayUrgentInfo = hub.urgentInfo;
   const displayKeyTopics = hub.keyTopics;
-  const displayInfoPanels = hub.infoPanels;
+  const displayInfoPanels = hub.infoPanels ?? {};
   const activeInfoPanel = activeInfoPanelId ? displayInfoPanels[activeInfoPanelId] : undefined;
   const displayFaq = hub.faq;
   const primaryCTA = {
