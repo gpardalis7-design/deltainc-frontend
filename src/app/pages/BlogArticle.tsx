@@ -905,6 +905,9 @@ export function BlogArticle() {
 
   const seo = articleSeo(post);
   const primaryLabel = getArticlePrimaryLabel(post);
+  const showGuideChip = isGuideArticle(post);
+  const showFeaturedChip = post.isFeatured;
+  const hasArticleLabels = Boolean(primaryLabel || showGuideChip || showFeaturedChip);
   const validCategories = getUniqueDisplayableCategories(post.categories);
   const primaryCategory = (post.hub?.wpCategoryId
     ? validCategories.find((category) => category.id === post.hub?.wpCategoryId)
@@ -1067,17 +1070,21 @@ export function BlogArticle() {
                     )}
                   </div>
 
-                  {primaryLabel && (
-                    <div className="mb-3">
-                      {post.hub || primaryCategory ? (
-                        <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
-                          {primaryLabel}
-                        </Link>
-                      ) : (
-                        <span className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
-                          {primaryLabel}
-                        </span>
-                      )}
+                  {hasArticleLabels && (
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      {primaryLabel ? (
+                        post.hub || primaryCategory ? (
+                          <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
+                            {primaryLabel}
+                          </Link>
+                        ) : (
+                          <span className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
+                            {primaryLabel}
+                          </span>
+                        )
+                      ) : null}
+                      {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="px-3 py-1" /> : null}
+                      {showFeaturedChip ? <ArticleLabelChip label="Επιλεγμένο" className="px-3 py-1" /> : null}
                     </div>
                   )}
 
@@ -1144,17 +1151,21 @@ export function BlogArticle() {
                 )}
               </div>
 
-              {primaryLabel && (
-                <div className="mb-4">
-                  {post.hub || primaryCategory ? (
-                    <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
-                      {primaryLabel}
-                    </Link>
-                  ) : (
-                    <span className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
-                      {primaryLabel}
-                    </span>
-                  )}
+              {hasArticleLabels && (
+                <div className="mb-4 flex flex-wrap items-center gap-2">
+                  {primaryLabel ? (
+                    post.hub || primaryCategory ? (
+                      <Link to={hubPath} className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
+                        {primaryLabel}
+                      </Link>
+                    ) : (
+                      <span className="px-3 py-1 rounded-full text-xs inline-flex" style={{ background: D.accentSoft, color: D.accentStrong, border: `1px solid ${D.accent}33`, fontWeight: 600 }}>
+                        {primaryLabel}
+                      </span>
+                    )
+                  ) : null}
+                  {showGuideChip ? <ArticleLabelChip label="Οδηγός" className="px-3 py-1" /> : null}
+                  {showFeaturedChip ? <ArticleLabelChip label="Επιλεγμένο" className="px-3 py-1" /> : null}
                 </div>
               )}
 
