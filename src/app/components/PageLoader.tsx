@@ -1,7 +1,14 @@
+import { useEffect } from "react";
 import { deltaLogo } from "../assets/logo";
 import { D } from "../Root";
+import { setOverlayVisibility } from "../lib/uiOverlayState";
 
 export function PageLoader() {
+  useEffect(() => {
+    setOverlayVisibility("page-loader", true);
+    return () => setOverlayVisibility("page-loader", false);
+  }, []);
+
   return (
     <div 
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"

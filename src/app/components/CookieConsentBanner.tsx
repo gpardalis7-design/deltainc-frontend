@@ -17,8 +17,6 @@ import {
   setOverlayVisibility,
 } from "../lib/uiOverlayState";
 
-const AUTO_SHOW_DELAY_MS = 6_000;
-
 function ConsentToggle({
   label,
   description,
@@ -80,40 +78,24 @@ export function CookieConsentBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [draftConsent, setDraftConsent] = useState<CookieConsent>(getDefaultCookieConsent);
-  const [isPendingAutoOpen, setIsPendingAutoOpen] = useState(false);
+  const [hasConsentChoice, setHasConsentChoice] = useState(false);
+  const [isPageReadyForCookieControls, setIsPageReadyForCookieControls] = useState(false);
 
   useEffect(() => {
     const stored = getStoredCookieConsent();
     if (stored) {
       setDraftConsent(stored);
-      setIsVisible(false);
+      setHasConsentChoice(true);
     }
 
     setIsReady(true);
-
-    if (stored) {
-      return undefined;
-    }
-
-    const timer = window.setTimeout(() => {
-      if (getOverlayVisibility("newsletter")) {
-        setIsPendingAutoOpen(true);
-        return;
-      }
-
-      setIsVisible(true);
-    }, AUTO_SHOW_DELAY_MS);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
+    setIsPageReadyForCookieControls(!getOverlayVisibility("page-loader"));
   }, []);
 
   useEffect(() => {
     const handleOpen = () => {
       const stored = getStoredCookieConsent();
       if (stored) setDraftConsent(stored);
-      setIsPendingAutoOpen(false);
       setIsExpanded(true);
       setIsVisible(true);
     };
@@ -125,19 +107,13 @@ export function CookieConsentBanner() {
   useEffect(() => {
     const handleOverlayChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ name: string; isVisible: boolean }>;
-      if (customEvent.detail?.name !== "newsletter") return;
-
-      const nextVisible = Boolean(customEvent.detail.isVisible);
-
-      if (!nextVisible && isPendingAutoOpen && !getStoredCookieConsent()) {
-        setIsPendingAutoOpen(false);
-        setIsVisible(true);
-      }
+      if (customEvent.detail?.name !== "page-loader") return;
+      setIsPageReadyForCookieControls(!customEvent.detail.isVisible);
     };
 
     window.addEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, handleOverlayChange);
     return () => window.removeEventListener(OVERLAY_VISIBILITY_CHANGED_EVENT, handleOverlayChange);
-  }, [isPendingAutoOpen]);
+  }, []);
 
   useEffect(() => {
     setOverlayVisibility("cookie-consent", isVisible);
@@ -152,11 +128,11 @@ export function CookieConsentBanner() {
     return "Μπορείτε να κρατήσετε μόνο τα απολύτως απαραίτητα στοιχεία ενεργά και να αλλάξετε γνώμη αργότερα.";
   }, [draftConsent.analytics, draftConsent.preferences]);
 
-  if (!isReady || !isVisible) return null;
+  if (!isReady || !isPageReadyForCookieControls) return null;
 
   const closeWith = (consent: CookieConsent) => {
     setDraftConsent(consent);
-    setIsPendingAutoOpen(false);
+    setHasConsentChoice(true);
     setIsVisible(false);
     setIsExpanded(false);
   };
@@ -180,10 +156,37 @@ export function CookieConsentBanner() {
     closeWith(consent);
   };
 
-  const expandedSheetMaxHeight = "calc(100vh - env(safe-area-inset-top) - 12px)";
+  const expandedSheetMaxHeight = "calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 32px)";
+
+  if (!isVisible) {
+    if (hasConsentChoice) return null;
+
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          setIsExpanded(true);
+          setIsVisible(true);
+        }}
+        className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.75rem)] left-4 z-[90] inline-flex items-center gap-2 rounded-full px-3.5 py-2.5 text-[0.82rem] transition-opacity hover:opacity-95 md:bottom-6 md:left-6"
+        style={{
+          background: "rgba(255,255,255,0.94)",
+          border: `1px solid ${D.border}`,
+          boxShadow: "0 10px 26px rgba(15,23,42,0.12)",
+          color: D.ink,
+          fontWeight: 800,
+          backdropFilter: "blur(14px)",
+        }}
+        aria-label="Άνοιγμα επιλογών cookies"
+      >
+        <Cookie size={15} />
+        Cookies
+      </button>
+    );
+  }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[90] px-4 pb-4 md:px-6 md:pb-6 pointer-events-none">
+    <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] z-[90] px-4 md:bottom-6 md:px-6 pointer-events-none">
       <div className="mx-auto max-w-2xl pointer-events-auto md:mx-0 md:mr-auto md:max-w-[27rem]">
         <div
           className="rounded-[1.5rem] p-4 md:p-[1.05rem] flex flex-col"

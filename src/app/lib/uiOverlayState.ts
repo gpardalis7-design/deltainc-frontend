@@ -1,6 +1,6 @@
 export const OVERLAY_VISIBILITY_CHANGED_EVENT = "delta:overlay-visibility-changed";
 
-export type OverlayName = "newsletter" | "cookie-consent";
+export type OverlayName = "newsletter" | "cookie-consent" | "page-loader";
 type OverlayVisibilityState = Record<OverlayName, boolean>;
 
 declare global {
@@ -11,13 +11,14 @@ declare global {
 
 function getOverlayStore(): OverlayVisibilityState {
   if (typeof window === "undefined") {
-    return { newsletter: false, "cookie-consent": false };
+    return { newsletter: false, "cookie-consent": false, "page-loader": false };
   }
 
   if (!window.__deltaOverlayVisibility) {
     window.__deltaOverlayVisibility = {
       newsletter: false,
       "cookie-consent": false,
+      "page-loader": false,
     };
   }
 
