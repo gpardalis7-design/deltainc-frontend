@@ -221,7 +221,7 @@ export function Root() {
             style={{ background: D.bg, fontFamily: "'Inter', sans-serif", color: D.ink }}
           >
             <Navbar />
-            <main className="flex-1 min-w-0">
+            <main className="flex-1 min-w-0" style={{ minHeight: "100vh" }}>
               <Outlet />
             </main>
             <Footer />
