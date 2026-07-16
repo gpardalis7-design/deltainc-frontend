@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import { Cookie, Settings2, ShieldCheck } from "lucide-react";
+import { Cookie, Settings2 } from "lucide-react";
 import { D } from "../Root";
 import {
   acceptAllCookieConsent,
@@ -269,20 +269,6 @@ export function CookieConsentBanner() {
                   checked={draftConsent.preferences}
                   onChange={(preferences) => setDraftConsent((current) => ({ ...current, preferences }))}
                 />
-
-                <div
-                  className="flex items-start gap-3 rounded-2xl p-4"
-                  style={{
-                    background: "rgba(29,78,216,0.06)",
-                    border: `1px solid ${D.accentBorderSoft}`,
-                    borderRadius: D.radiusCard,
-                  }}
-                >
-                  <ShieldCheck size={18} className="mt-0.5 shrink-0" style={{ color: D.accentStrong }} />
-                  <p className="text-[0.88rem]" style={{ color: D.inkSoft, lineHeight: 1.65 }}>
-                    Οι επιλογές σας αποθηκεύονται ήδη τοπικά και μπορείτε να τις ανοίγετε ξανά από το footer. Η πλήρης τεχνική εφαρμογή τους σε όλα τα μη απολύτως απαραίτητα εργαλεία ολοκληρώνεται στο επόμενο στάδιο.
-                  </p>
-                </div>
               </div>
             ) : null}
           </div>

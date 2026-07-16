@@ -214,6 +214,17 @@ const proseStyles = `
     max-width: 100%;
     height: auto;
   }
+  .article-body iframe[src*="youtube.com"],
+  .article-body iframe[src*="youtube-nocookie.com"],
+  .article-body iframe[src*="youtu.be"] {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin: 1.5rem 0 2rem;
+    border: 0;
+    border-radius: 1rem;
+  }
   .article-body .TyagGW_tableContainer,
   .article-body .TyagGW_tableWrapper,
   .article-body .rich-table-scroll,
