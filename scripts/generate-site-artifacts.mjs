@@ -43,6 +43,8 @@ function curlJson(url) {
   const output = execFileSync("curl", [
     "-sS",
     "-L",
+    "-H",
+    "Accept: application/json",
     "--fail",
     "--retry",
     "3",
