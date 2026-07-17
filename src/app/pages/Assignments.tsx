@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { CalendarDays, CheckCircle2, FileText, Languages, PenSquare, UploadCloud } from "lucide-react";
 import { D } from "../Root";
@@ -6,6 +6,7 @@ import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { WP_BASE_URL } from "../lib/api/core";
+import { trackGenerateLead, trackLeadFormEvent } from "../lib/analytics";
 
 const ASSIGNMENTS_ENDPOINT = `${WP_BASE_URL}/wp-json/delta/v1/assignment-request`;
 const WRITING_LANGUAGES = ["Ελληνικά", "Αγγλικά"] as const;
@@ -87,6 +88,10 @@ export function Assignments() {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const trackedViewRef = useRef(false);
+  const trackedStartRef = useRef(false);
+  const invalidFailureTrackedRef = useRef(false);
+  const submissionInFlightRef = useRef(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -104,10 +109,44 @@ export function Assignments() {
     showStickyBottom: false,
   });
 
+  useEffect(() => {
+    if (trackedViewRef.current) return;
+    trackLeadFormEvent("lead_form_view", {
+      form_type: "assignment_request",
+      source_label: "Assignments page",
+    });
+    trackedViewRef.current = true;
+  }, []);
+
+  const trackFormStart = () => {
+    if (trackedStartRef.current) return;
+    trackLeadFormEvent("lead_form_start", {
+      form_type: "assignment_request",
+      source_label: "Assignments page",
+    });
+    trackedStartRef.current = true;
+  };
+
+  const trackFormFailure = (errorType: string) => {
+    trackLeadFormEvent("lead_form_failure", {
+      form_type: "assignment_request",
+      source_label: "Assignments page",
+      error_type: errorType,
+    });
+  };
+
+  const handleInvalid = () => {
+    if (invalidFailureTrackedRef.current) return;
+    trackFormFailure("missing_required_fields");
+    invalidFailureTrackedRef.current = true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submissionInFlightRef.current) return;
 
     if (!privacyConsent) {
+      trackFormFailure("privacy_consent_required");
       setSubmitState({
         type: "error",
         message: "Απαιτείται αποδοχή της πολιτικής απορρήτου για να σταλεί το αίτημα.",
@@ -118,6 +157,7 @@ export function Assignments() {
     const combinedFileSize = selectedFiles.reduce((total, file) => total + file.size, 0);
 
     if (selectedFiles.length > MAX_FILE_COUNT) {
+      trackFormFailure("too_many_files");
       setSubmitState({
         type: "error",
         message: "Μπορείτε να ανεβάσετε έως 10 αρχεία.",
@@ -126,6 +166,7 @@ export function Assignments() {
     }
 
     if (combinedFileSize > MAX_FILE_SIZE_BYTES) {
+      trackFormFailure("files_too_large");
       setSubmitState({
         type: "error",
         message: "Το συνολικό μέγεθος των αρχείων ξεπερνά το όριο των 25MB.",
@@ -133,8 +174,13 @@ export function Assignments() {
       return;
     }
 
+    submissionInFlightRef.current = true;
     setIsSubmitting(true);
     setSubmitState(null);
+    trackLeadFormEvent("lead_form_submit", {
+      form_type: "assignment_request",
+      source_label: "Assignments page",
+    });
 
     const payload = new FormData();
     payload.append("name", form.name.trim());
@@ -167,6 +213,15 @@ export function Assignments() {
         type: "success",
         message: data.message || "Το αίτημά σας στάλθηκε επιτυχώς.",
       });
+      trackLeadFormEvent("lead_form_success", {
+        form_type: "assignment_request",
+        source_label: "Assignments page",
+      });
+      trackGenerateLead({
+        formType: "assignment_request",
+        serviceCategory: "assignments",
+        leadSourceSurface: "assignments_page",
+      });
       setForm({
         name: "",
         email: "",
@@ -179,21 +234,29 @@ export function Assignments() {
       });
       setSelectedFiles([]);
       setPrivacyConsent(false);
+      trackedStartRef.current = false;
+      invalidFailureTrackedRef.current = false;
     } catch (error) {
+      trackFormFailure("submission_failed");
       setSubmitState({
         type: "error",
         message: error instanceof Error ? error.message : "Προέκυψε πρόβλημα κατά την αποστολή του αιτήματος.",
       });
     } finally {
+      submissionInFlightRef.current = false;
       setIsSubmitting(false);
     }
   };
 
   const handleChange = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) => {
+    trackFormStart();
+    invalidFailureTrackedRef.current = false;
     setForm((current) => ({ ...current, [key]: value }));
   };
 
   const handleFileChange = (files: FileList | null) => {
+    trackFormStart();
+    invalidFailureTrackedRef.current = false;
     if (!files || files.length === 0) {
       setSelectedFiles([]);
       return;
@@ -202,6 +265,7 @@ export function Assignments() {
     const nextFiles = Array.from(files);
 
     if (nextFiles.length > MAX_FILE_COUNT) {
+      trackFormFailure("too_many_files");
       setSelectedFiles([]);
       setSubmitState({
         type: "error",
@@ -216,6 +280,7 @@ export function Assignments() {
     });
 
     if (hasInvalidExtension) {
+      trackFormFailure("invalid_file_type");
       setSelectedFiles([]);
       setSubmitState({
         type: "error",
@@ -227,6 +292,7 @@ export function Assignments() {
     const combinedSize = nextFiles.reduce((total, file) => total + file.size, 0);
 
     if (combinedSize > MAX_FILE_SIZE_BYTES) {
+      trackFormFailure("files_too_large");
       setSelectedFiles([]);
       setSubmitState({
         type: "error",
@@ -290,7 +356,7 @@ export function Assignments() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} onInvalid={handleInvalid} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Field label="Ονομα">
                     <input required value={form.name} onChange={(e) => handleChange("name", e.target.value)} placeholder="Το ονοματεπώνυμό σας" style={inputStyle} />
@@ -388,7 +454,11 @@ export function Assignments() {
                   <input
                     type="checkbox"
                     checked={privacyConsent}
-                    onChange={(e) => setPrivacyConsent(e.target.checked)}
+                    onChange={(e) => {
+                      trackFormStart();
+                      invalidFailureTrackedRef.current = false;
+                      setPrivacyConsent(e.target.checked);
+                    }}
                     style={{ marginTop: 4, accentColor: D.accentStrong }}
                   />
                   <span className="text-sm" style={{ color: D.inkSoft, lineHeight: 1.7 }}>

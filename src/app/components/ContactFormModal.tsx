@@ -3,7 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { useNavigation, FormType } from "../lib/navigationContext";
 import { submitContact } from "../lib/deltaApi";
-import { trackLeadFormEvent } from "../lib/analytics";
+import {
+  type LeadFormType,
+  type ServiceCategory,
+  trackGenerateLead,
+  trackLeadFormEvent,
+} from "../lib/analytics";
 import { D } from "../Root";
 
 // ─── Form Configuration ───────────────────────────────────────────────────────
@@ -52,6 +57,29 @@ const FORM_CONFIG: Record<FormType, {
   },
 };
 
+function getServiceCategory(formType: FormType): ServiceCategory {
+  switch (formType) {
+    case "asep":
+    case "graptosDiagonismos":
+      return "asep";
+    case "opsyd":
+      return "opsyd";
+    case "metaptyxiaka":
+      return "programs";
+    case "pistopoihseis":
+      return "certifications";
+    case "general":
+      return "general";
+  }
+}
+
+type ModalPayloadConfig = {
+  form_type: LeadFormType;
+  subject: string;
+  source_label: string;
+  hub?: string;
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function ContactFormModal() {
@@ -61,6 +89,7 @@ export function ContactFormModal() {
   const [error, setError] = useState("");
   const trackedViewRef = useRef<string | null>(null);
   const trackedStartRef = useRef<string | null>(null);
+  const submissionInFlightRef = useRef(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -70,7 +99,7 @@ export function ContactFormModal() {
 
   const formType = modalFormType ?? cta.formType;
 
-  const getPayloadConfig = (currentFormType: FormType, interest: string) => {
+  const getPayloadConfig = (currentFormType: FormType, interest: string): ModalPayloadConfig => {
     switch (currentFormType) {
       case "asep":
         return {
@@ -177,6 +206,8 @@ export function ContactFormModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submissionInFlightRef.current) return;
+    submissionInFlightRef.current = true;
     setSubmitting(true);
     setError("");
     const payloadConfig = getPayloadConfig(formType, formData.interest);
@@ -198,6 +229,7 @@ export function ContactFormModal() {
       page_url: typeof window !== "undefined" ? window.location.href : "",
       submitted_at: new Date().toISOString(),
     });
+    submissionInFlightRef.current = false;
     setSubmitting(false);
 
     if (!result.success) {
@@ -219,6 +251,12 @@ export function ContactFormModal() {
       interest: formData.interest,
       hub: payloadConfig.hub,
       source_label: payloadConfig.source_label,
+    });
+    trackGenerateLead({
+      formType: payloadConfig.form_type,
+      serviceCategory: getServiceCategory(formType),
+      leadSourceSurface: "service_modal",
+      hub: payloadConfig.hub,
     });
     setSubmitted(true);
     setTimeout(() => {

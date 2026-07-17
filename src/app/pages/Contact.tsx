@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import { ArrowRight, CheckCircle, Loader2, Mail, MessageSquare, Phone, Send } from "lucide-react";
 import { submitContact } from "../lib/deltaApi";
-import { trackContactIntent, trackCtaClick, trackLeadFormEvent } from "../lib/analytics";
+import {
+  serviceCategoryFromInterest,
+  trackClickToCall,
+  trackCtaClick,
+  trackGenerateLead,
+  trackLeadFormEvent,
+} from "../lib/analytics";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
@@ -43,6 +49,7 @@ export function Contact() {
   const formInView = useInView(formRef, { margin: "-96px 0px -35% 0px" });
   const trackedViewRef = useRef(false);
   const trackedStartRef = useRef(false);
+  const submissionInFlightRef = useRef(false);
 
   // Configure navigation for service mode
   usePageNavigation({
@@ -79,6 +86,7 @@ export function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submissionInFlightRef.current) return;
     if (!form.name || !form.email || !form.phone || !form.interest) {
       trackLeadFormEvent("lead_form_failure", {
         form_type: "contact_page",
@@ -89,6 +97,7 @@ export function Contact() {
       setError("Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.");
       return;
     }
+    submissionInFlightRef.current = true;
     setSubmitting(true);
     setError("");
     trackLeadFormEvent("lead_form_submit", {
@@ -109,6 +118,7 @@ export function Contact() {
       submitted_at: new Date().toISOString(),
       source_label: "Contact page",
     });
+    submissionInFlightRef.current = false;
     setSubmitting(false);
     if (result.success) {
       trackLeadFormEvent("lead_form_success", {
@@ -116,6 +126,11 @@ export function Contact() {
         subject: `Φόρμα επικοινωνίας - ${form.interest}`,
         interest: form.interest,
         source_label: "Contact page",
+      });
+      trackGenerateLead({
+        formType: "contact_page",
+        serviceCategory: serviceCategoryFromInterest(form.interest),
+        leadSourceSurface: "contact_page",
       });
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", interest: "", message: "" });
@@ -211,9 +226,7 @@ export function Contact() {
                     <a
                       href={CONTACT_PHONE_LINK}
                       onClick={() =>
-                        trackContactIntent("phone", "contact_page_phone_card", {
-                          phone_number: CONTACT_PHONE_DISPLAY,
-                        })
+                        trackClickToCall("contact_page_phone_card", "general")
                       }
                       className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
                       style={{ background: D.accentSoft, color: D.accentStrong, fontWeight: 700, borderRadius: D.radiusControl }}

@@ -6,7 +6,7 @@ import {
   Globe, Building2, X, Mail, User, Phone, ArrowRight, Laptop, Loader2,
 } from "lucide-react";
 import { getProgram, getPrograms, getEmbeddedProgram, submitContact } from "../lib/deltaApi";
-import { trackCtaClick, trackEvent, trackLeadFormEvent } from "../lib/analytics";
+import { trackCtaClick, trackEvent, trackGenerateLead, trackLeadFormEvent } from "../lib/analytics";
 import type { Program } from "../lib/types";
 import { SeoHead } from "../components/SeoHead";
 import { D } from "../Root";
@@ -60,6 +60,7 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [error, setError] = useState("");
   const trackedStartRef = useRef(false);
+  const submissionInFlightRef = useRef(false);
 
   useEffect(() => {
     trackLeadFormEvent("lead_form_view", {
@@ -83,6 +84,7 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submissionInFlightRef.current) return;
     if (!formData.name || !formData.email || !formData.phone) {
       trackLeadFormEvent("lead_form_failure", {
         form_type: "program_interest",
@@ -95,6 +97,7 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
       return;
     }
 
+    submissionInFlightRef.current = true;
     setStatus("submitting");
     setError("");
     trackLeadFormEvent("lead_form_submit", {
@@ -117,6 +120,7 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
       submitted_at: new Date().toISOString(),
       source_label: "Program page",
     });
+    submissionInFlightRef.current = false;
 
     if (!result.success) {
       trackLeadFormEvent("lead_form_failure", {
@@ -138,6 +142,12 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
       subject: `${program.title} - ${program.summary.university}`,
       program_title: program.title,
       university: program.summary.university,
+    });
+    trackGenerateLead({
+      formType: "program_interest",
+      serviceCategory: "programs",
+      leadSourceSurface: "program_detail_modal",
+      programSlug: program.slug,
     });
     setStatus("success");
     trackedStartRef.current = false;

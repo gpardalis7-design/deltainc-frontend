@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import { submitContact, MOCK_HUBS } from "../lib/deltaApi";
-import { trackLeadFormEvent } from "../lib/analytics";
+import {
+  serviceCategoryFromInterest,
+  trackGenerateLead,
+  trackLeadFormEvent,
+} from "../lib/analytics";
 import { D } from "../Root";
 import { SeoHead } from "../components/SeoHead";
 import { staticPageSeo } from "../lib/seo";
@@ -35,6 +39,7 @@ export function About() {
   const [error, setError] = useState("");
   const trackedViewRef = useRef(false);
   const trackedStartRef = useRef(false);
+  const submissionInFlightRef = useRef(false);
 
   useEffect(() => {
     if (trackedViewRef.current) return;
@@ -57,6 +62,7 @@ export function About() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submissionInFlightRef.current) return;
     if (!form.name || !form.email || !form.phone || !form.interest) {
       trackLeadFormEvent("lead_form_failure", {
         form_type: "about_page",
@@ -67,6 +73,7 @@ export function About() {
       setError("Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.");
       return;
     }
+    submissionInFlightRef.current = true;
     setSubmitting(true);
     setError("");
     trackLeadFormEvent("lead_form_submit", {
@@ -87,6 +94,7 @@ export function About() {
       submitted_at: new Date().toISOString(),
       source_label: "About page",
     });
+    submissionInFlightRef.current = false;
     setSubmitting(false);
     if (result.success) {
       trackLeadFormEvent("lead_form_success", {
@@ -94,6 +102,11 @@ export function About() {
         subject: `Φόρμα επικοινωνίας - ${form.interest}`,
         interest: form.interest,
         source_label: "About page",
+      });
+      trackGenerateLead({
+        formType: "about_page",
+        serviceCategory: serviceCategoryFromInterest(form.interest),
+        leadSourceSurface: "about_page",
       });
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", interest: "", message: "" });

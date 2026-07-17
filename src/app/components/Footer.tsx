@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { ArrowRight, Facebook, Instagram, Mail, Phone } from "lucide-react";
 import { D } from "../Root";
-import { trackContactIntent, trackCtaClick, trackFooterLinkClick } from "../lib/analytics";
+import { trackClickToCall, trackCtaClick, trackFooterLinkClick } from "../lib/analytics";
 import { openCookieSettings } from "../lib/cookieConsent";
 import { getEditorialCategoryArchivePath } from "../lib/editorialCategoryArchives";
 import { Logo } from "./Logo";
@@ -133,9 +133,7 @@ export function Footer() {
               <a
                 href={CONTACT_PHONE_LINK}
                 onClick={() =>
-                  trackContactIntent("phone", "footer_phone_card", {
-                    phone_number: CONTACT_PHONE_DISPLAY,
-                  })
+                  trackClickToCall("footer_phone_card", "general")
                 }
                 className="inline-flex items-center gap-2 text-sm transition-colors"
                 style={{ color: D.warmAccentStrong, fontWeight: 700 }}

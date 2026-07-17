@@ -140,6 +140,43 @@ type LeadFormEventName =
   | "lead_form_success"
   | "lead_form_failure";
 
+export type ServiceCategory =
+  | "programs"
+  | "certifications"
+  | "asep"
+  | "opsyd"
+  | "assignments"
+  | "general"
+  | "other";
+
+export type LeadSourceSurface =
+  | "contact_page"
+  | "about_page"
+  | "service_modal"
+  | "program_detail_modal"
+  | "assignments_page";
+
+export type LeadFormType =
+  | "contact_page"
+  | "about_page"
+  | "asep_popup"
+  | "opsyd_popup"
+  | "pistopoiiseis_popup"
+  | "metaptyxiaka_popup"
+  | "asep_written_exam_popup"
+  | "general_popup"
+  | "hub_popup"
+  | "program_interest"
+  | "assignment_request";
+
+type GenerateLeadInput = {
+  formType: LeadFormType;
+  serviceCategory: ServiceCategory;
+  leadSourceSurface: LeadSourceSurface;
+  programSlug?: string;
+  hub?: string;
+};
+
 function normalizePath(pathname: string) {
   if (!pathname) return "/";
   return pathname.startsWith("/") ? pathname : `/${pathname}`;
@@ -324,6 +361,51 @@ export function trackLeadFormEvent(
   extra: EventParams = {},
 ) {
   trackContextualEvent(eventName, extra);
+}
+
+export function serviceCategoryFromInterest(interest: string): ServiceCategory {
+  switch (interest.trim().toLocaleLowerCase("el-GR")) {
+    case "μεταπτυχιακά":
+      return "programs";
+    case "πιστοποιήσεις":
+      return "certifications";
+    case "ασεπ":
+      return "asep";
+    case "οπσυδ":
+      return "opsyd";
+    case "άλλο":
+      return "other";
+    default:
+      return "general";
+  }
+}
+
+export function trackGenerateLead({
+  formType,
+  serviceCategory,
+  leadSourceSurface,
+  programSlug,
+  hub,
+}: GenerateLeadInput) {
+  trackContextualEvent("generate_lead", {
+    form_type: formType,
+    service_category: serviceCategory,
+    contact_method: "form",
+    lead_source_surface: leadSourceSurface,
+    program_slug: programSlug,
+    hub,
+  });
+}
+
+export function trackClickToCall(
+  actionLocation: string,
+  serviceCategory?: ServiceCategory,
+) {
+  trackContextualEvent("click_to_call", {
+    action_location: actionLocation,
+    contact_method: "phone",
+    service_category: serviceCategory,
+  });
 }
 
 export function getDeviceType() {
