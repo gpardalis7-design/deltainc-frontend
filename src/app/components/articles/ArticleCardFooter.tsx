@@ -23,7 +23,7 @@ export function ArticleCardFooter({
       className={bordered ? "flex items-center justify-between text-xs pt-3" : "flex items-center justify-between text-xs"}
       style={{
         borderTop: bordered ? (dark ? "1px solid rgba(255,255,255,0.12)" : `1px solid ${D.border}`) : "none",
-        color: dark ? "rgba(255,255,255,0.5)" : "rgba(19,35,58,0.4)",
+        color: dark ? "rgba(255,255,255,0.76)" : D.inkSoft,
       }}
     >
       <span className="flex items-center gap-1">

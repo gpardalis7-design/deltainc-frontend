@@ -61,7 +61,15 @@ export function StackedArticleCard({
     >
       {post.featuredImage && image && (
         <div className="overflow-hidden" style={{ height: imageHeight }}>
-          <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            alt={post.featuredImage.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       )}
       <div className={`${contentClassName} flex flex-col flex-1`}>

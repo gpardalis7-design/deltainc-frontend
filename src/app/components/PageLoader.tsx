@@ -20,6 +20,8 @@ export function PageLoader() {
           <img
             src={deltaLogo}
             alt="Delta Inc"
+            width={256}
+            height={255}
             className="w-24 h-24 object-contain"
           />
         </div>

@@ -176,6 +176,10 @@ export function Navbar() {
               )}
             </AnimatePresence>
             <button
+              type="button"
+              aria-label={menuOpen ? "Κλείσιμο μενού πλοήγησης" : "Άνοιγμα μενού πλοήγησης"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation-menu"
               className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl transition-colors"
               style={{ background: D.accentSoft, color: D.ink, border: `1px solid rgba(197,141,42,0.2)`, borderRadius: D.radiusControl }}
               onClick={() => setMenuOpen(!menuOpen)}
@@ -190,6 +194,7 @@ export function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-navigation-menu"
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}

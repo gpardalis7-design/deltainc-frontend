@@ -78,7 +78,7 @@ export function Footer() {
             <div className="mb-4">
               <Logo variant="light" />
             </div>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.76)" }}>
               Η Νο1 πηγή για μεταπτυχιακά, προκηρύξεις, πιστοποιήσεις και εκπαιδευτική ενημέρωση στην Ελλάδα.
             </p>
 
@@ -96,7 +96,7 @@ export function Footer() {
                     })
                   }
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs transition-all hover:opacity-90"
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.72)", borderRadius: D.radiusControl }}
+                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.82)", borderRadius: D.radiusControl }}
                 >
                   {social.icon}
                   {social.label}
@@ -109,7 +109,7 @@ export function Footer() {
                 <Mail size={13} />
                 Newsletter
               </div>
-              <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>
+              <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.76)", lineHeight: 1.6 }}>
                 Μην χάνετε νέες προκηρύξεις και προγράμματα. Ενημερωθείτε πρώτοι για ΑΣΕΠ, ΟΠΣΥΔ, μεταπτυχιακά και πιστοποιήσεις. Εγγραφή δωρεάν.
               </p>
               <button
@@ -127,7 +127,7 @@ export function Footer() {
                 <Phone size={13} />
                 Καλέστε μας
               </div>
-              <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>
+              <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.76)", lineHeight: 1.6 }}>
                 Χρειάζεστε βοήθεια; Επικοινωνήστε με την ομάδα της Delta Edu.
               </p>
               <a
@@ -147,16 +147,16 @@ export function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
-                <h4 className="mb-4 text-xs tracking-widest uppercase" style={{ color: "rgba(185,152,90,0.68)", letterSpacing: "0.12em" }}>
+                <p className="mb-4 text-xs tracking-widest uppercase" style={{ color: D.warmAccentStrong, letterSpacing: "0.12em", fontWeight: 700 }}>
                   {col.title}
-                </h4>
+                </p>
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         to={link.href}
                         className="text-sm transition-colors duration-200"
-                        style={{ color: "rgba(255,255,255,0.5)" }}
+                        style={{ color: "rgba(255,255,255,0.76)" }}
                         onClick={() =>
                           trackFooterLinkClick(link.label, col.title, {
                             link_target: link.href,
@@ -164,7 +164,7 @@ export function Footer() {
                           })
                         }
                         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
-                        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}
+                        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.76)")}
                       >
                         {link.label}
                       </Link>
@@ -180,10 +180,10 @@ export function Footer() {
           className="mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
-          <p className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-sm" style={{ color: "rgba(255,255,255,0.68)" }}>
             © 2026 Delta Inc. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-xs flex-wrap justify-center md:justify-end" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <div className="flex items-center gap-2 text-xs flex-wrap justify-center md:justify-end" style={{ color: "rgba(255,255,255,0.68)" }}>
             <Link
               to="/contact"
               className="transition-colors hover:text-white"

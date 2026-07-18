@@ -19,6 +19,8 @@ export function Logo({ variant = "default", className = "", size = "md" }: LogoP
       <img
         src={deltaLogo}
         alt="Delta Inc Education Center"
+        width={256}
+        height={255}
         className={`${sizeClasses[size]} w-auto ${variant === "light" ? "brightness-0 invert" : ""}`}
       />
     </Link>

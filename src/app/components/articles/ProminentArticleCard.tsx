@@ -47,6 +47,7 @@ export function ProminentArticleCard({
             src={image.src}
             alt={post.featuredImage.alt}
             loading="lazy"
+            decoding="async"
             width={image.width}
             height={image.height}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
