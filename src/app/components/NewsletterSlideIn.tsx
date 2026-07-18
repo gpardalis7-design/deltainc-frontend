@@ -16,10 +16,8 @@ const SESSION_SHOWN_KEY = "newsletter_popup_shown_session";
 const DISMISSED_AT_KEY = "newsletter_popup_dismissed_at";
 const OPEN_EVENT_NAME = "delta:open-newsletter";
 const DISMISS_COOLDOWN_MS = 24 * 60 * 60 * 1000;
-const SHOW_DELAY_MS = 14_000;
-const SHOW_SCROLL_RATIO = 0.4;
 const RESERVED_TOP_LEVEL_ROUTES = new Set(["blog", "contact", "courses", "about"]);
-type NewsletterTriggerType = "timer" | "scroll" | "manual";
+type NewsletterTriggerType = "manual";
 
 function isEligiblePath(pathname: string): boolean {
   if (pathname === "/") return true;
@@ -58,12 +56,6 @@ function markDismissed() {
   window.localStorage.setItem(DISMISSED_AT_KEY, String(Date.now()));
 }
 
-function getScrollProgress(): number {
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  if (scrollHeight <= 0) return 1;
-  return window.scrollY / scrollHeight;
-}
-
 export function NewsletterSlideIn() {
   const location = useLocation();
   const { isModalOpen, showStickyBottom } = useSiteNavigation();
@@ -73,7 +65,6 @@ export function NewsletterSlideIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [openedManually, setOpenedManually] = useState(false);
-  const [isCookieBannerOpen, setIsCookieBannerOpen] = useState(false);
   const [pendingTriggerType, setPendingTriggerType] = useState<NewsletterTriggerType | null>(null);
 
   const isEligible = useMemo(() => isEligiblePath(location.pathname), [location.pathname]);
@@ -96,14 +87,11 @@ export function NewsletterSlideIn() {
   }, [isVisible]);
 
   useEffect(() => {
-    setIsCookieBannerOpen(getOverlayVisibility("cookie-consent"));
-
     const handleOverlayChange = (event: Event) => {
       const customEvent = event as CustomEvent<{ name: string; isVisible: boolean }>;
       if (customEvent.detail?.name !== "cookie-consent") return;
 
       const nextVisible = Boolean(customEvent.detail.isVisible);
-      setIsCookieBannerOpen(nextVisible);
 
       if (nextVisible && isVisible) {
         setIsVisible(false);
@@ -151,56 +139,6 @@ export function NewsletterSlideIn() {
       window.removeEventListener(OPEN_EVENT_NAME, handleOpenNewsletter);
     };
   }, [location.pathname]);
-
-  useEffect(() => {
-    if (!isEligible || isModalOpen) {
-      setIsVisible(false);
-      setPendingTriggerType(null);
-      if (isModalOpen) {
-        setOpenedManually(false);
-      }
-      return;
-    }
-
-    if (hasShownThisSession() || hasDismissCooldown()) {
-      return;
-    }
-
-    let cancelled = false;
-
-    const showPopup = (triggerType: NewsletterTriggerType) => {
-      if (cancelled || hasShownThisSession() || hasDismissCooldown()) return;
-      if (getOverlayVisibility("cookie-consent")) {
-        setPendingTriggerType(triggerType);
-        return;
-      }
-
-      markShownThisSession();
-      setOpenedManually(triggerType === "manual");
-      setIsVisible(true);
-      setError("");
-      setIsSuccess(false);
-      trackPopupEvent("newsletter_popup_shown", { trigger_type: triggerType });
-    };
-
-    const timer = window.setTimeout(() => showPopup("timer"), SHOW_DELAY_MS);
-
-    const handleScroll = () => {
-      if (getScrollProgress() >= SHOW_SCROLL_RATIO) {
-        window.clearTimeout(timer);
-        window.removeEventListener("scroll", handleScroll);
-        showPopup("scroll");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isEligible, isModalOpen, location.key, isCookieBannerOpen]);
 
   useEffect(() => {
     if (isModalOpen) {
