@@ -44,6 +44,13 @@ export default defineConfig({
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
           if (id.includes("react-router")) return "vendor-router";
+          if (
+            id.includes("/node_modules/react/") ||
+            id.includes("/node_modules/react-dom/") ||
+            id.includes("/node_modules/scheduler/")
+          ) {
+            return "vendor-react";
+          }
           if (id.includes("motion")) return "vendor-motion";
           if (id.includes("react-helmet-async")) return "vendor-seo";
           if (id.includes("lucide-react")) return "vendor-icons";

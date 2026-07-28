@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Award, BookOpen, ChevronRight, FileText, GraduationCap, Users } from "lucide-react";
 import { getHomepage } from "../lib/deltaApi";
 import { trackCtaClick, trackEvent } from "../lib/analytics";
@@ -15,6 +14,7 @@ import { usePageNavigation } from "../lib/usePageNavigation";
 import { homeSeo } from "../lib/seo";
 import { useCategories } from "../lib/categoriesContext";
 import { useNavigation } from "../lib/navigationContext";
+import "../../styles/homeMotion.css";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" });
@@ -487,21 +487,13 @@ export function Home() {
 
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(300px,0.92fr)] gap-5 md:gap-6 items-start">
                 <AnimatedSection>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={selectedEditorialPost.id}
-                      initial={{ opacity: 0, y: 18 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -12 }}
-                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <ProminentArticleCard
-                        post={selectedEditorialPost}
-                        dateLabel={`${formatDate(selectedEditorialPost.publishedAt)} · ${formatReadingTime(selectedEditorialPost.readingTimeMinutes)}`}
-                        ctaLabel="Συνεχίστε την ανάγνωση"
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                  <div key={selectedEditorialPost.id} className="delta-content-enter">
+                    <ProminentArticleCard
+                      post={selectedEditorialPost}
+                      dateLabel={`${formatDate(selectedEditorialPost.publishedAt)} · ${formatReadingTime(selectedEditorialPost.readingTimeMinutes)}`}
+                      ctaLabel="Συνεχίστε την ανάγνωση"
+                    />
+                  </div>
                 </AnimatedSection>
 
                 <div className="grid grid-cols-1 gap-3 md:gap-4">

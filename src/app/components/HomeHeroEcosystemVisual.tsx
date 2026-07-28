@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Award, Compass, FileText, GraduationCap, TrendingUp } from "lucide-react";
 import { D } from "../Root";
 import deltaMark from "../assets/delta-mark.svg";
@@ -55,6 +54,29 @@ function usePrefersReducedMotion() {
   }, []);
 
   return reduced;
+}
+
+function useDeferredHeroMotion(reducedMotion: boolean) {
+  const [motionEnabled, setMotionEnabled] = useState(false);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setMotionEnabled(false);
+      return;
+    }
+
+    const enableMotion = () => setMotionEnabled(true);
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(enableMotion, { timeout: 1200 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(enableMotion, 600);
+    return () => window.clearTimeout(timeoutId);
+  }, [reducedMotion]);
+
+  return motionEnabled;
 }
 
 function BackgroundGrid({ className }: { className?: string }) {
@@ -117,10 +139,10 @@ function BackgroundGrid({ className }: { className?: string }) {
 
 function VisualNodeBubble({
   node,
-  reducedMotion,
+  motionEnabled,
 }: {
   node: VisualNode;
-  reducedMotion: boolean;
+  motionEnabled: boolean;
 }) {
   const tint = node.accent === "gold"
     ? {
@@ -133,30 +155,20 @@ function VisualNodeBubble({
         ring: "rgba(29,78,216,0.26)",
         icon: D.accentStrong,
       };
-  const animatedOrbit = reducedMotion
-    ? undefined
-    : {
-        x: [0, node.orbitX, 0, -node.orbitX, 0],
-        y: [0, -node.orbitY, 0, node.orbitY, 0],
-        rotate: [0, node.rotateRange, 0, -node.rotateRange, 0],
-      };
+  const orbitStyles = {
+    "--delta-orbit-x": `${node.orbitX}px`,
+    "--delta-orbit-y": `${node.orbitY}px`,
+    "--delta-orbit-rotate": `${node.rotateRange}deg`,
+    "--delta-orbit-duration": `${node.duration}s`,
+    "--delta-orbit-delay": `${node.delay}s`,
+  } as CSSProperties;
+
   return (
-    <motion.div
+    <div
       aria-hidden="true"
-      className="absolute flex items-center justify-center rounded-full backdrop-blur-sm"
-      animate={animatedOrbit}
-      transition={
-        reducedMotion
-          ? undefined
-          : {
-              duration: node.duration,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatType: "loop",
-              delay: node.delay,
-            }
-      }
+      className={`absolute flex items-center justify-center rounded-full backdrop-blur-sm ${motionEnabled ? "delta-hero-node-motion" : ""}`}
       style={{
+        ...orbitStyles,
         width: `${node.size}px`,
         height: `${node.size}px`,
         left: node.left,
@@ -173,7 +185,7 @@ function VisualNodeBubble({
         }}
       />
       <node.Icon size={Math.round(node.size * 0.34)} style={{ color: tint.icon }} />
-    </motion.div>
+    </div>
   );
 }
 
@@ -195,26 +207,27 @@ function CentralBubbleLogo({ mobile = false }: { mobile?: boolean }) {
 
 export function HomeHeroEcosystemVisual() {
   const reducedMotion = usePrefersReducedMotion();
+  const motionEnabled = useDeferredHeroMotion(reducedMotion);
 
   return (
     <div aria-hidden="true" className="pointer-events-none select-none relative">
       <div className="relative lg:hidden h-[230px] sm:h-[280px] mt-2 overflow-visible">
-        <motion.div
+        <div
           className="absolute -left-12 top-8 h-32 w-32 rounded-full blur-3xl"
           style={{ background: "rgba(29,78,216,0.18)" }}
         />
-        <motion.div
+        <div
           className="absolute -right-4 bottom-2 h-28 w-28 rounded-full blur-3xl"
           style={{ background: "rgba(185,152,90,0.16)" }}
         />
-        <motion.div
+        <div
           className="absolute left-[18%] bottom-2 h-24 w-24 rounded-full blur-3xl"
           style={{ background: "rgba(29,78,216,0.1)" }}
         />
 
-        <motion.div className="absolute inset-0">
+        <div className="absolute inset-0">
           <BackgroundGrid className="absolute inset-0 h-full w-full opacity-[0.97]" />
-        </motion.div>
+        </div>
 
         <div
           className="absolute left-[49%] top-1/2 flex h-[102px] w-[102px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
@@ -229,27 +242,27 @@ export function HomeHeroEcosystemVisual() {
         </div>
 
         {MOBILE_NODES.map((node) => (
-          <VisualNodeBubble key={node.id} node={node} reducedMotion={reducedMotion} />
+          <VisualNodeBubble key={node.id} node={node} motionEnabled={motionEnabled} />
         ))}
       </div>
 
       <div className="relative hidden lg:block h-[430px] xl:h-[470px] overflow-visible -ml-10 xl:-ml-16">
-        <motion.div
+        <div
           className="absolute left-[-5%] top-12 h-40 w-40 rounded-full blur-3xl"
           style={{ background: "rgba(29,78,216,0.2)" }}
         />
-        <motion.div
+        <div
           className="absolute right-[-2%] bottom-10 h-36 w-36 rounded-full blur-3xl"
           style={{ background: "rgba(185,152,90,0.16)" }}
         />
-        <motion.div
+        <div
           className="absolute left-[22%] bottom-10 h-28 w-28 rounded-full blur-3xl"
           style={{ background: "rgba(29,78,216,0.11)" }}
         />
 
-        <motion.div className="absolute inset-0">
+        <div className="absolute inset-0">
           <BackgroundGrid className="absolute inset-0 h-full w-full opacity-[1]" />
-        </motion.div>
+        </div>
 
         <div
           className="absolute left-[47%] top-[50%] flex h-[144px] w-[144px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur-sm"
@@ -265,7 +278,7 @@ export function HomeHeroEcosystemVisual() {
         </div>
 
         {DESKTOP_NODES.map((node) => (
-          <VisualNodeBubble key={node.id} node={node} reducedMotion={reducedMotion} />
+          <VisualNodeBubble key={node.id} node={node} motionEnabled={motionEnabled} />
         ))}
       </div>
     </div>

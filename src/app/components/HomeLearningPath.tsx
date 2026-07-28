@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * "Delta Learning Path" — a slim, premium *vertical* connector placed between
@@ -61,10 +60,60 @@ function IconGlyph({ name, color }: { name: IconName; color: string }) {
 
 export function LearningPathDivider({ step }: { step: 1 | 2 | 3 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 15%"] });
-  const dotCy = useTransform(scrollYProgress, [0, 1], [Y_TOP, Y_BOTTOM]);
-  const trailLength = reduceMotion ? 0 : scrollYProgress;
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setReduceMotion(mediaQuery.matches);
+
+    syncPreference();
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncPreference);
+      return () => mediaQuery.removeEventListener("change", syncPreference);
+    }
+
+    mediaQuery.addListener(syncPreference);
+    return () => mediaQuery.removeListener(syncPreference);
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setScrollProgress(0);
+      return;
+    }
+
+    let frameId: number | null = null;
+
+    const updateProgress = () => {
+      frameId = null;
+      const element = ref.current;
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const startPosition = viewportHeight * 0.85;
+      const travelDistance = rect.height + viewportHeight * 0.7;
+      const progress = Math.min(1, Math.max(0, (startPosition - rect.top) / travelDistance));
+      setScrollProgress(progress);
+    };
+
+    const requestUpdate = () => {
+      if (frameId === null) frameId = window.requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+    };
+  }, [reduceMotion]);
+
+  const dotCy = Y_TOP + (Y_BOTTOM - Y_TOP) * scrollProgress;
 
   const milestones = STEPS[step];
   const strokeId = `lp-stroke-${step}`;
@@ -90,13 +139,15 @@ export function LearningPathDivider({ step }: { step: 1 | 2 | 3 }) {
           <path d={LINE_D} fill="none" stroke={`url(#${strokeId})`} strokeWidth={2} strokeLinecap="round" />
 
           {/* gold trail that draws downward with scroll */}
-          <motion.path
+          <path
             d={LINE_D}
             fill="none"
             stroke={GOLD}
             strokeWidth={2}
             strokeLinecap="round"
-            style={{ pathLength: trailLength }}
+            pathLength={1}
+            strokeDasharray={1}
+            strokeDashoffset={reduceMotion ? 1 : 1 - scrollProgress}
           />
 
           {/* milestone nodes */}
@@ -115,8 +166,8 @@ export function LearningPathDivider({ step }: { step: 1 | 2 | 3 }) {
           })}
 
           {/* gold dot at the head of the trail (scroll-linked) */}
-          <motion.circle cx={X} cy={reduceMotion ? Y_TOP : dotCy} r={8} fill={GOLD_BRIGHT} opacity={reduceMotion ? 0 : 0.22} />
-          <motion.circle cx={X} cy={reduceMotion ? Y_TOP : dotCy} r={4} fill={GOLD_BRIGHT} opacity={reduceMotion ? 0 : 1} />
+          <circle cx={X} cy={dotCy} r={8} fill={GOLD_BRIGHT} opacity={reduceMotion ? 0 : 0.22} />
+          <circle cx={X} cy={dotCy} r={4} fill={GOLD_BRIGHT} opacity={reduceMotion ? 0 : 1} />
         </svg>
       </div>
     </div>
