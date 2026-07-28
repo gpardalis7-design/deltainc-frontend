@@ -35,7 +35,6 @@ const FOOTER_COLUMNS = [
     title: "Υποστήριξη",
     links: [
       { label: "Επικοινωνία", href: "/contact" },
-      { label: "Φόρμα καθοδήγησης", href: "/contact#contact-form" },
       { label: "Όροι Χρήσης", href: "/terms" },
       { label: "Πολιτική Απορρήτου", href: "/privacy-policy" },
       { label: "Πολιτική Cookies", href: "/cookie-policy" },
