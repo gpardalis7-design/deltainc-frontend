@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { D } from "../Root";
 import { useNavigation } from "../lib/navigationContext";
 import { trackCtaClick, trackNavClick } from "../lib/analytics";
 import { Logo } from "./Logo";
+import "../../styles/globalChromeMotion.css";
 
 // Fixed navigation items
 const NAV_ITEMS = [
@@ -74,12 +74,7 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 px-4 pt-3"
-      >
+      <header className="delta-navbar-enter fixed top-0 left-0 right-0 z-50 px-4 pt-3">
         <div
           className="max-w-6xl mx-auto rounded-2xl px-6 py-3 flex items-center justify-between transition-all duration-300"
           style={{
@@ -131,14 +126,8 @@ export function Navbar() {
 
           {/* CTA + Mobile */}
           <div className="flex items-center gap-3">
-            <AnimatePresence>
-              {showCTA && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
-                >
+            {showCTA && (
+                <div className="delta-navbar-cta-enter">
                   {cta.formType || cta.action ? (
                     <button
                       type="button"
@@ -172,9 +161,8 @@ export function Navbar() {
                       {mode === "service" && <ArrowRight size={14} />}
                     </Link>
                   )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+            )}
             <button
               type="button"
               aria-label={menuOpen ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
@@ -188,25 +176,24 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            id="mobile-navigation"
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-20 left-4 right-4 z-40 rounded-2xl p-3 flex flex-col gap-1"
-            style={{
-              background: D.surfaceStrong,
-              border: `1px solid ${D.border}`,
-              boxShadow: `0 8px 32px ${D.shadow}`,
-              borderRadius: D.radiusCard,
-            }}
-          >
+      <div
+        id="mobile-navigation"
+        aria-hidden={!menuOpen}
+        className={`fixed top-20 left-4 right-4 z-40 rounded-2xl p-3 flex flex-col gap-1 transition-[opacity,transform,visibility] duration-200 ${
+          menuOpen
+            ? "visible translate-y-0 opacity-100"
+            : "invisible pointer-events-none -translate-y-4 opacity-0"
+        }`}
+        style={{
+          background: D.surfaceStrong,
+          border: `1px solid ${D.border}`,
+          boxShadow: `0 8px 32px ${D.shadow}`,
+          borderRadius: D.radiusCard,
+        }}
+      >
             {NAV_ITEMS.map((item) => {
               const active = isNavActive(item.url);
               return (
@@ -253,9 +240,7 @@ export function Navbar() {
                 </Link>
               )
             )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </>
   );
 }

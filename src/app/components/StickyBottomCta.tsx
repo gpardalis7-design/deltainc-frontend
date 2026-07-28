@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { useNavigation } from "../lib/navigationContext";
 import { trackCtaClick } from "../lib/analytics";
@@ -24,15 +23,9 @@ export function StickyBottomCta() {
     }
   };
 
-  return (
-    <AnimatePresence>
-      {showStickyBottom && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-0 left-0 right-0 z-40 lg:hidden px-4 pb-4 pt-2"
+  return showStickyBottom ? (
+        <div
+          className="delta-sticky-cta-enter fixed bottom-0 left-0 right-0 z-40 lg:hidden px-4 pb-4 pt-2"
           style={{
             background: `linear-gradient(to top, ${D.bg} 60%, transparent)`,
             backdropFilter: "blur(8px)",
@@ -40,6 +33,7 @@ export function StickyBottomCta() {
         >
           {cta.formType || cta.action ? (
             <button
+              type="button"
               onClick={handleClick}
               className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm transition-all active:scale-95"
               style={{
@@ -72,8 +66,6 @@ export function StickyBottomCta() {
               {cta.text} <ArrowRight size={16} />
             </Link>
           )}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+        </div>
+  ) : null;
 }

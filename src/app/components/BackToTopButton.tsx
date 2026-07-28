@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
 import { ArrowUp } from "lucide-react";
 import { trackEvent } from "../lib/analytics";
 import { D } from "../Root";
@@ -26,17 +25,11 @@ export function BackToTopButton() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
 
-  return (
-    <AnimatePresence>
-      {isVisible ? (
-        <motion.button
+  return isVisible ? (
+        <button
           type="button"
           onClick={handleClick}
-          initial={{ opacity: 0, y: 18, scale: 0.94 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 18, scale: 0.94 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed right-5 bottom-24 md:bottom-8 z-30 inline-flex h-12 w-12 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 active:scale-95"
+          className="delta-back-to-top-enter fixed right-5 bottom-24 md:bottom-8 z-30 inline-flex h-12 w-12 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 active:scale-95"
           style={{
             background: D.ink,
             color: "#fff",
@@ -46,8 +39,6 @@ export function BackToTopButton() {
           aria-label="Επιστροφή στην κορυφή"
         >
           <ArrowUp size={18} />
-        </motion.button>
-      ) : null}
-    </AnimatePresence>
-  );
+        </button>
+  ) : null;
 }
