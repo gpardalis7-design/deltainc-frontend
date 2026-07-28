@@ -7,7 +7,6 @@ import { trackCtaClick, trackEvent } from "../lib/analytics";
 import type { BlogPost, DeltaHub, HomepagePayload, Program } from "../lib/types";
 import { D, sectionSurfaces } from "../Root";
 import { SeoHead } from "../components/SeoHead";
-import { PageLoader } from "../components/PageLoader";
 import { ProminentArticleCard } from "../components/articles/ProminentArticleCard";
 import { CompactArticleListItem } from "../components/articles/CompactArticleListItem";
 import { HomeHeroEcosystemVisual } from "../components/HomeHeroEcosystemVisual";
@@ -160,7 +159,6 @@ function ProgramCard({ program }: { program: Program }) {
 }
 
 export function Home() {
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<HomepagePayload | null>(null);
   const [selectedEditorialHub, setSelectedEditorialHub] = useState<string>("");
   const [selectedProgramLevel, setSelectedProgramLevel] = useState<"undergraduate" | "postgraduate">("postgraduate");
@@ -179,13 +177,10 @@ export function Home() {
       setData(d);
       setSelectedEditorialHub((current) => current || d.featuredHubPosts[0]?.hub?.slug || "");
       setSelectedProgramLevel(d.featuredPrograms.postgraduate.length > 0 ? "postgraduate" : "undergraduate");
-      setLoading(false);
     });
   }, []);
 
   useEffect(() => {
-    if (loading || !data) return;
-
     const syncHomeStickyVisibility = () => {
       if (typeof window === "undefined") return;
 
@@ -235,15 +230,15 @@ export function Home() {
       window.removeEventListener("orientationchange", syncHomeStickyVisibility);
       setShowStickyBottom(true);
     };
-  }, [data, loading, setShowStickyBottom]);
+  }, [setShowStickyBottom]);
 
-  if (loading) {
-    return <PageLoader />;
-  }
-
-  if (!data) return null;
-
-  const { hero, latestPosts, featuredHubPosts, featuredPrograms } = data;
+  const latestPosts = data?.latestPosts ?? [];
+  const featuredHubPosts = data?.featuredHubPosts ?? [];
+  const featuredPrograms: HomepagePayload["featuredPrograms"] = data?.featuredPrograms ?? {
+    postgraduate: [],
+    undergraduate: [],
+  };
+  const heroSecondaryCtaUrl = data?.hero.secondaryCta.url ?? "/blog";
   const primaryPaths = PATH_ORDER.map((slug) => {
     const liveHub = categoryHubs.find((hub) => hub.slug === slug);
     if (liveHub) return liveHub;
@@ -292,7 +287,7 @@ export function Home() {
 
   return (
     <div style={{ background: D.bg }}>
-      <SeoHead seo={homeSeo()} />
+      {data ? <SeoHead seo={homeSeo()} /> : null}
 
       <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6">
         <div className="max-w-7xl mx-auto relative">
@@ -326,8 +321,8 @@ export function Home() {
                   Βρείτε Πρόγραμμα Σπουδών <ArrowRight size={18} />
                 </Link>
                 <Link
-                  to={hero.secondaryCta.url}
-                  onClick={() => trackCtaClick("Νέα & Προκηρύξεις", "home_hero_secondary", { cta_target: hero.secondaryCta.url })}
+                  to={heroSecondaryCtaUrl}
+                  onClick={() => trackCtaClick("Νέα & Προκηρύξεις", "home_hero_secondary", { cta_target: heroSecondaryCtaUrl })}
                   className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-4 rounded-2xl transition-all duration-200 hover:opacity-90"
                   style={{ background: D.surfaceStrong, border: `1px solid ${D.border}`, color: D.ink, fontWeight: 600, minHeight: "56px", borderRadius: D.radiusControl }}
                 >
