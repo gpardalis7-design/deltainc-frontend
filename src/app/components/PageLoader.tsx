@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { deltaLogo } from "../assets/logo";
+import { deltaLogo, deltaLogoSrcSet } from "../assets/logo";
 import { D } from "../Root";
 import { setOverlayVisibility } from "../lib/uiOverlayState";
 
@@ -19,7 +19,12 @@ export function PageLoader() {
         <div className="animate-pulse">
           <img
             src={deltaLogo}
+            srcSet={deltaLogoSrcSet}
+            sizes="96px"
+            width={96}
+            height={96}
             alt="Delta Inc"
+            decoding="async"
             className="w-24 h-24 object-contain"
           />
         </div>
