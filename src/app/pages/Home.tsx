@@ -292,7 +292,7 @@ export function Home() {
       <section className="pt-[7.25rem] md:pt-40 pb-10 md:pb-14 px-5 md:px-6">
         <div className="max-w-7xl mx-auto relative">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] lg:items-center">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl min-h-[400px] min-[360px]:min-h-[331px] min-[430px]:min-h-[315px] min-[480px]:min-h-[292px] sm:min-h-0">
               <h1
                 className="type-display-hero mb-4 md:mb-6"
                 style={{
