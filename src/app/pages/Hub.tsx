@@ -137,7 +137,17 @@ function PostCard({ post }: { post: BlogPost }) {
     >
       {post.featuredImage && image && (
         <div className="overflow-hidden" style={{ height: "176px" }}>
-          <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="(min-width: 1280px) 285px, (min-width: 768px) 33vw, calc(100vw - 40px)"
+            alt={post.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       )}
       <div className="p-5 flex flex-col flex-1">
@@ -176,7 +186,19 @@ function FeaturedPost({ post, stacked = false }: { post: BlogPost; stacked?: boo
     >
       {post.featuredImage && image && (
         <div className={`h-[clamp(200px,28vw,280px)] shrink-0 overflow-hidden ${stacked ? "" : "md:h-auto md:min-h-[280px] md:w-2/5"}`}>
-          <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes={stacked
+              ? "(min-width: 1280px) 590px, (min-width: 768px) 50vw, calc(100vw - 40px)"
+              : "(min-width: 1280px) 470px, (min-width: 768px) 40vw, calc(100vw - 40px)"}
+            alt={post.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       )}
       <div className="p-7 flex flex-col justify-between flex-1">
@@ -217,7 +239,17 @@ function GuidePost({ post }: { post: BlogPost }) {
     >
       {post.featuredImage && image ? (
         <div className="h-40 shrink-0 overflow-hidden">
-          <img src={image.src} alt={post.featuredImage.alt} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="(min-width: 1280px) 285px, (min-width: 768px) 33vw, calc(100vw - 40px)"
+            alt={post.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       ) : null}
       <div className="flex flex-1 flex-col p-5">

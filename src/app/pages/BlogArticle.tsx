@@ -22,6 +22,7 @@ import { useNavigation as useSiteNavigation, type FormType } from "../lib/naviga
 import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 import { trackCtaClick } from "../lib/analytics";
+import { getResponsiveMedia } from "../components/articles/articleImage";
 
 type ArticleCategory = BlogPost["categories"][number];
 
@@ -442,8 +443,10 @@ function RecentArticlesWidget({ posts }: { posts: BlogPost[] }) {
       </div>
 
       <div className="flex flex-col">
-        {posts.slice(0, 3).map((post, index) => (
-          <Link
+        {posts.slice(0, 3).map((post, index) => {
+          const image = getResponsiveMedia(post.featuredImage, "compact");
+          return (
+            <Link
             key={post.id}
             to={`/blog/${post.slug}`}
             className="group block py-4 transition-opacity hover:opacity-90"
@@ -452,11 +455,17 @@ function RecentArticlesWidget({ posts }: { posts: BlogPost[] }) {
             }}
           >
             <div className="flex items-start gap-3">
-              {post.featuredImage ? (
+              {post.featuredImage && image ? (
                 <div className="shrink-0 w-[5.25rem] h-[4rem] rounded-2xl overflow-hidden" style={{ background: D.surface }}>
                   <img
-                    src={post.featuredImage.url}
+                    src={image.src}
+                    srcSet={image.srcSet}
+                    sizes="84px"
                     alt={post.featuredImage.alt}
+                    loading="lazy"
+                    decoding="async"
+                    width={image.width}
+                    height={image.height}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                 </div>
@@ -483,8 +492,9 @@ function RecentArticlesWidget({ posts }: { posts: BlogPost[] }) {
                 </div>
               </div>
             </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
@@ -556,6 +566,7 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
   const leadLabel = getArticlePrimaryLabel(leadPost);
   const leadGuide = isGuideArticle(leadPost);
   const leadImage = leadPost.featuredImage;
+  const responsiveLeadImage = getResponsiveMedia(leadImage, "featured");
 
   return (
     <section
@@ -584,11 +595,17 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
             className="group block"
             style={{ borderBottom: `1px solid ${D.border}` }}
           >
-            {leadImage ? (
+            {leadImage && responsiveLeadImage ? (
               <div className="mb-5 overflow-hidden rounded-[1.75rem]" style={{ aspectRatio: "16 / 9", background: D.surface }}>
                 <img
-                  src={leadImage.url}
+                  src={responsiveLeadImage.src}
+                  srcSet={responsiveLeadImage.srcSet}
+                  sizes="(min-width: 1280px) 610px, (min-width: 1024px) 52vw, calc(100vw - 48px)"
                   alt={leadImage.alt}
+                  loading="lazy"
+                  decoding="async"
+                  width={responsiveLeadImage.width}
+                  height={responsiveLeadImage.height}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
@@ -641,6 +658,7 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
                 {supportingPosts.slice(0, 4).map((candidate, index) => {
                   const candidateLabel = getArticlePrimaryLabel(candidate);
                   const candidateGuide = isGuideArticle(candidate);
+                  const candidateImage = getResponsiveMedia(candidate.featuredImage, "compact");
 
                   return (
                     <Link
@@ -653,11 +671,17 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
                       }}
                     >
                       <div className="flex items-start gap-4">
-                        {candidate.featuredImage ? (
+                        {candidate.featuredImage && candidateImage ? (
                           <div className="hidden sm:block shrink-0 w-28 h-20 rounded-2xl overflow-hidden" style={{ background: D.surface }}>
                             <img
-                              src={candidate.featuredImage.url}
+                              src={candidateImage.src}
+                              srcSet={candidateImage.srcSet}
+                              sizes="112px"
                               alt={candidate.featuredImage.alt}
+                              loading="lazy"
+                              decoding="async"
+                              width={candidateImage.width}
+                              height={candidateImage.height}
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                             />
                           </div>
@@ -915,6 +939,7 @@ export function BlogArticle() {
   }
 
   const seo = articleSeo(post);
+  const heroImage = getResponsiveMedia(post.featuredImage, "featured");
   const primaryLabel = getArticlePrimaryLabel(post);
   const showGuideChip = isGuideArticle(post);
   const showFeaturedChip = post.isFeatured;
@@ -1041,7 +1066,7 @@ export function BlogArticle() {
 
       <div className="pt-24 pb-6 md:pb-10" style={{ background: `linear-gradient(180deg, rgba(255,255,255,0.98) 0%, ${D.bg} 86%)` }}>
         <div className="max-w-6xl mx-auto px-6 pt-6 md:pt-8">
-          {post.featuredImage ? (
+          {post.featuredImage && heroImage ? (
             <div className="relative lg:min-h-[34rem]">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
@@ -1051,8 +1076,15 @@ export function BlogArticle() {
                 style={{ height: "clamp(320px, 60vw, 540px)", background: "linear-gradient(180deg, rgba(244,247,252,0.98) 0%, rgba(236,242,249,0.98) 100%)" }}
               >
                 <img
-                  src={post.featuredImage.url}
+                  src={heroImage.src}
+                  srcSet={heroImage.srcSet}
+                  sizes="(min-width: 1280px) 760px, (min-width: 1024px) 68vw, calc(100vw - 48px)"
                   alt={post.featuredImage.alt}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  width={heroImage.width}
+                  height={heroImage.height}
                   className="w-full h-full object-cover"
                 />
               </motion.div>

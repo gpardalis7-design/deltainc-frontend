@@ -14,6 +14,7 @@ import { usePageNavigation } from "../lib/usePageNavigation";
 import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 import { canonical, publicUrl, type SeoMeta } from "../lib/seo";
+import { getResponsiveMedia } from "../components/articles/articleImage";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -422,6 +423,7 @@ function QuickInfoCard({
 function RelatedProgramCard({ program }: { program: Program }) {
   const navigate = useNavigate();
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
+  const image = getResponsiveMedia(program.featuredImage, "card");
 
   return (
     <button
@@ -439,9 +441,19 @@ function RelatedProgramCard({ program }: { program: Program }) {
       onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(197,141,42,0.4)")}
       onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = D.border)}
     >
-      {program.featuredImage && (
+      {program.featuredImage && image && (
         <div className="overflow-hidden" style={{ height: "140px" }}>
-          <img src={program.featuredImage.url} alt={program.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="(min-width: 1280px) 285px, (min-width: 768px) 33vw, calc(100vw - 40px)"
+            alt={program.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       )}
       <div className="p-4 flex flex-col flex-1">
@@ -630,6 +642,7 @@ export function ProgramDetails() {
     : [tabs[0]]; // Elementor fallback: single tab showing content.rendered
 
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
+  const heroImage = getResponsiveMedia(program.featuredImage, "featured");
 
   const selectedSeoImage = program.seo?.ogImage || program.featuredImage;
   const seoTitle = program.seo?.title?.trim() || `${program.title} | Delta Inc Education`;
@@ -974,10 +987,21 @@ export function ProgramDetails() {
         </div>
 
         {/* Featured Image */}
-        {program.featuredImage && (
+        {program.featuredImage && heroImage && (
           <div className="max-w-7xl mx-auto px-6 pt-6 pb-0">
             <div className="rounded-t-3xl overflow-hidden" style={{ height: "clamp(200px, 35vw, 380px)" }}>
-              <img src={program.featuredImage.url} alt={program.featuredImage.alt} className="w-full h-full object-cover" />
+              <img
+                src={heroImage.src}
+                srcSet={heroImage.srcSet}
+                sizes="(min-width: 1280px) 1232px, calc(100vw - 48px)"
+                alt={program.featuredImage.alt}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width={heroImage.width}
+                height={heroImage.height}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         )}

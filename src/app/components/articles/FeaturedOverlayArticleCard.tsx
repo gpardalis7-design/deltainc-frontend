@@ -53,7 +53,17 @@ export function FeaturedOverlayArticleCard({
     >
       {post.featuredImage && image && (
         <div className="overflow-hidden" style={{ height: imageHeight }}>
-          <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="(min-width: 1280px) 610px, (min-width: 768px) 50vw, calc(100vw - 40px)"
+            alt={post.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(19,35,58,0.9) 0%, rgba(19,35,58,0.2) 60%, transparent 100%)" }} />
         </div>
       )}

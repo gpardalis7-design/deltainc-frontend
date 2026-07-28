@@ -51,7 +51,17 @@ export function CompactArticleListItem({
     >
       {post.featuredImage && image && (
         <div className="shrink-0 w-16 h-16 rounded-lg overflow-hidden" style={{ borderRadius: D.radiusControl }}>
-          <img src={image.src} alt={post.featuredImage.alt} className="w-full h-full object-cover" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="64px"
+            alt={post.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover"
+          />
         </div>
       )}
       <div className="flex-1 min-w-0">

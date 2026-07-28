@@ -25,6 +25,7 @@ import { D } from "../Root";
 import { usePageNavigation } from "../lib/usePageNavigation";
 import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "../components/ui/drawer";
 import { useIsMobile } from "../components/ui/use-mobile";
+import { getResponsiveMedia } from "../components/articles/articleImage";
 
 function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const _delay = delay;
@@ -48,6 +49,7 @@ const modeColors: Record<string, string> = {
 function ProgramCard({ program }: { program: Program }) {
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
   const categoryLabel = program.summary.category || program.taxonomies.category[0]?.name || "Πρόγραμμα";
+  const image = getResponsiveMedia(program.featuredImage, "card");
   return (
     <Link
       to={`/courses/${program.slug}`}
@@ -69,9 +71,19 @@ function ProgramCard({ program }: { program: Program }) {
         })
       }
     >
-      {program.featuredImage && (
+      {program.featuredImage && image && (
         <div className="overflow-hidden" style={{ height: "160px" }}>
-          <img src={program.featuredImage.url} alt={program.featuredImage.alt} className="w-full h-full object-cover" />
+          <img
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes="(min-width: 1280px) 285px, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, calc(100vw - 40px)"
+            alt={program.featuredImage.alt}
+            loading="lazy"
+            decoding="async"
+            width={image.width}
+            height={image.height}
+            className="w-full h-full object-cover"
+          />
         </div>
       )}
       <div className="p-5 flex flex-col flex-1">

@@ -112,6 +112,10 @@ function ProgramCard({ program }: { program: Program }) {
             <img
               src={universityLogo.url}
               alt={universityLogo.alt}
+              loading="lazy"
+              decoding="async"
+              width={universityLogo.width || undefined}
+              height={universityLogo.height || undefined}
               className="h-10 w-auto max-w-[180px] object-contain"
             />
           </div>
