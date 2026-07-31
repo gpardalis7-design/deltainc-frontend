@@ -12,7 +12,9 @@ interface SeoHeadProps {
 }
 
 export function SeoHead({ seo }: SeoHeadProps) {
-  const titleFull = seo.titleFull ?? `${seo.title} | ${SITE_NAME}`;
+  const title = seo.title.trim();
+  const hasBrandSuffix = /\|\s*Delta(?:\s+Inc)?$/i.test(title);
+  const titleFull = seo.titleFull ?? (hasBrandSuffix ? title : `${title} | ${SITE_NAME}`);
   const ogImage = seo.og?.image || DEFAULT_OG_IMAGE;
   const ogType = seo.og?.type || "website";
   const requestedRobots =
