@@ -925,6 +925,38 @@ let staticPagesInjected = 0;
         mainEntityItems: programItems,
       },
     },
+    {
+      route: "/spoudes",
+      page: {
+        h1: "Σπουδές που ταιριάζουν στους στόχους σας",
+        title: "Σπουδές: Πτυχία, Μεταπτυχιακά & Εξ Αποστάσεως | Delta",
+        description:
+          "Εξερευνήστε επιλογές σπουδών, πτυχία, μεταπτυχιακά και προγράμματα εξ αποστάσεως. Βρείτε οδηγούς και το πρόγραμμα που ταιριάζει στους στόχους σας.",
+        url: `${canonicalSiteUrl}/spoudes`,
+        schemaType: "CollectionPage",
+        breadcrumb: [{ name: "Αρχική", path: "/" }, { name: "Σπουδές", path: "/spoudes" }],
+        sections: [
+          {
+            heading: "Διαδρομές σπουδών",
+            items: [
+              { name: "Μεταπτυχιακά", url: "/metaptyxiaka" },
+              { name: "Σπουδές εξ αποστάσεως", url: "/courses?mode=306" },
+              { name: "Όλα τα προγράμματα", url: "/courses" },
+            ],
+          },
+          { heading: "Επιλεγμένα προγράμματα", items: programItems.slice(0, 6) },
+          {
+            heading: "Οδηγοί σπουδών",
+            items: [
+              { name: "Δωρεάν μεταπτυχιακά", url: "/blog/dorean-metaptychiaka" },
+              { name: "Αναγνωρισμένα μεταπτυχιακά εξ αποστάσεως", url: "/blog/anagnorismena-metaptyxiaka-ex-apostaseos" },
+              { name: "Πόσα μόρια δίνει ένα μεταπτυχιακό στους αναπληρωτές", url: "/blog/posa-moria-dinei-metaptyxiako-anaplirotes" },
+            ],
+          },
+        ],
+        mainEntityItems: programItems.slice(0, 6),
+      },
+    },
   ];
   for (const { route, page } of landings) {
     const out = resolve(distDir, route.slice(1), "index.html");
@@ -1008,4 +1040,3 @@ if (missingProgramSlugs.length > 0) {
       `${missingProgramSlugs.slice(0, 5).join(", ")}${missingProgramSlugs.length > 5 ? "…" : ""}`,
   );
 }
-

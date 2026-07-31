@@ -2,6 +2,7 @@
   "indexableStaticRoutes": [
     "/",
     "/blog",
+    "/spoudes",
     "/courses",
     "/contact",
     "/assignments",

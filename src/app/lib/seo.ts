@@ -307,6 +307,12 @@ export function programsSeo(filtered = false): SeoMeta {
 
 export function staticPageSeo(page: StaticSeoPage): SeoMeta {
   const pages = {
+    spoudes: {
+      title: "Σπουδές: Πτυχία, Μεταπτυχιακά & Εξ Αποστάσεως | Delta",
+      description:
+        "Εξερευνήστε επιλογές σπουδών, πτυχία, μεταπτυχιακά και προγράμματα εξ αποστάσεως. Βρείτε οδηγούς και το πρόγραμμα που ταιριάζει στους στόχους σας.",
+      path: "/spoudes",
+    },
     about: {
       title: "Σχετικά με το Delta | Επικοινωνία & Ομάδα",
       description: "Η ομάδα του Delta παρέχει έγκυρη ενημέρωση για εκπαιδευτικά θέματα από το 2018. Επικοινωνήστε μαζί μας.",

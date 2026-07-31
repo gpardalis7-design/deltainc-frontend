@@ -37,6 +37,7 @@ export const router = createBrowserRouter([
       { path: "contact", lazy: async () => ({ Component: (await import("./pages/Contact")).Contact }) },
       { path: "assignments", lazy: async () => ({ Component: (await import("./pages/Assignments")).Assignments }) },
       { path: "asep/graptos-diagonismos", lazy: async () => ({ Component: (await import("./pages/GraptosDiagonismos")).GraptosDiagonismos }) },
+      { path: "spoudes", lazy: async () => ({ Component: (await import("./pages/Spoudes")).Spoudes }) },
       { path: "courses", lazy: async () => ({ Component: (await import("./pages/Courses")).Courses }) },
       { path: "courses/:slug", lazy: async () => ({ Component: (await import("./pages/ProgramDetails")).ProgramDetails }) },
       { path: "about", lazy: async () => ({ Component: (await import("./pages/About")).About }) },

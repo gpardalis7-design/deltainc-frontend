@@ -146,6 +146,7 @@ for (const slug of Object.keys(archivePolicy)) {
 const staticRoutes = [
   { route: "/", file: ["index.html"], indexable: true, globalGraph: true },
   { route: "/blog", file: ["blog", "index.html"], indexable: true, collectionItemList: true },
+  { route: "/spoudes", file: ["spoudes", "index.html"], indexable: true, collectionItemList: true },
   { route: "/courses", file: ["courses", "index.html"], indexable: true, collectionItemList: true },
   { route: "/about", file: ["about", "index.html"], indexable: true },
   { route: "/contact", file: ["contact", "index.html"], indexable: true },
@@ -231,4 +232,3 @@ console.log(
   `Verified ${manifest.entries.length} generated social preview pages ` +
     `(${articlesWithBody} articles + ${programsWithBody} programs + ${hubsVerified} hubs + ${archivesVerified} archives + ${staticPagesVerified} static pages with crawlable body + JSON-LD), a Greek slug, routing, and 404 metadata.`,
 );
-

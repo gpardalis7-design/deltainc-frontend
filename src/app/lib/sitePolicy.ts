@@ -10,6 +10,7 @@ export const LEGACY_STATIC_REDIRECTS = policy.legacyStaticRedirects as Record<Ro
 
 export type StaticSeoPage =
   | "about"
+  | "spoudes"
   | "contact"
   | "privacy"
   | "cookies"
@@ -21,6 +22,7 @@ export type StaticSeoPage =
 
 const STATIC_PAGE_PATHS: Record<StaticSeoPage, RoutePath> = {
   about: "/about",
+  spoudes: "/spoudes",
   contact: "/contact",
   privacy: "/privacy-policy",
   cookies: "/cookie-policy",
