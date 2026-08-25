@@ -160,8 +160,25 @@ export function normalizeWpPost(
       return hubSlugs.find((s) => categories.some((c) => (c.slug as string) === s));
     })();
 
-  const hub = matchedHubSlug
+  const configuredHub = matchedHubSlug
     ? hubs.find((candidate) => candidate.slug === matchedHubSlug) ?? null
+    : null;
+  const matchedCategory = matchedHubSlug
+    ? categories.find((category) => wpIdToHubSlug[category.id as number] === matchedHubSlug) ??
+      categories.find((category) => category.slug === matchedHubSlug)
+    : undefined;
+  const liveCategoryName = typeof matchedCategory?.name === "string"
+    ? matchedCategory.name.trim()
+    : "";
+  const hub = configuredHub
+    ? {
+        ...configuredHub,
+        name: configuredHub.displayNameOverride?.trim() || liveCategoryName || configuredHub.name,
+        url: typeof matchedCategory?.link === "string" ? matchedCategory.link : configuredHub.url,
+        wpCategoryId: typeof matchedCategory?.id === "number"
+          ? matchedCategory.id
+          : configuredHub.wpCategoryId,
+      }
     : null;
 
   return {

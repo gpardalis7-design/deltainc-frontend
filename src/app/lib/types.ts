@@ -40,6 +40,8 @@ export interface DeltaTaxonomyTerm {
 export interface DeltaHub {
   id: string;
   name: string;
+  /** Optional visitor-facing label that intentionally differs from WordPress. */
+  displayNameOverride?: string;
   slug: string;
   description: string;
   url: string;
