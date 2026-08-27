@@ -373,6 +373,19 @@ export async function getFeaturedPost(
   );
 
   if (!response) {
+    if (hub === "pistopoihseis") {
+      const fallback = await getPosts({
+        hub,
+        wpCategoryId: HUB_WP_IDS.pistopoihseis,
+        perPage: 1,
+      });
+
+      return {
+        data: fallback.data[0] || null,
+        isMock: fallback.isMock || fallback.sourceUnavailable,
+      };
+    }
+
     return { data: null, isMock: true };
   }
 
