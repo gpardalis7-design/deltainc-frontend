@@ -9,6 +9,7 @@ import { StickyBottomCta } from "./components/StickyBottomCta";
 import { BackToTopButton } from "./components/BackToTopButton";
 import { PageLoader } from "./components/PageLoader";
 import { CookieConsentBanner } from "./components/CookieConsentBanner";
+import { SitePromotionBanner } from "./components/SitePromotionBanner";
 import { initAnalytics, trackPageView } from "./lib/analytics";
 
 // Delta color palette constants (available globally via style)
@@ -121,7 +122,10 @@ function ScrollToTopOnPathChange() {
         if (target) {
           const header = document.querySelector("header");
           const headerHeight = header instanceof HTMLElement ? header.getBoundingClientRect().height : 0;
-          const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+          const promotionHeight = Number.parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue("--site-promotion-height"),
+          ) || 0;
+          const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - promotionHeight - 16;
 
           window.scrollTo({
             top: Math.max(top, 0),
@@ -220,6 +224,7 @@ export function Root() {
             className="min-h-screen flex flex-col"
             style={{ background: D.bg, fontFamily: "'Inter', sans-serif", color: D.ink }}
           >
+            <SitePromotionBanner />
             <Navbar />
             <main className="flex-1 min-w-0" style={{ minHeight: "100vh" }}>
               <Outlet />

@@ -1,0 +1,170 @@
+.banner {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  width: 100%;
+  color: #fff;
+  background: linear-gradient(105deg, #1d4ed8 0%, #1e40af 52%, #1e3a8a 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.2);
+}
+
+.inner {
+  width: min(100%, 72rem);
+  min-height: 3.75rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.logoWrap {
+  width: 7.25rem;
+  height: 2.5rem;
+  padding: 0.2rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 0.7rem;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.message {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  font-weight: 700;
+  text-align: center;
+}
+
+.cta {
+  min-height: 2.5rem;
+  padding: 0.62rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: #172554;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.24);
+  font-size: 0.82rem;
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.cta:hover {
+  background: #eff6ff;
+  transform: translateY(-1px);
+}
+
+.ctaAttention {
+  animation: promotion-cta-attention 1.1s ease-in-out 2;
+}
+
+@keyframes promotion-cta-attention {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.24);
+  }
+
+  50% {
+    transform: scale(1.035);
+    box-shadow: 0 7px 20px rgba(15, 23, 42, 0.34), 0 0 0 4px rgba(255, 255, 255, 0.28);
+  }
+}
+
+.cta:focus-visible,
+.dismiss:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.dismiss {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  transition: background-color 160ms ease;
+}
+
+.dismiss:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+@media (max-width: 767px) {
+  .inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "logo message dismiss"
+      "cta cta cta";
+    gap: 0.45rem 0.65rem;
+    padding: 0.5rem 0.75rem 0.6rem;
+  }
+
+  .logoWrap {
+    grid-area: logo;
+    width: 5.4rem;
+    height: 2.25rem;
+    padding-inline: 0.4rem;
+  }
+
+  .message {
+    grid-area: message;
+    font-size: 0.76rem;
+    text-align: left;
+  }
+
+  .cta {
+    grid-area: cta;
+    width: 100%;
+    min-height: 2.3rem;
+    padding-block: 0.55rem;
+  }
+
+  .dismiss {
+    grid-area: dismiss;
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .logoWrap {
+    width: 4.6rem;
+  }
+
+  .message {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .dismiss {
+    transition: none;
+  }
+
+  .ctaAttention {
+    animation: none;
+  }
+}

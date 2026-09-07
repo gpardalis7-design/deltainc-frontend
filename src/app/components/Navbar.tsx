@@ -74,7 +74,10 @@ export function Navbar() {
 
   return (
     <>
-      <header className="delta-navbar-enter fixed top-0 left-0 right-0 z-50 px-4 pt-3">
+      <header
+        className="delta-navbar-enter fixed left-0 right-0 z-50 px-4 pt-3"
+        style={{ top: "var(--site-promotion-height, 0px)" }}
+      >
         <div
           className="max-w-6xl mx-auto rounded-2xl px-6 py-3 flex items-center justify-between transition-all duration-300"
           style={{
@@ -188,6 +191,7 @@ export function Navbar() {
             : "invisible pointer-events-none -translate-y-4 opacity-0"
         }`}
         style={{
+          top: "calc(var(--site-promotion-height, 0px) + 5rem)",
           background: D.surfaceStrong,
           border: `1px solid ${D.border}`,
           boxShadow: `0 8px 32px ${D.shadow}`,
