@@ -133,6 +133,8 @@ export function initAnalytics() {
 }
 
 type EventParams = Record<string, string | number | boolean | undefined>;
+const RETAINED_CUSTOM_EVENTS = new Set(["generate_lead", "click_to_call"]);
+
 type LeadFormEventName =
   | "lead_form_view"
   | "lead_form_start"
@@ -266,6 +268,7 @@ export function getCurrentPageAnalyticsContext(): EventParams {
 }
 
 export function trackEvent(eventName: string, params: EventParams = {}) {
+  if (!RETAINED_CUSTOM_EVENTS.has(eventName)) return;
   if (!hasDocument() || !hasAnalyticsConsent()) return;
   configureAnalytics();
   window.gtag?.("event", eventName, {
