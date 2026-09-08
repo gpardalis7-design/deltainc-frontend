@@ -1,0 +1,265 @@
+.toc {
+  margin: 2rem 0;
+  overflow: hidden;
+  color: #0f172a;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  border-radius: 1.5rem;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.065);
+}
+
+.header {
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 1rem 1.25rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  color: inherit;
+  text-align: left;
+  background: linear-gradient(180deg, rgba(29, 78, 216, 0.06), rgba(29, 78, 216, 0.025));
+}
+
+.headerIcon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.1);
+  border-radius: 0.8rem;
+}
+
+.headerText {
+  font-family: "Manrope", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.count {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.headerChevron,
+.groupToggle svg,
+.showAll svg {
+  transition: transform 180ms ease;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding: 0.35rem 1.25rem 1.25rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.07);
+}
+
+.h2List,
+.h3List {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.h2Item {
+  padding-left: 0 !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+}
+
+.h2Item::before {
+  content: none !important;
+}
+
+.h2Item:last-child {
+  border-bottom: 0;
+}
+
+.h2Row {
+  min-height: 3.25rem;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.listNumber {
+  align-self: center;
+  color: #1d4ed8;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.h2Link,
+.h3List a {
+  color: #0f172a !important;
+  text-decoration: none !important;
+  text-underline-offset: 0 !important;
+}
+
+.h2Link {
+  padding: 0.72rem 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 720;
+  line-height: 1.4;
+}
+
+.h2Link:hover,
+.h3List a:hover {
+  color: #1d4ed8 !important;
+}
+
+.groupToggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  border-radius: 0.75rem;
+}
+
+.groupToggle:hover {
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.07);
+}
+
+.h3List {
+  margin: 0 0 0.8rem 2.65rem;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(29, 78, 216, 0.12);
+}
+
+.h3List li + li {
+  margin-top: 0.15rem;
+}
+
+.h3List li {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.h3List li::before {
+  content: none !important;
+}
+
+.h3Number {
+  align-self: center;
+  color: #1d4ed8;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.84rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.h3List a {
+  min-height: 2.5rem;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  color: #475569 !important;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.showAll {
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.055);
+  border-radius: 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.showAll:hover {
+  background: rgba(29, 78, 216, 0.09);
+}
+
+.header:focus-visible,
+.groupToggle:focus-visible,
+.showAll:focus-visible,
+.h2Link:focus-visible,
+.h3List a:focus-visible {
+  outline: 3px solid rgba(29, 78, 216, 0.35);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .toc {
+    margin: 1.5rem 0;
+    border-radius: 1.25rem;
+  }
+
+  .header {
+    min-height: 4.25rem;
+    padding: 0.85rem 1rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "icon title chevron"
+      "icon count chevron";
+    gap: 0.1rem 0.7rem;
+  }
+
+  .headerIcon { grid-area: icon; }
+  .headerText { grid-area: title; font-size: 0.98rem; }
+  .count { grid-area: count; }
+  .headerChevron { grid-area: chevron; }
+
+  .content {
+    padding: 0.25rem 1rem 1rem;
+  }
+
+  .h2Row {
+    min-height: 3.5rem;
+    grid-template-columns: 1.7rem minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+
+  .h2Link {
+    padding: 0.78rem 0;
+    font-size: 0.88rem;
+  }
+
+  .groupToggle {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .h3List {
+    margin-left: 2.2rem;
+  }
+
+  .h3List li {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+  }
+
+  .h3List a {
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headerChevron,
+  .groupToggle svg,
+  .showAll svg {
+    transition: none;
+  }
+}

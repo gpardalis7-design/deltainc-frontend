@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Link, useLocation, useParams } from "react-router";
 import { motion, useScroll, useSpring } from "motion/react";
 import {
   ArrowLeft, Clock, Calendar, Mail,
@@ -23,6 +24,9 @@ import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 import { trackCtaClick } from "../lib/analytics";
 import { getResponsiveMedia } from "../components/articles/articleImage";
+import { ArticleTableOfContents } from "../components/ArticleTableOfContents";
+import { ARTICLE_TOC_ROOT_ATTRIBUTE } from "../lib/articleTocCore.mjs";
+import { prepareArticleTocHtml } from "../lib/articleTocBrowser";
 
 type ArticleCategory = BlogPost["categories"][number];
 
@@ -157,6 +161,7 @@ const proseStyles = `
   .article-body p.standfirst { font-family: var(--font-body); font-size: 1.2rem; line-height: 1.7; color: ${D.ink}; margin-bottom: 2rem; font-weight: 500; }
   .article-body h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.025em; color: ${D.accentStrong}; margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.25; }
   .article-body h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; color: ${D.accentStrong}; margin-top: 1.75rem; margin-bottom: 0.6rem; line-height: 1.3; }
+  .article-body h2[id], .article-body h3[id] { scroll-margin-top: calc(var(--site-promotion-height, 0px) + 6.75rem); }
   .article-body h4 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: ${D.accentStrong}; margin-top: 1.4rem; margin-bottom: 0.5rem; line-height: 1.35; }
   .article-body ul, .article-body ol { margin-bottom: 1.4rem; padding-left: 0; list-style: none; }
   .article-body ul li, .article-body ol li { font-family: var(--font-body); position: relative; padding-left: 1.5rem; margin-bottom: 0.55rem; line-height: 1.7; color: ${D.inkSoft}; font-size: 1.0125rem; }
@@ -731,6 +736,7 @@ function RelevantArticlesSection({ posts }: { posts: BlogPost[] }) {
 
 export function BlogArticle() {
   const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
   // Phase 2: seed from build-time embedded data so the crawlable route paints
   // its real content immediately (no skeleton) and re-renders (not hydrates).
   const embeddedForSlug = useMemo(() => (slug ? getEmbeddedPost(slug) : null), [slug]);
@@ -899,8 +905,23 @@ export function BlogArticle() {
     : post && postIsMock
       ? getArticleContent(post.slug, post.excerpt)
       : "";
-  const sanitizedRichContent = useMemo(() => sanitizeRichHtml(richContent), [richContent]);
-  useScrollableRichTables(articleBodyRef, [post?.id, sanitizedRichContent]);
+  const tocPreviewContent = useMemo(() => {
+    const previewRequested = import.meta.env.DEV && new URLSearchParams(location.search).get("toc-preview") === "1";
+    if (!previewRequested || richContent.includes("[delta_toc]")) return richContent;
+    return /<h2\b/i.test(richContent)
+      ? richContent.replace(/<h2\b/i, "<p>[delta_toc]</p><h2")
+      : `<p>[delta_toc]</p>${richContent}`;
+  }, [location.search, richContent]);
+  const sanitizedRichContent = useMemo(() => sanitizeRichHtml(tocPreviewContent), [tocPreviewContent]);
+  const preparedArticleToc = useMemo(() => prepareArticleTocHtml(sanitizedRichContent), [sanitizedRichContent]);
+  const renderedRichContent = preparedArticleToc.html;
+  const [tocPortalTarget, setTocPortalTarget] = useState<HTMLElement | null>(null);
+  useScrollableRichTables(articleBodyRef, [post?.id, renderedRichContent]);
+
+  useLayoutEffect(() => {
+    const target = articleBodyRef.current?.querySelector<HTMLElement>(`[${ARTICLE_TOC_ROOT_ATTRIBUTE}]`) ?? null;
+    setTocPortalTarget(target);
+  }, [post?.id, renderedRichContent]);
 
   useEffect(() => {
     const articleBody = articleBodyRef.current;
@@ -924,7 +945,7 @@ export function BlogArticle() {
     return () => {
       articleBody.removeEventListener("click", handleArticleClick);
     };
-  }, [post?.id, sanitizedRichContent]);
+  }, [post?.id, renderedRichContent]);
 
   if (loading) return <ArticleSkeleton />;
   if (!post) {
@@ -1266,7 +1287,12 @@ export function BlogArticle() {
             </div>
 
             {richContent ? (
-              <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: sanitizedRichContent }} />
+              <>
+                <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: renderedRichContent }} />
+                {tocPortalTarget && preparedArticleToc.hasToc
+                  ? createPortal(<ArticleTableOfContents headings={preparedArticleToc.headings} />, tocPortalTarget)
+                  : null}
+              </>
             ) : (
               <div
                 className="rounded-2xl px-5 py-4 text-sm"

@@ -6,6 +6,7 @@ import { parse } from "node-html-parser";
 import { buildPageMetadata, contentPath, normalizeSlug, trimTrailingSlash } from "./social-preview-lib.mjs";
 import { extractHubContent } from "./extract-hub-content.mjs";
 import { extractStaticPages } from "./extract-static-content.mjs";
+import { insertStaticArticleToc, prepareArticleForToc } from "./article-toc-node.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -54,6 +55,7 @@ function metaTag(attribute, key, content) {
 }
 
 function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical = true, article = null, program = null, hub = null, archive = null, page = null } = {}) {
+  const preparedArticle = article ? prepareArticleForToc(article) : { post: null, toc: null };
   const document = parse(baseHtml, { comment: true });
   const head = document.querySelector("head");
   if (!head) throw new Error("Built index.html has no <head>");
@@ -97,7 +99,7 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
       tags.push(`<script type="application/ld+json" data-social-meta="generated">${jsonForScript(schema)}</script>`);
     }
     tags.push(
-      `<script id="__DELTA_BLOG_POST__" type="application/json" data-delta-embedded="post">${jsonForScript(trimPostPayload(article))}</script>`,
+      `<script id="__DELTA_BLOG_POST__" type="application/json" data-delta-embedded="post">${jsonForScript(trimPostPayload(preparedArticle.post))}</script>`,
     );
   }
 
@@ -132,7 +134,7 @@ function renderHtml(baseHtml, metadata, { includeSocial = true, includeCanonical
 
   if (article) {
     const rootEl = document.querySelector("#root");
-    if (rootEl) rootEl.set_content(buildArticleBodyHtml(article));
+    if (rootEl) rootEl.set_content(buildArticleBodyHtml(preparedArticle.post, preparedArticle.toc));
   }
   if (program) {
     const rootEl = document.querySelector("#root");
@@ -233,7 +235,7 @@ function trimPostPayload(post) {
   };
 }
 
-function buildArticleBodyHtml(post) {
+function buildArticleBodyHtml(post, toc = null) {
   const title = decodeEntities(post.title?.rendered || "");
   const dateLabel = post.date
     ? new Date(post.date).toLocaleDateString("el-GR", { day: "numeric", month: "long", year: "numeric" })
@@ -251,7 +253,7 @@ function buildArticleBodyHtml(post) {
     `<h1>${escapeHtml(title)}</h1>`,
     `<p class="article-byline">Delta${dateLabel ? ` · ${escapeHtml(dateLabel)}` : ""}</p>`,
     figure,
-    `<div class="article-body">${cleanContentHtml(post.content?.rendered || "")}</div>`,
+    `<div class="article-body">${insertStaticArticleToc(cleanContentHtml(post.content?.rendered || ""), toc)}</div>`,
     `</article>`,
     `</main>`,
   ].join("\n");
@@ -1008,4 +1010,3 @@ if (missingProgramSlugs.length > 0) {
       `${missingProgramSlugs.slice(0, 5).join(", ")}${missingProgramSlugs.length > 5 ? "…" : ""}`,
   );
 }
-
