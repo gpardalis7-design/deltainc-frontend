@@ -1280,12 +1280,12 @@ export function BlogArticle() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6">
-        <div className="flex gap-8 lg:gap-12 items-start">
-          <div className="flex-1 min-w-0 py-8 md:py-12">
-            <div className="mb-6 md:mb-8">
-              <GooglePreferredSourceButton />
-            </div>
+        <div className="pt-8 md:pt-12">
+          <GooglePreferredSourceButton />
+        </div>
 
+        <div className="mt-6 md:mt-8 flex gap-8 lg:gap-12 items-start">
+          <div className="flex-1 min-w-0 pb-8 md:pb-12">
             {richContent ? (
               <>
                 <div ref={articleBodyRef} className="article-body" dangerouslySetInnerHTML={{ __html: renderedRichContent }} />
@@ -1341,7 +1341,7 @@ export function BlogArticle() {
           </div>
 
           <aside
-            className="hidden lg:flex flex-col gap-5 w-80 shrink-0 py-12"
+            className="hidden lg:flex flex-col gap-5 w-80 shrink-0"
             style={{ position: "sticky", top: "5.5rem", maxHeight: "calc(100vh - 7rem)", overflowY: "auto" }}
           >
             <ArticleNewsletterWidget />
