@@ -15,6 +15,7 @@ import { useScrollableRichTables } from "../lib/richContentTables";
 import { sanitizeRichHtml } from "../lib/sanitizeHtml";
 import { canonical, publicUrl, type SeoMeta } from "../lib/seo";
 import { getResponsiveMedia } from "../components/articles/articleImage";
+import { OfferBanner, type OfferBannerProps } from "../components/OfferBanner";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -39,6 +40,84 @@ const modeColors: Record<string, string> = {
   "Online": "#0891b2",
   "In-person": "#059669",
   "Hybrid": "#7c3aed",
+};
+
+type ProgramOffer = Omit<OfferBannerProps, "infoPills" | "onCtaClick"> & {
+  sidebarLabel: string;
+  sidebarValue: string;
+};
+
+function getProgramOfferPills(program: Program): string[] {
+  const content = [
+    program.excerpt,
+    program.contentHtml,
+    ...Object.values(program.sections),
+  ].join(" ");
+  const ectsMatch = content.replace(/<[^>]*>/g, " ").match(/\b(\d{2,3})\s*ECTS\b/i);
+
+  return [
+    program.summary.mode,
+    program.summary.duration,
+    ectsMatch ? `${ectsMatch[1]} ECTS` : "",
+  ].filter((value): value is string => Boolean(value.trim()));
+}
+
+const programOffers: Record<string, ProgramOffer> = {
+  "metaptyxiako-dimosia-dioikisi-neapolis-distance-learning": {
+    badge: "ΕΙΔΙΚΑ ΔΙΔΑΚΤΡΑ",
+    price: "€2.800 συνολικά",
+    supportingText: "Για το εξ αποστάσεως DMPA στη Δημόσια Διοίκηση του Πανεπιστημίου Νεάπολις Πάφου.",
+    clarificationText: "Η τιμή αφορά το σύνολο του προγράμματος και όχι δίδακτρα ανά έτος. Η ειδική τιμή επιβεβαιώνεται κατά την επικοινωνία με τη Delta.",
+    ctaLabel: "Ζήτησε ενημέρωση",
+    ctaTarget: "#program-inquiry",
+    microcopy: "Η ενημέρωση από τη Delta είναι δωρεάν και χωρίς δέσμευση.",
+    sidebarLabel: "Ειδικά δίδακτρα",
+    sidebarValue: "€2.800 συνολικά",
+  },
+  "metaptychiako-europaiki-politiki-diakyvernisi-nup": {
+    badge: "ΕΙΔΙΚΑ ΔΙΔΑΚΤΡΑ",
+    price: "€3.000 συνολικά",
+    supportingText: "Για το ελληνόφωνο εξ αποστάσεως Μεταπτυχιακό στην Ευρωπαϊκή Πολιτική και Διακυβέρνηση του Πανεπιστημίου Νεάπολις Πάφου.",
+    clarificationText: "Η τιμή αφορά το σύνολο του προγράμματος και όχι δίδακτρα ανά έτος. Η ειδική τιμή επιβεβαιώνεται κατά την επικοινωνία με τη Delta.",
+    ctaLabel: "Ζήτησε ενημέρωση",
+    ctaTarget: "#program-inquiry",
+    microcopy: "Η ενημέρωση από τη Delta είναι δωρεάν και χωρίς δέσμευση.",
+    sidebarLabel: "Ειδικά δίδακτρα",
+    sidebarValue: "€3.000 συνολικά",
+  },
+  "ptychio-psychologias-panepistimio-neapolis-pafou": {
+    badge: "ΕΙΔΙΚΑ ΔΙΔΑΚΤΡΑ",
+    price: "€3.500 ανά έτος",
+    supportingText: "Για το ελληνόφωνο εξ αποστάσεως Προπτυχιακό στην Ψυχολογία του Πανεπιστημίου Νεάπολις Πάφου.",
+    clarificationText: "Η τιμή αφορά τα δίδακτρα ανά ακαδημαϊκό έτος και όχι το σύνολο του προγράμματος. Η ειδική τιμή επιβεβαιώνεται κατά την επικοινωνία με τη Delta.",
+    ctaLabel: "Ζήτησε ενημέρωση",
+    ctaTarget: "#program-inquiry",
+    microcopy: "Η ενημέρωση από τη Delta είναι δωρεάν και χωρίς δέσμευση.",
+    sidebarLabel: "Ειδικά δίδακτρα",
+    sidebarValue: "€3.500 ανά έτος",
+  },
+  "diethneis-sheseis-asfaleia-neapolis": {
+    badge: "ΕΙΔΙΚΑ ΔΙΔΑΚΤΡΑ",
+    price: "€3.500 ανά έτος",
+    supportingText: "Για το αγγλόφωνο εξ αποστάσεως Προπτυχιακό στις Διεθνείς Σχέσεις και Ασφάλεια (BSc in International Relations and Security) του Πανεπιστημίου Νεάπολις Πάφου.",
+    clarificationText: "Η τιμή αφορά τα δίδακτρα ανά ακαδημαϊκό έτος και όχι το σύνολο του προγράμματος. Η ειδική τιμή επιβεβαιώνεται κατά την επικοινωνία με τη Delta.",
+    ctaLabel: "Ζήτησε ενημέρωση",
+    ctaTarget: "#program-inquiry",
+    microcopy: "Η ενημέρωση από τη Delta είναι δωρεάν και χωρίς δέσμευση.",
+    sidebarLabel: "Ειδικά δίδακτρα",
+    sidebarValue: "€3.500 ανά έτος",
+  },
+  "metaptyxiako-neoteri-sygxroni-istoria-neapolis": {
+    badge: "ΕΙΔΙΚΑ ΔΙΔΑΚΤΡΑ",
+    price: "€3.000 συνολικά",
+    supportingText: "Για το ελληνόφωνο εξ αποστάσεως Μεταπτυχιακό στη Νεότερη και Σύγχρονη Ιστορία του Πανεπιστημίου Νεάπολις Πάφου.",
+    clarificationText: "Η τιμή αφορά το σύνολο του προγράμματος και όχι δίδακτρα ανά έτος. Η ειδική τιμή επιβεβαιώνεται κατά την επικοινωνία με τη Delta.",
+    ctaLabel: "Ζήτησε ενημέρωση",
+    ctaTarget: "#program-inquiry",
+    microcopy: "Η ενημέρωση από τη Delta είναι δωρεάν και χωρίς δέσμευση.",
+    sidebarLabel: "Ειδικά δίδακτρα",
+    sidebarValue: "€3.000 συνολικά",
+  },
 };
 
 // ─── Skeleton loader ──────────────────────────────────────────────────────────
@@ -162,6 +241,7 @@ function InfoRequestForm({ program, onClose }: { program: Program; onClose: () =
 
   return (
     <div
+      id="program-inquiry"
       className="fixed inset-0 z-50 flex items-center justify-center p-6"
       style={{ background: "rgba(19,35,58,0.85)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
@@ -316,10 +396,12 @@ function QuickInfoCard({
   program,
   onRequestInfo,
   showInfoRequestButton = true,
+  pricingHighlight,
 }: {
   program: Program;
   onRequestInfo: () => void;
   showInfoRequestButton?: boolean;
+  pricingHighlight?: { label: string; value: string };
 }) {
   return (
     <div className="rounded-2xl p-6" style={{ background: D.surfaceStrong, border: `1px solid ${D.border}` }}>
@@ -395,6 +477,20 @@ function QuickInfoCard({
           </div>
           <div className="text-sm" style={{ fontWeight: 700, color: D.accentStrong }}>
             {formatDate(program.summary.deadline)}
+          </div>
+        </div>
+      )}
+
+      {pricingHighlight && (
+        <div
+          className="mb-4 rounded-xl px-4 py-3"
+          style={{ background: D.accentWash, border: `1px solid ${D.accentBorderSoft}` }}
+        >
+          <div className="type-meta mb-1 text-xs" style={{ color: D.inkSoft }}>
+            {pricingHighlight.label}
+          </div>
+          <div className="text-base" style={{ color: D.ink, fontWeight: 750 }}>
+            {pricingHighlight.value}
           </div>
         </div>
       )}
@@ -643,6 +739,8 @@ export function ProgramDetails() {
 
   const modeColor = modeColors[program.summary.mode] || D.inkSoft;
   const heroImage = getResponsiveMedia(program.featuredImage, "featured");
+  const offer = programOffers[program.slug];
+  const offerInfoPills = offer ? getProgramOfferPills(program) : [];
 
   const selectedSeoImage = program.seo?.ogImage || program.featuredImage;
   const seoTitle = program.seo?.title?.trim() || `${program.title} | Delta Inc Education`;
@@ -983,6 +1081,20 @@ export function ProgramDetails() {
               <Clock size={16} style={{ color: D.accent }} />
               {program.summary.duration}
             </div>
+            {offer && (
+              <div
+                className="inline-flex max-w-full items-center gap-1.5 rounded-full px-3 py-1.5 text-xs"
+                style={{
+                  background: "rgba(29,78,216,0.2)",
+                  border: "1px solid rgba(96,165,250,0.34)",
+                  color: "rgba(255,255,255,0.82)",
+                  fontWeight: 600,
+                }}
+              >
+                <Euro size={13} className="shrink-0" style={{ color: "#93C5FD" }} />
+                <span>{offer.sidebarLabel}: {offer.sidebarValue}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -1006,6 +1118,28 @@ export function ProgramDetails() {
           </div>
         )}
       </div>
+
+      {offer && (
+        <div className="max-w-7xl mx-auto px-6 pt-8">
+          <OfferBanner
+            badge={offer.badge}
+            price={offer.price}
+            supportingText={offer.supportingText}
+            infoPills={offerInfoPills}
+            clarificationText={offer.clarificationText}
+            ctaLabel={offer.ctaLabel}
+            ctaTarget={offer.ctaTarget}
+            microcopy={offer.microcopy}
+            onCtaClick={() => {
+              trackCtaClick(offer.ctaLabel, "program_offer_banner", {
+                program_title: program.title,
+                university: program.summary.university,
+              });
+              setShowModal(true);
+            }}
+          />
+        </div>
+      )}
 
       {/* Body + Sidebar */}
       <div className="max-w-7xl mx-auto px-6">
@@ -1105,6 +1239,7 @@ export function ProgramDetails() {
               program={program}
               onRequestInfo={() => setShowModal(true)}
               showInfoRequestButton={!hideInfoRequestCta}
+              pricingHighlight={offer ? { label: offer.sidebarLabel, value: offer.sidebarValue } : undefined}
             />
           </aside>
         </div>
@@ -1115,6 +1250,7 @@ export function ProgramDetails() {
             program={program}
             onRequestInfo={() => setShowModal(true)}
             showInfoRequestButton={!hideInfoRequestCta}
+            pricingHighlight={offer ? { label: offer.sidebarLabel, value: offer.sidebarValue } : undefined}
           />
         </div>
       </div>
