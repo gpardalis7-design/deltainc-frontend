@@ -40,24 +40,38 @@ function escapeRegex(value) {
 }
 
 function curlJson(url) {
-  const output = execFileSync("curl", [
-    "-sS",
-    "-L",
-    "--fail",
-    "--retry",
-    "3",
-    "--retry-delay",
-    "1",
-    "--connect-timeout",
-    "10",
-    "--max-time",
-    "60",
-    url,
-  ], {
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-    maxBuffer: 50 * 1024 * 1024,
-  });
+  let output;
+  try {
+    output = execFileSync("curl", [
+      "-sS",
+      "-L",
+      "--fail-with-body",
+      "--retry",
+      "3",
+      "--retry-delay",
+      "1",
+      "--connect-timeout",
+      "10",
+      "--max-time",
+      "60",
+      url,
+    ], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+      maxBuffer: 50 * 1024 * 1024,
+    });
+  } catch (error) {
+    const responseBody = typeof error?.stdout === "string" ? error.stdout : "";
+    if (responseBody) {
+      try {
+        const payload = JSON.parse(responseBody);
+        if (isInvalidPageResponse(payload)) return payload;
+      } catch {
+        // Preserve the original curl/JSON error for every other failure.
+      }
+    }
+    throw error;
+  }
   return JSON.parse(output);
 }
 
